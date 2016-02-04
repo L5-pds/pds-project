@@ -5,12 +5,12 @@ Welcome to our project source files :-P
 
 Steps to follow :
 
- - Install git
+ 1. Install git
  
   - `apt-get install git` for ![Linux](http://www.designosoft.com/icons/hosting/03%20Linux%20Web%20Hosting.png)
   - `brew install git` for ![OS X](http://www.belgium-gsm.com/BGimages/menu/apple.png)
 
- - Setup the GitHub host in your ~/.ssh/config by adding the following lines:
+ 2. Setup the GitHub host in your ~/.ssh/config by adding the following lines:
 
   ```
   Host github
@@ -20,6 +20,8 @@ Steps to follow :
       IdentityFile "~/.ssh/id_rsa"
   ```
  
- - Clone this repository :
+ 3. Clone this repository :
  
   - `git clone github:tarikouu/pds-project.git`
+ 
+ 4. Good job ! You can now start coding (y) Have lots of fun !
