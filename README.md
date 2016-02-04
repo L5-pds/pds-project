@@ -5,7 +5,7 @@ Welcome to our project source files :-P
 
 Steps to follow :
 
- 1. Install git
+ 1. Install git :
  
   - `apt-get install git` for ![Linux](http://www.designosoft.com/icons/hosting/03%20Linux%20Web%20Hosting.png)
   - `brew install git` for ![OS X](http://www.belgium-gsm.com/BGimages/menu/apple.png)
@@ -19,6 +19,7 @@ Steps to follow :
       PreferredAuthentications publickey
       IdentityFile "~/.ssh/id_rsa"
   ```
+  *P.s. make sure that you have the right IdentityFile path (change it if it's not "~/.ssh/id_rsa").*
  
  3. Clone this repository :
  
