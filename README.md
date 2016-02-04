@@ -7,8 +7,8 @@ Steps to follow :
 
  - Install git
  
-  - `apt-get install git` for ![Linux][linux_logo]
-  - `brew install git` for ![Windows][windows_logo] ![OS X][osx_logo]
+  - `apt-get install git` for ![Linux](http://www.designosoft.com/icons/hosting/03%20Linux%20Web%20Hosting.png)
+  - `brew install git` for ![OS X](http://www.belgium-gsm.com/BGimages/menu/apple.png)
 
  - Setup the GitHub host in your ~/.ssh/config by adding the following lines:
 
