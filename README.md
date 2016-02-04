@@ -1,4 +1,4 @@
-Projet Pds
+L5 PDS Project
 ============
 
-Hello world !
+Welcome to our project source files :-P
