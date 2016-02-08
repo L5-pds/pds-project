@@ -10,14 +10,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -30,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: t_adresse_client; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_adresse_client; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_adresse_client (
@@ -42,11 +42,13 @@ CREATE TABLE t_adresse_client (
 );
 
 
+ALTER TABLE public.t_adresse_client OWNER TO ncna;
+
 --
--- Name: t_adresse_client_id_adresse_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: _t_adresse_client_id_adresse_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
-CREATE SEQUENCE t_adresse_client_id_adresse_seq
+CREATE SEQUENCE _t_adresse_client_id_adresse_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -54,15 +56,17 @@ CREATE SEQUENCE t_adresse_client_id_adresse_seq
     CACHE 1;
 
 
---
--- Name: t_adresse_client_id_adresse_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE t_adresse_client_id_adresse_seq OWNED BY t_adresse_client.id_adresse;
-
+ALTER TABLE public._t_adresse_client_id_adresse_seq OWNER TO ncna;
 
 --
--- Name: t_adresse_agence; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: _t_adresse_client_id_adresse_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
+--
+
+ALTER SEQUENCE _t_adresse_client_id_adresse_seq OWNED BY t_adresse_client.id_adresse;
+
+
+--
+-- Name: t_adresse_agence; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_adresse_agence (
@@ -76,8 +80,10 @@ CREATE TABLE t_adresse_agence (
 );
 
 
+ALTER TABLE public.t_adresse_agence OWNER TO ncna;
+
 --
--- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_adresse_agence_id_adresse_seq
@@ -88,15 +94,17 @@ CREATE SEQUENCE t_adresse_agence_id_adresse_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_adresse_agence_id_adresse_seq OWNER TO ncna;
+
 --
--- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_adresse_agence_id_adresse_seq OWNED BY t_adresse_agence.id_adresse;
 
 
 --
--- Name: t_agence; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_agence; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_agence (
@@ -106,8 +114,10 @@ CREATE TABLE t_agence (
 );
 
 
+ALTER TABLE public.t_agence OWNER TO ncna;
+
 --
--- Name: t_agence_id_agence_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_agence_id_agence_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_agence_id_agence_seq
@@ -118,15 +128,17 @@ CREATE SEQUENCE t_agence_id_agence_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_agence_id_agence_seq OWNER TO ncna;
+
 --
--- Name: t_agence_id_agence_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_agence_id_agence_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_agence_id_agence_seq OWNED BY t_agence.id_agence;
 
 
 --
--- Name: t_client; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_client; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_client (
@@ -141,8 +153,10 @@ CREATE TABLE t_client (
 );
 
 
+ALTER TABLE public.t_client OWNER TO ncna;
+
 --
--- Name: t_client_id_client_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_client_id_client_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_client_id_client_seq
@@ -153,15 +167,17 @@ CREATE SEQUENCE t_client_id_client_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_client_id_client_seq OWNER TO ncna;
+
 --
--- Name: t_client_id_client_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_client_id_client_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_client_id_client_seq OWNED BY t_client.id_client;
 
 
 --
--- Name: t_conseiller; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_conseiller; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_conseiller (
@@ -173,8 +189,10 @@ CREATE TABLE t_conseiller (
 );
 
 
+ALTER TABLE public.t_conseiller OWNER TO ncna;
+
 --
--- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_conseiller_id_conseiller_seq
@@ -185,15 +203,17 @@ CREATE SEQUENCE t_conseiller_id_conseiller_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_conseiller_id_conseiller_seq OWNER TO ncna;
+
 --
--- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_conseiller_id_conseiller_seq OWNED BY t_conseiller.id_conseiller;
 
 
 --
--- Name: t_detail_pret; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_detail_pret; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_detail_pret (
@@ -205,8 +225,10 @@ CREATE TABLE t_detail_pret (
 );
 
 
+ALTER TABLE public.t_detail_pret OWNER TO ncna;
+
 --
--- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_detail_pret_id_detail_seq
@@ -217,15 +239,17 @@ CREATE SEQUENCE t_detail_pret_id_detail_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_detail_pret_id_detail_seq OWNER TO ncna;
+
 --
--- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_detail_pret_id_detail_seq OWNED BY t_detail_pret.id_detail;
 
 
 --
--- Name: t_simu_pret; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_simu_pret; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_simu_pret (
@@ -240,8 +264,10 @@ CREATE TABLE t_simu_pret (
 );
 
 
+ALTER TABLE public.t_simu_pret OWNER TO ncna;
+
 --
--- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_simu_pret_id_pret_seq
@@ -252,26 +278,34 @@ CREATE SEQUENCE t_simu_pret_id_pret_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_simu_pret_id_pret_seq OWNER TO ncna;
+
 --
--- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_simu_pret_id_pret_seq OWNED BY t_simu_pret.id_pret;
 
 
 --
--- Name: t_type_pret; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: t_type_pret; Type: TABLE; Schema: public; Owner: ncna; Tablespace: 
 --
 
 CREATE TABLE t_type_pret (
     id_type_pret integer NOT NULL,
     libelle_type_pret character varying(25),
-    taux_type_pret double precision
+    taux_type_pret double precision,
+    min_duree integer,
+    max_duree integer,
+    min_montant double precision,
+    max_montant double precision
 );
 
 
+ALTER TABLE public.t_type_pret OWNER TO ncna;
+
 --
--- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE; Schema: public; Owner: ncna
 --
 
 CREATE SEQUENCE t_type_pret_id_type_pret_seq
@@ -282,78 +316,80 @@ CREATE SEQUENCE t_type_pret_id_type_pret_seq
     CACHE 1;
 
 
+ALTER TABLE public.t_type_pret_id_type_pret_seq OWNER TO ncna;
+
 --
--- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ncna
 --
 
 ALTER SEQUENCE t_type_pret_id_type_pret_seq OWNED BY t_type_pret.id_type_pret;
 
 
 --
--- Name: id_adresse; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_adresse; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_adresse_agence ALTER COLUMN id_adresse SET DEFAULT nextval('t_adresse_agence_id_adresse_seq'::regclass);
 
 
 --
--- Name: id_adresse; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_adresse; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
-ALTER TABLE ONLY t_adresse_client ALTER COLUMN id_adresse SET DEFAULT nextval('t_adresse_client_id_adresse_seq'::regclass);
+ALTER TABLE ONLY t_adresse_client ALTER COLUMN id_adresse SET DEFAULT nextval('_t_adresse_client_id_adresse_seq'::regclass);
 
 
 --
--- Name: id_agence; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_agence; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_agence ALTER COLUMN id_agence SET DEFAULT nextval('t_agence_id_agence_seq'::regclass);
 
 
 --
--- Name: id_client; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_client; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_client ALTER COLUMN id_client SET DEFAULT nextval('t_client_id_client_seq'::regclass);
 
 
 --
--- Name: id_conseiller; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_conseiller; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_conseiller ALTER COLUMN id_conseiller SET DEFAULT nextval('t_conseiller_id_conseiller_seq'::regclass);
 
 
 --
--- Name: id_detail; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_detail; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_detail_pret ALTER COLUMN id_detail SET DEFAULT nextval('t_detail_pret_id_detail_seq'::regclass);
 
 
 --
--- Name: id_pret; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_pret; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_simu_pret ALTER COLUMN id_pret SET DEFAULT nextval('t_simu_pret_id_pret_seq'::regclass);
 
 
 --
--- Name: id_type_pret; Type: DEFAULT; Schema: public; Owner: -
+-- Name: id_type_pret; Type: DEFAULT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_type_pret ALTER COLUMN id_type_pret SET DEFAULT nextval('t_type_pret_id_type_pret_seq'::regclass);
 
 
 --
--- Name: t_adresse_client_id_adresse_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: _t_adresse_client_id_adresse_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
-SELECT pg_catalog.setval('t_adresse_client_id_adresse_seq', 19, true);
+SELECT pg_catalog.setval('_t_adresse_client_id_adresse_seq', 19, true);
 
 
 --
--- Data for Name: t_adresse_agence; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_adresse_agence; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_adresse_agence (id_adresse, nume_rue, nom_rue, nom_ville, code_postal, tel_acceuil, fax_agence) FROM stdin;
@@ -380,18 +416,17 @@ COPY t_adresse_agence (id_adresse, nume_rue, nom_rue, nom_ville, code_postal, te
 
 
 --
--- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_adresse_agence_id_adresse_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
 SELECT pg_catalog.setval('t_adresse_agence_id_adresse_seq', 19, true);
 
 
 --
--- Data for Name: t_adresse_client; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_adresse_client; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_adresse_client (id_adresse, nume_rue, nom_rue, nom_ville, code_postal) FROM stdin;
-1	26	CHateaubriand	Montigny 	78180
 2	15	rue Raymond Lapchin	GOUSSAINVILLE	95190
 3	2	allée Jean de Joinville	ACHERES	78260
 4	51	rue du Coq	VERNON	27200
@@ -410,11 +445,12 @@ COPY t_adresse_client (id_adresse, nume_rue, nom_rue, nom_ville, code_postal) FR
 17	13	rue des frères reclus	CHOISY LE ROI	94600
 18	35	rue Michelet	Valenton	94460
 19	45	rue machin	VERSAILLES	78000
+1	26	rue Chateaubriand	Montigny 	78180
 \.
 
 
 --
--- Data for Name: t_agence; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_agence; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_agence (id_agence, nom_agence, id_adresse) FROM stdin;
@@ -441,14 +477,14 @@ COPY t_agence (id_agence, nom_agence, id_adresse) FROM stdin;
 
 
 --
--- Name: t_agence_id_agence_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_agence_id_agence_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
 SELECT pg_catalog.setval('t_agence_id_agence_seq', 20, true);
 
 
 --
--- Data for Name: t_client; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_client; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_client (id_client, nom_client, prenom_client, mail_client, salaire_client, mdp_client, id_agence, id_adresse) FROM stdin;
@@ -475,14 +511,14 @@ COPY t_client (id_client, nom_client, prenom_client, mail_client, salaire_client
 
 
 --
--- Name: t_client_id_client_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_client_id_client_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
 SELECT pg_catalog.setval('t_client_id_client_seq', 57, true);
 
 
 --
--- Data for Name: t_conseiller; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_conseiller; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_conseiller (id_conseiller, nom_conseiller, prenom_conseiller, directeur_agence, id_agence) FROM stdin;
@@ -507,14 +543,14 @@ COPY t_conseiller (id_conseiller, nom_conseiller, prenom_conseiller, directeur_a
 
 
 --
--- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_conseiller_id_conseiller_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
 SELECT pg_catalog.setval('t_conseiller_id_conseiller_seq', 18, true);
 
 
 --
--- Data for Name: t_detail_pret; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_detail_pret; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_detail_pret (id_detail, num_annee_detail, taux_detail, mensualite_detail, id_pret) FROM stdin;
@@ -522,52 +558,62 @@ COPY t_detail_pret (id_detail, num_annee_detail, taux_detail, mensualite_detail,
 
 
 --
--- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_detail_pret_id_detail_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
 SELECT pg_catalog.setval('t_detail_pret_id_detail_seq', 1, false);
 
 
 --
--- Data for Name: t_simu_pret; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_simu_pret; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
 COPY t_simu_pret (id_pret, libelle_pret, montant_pret, duree_pret, type_duree_pret, type_taux_pret, id_type_pret, id_client) FROM stdin;
+5	test	30000	12	M	F	1	42
+6	\N	8016	19	M	F	1	45
+7	\N	8000	12	M	F	1	43
+8	\N	567	18	M	F	3	44
+9	\N	8000	12	M	F	1	43
+10	\N	677	19	M	F	3	47
+11	\N	300	13	M	F	3	52
 \.
 
 
 --
--- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_simu_pret_id_pret_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
-SELECT pg_catalog.setval('t_simu_pret_id_pret_seq', 1, false);
+SELECT pg_catalog.setval('t_simu_pret_id_pret_seq', 11, true);
 
 
 --
--- Data for Name: t_type_pret; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: t_type_pret; Type: TABLE DATA; Schema: public; Owner: ncna
 --
 
-COPY t_type_pret (id_type_pret, libelle_type_pret, taux_type_pret) FROM stdin;
+COPY t_type_pret (id_type_pret, libelle_type_pret, taux_type_pret, min_duree, max_duree, min_montant, max_montant) FROM stdin;
+1	Automobile	4.20999999999999996	12	60	8000	50000
+2	Maison	1.84000000000000008	120	360	80000	500000
+3	Divers	7.62000000000000011	2	36	300	10000
 \.
 
 
 --
--- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: t_type_pret_id_type_pret_seq; Type: SEQUENCE SET; Schema: public; Owner: ncna
 --
 
-SELECT pg_catalog.setval('t_type_pret_id_type_pret_seq', 1, false);
+SELECT pg_catalog.setval('t_type_pret_id_type_pret_seq', 3, true);
 
 
 --
--- Name: prk_constraint_t_adresse_client; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint__t_adresse_client; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_adresse_client
-    ADD CONSTRAINT prk_constraint_t_adresse_client PRIMARY KEY (id_adresse);
+    ADD CONSTRAINT prk_constraint__t_adresse_client PRIMARY KEY (id_adresse);
 
 
 --
--- Name: prk_constraint_t_adresse_agence; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_adresse_agence; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_adresse_agence
@@ -575,7 +621,7 @@ ALTER TABLE ONLY t_adresse_agence
 
 
 --
--- Name: prk_constraint_t_agence; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_agence; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_agence
@@ -583,7 +629,7 @@ ALTER TABLE ONLY t_agence
 
 
 --
--- Name: prk_constraint_t_client; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_client; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_client
@@ -591,7 +637,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- Name: prk_constraint_t_conseiller; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_conseiller; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_conseiller
@@ -599,7 +645,7 @@ ALTER TABLE ONLY t_conseiller
 
 
 --
--- Name: prk_constraint_t_detail_pret; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_detail_pret; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_detail_pret
@@ -607,7 +653,7 @@ ALTER TABLE ONLY t_detail_pret
 
 
 --
--- Name: prk_constraint_t_simu_pret; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_simu_pret; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_simu_pret
@@ -615,7 +661,7 @@ ALTER TABLE ONLY t_simu_pret
 
 
 --
--- Name: prk_constraint_t_type_pret; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: prk_constraint_t_type_pret; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_type_pret
@@ -623,7 +669,7 @@ ALTER TABLE ONLY t_type_pret
 
 
 --
--- Name: t_detail_pret_num_annee_detail_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: t_detail_pret_num_annee_detail_key; Type: CONSTRAINT; Schema: public; Owner: ncna; Tablespace: 
 --
 
 ALTER TABLE ONLY t_detail_pret
@@ -631,7 +677,7 @@ ALTER TABLE ONLY t_detail_pret
 
 
 --
--- Name: fk_t_agence_id_adresse; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_agence_id_adresse; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_agence
@@ -639,7 +685,7 @@ ALTER TABLE ONLY t_agence
 
 
 --
--- Name: fk_t_client_id_adresse; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_client_id_adresse; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_client
@@ -647,7 +693,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- Name: fk_t_client_id_agence; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_client_id_agence; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_client
@@ -655,7 +701,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- Name: fk_t_conseiller_id_agence; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_conseiller_id_agence; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_conseiller
@@ -663,7 +709,7 @@ ALTER TABLE ONLY t_conseiller
 
 
 --
--- Name: fk_t_detail_pret_id_pret; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_detail_pret_id_pret; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_detail_pret
@@ -671,7 +717,7 @@ ALTER TABLE ONLY t_detail_pret
 
 
 --
--- Name: fk_t_simu_pret_id_client; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_simu_pret_id_client; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_simu_pret
@@ -679,7 +725,7 @@ ALTER TABLE ONLY t_simu_pret
 
 
 --
--- Name: fk_t_simu_pret_id_type_pret; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_t_simu_pret_id_type_pret; Type: FK CONSTRAINT; Schema: public; Owner: ncna
 --
 
 ALTER TABLE ONLY t_simu_pret
@@ -687,7 +733,7 @@ ALTER TABLE ONLY t_simu_pret
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: -
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
