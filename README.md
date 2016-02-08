@@ -34,3 +34,4 @@ Steps to follow :
   - `git config user.email "your_email_please"`
  
  6. Good job ! You can now start coding (y) Have lots of fun !
+  - *P.s. [Please check the github workflow guide](https://guides.github.com/introduction/flow/) (it takes 5 minutes)*
