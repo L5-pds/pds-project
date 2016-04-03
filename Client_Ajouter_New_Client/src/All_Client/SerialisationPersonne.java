@@ -21,6 +21,10 @@ public class SerialisationPersonne {
         return gson.toJson(p);
     }
     
+    public String serialiser(New_client nc) {
+        return gson.toJson(nc);
+    }
+    
     public Personne deserialiser(String p) {
         return gson.fromJson(p, Personne.class);
     }

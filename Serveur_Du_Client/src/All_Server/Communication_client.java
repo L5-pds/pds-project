@@ -16,6 +16,9 @@ public class Communication_client implements Runnable {
 	private String loginpass_serealise;
 	private String message = null;
 	private int index_pool=-1;
+	private Connection conn = null;
+	private Statement stat = null;
+	private ResultSet resultat = null;
 	
 	
 	public Communication_client(Socket socket_temp){
@@ -35,7 +38,7 @@ public class Communication_client implements Runnable {
 			
 			loginpass_serealise = in.readLine();
 			
-			ConnexionClient = sp.deserialiser(loginpass_serealise);
+			ConnexionClient = sp.deserialiserp(loginpass_serealise);
 			
 			if(isValid(ConnexionClient.getnom(), ConnexionClient.getmdp())){
 				for(int i=0 ; i<Server.Nb_max_connect_bdd ; i++)	{
@@ -72,7 +75,17 @@ public class Communication_client implements Runnable {
 				try {
 					message=in.readLine();
 					Interface_Serveur.changeTextLog(ConnexionClient.getnom() +" dis " + message);
-					out.println("Bien recu");
+					
+					New_client add_client = sp.deserialiserc(message);
+					
+					Server.pool_connexion[index_pool].Add_Client("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('" 
+							+ add_client.nom + "', '"
+							+ add_client.prenom + "', '"
+							+ add_client.mail + "', 2, 1)");
+					
+					Interface_Serveur.changeTextLog("AJOUT --> " + add_client );
+					
+					out.println("add_ok");
 				    out.flush();
 				} catch (IOException e) {
 					Server.pool_connexion[index_pool].setUse(false);
@@ -90,7 +103,7 @@ public class Communication_client implements Runnable {
 	}
 	
 	private static boolean isValid(String login, String pass) {
-		boolean connexion = false;
+		boolean connexion = false;		
 		Connection conn = null;
 		Statement stat = null;
  	   ResultSet resultat = null;

@@ -36,7 +36,7 @@ public class Authentification implements Runnable {
 			
 			loginpass_serealise = in.readLine();
 			
-			ConnexionClient = sp.deserialiser(loginpass_serealise);
+			ConnexionClient = sp.deserialiserp(loginpass_serealise);
 			
 			if(isValid(ConnexionClient.getnom(), ConnexionClient.getmdp())){
 				

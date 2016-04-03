@@ -1,7 +1,9 @@
 package All_Server;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Connexion_BDD {
 
@@ -26,5 +28,20 @@ public class Connexion_BDD {
 	public void setUse(boolean used)	{
 		use=used;
 	}
+	
+	public void Add_Client(String Requete){
+		
+		Statement stat;
+		try {
+			stat = conn.createStatement();
+	 	   	int rowadd = stat.executeUpdate(Requete);
+	 	   System.out.println("Ajout de la ligne" + rowadd);
+	 	   	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 }

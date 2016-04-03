@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.JTextField;
@@ -22,6 +23,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class Interface_Client extends JFrame {
 
@@ -33,6 +35,13 @@ public class Interface_Client extends JFrame {
 	private BufferedReader in = null;
 	public static String login = null, pass = null;
 	private boolean connect = false;
+	private JTextField txtNom;
+	private JTextField txtPrenom;
+	private JTextField txtMail;
+	private JTextField txtNumero;
+	private JTextField txtRue;
+	private JTextField txtCodepostal;
+	private JLabel lblInfoserver;
 	
 	/**
 	 * Create the frame.
@@ -42,6 +51,7 @@ public class Interface_Client extends JFrame {
 		socket = socket_temp;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setBounds(100, 100, 529, 431);
 		setBounds(100, 100, 529, 233);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -51,8 +61,8 @@ public class Interface_Client extends JFrame {
 		create_IHM();
 		//setBounds(100, 100, 529, 233);
 		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton TB_Confirm_Connect = new JButton("OK");
+		TB_Confirm_Connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
@@ -76,8 +86,9 @@ public class Interface_Client extends JFrame {
 					connect = true;
 					tb_login.setEnabled(false);
 					tb_password.setEnabled(false);
-					btnNewButton.setEnabled(false);
-					setBounds(100, 100, 529, 700);
+					TB_Confirm_Connect.setEnabled(false);
+					create_IHM_new();
+					setBounds(100, 100, 529, 431);
 					  }
 					
 				else {
@@ -94,8 +105,111 @@ public class Interface_Client extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(436, 56, 56, 77);
-		contentPane.add(btnNewButton);
+		TB_Confirm_Connect.setBounds(436, 56, 56, 77);
+		contentPane.add(TB_Confirm_Connect);
+		
+		JButton TB_Valider = new JButton("Valider");
+		TB_Valider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SerialisationPersonne sp = new SerialisationPersonne();
+				New_client add_new_client = new New_client(txtNom.getText(), 
+						txtPrenom.getText(), 
+						txtMail.getText(), 
+						txtNumero.getText(), 
+						txtRue.getText(), 
+						txtCodepostal.getText());
+				
+				out.println(sp.serialiser(add_new_client));
+				out.flush();
+				
+				try	{
+				String Reponse_Add=in.readLine();
+				if(Reponse_Add.equals("add_ok")){
+					lblInfoserver.setText("Client " + txtNom.getText() + " " + txtPrenom.getText() + " est ajouté");
+					txtNom.setText("");
+					txtPrenom.setText("");
+					txtMail.setText("");
+					txtNumero.setText("");
+					txtRue.setText("");
+					txtCodepostal.setText("");
+					  }
+					
+				else {
+						javax.swing.JOptionPane.showMessageDialog(null,"Erreur: " + Reponse_Add, "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
+					  }
+				
+				} catch (IOException e) {
+					javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus", "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
+					System.exit(0);
+				}
+				
+			}
+		});
+		TB_Valider.setBounds(362, 328, 130, 29);
+		contentPane.add(TB_Valider);
+	}
+	
+	private void create_IHM_new(){
+		JLabel lblNom = new JLabel("Nom");
+		lblNom.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNom.setBounds(25, 184, 69, 20);
+		contentPane.add(lblNom);
+		
+		JLabel lblPrnom = new JLabel("Prénom");
+		lblPrnom.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPrnom.setBounds(25, 220, 69, 20);
+		contentPane.add(lblPrnom);
+		
+		JLabel lblMail = new JLabel("Mail");
+		lblMail.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMail.setBounds(25, 256, 69, 20);
+		contentPane.add(lblMail);
+		
+		txtNom = new JTextField();
+		txtNom.setText("");
+		txtNom.setBounds(98, 181, 394, 26);
+		contentPane.add(txtNom);
+		txtNom.setColumns(10);
+		
+		txtPrenom = new JTextField();
+		txtPrenom.setText("");
+		txtPrenom.setBounds(98, 217, 394, 26);
+		contentPane.add(txtPrenom);
+		txtPrenom.setColumns(10);
+		
+		txtMail = new JTextField();
+		txtMail.setText("");
+		txtMail.setBounds(98, 253, 394, 26);
+		contentPane.add(txtMail);
+		txtMail.setColumns(10);
+		
+		JLabel lblAdresse = new JLabel("Adresse");
+		lblAdresse.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAdresse.setBounds(25, 289, 69, 20);
+		contentPane.add(lblAdresse);
+		
+		txtNumero = new JTextField();
+		txtNumero.setText("");
+		txtNumero.setBounds(98, 286, 56, 26);
+		contentPane.add(txtNumero);
+		txtNumero.setColumns(10);
+		
+		txtRue = new JTextField();
+		txtRue.setText("");
+		txtRue.setBounds(169, 286, 220, 26);
+		contentPane.add(txtRue);
+		txtRue.setColumns(10);
+		
+		txtCodepostal = new JTextField();
+		txtCodepostal.setText("");
+		txtCodepostal.setBounds(404, 286, 88, 26);
+		contentPane.add(txtCodepostal);
+		txtCodepostal.setColumns(10);
+		
+		lblInfoserver = new JLabel("Info_Server");
+		lblInfoserver.setBounds(98, 332, 251, 20);
+		contentPane.add(lblInfoserver);
 	}
 	
 	private void create_IHM()	{
@@ -108,7 +222,7 @@ public class Interface_Client extends JFrame {
 		image.setBounds(15, 16, 250, 152);
 		contentPane.add(image);
 		
-		tb_password = new JTextField();
+		tb_password = new JPasswordField();
 		tb_password.setBounds(280, 107, 146, 26);
 		contentPane.add(tb_password);
 		tb_password.setColumns(10);
@@ -126,5 +240,4 @@ public class Interface_Client extends JFrame {
 		lblPassword.setBounds(280, 88, 69, 20);
 		contentPane.add(lblPassword);
 	}
-	
 }
