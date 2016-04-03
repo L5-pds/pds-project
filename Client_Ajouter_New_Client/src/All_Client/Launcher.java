@@ -3,16 +3,25 @@ package All_Client;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ResourceBundle;
 
 public class Launcher {
 
 	private static Socket socket = null;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
+		//Get properties information
+		ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
+
+        String IP_adress = bundle.getString("server");
+        int PORT = Integer.parseInt(bundle.getString("port"));
+        
+		
+		//Try to create a new socket with IP and PORT
+		//If success then load IHM with socket in parameter
 		try {
-			socket = new Socket("127.0.0.1",1234);
+			socket = new Socket(IP_adress,PORT);
 			Interface_Client LeClient = new Interface_Client(socket);
 			LeClient.setVisible(true);
 			

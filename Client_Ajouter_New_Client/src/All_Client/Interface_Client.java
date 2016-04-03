@@ -1,15 +1,11 @@
 package All_Client;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -27,6 +23,10 @@ import javax.swing.SwingConstants;
 
 public class Interface_Client extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tb_password;
 	private JTextField tb_login;
@@ -34,7 +34,7 @@ public class Interface_Client extends JFrame {
 	private PrintWriter out = null;
 	private BufferedReader in = null;
 	public static String login = null, pass = null;
-	private boolean connect = false;
+	private boolean connect;
 	private JTextField txtNom;
 	private JTextField txtPrenom;
 	private JTextField txtMail;
@@ -43,15 +43,14 @@ public class Interface_Client extends JFrame {
 	private JTextField txtCodepostal;
 	private JLabel lblInfoserver;
 	
-	/**
-	 * Create the frame.
-	 */
+	//Create the frame.
 	public Interface_Client(Socket socket_temp) {
 		
 		socket = socket_temp;
 		
+		connect=false;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(100, 100, 529, 431);
 		setBounds(100, 100, 529, 233);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,8 +58,8 @@ public class Interface_Client extends JFrame {
 		contentPane.setLayout(null);
 		
 		create_IHM();
-		//setBounds(100, 100, 529, 233);
 		
+		//Event Click on the button "OK"
 		JButton TB_Confirm_Connect = new JButton("OK");
 		TB_Confirm_Connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -72,15 +71,19 @@ public class Interface_Client extends JFrame {
 				login = tb_login.getText();
 				pass = tb_password.getText();			
 				
+				//Convert Class to Json format 
 				SerialisationPersonne sp = new SerialisationPersonne();
 				Personne Connexion = new Personne(login,pass);
 				
+				//Send information in Json format to server
 				out.println(sp.serialiser(Connexion));
 				out.flush();
 				
+				//Waiting the answer
 				String Reponse_Connect=in.readLine();
+				
 				if(Reponse_Connect.equals("connect_ok")){
-					 
+					//if success then load IHM for add new client 
 					tb_login.setBackground(new Color(0, 204, 102));
 					tb_password.setBackground(new Color(0, 204, 102));
 					connect = true;
@@ -92,6 +95,7 @@ public class Interface_Client extends JFrame {
 					  }
 					
 				else {
+					//else informe unsucess authentification and close the app
 						javax.swing.JOptionPane.showMessageDialog(null,"Erreur: " + Reponse_Connect, "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
 						tb_login.setBackground(new Color(255, 0, 51));
 						tb_password.setBackground(new Color(255, 0, 51));
@@ -108,10 +112,12 @@ public class Interface_Client extends JFrame {
 		TB_Confirm_Connect.setBounds(436, 56, 56, 77);
 		contentPane.add(TB_Confirm_Connect);
 		
+		//Event Click on the button "Valider"
 		JButton TB_Valider = new JButton("Valider");
 		TB_Valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				//Convert new client information to Json format
 				SerialisationPersonne sp = new SerialisationPersonne();
 				New_client add_new_client = new New_client(txtNom.getText(), 
 						txtPrenom.getText(), 
@@ -120,12 +126,16 @@ public class Interface_Client extends JFrame {
 						txtRue.getText(), 
 						txtCodepostal.getText());
 				
+				//Send new client to server
 				out.println(sp.serialiser(add_new_client));
 				out.flush();
 				
 				try	{
+					//Waiting the anwser
 				String Reponse_Add=in.readLine();
+				
 				if(Reponse_Add.equals("add_ok")){
+					//if answer is "add_ok" then informe client app and clear all composant
 					lblInfoserver.setText("Client " + txtNom.getText() + " " + txtPrenom.getText() + " est ajouté");
 					txtNom.setText("");
 					txtPrenom.setText("");
@@ -136,6 +146,7 @@ public class Interface_Client extends JFrame {
 					  }
 					
 				else {
+					//else informe client app whith the server answer
 						javax.swing.JOptionPane.showMessageDialog(null,"Erreur: " + Reponse_Add, "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
 					  }
 				

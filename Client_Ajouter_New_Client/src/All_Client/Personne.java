@@ -18,8 +18,4 @@ public class Personne {
     	return mdp;
     }
     
-    /*public String toString() {
-        String s = nom + ", " + mdp ;
-        return s;
-    }*/
 }

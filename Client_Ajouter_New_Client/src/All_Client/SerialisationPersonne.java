@@ -5,10 +5,6 @@ import com.google.gson.GsonBuilder;
 
 public class SerialisationPersonne {
     
-    /**********************************
-    ecrire une classe qui serialise n'importe quel objet ?
-    ***********************************/
-    
     final GsonBuilder builder;
     final Gson gson;
     
