@@ -16,9 +16,6 @@ public class Communication_client implements Runnable {
 	private String loginpass_serealise;
 	private String message = null;
 	private int index_pool=-1;
-	private Connection conn = null;
-	private Statement stat = null;
-	private ResultSet resultat = null;
 	
 	
 	public Communication_client(Socket socket_temp){
