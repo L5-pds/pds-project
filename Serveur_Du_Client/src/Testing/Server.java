@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class Server {
- public static ServerSocket socket_ecoute = null;
- public static Thread thread_launch_ecoute;
-public static Connexion_BDD[] pool_connexion;
- 
+	
+	public static ServerSocket socket_ecoute = null;
+	public static Thread thread_launch_ecoute;
+	public static Connexion_BDD[] pool_connexion;
+	public static int Nb_max_connect_bdd;
+	
 	public void Launch() {
 		
 		try {
@@ -20,8 +23,12 @@ public static Connexion_BDD[] pool_connexion;
 			thread_launch_ecoute = new Thread(new Accepter_connexion(socket_ecoute));
 			thread_launch_ecoute.start();
 			
+			ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
+			
+			Nb_max_connect_bdd = Integer.parseInt(bundle.getString("nb_max_conect_bdd"));
+			
 			Interface_Serveur.changeTextLog("Création du pool:");
-			creer_pool(1);
+			creer_pool(Nb_max_connect_bdd);
 			
 			Interface_Serveur.changeTextLog(pool_connexion.length + " connexion de crées");
 			
@@ -45,13 +52,14 @@ public static Connexion_BDD[] pool_connexion;
 	
 	public static Connection getConnection() throws SQLException 
 	{
+		ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
+		
         String drivers = "org.postgresql.Driver";
         System.setProperty("jdbc.drivers",drivers);
-        String url = "jdbc:postgresql://192.168.192.132/base_pds";
-        String username = "ncna";
-        String password = "root";
+        String url = "jdbc:postgresql://" + bundle.getString("server") + "/" + bundle.getString("bdd");
+        String username = bundle.getString("login");
+        String password = bundle.getString("password");
         
         return DriverManager.getConnection(url, username, password);
-	}
-	
+	}	
 }

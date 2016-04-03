@@ -38,7 +38,7 @@ public class Communication_client implements Runnable {
 			ConnexionClient = sp.deserialiser(loginpass_serealise);
 			
 			if(isValid(ConnexionClient.getnom(), ConnexionClient.getmdp())){
-				for(int i=0 ; i<1 ; i++)	{
+				for(int i=0 ; i<Server.Nb_max_connect_bdd ; i++)	{
 					if(Server.pool_connexion[i].isUse()==false)	{
 						Server.pool_connexion[i].setUse(true);
 						index_pool=i;
