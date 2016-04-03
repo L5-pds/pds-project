@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.TextArea;
 import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Interface_Serveur extends JFrame {
 
@@ -20,6 +22,8 @@ public class Interface_Serveur extends JFrame {
 	private static TextArea lblLogServer = new TextArea();
 	private static JButton btnStartServer = new JButton("Start server");
 	private Server LeServeur;
+	private static JLabel lblUserconnect;
+	private static JLabel lblConnectdispo;
 	
 	/**
 	 * Create the frame.
@@ -42,6 +46,11 @@ public class Interface_Serveur extends JFrame {
 		lblLogServer.setText(lblLogServer.getText() + AddText + System.getProperty("line.separator"));
 	}
 	
+	public static void change_user_connect(int connect, int dispo)	{
+		lblUserconnect.setText(connect + " connexions");
+		lblConnectdispo.setText(dispo + " disponibles");
+	}
+	
 	private void printIHM()	{
 		setTitle("Serveur");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,7 +66,17 @@ public class Interface_Serveur extends JFrame {
 		btnStartServer.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnStartServer.setBorder(null);
 		btnStartServer.setBackground(Color.LIGHT_GRAY);
-		btnStartServer.setBounds(10, 11, 760, 69);
+		btnStartServer.setBounds(10, 11, 549, 69);
 		contentPane.add(btnStartServer);
+		
+		lblUserconnect = new JLabel("0 utilis\u00E9es");
+		lblUserconnect.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUserconnect.setBounds(574, 24, 189, 20);
+		contentPane.add(lblUserconnect);
+		
+		lblConnectdispo = new JLabel("0 disponibles");
+		lblConnectdispo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConnectdispo.setBounds(574, 45, 189, 20);
+		contentPane.add(lblConnectdispo);
 	}
 }

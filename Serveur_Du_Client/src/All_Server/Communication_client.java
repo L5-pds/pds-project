@@ -83,7 +83,7 @@ public class Communication_client implements Runnable {
 							+ add_client.prenom + "', '"
 							+ add_client.mail + "', 2, 1)");
 					
-					Interface_Serveur.changeTextLog("AJOUT --> " + add_client );
+					Interface_Serveur.changeTextLog("AJOUT --> " + add_client.nom + " " + add_client.prenom );
 					
 					out.println("add_ok");
 				    out.flush();

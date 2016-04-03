@@ -30,6 +30,8 @@ public class Server {
 			Interface_Serveur.changeTextLog("Création du pool:");
 			creer_pool(Nb_max_connect_bdd);
 			
+			MAJ_IHM_Connection();
+			
 			Interface_Serveur.changeTextLog(pool_connexion.length + " connexion de crées");
 			
 			
@@ -61,5 +63,20 @@ public class Server {
         String password = bundle.getString("password");
         
         return DriverManager.getConnection(url, username, password);
-	}	
+	}
+	
+	public static void MAJ_IHM_Connection()	{
+		int connect=0;
+		int dispo=0;
+		
+		for(int i=0;i<pool_connexion.length;i++)	{
+			if(pool_connexion[i].isUse()==true)	{
+				connect++;
+			}else	{
+				dispo++;
+			}
+			
+			Interface_Serveur.change_user_connect(connect, dispo);
+		}
+	}
 }

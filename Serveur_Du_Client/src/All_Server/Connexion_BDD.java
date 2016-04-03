@@ -27,6 +27,7 @@ public class Connexion_BDD {
 	
 	public void setUse(boolean used)	{
 		use=used;
+		Server.MAJ_IHM_Connection();
 	}
 	
 	public void Add_Client(String Requete){
