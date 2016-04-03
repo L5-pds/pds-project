@@ -50,14 +50,14 @@ public class Communication_client implements Runnable {
 					}
 				}
 				if(user_connect==false)	{
-					out.println("erreur");
+					out.println("Aucune connexion disponible (ressayer ultérieurement)");
 					out.flush();
 					Interface_Serveur.changeTextLog(ConnexionClient.getnom() + " plus de connexion disponible");
 					user_connect=false;
 				}
 			}
 			else {
-				out.println("erreur");
+				out.println("Authentification incorrect");
 				out.flush();
 				Interface_Serveur.changeTextLog(ConnexionClient.getnom() + " erreur authentification");
 				user_connect=false;
