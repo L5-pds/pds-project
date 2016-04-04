@@ -1,11 +1,9 @@
 package All_Server;
 import java.net.*;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import java.io.*;
 
 public class Communication_client implements Runnable {
@@ -75,14 +73,32 @@ public class Communication_client implements Runnable {
 					
 					New_client add_client = sp.deserialiserc(message);
 					
-					Server.pool_connexion[index_pool].Add_Client("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('" 
+					String Retour_Function=null;
+					
+					int id_adresse = Server.pool_connexion[index_pool].Add_Adresse("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('" 
+							+ add_client.adresse_num + "', '"
+							+ add_client.adresse_voie + "', '"
+							+ add_client.adresse_cp + "')",
+							"SELECT * FROM T_ADRESSE_CLIENT WHERE " 
+									+ "nume_rue = '" + add_client.adresse_num + "' AND "
+									+ "nom_rue = '" + add_client.adresse_voie + "' AND "
+									+ "code_postal = '" + add_client.adresse_cp + "'");
+						
+		
+					
+					Retour_Function=Server.pool_connexion[index_pool].Add_Client("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('" 
 							+ add_client.nom + "', '"
 							+ add_client.prenom + "', '"
-							+ add_client.mail + "', 2, 1)");
-					
-					Interface_Serveur.changeTextLog("AJOUT --> " + add_client.nom + " " + add_client.prenom );
-					
-					out.println("add_ok");
+							+ add_client.mail + "', 2, " 
+							+ id_adresse + ")",
+							"SELECT COUNT(*) AS Result FROM T_CLIENT WHERE " 
+									+ "nom_client = '" + add_client.nom + "' AND "
+									+ "prenom_client = '" + add_client.prenom + "' AND "
+									+ "mail_client = '" + add_client.mail + "' AND "
+									+ "id_adresse = '" + id_adresse + "'");
+							
+					Interface_Serveur.changeTextLog("AJOUT --> " + add_client.nom + " " + add_client.prenom + " (" + Retour_Function + ")" );
+					out.println(Retour_Function);
 				    out.flush();
 				} catch (IOException e) {
 					Server.pool_connexion[index_pool].setUse(false);
