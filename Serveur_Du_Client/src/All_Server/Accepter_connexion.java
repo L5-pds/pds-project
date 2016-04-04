@@ -17,7 +17,7 @@ public class Accepter_connexion implements Runnable{
 		//comm
 		try {
 			while(true){
-				
+			//comment	
 			socket = socketserver.accept();
 			Interface_Serveur.changeTextLog("Un client veut se connecter : " + socket.getInetAddress());
 			
