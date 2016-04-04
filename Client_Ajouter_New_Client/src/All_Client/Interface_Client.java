@@ -97,8 +97,6 @@ public class Interface_Client extends JFrame {
 				else {
 					//else informe unsucess authentification and close the app
 						javax.swing.JOptionPane.showMessageDialog(null,"Erreur: " + Reponse_Connect, "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
-						tb_login.setBackground(new Color(255, 0, 51));
-						tb_password.setBackground(new Color(255, 0, 51));
 						System.exit(0);
 					  }
 				
