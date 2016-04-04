@@ -34,6 +34,7 @@ public class Interface_Client extends JFrame {
 	private PrintWriter out = null;
 	private BufferedReader in = null;
 	public static String login = null, pass = null;
+	@SuppressWarnings("unused")
 	private boolean connect;
 	private JTextField txtNom;
 	private JTextField txtPrenom;
