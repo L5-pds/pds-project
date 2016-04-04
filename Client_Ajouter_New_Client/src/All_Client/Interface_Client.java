@@ -132,7 +132,7 @@ public class Interface_Client extends JFrame {
 					//Waiting the anwser
 				String Reponse_Add=in.readLine();
 				
-				if(Reponse_Add.equals("add_ok")){
+				if(Reponse_Add.equals("OK")){
 					//if answer is "add_ok" then informe client app and clear all composant
 					lblInfoserver.setText("Client " + txtNom.getText() + " " + txtPrenom.getText() + " est ajouté");
 					txtNom.setText("");
@@ -145,7 +145,7 @@ public class Interface_Client extends JFrame {
 					
 				else {
 					//else informe client app whith the server answer
-						javax.swing.JOptionPane.showMessageDialog(null,"Erreur: " + Reponse_Add, "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
+					lblInfoserver.setText("Erreur: " + Reponse_Add);
 					  }
 				
 				} catch (IOException e) {
@@ -216,7 +216,7 @@ public class Interface_Client extends JFrame {
 		contentPane.add(txtCodepostal);
 		txtCodepostal.setColumns(10);
 		
-		lblInfoserver = new JLabel("Info_Server");
+		lblInfoserver = new JLabel("");
 		lblInfoserver.setBounds(98, 332, 251, 20);
 		contentPane.add(lblInfoserver);
 	}
