@@ -14,7 +14,7 @@ public class Accepter_connexion implements Runnable{
 	}
 	
 	public void run() {
-		//comm
+		
 		try {
 			while(true){
 			//comment	

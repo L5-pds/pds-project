@@ -1,13 +1,19 @@
 package All_Client;
 
 public class New_client {
-	
+
+	@SuppressWarnings("unused")
 	private String nom;
+	@SuppressWarnings("unused")
 	private String prenom;
+	@SuppressWarnings("unused")
 	private String mail;
 
+	@SuppressWarnings("unused")
 	private String adresse_num;
+	@SuppressWarnings("unused")
 	private String adresse_voie;
+	@SuppressWarnings("unused")
 	private String adresse_cp;
 	
 	New_client(String temps_nom, 
