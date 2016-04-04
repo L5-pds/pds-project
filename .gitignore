@@ -1,3 +1,5 @@
 .metadata/*
-app/.metadata/*
-RemoteSystemsTempFiles/*
+Client_Ajouter_New_Client/.metadata/*
+Client_Ajouter_New_Client/RemoteSystemsTempFiles/*
+Serveur_Du_Client/.metadata/*
+Serveur_Du_Client/RemoteSystemsTempFiles/*
