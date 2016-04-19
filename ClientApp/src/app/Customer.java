@@ -1,6 +1,6 @@
-package All_Client;
+package app;
 
-public class New_client {
+public class Customer {
 
   @SuppressWarnings("unused")
   private String nom;
@@ -16,7 +16,7 @@ public class New_client {
   @SuppressWarnings("unused")
   private String adresse_cp;
 
-  New_client(String temps_nom,
+  Customer(String temps_nom,
         String temps_prenom,
         String temps_mail,
         String temps_anum,

@@ -1,11 +1,11 @@
-package All_Client;
+package app;
 
-public class Personne {
+public class User {
 
   private String nom;
   private String mdp;
 
-  public Personne(String n, String a) {
+  public User(String n, String a) {
       nom = n;
       mdp = a;
   }

@@ -1,4 +1,4 @@
-package All_Client;
+package app;
 
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-public class Interface_Client extends JFrame {
+public class ClientInterface extends JFrame {
 
   private static final long serialVersionUID = 1L;
   private JPanel contentPane;
@@ -42,7 +42,7 @@ public class Interface_Client extends JFrame {
   private JLabel lblInfoserver;
 
   //Create the frame.
-  public Interface_Client(Socket socket_temp) {
+  public ClientInterface(Socket socket_temp) {
 
     socket = socket_temp;
 
@@ -70,11 +70,11 @@ public class Interface_Client extends JFrame {
         pass = tb_password.getText();
 
         //Convert Class to Json format
-        SerialisationPersonne sp = new SerialisationPersonne();
-        Personne Connexion = new Personne(login,pass);
+        Serialization sp = new Serialization();
+        User userConnection = new User(login,pass);
 
         //Send information in Json format to server
-        out.println(sp.serialiser(Connexion));
+        out.println(sp.serialiser(userConnection));
         out.flush();
 
         //Waiting the answer
@@ -114,8 +114,8 @@ public class Interface_Client extends JFrame {
       public void actionPerformed(ActionEvent arg0) {
 
         //Convert new client information to Json format
-        SerialisationPersonne sp = new SerialisationPersonne();
-        New_client add_new_client = new New_client(txtNom.getText(),
+        Serialization sp = new Serialization();
+        Customer newCustomer = new Customer(txtNom.getText(),
             txtPrenom.getText(),
             txtMail.getText(),
             txtNumero.getText(),
@@ -123,7 +123,7 @@ public class Interface_Client extends JFrame {
             txtCodepostal.getText());
 
         //Send new client to server
-        out.println(sp.serialiser(add_new_client));
+        out.println(sp.serialiser(newCustomer));
         out.flush();
 
         try {

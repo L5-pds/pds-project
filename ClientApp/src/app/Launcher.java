@@ -1,4 +1,4 @@
-package All_Client;
+package app;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,7 +19,7 @@ public class Launcher {
     //If success then load IHM with socket in parameter
     try {
       socket = new Socket(IP_adress,PORT);
-      Interface_Client LeClient = new Interface_Client(socket);
+      ClientInterface LeClient = new ClientInterface(socket);
       LeClient.setVisible(true);
 
     } catch (UnknownHostException e) {
