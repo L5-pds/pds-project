@@ -13,15 +13,15 @@ public class Serialization {
     gson = builder.create();
   }
 
-  public String serialiser(User p) {
+  public String serialize(User p) {
     return gson.toJson(p);
   }
 
-  public String serialiser(Customer c) {
+  public String serialize(Customer c) {
     return gson.toJson(c);
   }
 
-  public User deserialiser(String p) {
+  public User deserialize(String p) {
     return gson.fromJson(p, User.class);
   }
 

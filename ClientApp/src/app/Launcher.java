@@ -12,15 +12,15 @@ public class Launcher {
   public static void main(String[] args) {
     //Get properties information
     ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
-    String IP_adress = bundle.getString("server");
-    int PORT = Integer.parseInt(bundle.getString("port"));
+    String serverAddress = bundle.getString("server");
+    int port = Integer.parseInt(bundle.getString("port"));
 
     //Try to create a new socket with IP and PORT
     //If success then load IHM with socket in parameter
     try {
-      socket = new Socket(IP_adress,PORT);
-      ClientInterface LeClient = new ClientInterface(socket);
-      LeClient.setVisible(true);
+      socket = new Socket(serverAddress, port);
+      ClientInterface clientI = new ClientInterface(socket);
+      clientI.setVisible(true);
 
     } catch (UnknownHostException e) {
       javax.swing.JOptionPane.showMessageDialog(null,"Impossible de se connecter à l'adresse "+socket.getLocalAddress(), "Alerte", javax.swing.JOptionPane.ERROR_MESSAGE);
