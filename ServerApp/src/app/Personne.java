@@ -1,4 +1,4 @@
-package All_Server;
+package app;
 
 public class Personne {
     
@@ -10,12 +10,12 @@ public class Personne {
         mdp = a;
     }
 
-    public String getnom()	{
-    	return nom;
+    public String getnom()  {
+      return nom;
     }
     
-    public String getmdp()	{
-    	return mdp;
+    public String getmdp()  {
+      return mdp;
     }
     
     /*public String toString() {
