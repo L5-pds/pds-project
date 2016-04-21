@@ -2,20 +2,20 @@ package app;
 
 public class User {
 
-  private String nom;
-  private String mdp;
+  private String login;
+  private String pwd;
 
   public User(String n, String a) {
-      nom = n;
-      mdp = a;
+      login = n;
+      pwd = a;
   }
 
-  public String getnom()  {
-    return nom;
+  public String getLogin()  {
+    return login;
   }
 
-  public String getmdp()  {
-    return mdp;
+  public String getPwd()  {
+    return pwd;
   }
 
 }

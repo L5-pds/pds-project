@@ -21,7 +21,7 @@ public class Serialization {
     return gson.toJson(c);
   }
 
-  public User deserialize(String p) {
+  public User unserialize(String p) {
     return gson.fromJson(p, User.class);
   }
 

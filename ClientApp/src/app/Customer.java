@@ -3,32 +3,32 @@ package app;
 public class Customer {
 
   @SuppressWarnings("unused")
-  private String nom;
+  private String lastName;
   @SuppressWarnings("unused")
-  private String prenom;
+  private String firstName;
   @SuppressWarnings("unused")
   private String mail;
 
   @SuppressWarnings("unused")
-  private String adresse_num;
+  private String addressNb;
   @SuppressWarnings("unused")
-  private String adresse_voie;
+  private String street;
   @SuppressWarnings("unused")
-  private String adresse_cp;
+  private String zipCode;
 
-  Customer(String temps_nom,
-        String temps_prenom,
-        String temps_mail,
-        String temps_anum,
-        String temps_avoie,
-        String temps_acp){
+  Customer(String lastName,
+        String firstName,
+        String mail,
+        String addressNb,
+        String street,
+        String zipCode){
 
-    nom=temps_nom;
-    prenom=temps_prenom;
-    mail=temps_mail;
-    adresse_num=temps_anum;
-    adresse_voie=temps_avoie;
-    adresse_cp=temps_acp;
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.mail = mail;
+    this.addressNb = addressNb;
+    this.street = street;
+    this.zipCode = zipCode;
   }
 
 }

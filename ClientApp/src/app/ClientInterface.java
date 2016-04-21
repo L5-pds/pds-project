@@ -42,9 +42,9 @@ public class ClientInterface extends JFrame {
   private JLabel serverInfo;
 
   //Create the frame.
-  public ClientInterface(Socket socket_temp) {
+  public ClientInterface(Socket sck) {
 
-    socket = socket_temp;
+    socket = sck;
 
     connection=false;
 
