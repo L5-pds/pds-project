@@ -25,13 +25,11 @@ public class ClientInterface extends JFrame {
 
   private static final long serialVersionUID = 1L;
   private JPanel contentPane;
-  private JTextField pwd;
-  private JTextField login;
+  private JTextField loginField;
+  private JTextField pwdField;
   private static Socket socket;
   private PrintWriter out = null;
   private BufferedReader in = null;
-  public static String login = null, pass = null;
-  @SuppressWarnings("unused")
   private boolean connection;
   private JTextField lastName;
   private JTextField firstName;
@@ -65,7 +63,7 @@ public class ClientInterface extends JFrame {
           out = new PrintWriter(socket.getOutputStream());
           in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-          User userConnection = new User(login.getText(), pwd.getText());
+          User userConnection = new User(loginField.getText(), pwdField.getText());
 
           //Convert Class to Json format
           Serialization s = new Serialization();
@@ -79,11 +77,11 @@ public class ClientInterface extends JFrame {
 
           if(serverAnswer.equals("connection_ok")){
             //if success then load IHM for add new client
-            login.setBackground(new Color(0, 204, 102));
-            pwd.setBackground(new Color(0, 204, 102));
+            loginField.setBackground(new Color(0, 204, 102));
+            pwdField.setBackground(new Color(0, 204, 102));
             connection = true;
-            login.setEnabled(false);
-            pwd.setEnabled(false);
+            loginField.setEnabled(false);
+            pwdField.setEnabled(false);
             connectionButton.setEnabled(false);
             createCustomerIhm();
             setBounds(100, 100, 529, 431);
@@ -223,15 +221,15 @@ public class ClientInterface extends JFrame {
     image.setBounds(15, 16, 250, 152);
     contentPane.add(image);
 
-    pwd = new JPasswordField();
-    pwd.setBounds(280, 107, 146, 26);
-    contentPane.add(pwd);
-    pwd.setColumns(10);
+    pwdField = new JPasswordField();
+    pwdField.setBounds(280, 107, 146, 26);
+    contentPane.add(pwdField);
+    pwdField.setColumns(10);
 
-    login = new JTextField();
-    login.setColumns(10);
-    login.setBounds(280, 56, 146, 26);
-    contentPane.add(login);
+    loginField = new JTextField();
+    loginField.setColumns(10);
+    loginField.setBounds(280, 56, 146, 26);
+    contentPane.add(loginField);
 
     JLabel peudoLabel = new JLabel("Pseudo");
     peudoLabel.setBounds(280, 37, 69, 20);
