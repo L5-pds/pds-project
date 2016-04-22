@@ -8,74 +8,69 @@ import java.util.ResourceBundle;
 
 public class Server {
 
-  public static ServerSocket socket_ecoute = null;
-  public static Thread thread_launch_ecoute;
-  public static Connexion_BDD[] pool_connexion;
-  public static int Nb_max_connect_bdd;
+  public static ServerSocket socket = null;
+  public static Thread connectionManagerThread;
+  public static ConnectionPool[] connectionPool;
+  public static int connectionPoolSize;
 
   public void launch() {
 
     try {
-      socket_ecoute = new ServerSocket(1234);
-      Interface_Serveur.changeTextLog("Server on-ligne.");
-      Interface_Serveur.changeTextLog("Le serveur est à l'écoute du port "+socket_ecoute.getLocalPort());
-      thread_launch_ecoute = new Thread(new Accepter_connexion(socket_ecoute));
-      thread_launch_ecoute.start();
+      socket = new ServerSocket(1234);
+      ServerInterface.changeTextLog("Le serveur est en ligne.");
+      ServerInterface.changeTextLog("Le serveur est à l'écoute du port "+socket.getLocalPort());
+      connectionManagerThread = new Thread(new ConnectionManager(socket));
+      connectionManagerThread.start();
 
       ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
 
-      Nb_max_connect_bdd = Integer.parseInt(bundle.getString("nb_max_conect_bdd"));
+      connectionPoolSize = Integer.parseInt(bundle.getString("connectionPoolSize"));
 
-      Interface_Serveur.changeTextLog("Création du pool:");
-      creer_pool(Nb_max_connect_bdd);
+      ServerInterface.changeTextLog("Création du pool:");
+      poolGenerator(connectionPoolSize);
 
-      MAJ_IHM_Connection();
+      updateConnectionAvailability();
 
-      Interface_Serveur.changeTextLog(pool_connexion.length + " connexion de crées");
+      ServerInterface.changeTextLog(connectionPool.length + " connexions créées");
 
 
     } catch (IOException e) {
-      Interface_Serveur.changeTextLog("WARNING : Problème ouverture du port (" + e.getMessage() + ")");
+      ServerInterface.changeTextLog("WARNING : Problème ouverture du port (" + e.getMessage() + ")");
     }
   }
 
-  private void creer_pool(int nb_connection){
-
-    pool_connexion    = new Connexion_BDD[nb_connection];
-
-    for(int i=0;i<nb_connection;i++)  {
-
-      pool_connexion[i] = new Connexion_BDD(i);
-      Interface_Serveur.changeTextLog("Connexion " + i + " créé");
+  private void poolGenerator(int size){
+    connectionPool = new ConnectionPool[size];
+    for(int i=0;i<size;i++)  {
+      connectionPool[i] = new ConnectionPool(i);
+      ServerInterface.changeTextLog("Connexion " + i + " créée");
     }
-
   }
 
   public static Connection getConnection() throws SQLException
   {
     ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
 
-        String drivers = "org.postgresql.Driver";
-        System.setProperty("jdbc.drivers",drivers);
-        String url = "jdbc:postgresql://" + bundle.getString("server") + "/" + bundle.getString("bdd");
-        String username = bundle.getString("login");
-        String password = bundle.getString("password");
+    String drivers = "org.postgresql.Driver";
+    System.setProperty("jdbc.drivers",drivers);
+    String url = "jdbc:postgresql://" + bundle.getString("server") + "/" + bundle.getString("dbName");
+    String username = bundle.getString("login");
+    String password = bundle.getString("password");
 
-        return DriverManager.getConnection(url, username, password);
+    return DriverManager.getConnection(url, username, password);
   }
 
-  public static void MAJ_IHM_Connection() {
-    int connect=0;
-    int dispo=0;
+  public static void updateConnectionAvailability() {
+    int connected=0;
+    int available=0;
 
-    for(int i=0;i<pool_connexion.length;i++)  {
-      if(pool_connexion[i].isUse()==true) {
-        connect++;
-      }else {
-        dispo++;
-      }
+    for(int i=0;i<connectionPool.length;i++)  {
+      if (connectionPool[i].isUsed() == true)
+        connected++;
+      else
+        available++;
 
-      Interface_Serveur.updateInfoLabel(connect, dispo);
+      ServerInterface.updateInfoLabel(connected, available);
     }
   }
 }
