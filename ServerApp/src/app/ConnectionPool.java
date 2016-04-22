@@ -14,10 +14,10 @@ public class ConnectionPool {
   ConnectionPool(int i){
     try {
       connection = Server.getConnection();
-      id  =i;
+      id = i;
       used = false;
     } catch (SQLException e) {
-      System.out.println("Erreur CoonectionPool cannot getConnection");
+      System.out.println(e);
     }
   }
 
