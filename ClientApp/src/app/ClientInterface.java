@@ -75,7 +75,7 @@ public class ClientInterface extends JFrame {
           //Waiting the answer
           String serverAnswer=in.readLine();
 
-          if(serverAnswer.equals("connection_ok")){
+          if(serverAnswer.equals("connect_ok")){
             //if success then load IHM for add new client
             loginField.setBackground(new Color(0, 204, 102));
             pwdField.setBackground(new Color(0, 204, 102));

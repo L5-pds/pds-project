@@ -42,18 +42,18 @@ public class DBConnection implements Runnable {
             break;
           }
         }
-        if(userConnected==false) {
+        if(userConnected == false) {
           out.println("Aucune connexion disponible (ressayer ultérieurement)");
           out.flush();
           ServerInterface.changeTextLog(user.getLogin() + " plus de connexion disponible");
-          userConnected=false;
+          userConnected = false;
         }
       }
       else {
         out.println("Authentification incorrect");
         out.flush();
         ServerInterface.changeTextLog(user.getLogin() + " erreur authentification");
-        userConnected=false;
+        userConnected = false;
       }
 
     } catch (IOException e) {
@@ -120,10 +120,8 @@ public class DBConnection implements Runnable {
 
       resultat.next();
 
-      if(resultat.getRow()==0) {
-        authentic=false;
-      }else {
-        authentic=true;
+      if(resultat.getRow() != 0) {
+        authentic = true;
       }
       resultat.close();
       stat.close();
