@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.*;
 
-public class Connection implements Runnable {
+public class DBConnection implements Runnable {
   private Socket socket;
   private PrintWriter out = null;
   private BufferedReader in = null;
@@ -14,7 +14,7 @@ public class Connection implements Runnable {
   private String message = null;
   private int poolIndex=-1;
 
-  public Connection(Socket socket){
+  public DBConnection(Socket socket){
     this.socket = socket;
   }
 

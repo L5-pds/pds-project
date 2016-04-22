@@ -20,7 +20,7 @@ public class ConnectionManager implements Runnable{
       socket = serverSck.accept();
       ServerInterface.changeTextLog("Un client veut se connecter : " + socket.getInetAddress());
 
-      connectionThread = new Thread(new Connection(socket));
+      connectionThread = new Thread(new DBConnection(socket));
       connectionThread.start();
       }
     } catch (IOException e) {
