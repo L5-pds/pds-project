@@ -6,9 +6,11 @@ ClientApp/bin/*
 ClientApp/.settings
 ClientApp/.project
 ClientApp/.classpath
+ClientApp/.gitignore
 ServerApp/.metadata/*
 ServerApp/RemoteSystemsTempFiles/*
 ServerApp/bin/*
 ServerApp/.settings
 ServerApp/.project
 ServerApp/.classpath
+ServerApp/.gitignore

@@ -31,9 +31,9 @@ public class Connection implements Runnable {
       user = s.unserializeUser(serializedUser);
 
       if(authentication(user.getLogin(), user.getPwd())){
-        for(int i=0 ; i<Server.Nb_max_connect_bdd ; i++) {
-          if(Server.pool_connexion[i].isUsed() == false) {
-            Server.pool_connexion[i].setUsed(true);
+        for(int i=0 ; i<Server.connectionPoolSize ; i++) {
+          if(Server.connectionPool[i].isUsed() == false) {
+            Server.connectionPool[i].setUsed(true);
             poolIndex= i;
             out.println("connect_ok");
             out.flush();
@@ -70,7 +70,7 @@ public class Connection implements Runnable {
 
         String creationReturn=null;
 
-        int addressId = Server.pool_connexion[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
+        int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
                       + newCustomer.adresse_num + "', '"
                       + newCustomer.adresse_voie + "', '"
                       + newCustomer.adresse_cp + "')",
@@ -79,7 +79,7 @@ public class Connection implements Runnable {
                             + "nom_rue = '" + newCustomer.adresse_voie + "' AND "
                             + "code_postal = '" + newCustomer.adresse_cp + "'");
 
-        creationReturn = Server.pool_connexion[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
+        creationReturn = Server.connectionPool[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
                     + newCustomer.nom + "', '"
                     + newCustomer.prenom + "', '"
                     + newCustomer.mail + "', 2, "
@@ -94,7 +94,7 @@ public class Connection implements Runnable {
         out.println(creationReturn);
         out.flush();
       } catch (IOException e) {
-        Server.pool_connexion[poolIndex].setUsed(false);
+        Server.connectionPool[poolIndex].setUsed(false);
         ServerInterface.changeTextLog(user.getLogin() +" s'est déconnecté");
 
         userConnected=false;
