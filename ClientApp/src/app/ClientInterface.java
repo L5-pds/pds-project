@@ -34,7 +34,7 @@ public class ClientInterface extends JFrame {
   private JTextField lastName;
   private JTextField firstName;
   private JTextField mail;
-  private JTextField phoneNumber;
+  private JTextField addressNumber;
   private JTextField street;
   private JTextField zipCode;
   private JLabel serverInfo;
@@ -105,15 +105,16 @@ public class ClientInterface extends JFrame {
     JButton sendCustomerButton = new JButton("Valider");
     sendCustomerButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-
         //Convert new client information to Json format
         Serialization s = new Serialization();
-        Customer newCustomer = new Customer(lastName.getText(),
-            firstName.getText(),
-            mail.getText(),
-            phoneNumber.getText(),
-            street.getText(),
-            zipCode.getText());
+        Customer newCustomer = new Customer(
+          lastName.getText(),
+          firstName.getText(),
+          mail.getText(),
+          addressNumber.getText(),
+          street.getText(),
+          zipCode.getText()
+        );
 
         //Send new client to server
         out.println(s.serialize(newCustomer));
@@ -129,12 +130,12 @@ public class ClientInterface extends JFrame {
             lastName.setText("");
             firstName.setText("");
             mail.setText("");
-            phoneNumber.setText("");
+            addressNumber.setText("");
             street.setText("");
             zipCode.setText("");
           }
           else {
-            //else informe client app with the server answer
+            //else inform client app with the server answer
             serverInfo.setText("Erreur: " + serverAnswer);
           }
 
@@ -188,11 +189,11 @@ public class ClientInterface extends JFrame {
     addressLabel.setBounds(25, 289, 69, 20);
     contentPane.add(addressLabel);
 
-    phoneNumber = new JTextField();
-    phoneNumber.setText("");
-    phoneNumber.setBounds(98, 286, 56, 26);
-    contentPane.add(phoneNumber);
-    phoneNumber.setColumns(10);
+    addressNumber = new JTextField();
+    addressNumber.setText("");
+    addressNumber.setBounds(98, 286, 56, 26);
+    contentPane.add(addressNumber);
+    addressNumber.setColumns(10);
 
     street = new JTextField();
     street.setText("");

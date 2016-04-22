@@ -45,7 +45,7 @@ public class ConnectionPool {
         queryReturn="OK";
       }
       else  {
-        queryReturn="Utilisateur déja présent dans la base";
+        queryReturn="Utilisateur dï¿½ja prï¿½sent dans la base";
       }
 
     } catch (SQLException e) {
@@ -56,35 +56,37 @@ public class ConnectionPool {
     return queryReturn;
   }
 
-  public int createAddress(String query1, String query2){
-    int queryReturn=0;
+  public int createAddress(String insertQuery, String selectQuery){
+    int addressId = 0;
     Statement stat;
     try {
-
       stat = connection.createStatement();
-      ResultSet queryResults = stat.executeQuery(query2);
+      ResultSet queryResults = stat.executeQuery(selectQuery);
+      System.out.println(queryResults);
       queryResults.next();
+      System.out.println(queryResults);
 
-      if(queryResults.getRow()==0)  {
+
+      if(queryResults.getRow() == 0) {
         stat = connection.createStatement();
-        stat.executeUpdate(query1);
+        stat.executeUpdate(insertQuery);
 
         stat = connection.createStatement();
-        queryResults = stat.executeQuery(query2);
+        queryResults = stat.executeQuery(selectQuery);
 
         queryResults.next();
-        queryReturn=queryResults.getInt("id_adresse");
+        addressId = queryResults.getInt("id_adresse");
       }
       else  {
-        queryReturn=queryResults.getInt("id_adresse");
+        addressId = queryResults.getInt("id_adresse");
       }
 
     } catch (SQLException e) {
       e.printStackTrace();
-      queryReturn=0;
+      addressId=0;
     }
 
-    return queryReturn;
+    return addressId;
   }
 
 }

@@ -43,7 +43,7 @@ public class DBConnection implements Runnable {
           }
         }
         if(userConnected == false) {
-          out.println("Aucune connexion disponible (ressayer ultérieurement)");
+          out.println("Aucune connexion disponible (ressayer ultï¿½rieurement)");
           out.flush();
           ServerInterface.changeTextLog(user.getLogin() + " plus de connexion disponible");
           userConnected = false;
@@ -57,19 +57,14 @@ public class DBConnection implements Runnable {
       }
 
     } catch (IOException e) {
-      ServerInterface.changeTextLog("Problème de connexion...");
+      ServerInterface.changeTextLog("Problï¿½me de connexion...");
     }
 
     while(userConnected == true){
       try {
-        message = in.readLine();
-
-        ServerInterface.changeTextLog(user.getLogin() +" dis " + message);
-
-        Customer newCustomer = s.unserializeCustomer(message);
-
         String creationReturn=null;
-
+        message = in.readLine();
+        Customer newCustomer = s.unserializeCustomer(message);
         int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
                       + newCustomer.addressNumber + "', '"
                       + newCustomer.street + "', '"
@@ -95,13 +90,13 @@ public class DBConnection implements Runnable {
         out.flush();
       } catch (IOException e) {
         Server.connectionPool[poolIndex].setUsed(false);
-        ServerInterface.changeTextLog(user.getLogin() +" s'est déconnecté");
+        ServerInterface.changeTextLog(user.getLogin() +" s'est dï¿½connectï¿½");
 
         userConnected=false;
         try {
           socket.close();
         } catch (IOException e1) {
-          ServerInterface.changeTextLog("WARNING - Problème de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+          ServerInterface.changeTextLog("WARNING - Problï¿½me de fermeture de la socket pour l'utilisateur : " + user.getLogin());
         }
       }
     }//end of while loop
