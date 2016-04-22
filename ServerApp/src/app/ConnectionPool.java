@@ -8,17 +8,16 @@ import java.sql.Statement;
 public class ConnectionPool {
 
   private Connection connection;
-  @SuppressWarnings("unused")
   private int id;
   private boolean used;
 
   ConnectionPool(int i){
     try {
       connection = Server.getConnection();
-      id=i;
-      used=false;
+      id  =i;
+      used = false;
     } catch (SQLException e) {
-      System.out.println("Erreur");
+      System.out.println("Erreur CoonectionPool cannot getConnection");
     }
   }
 
