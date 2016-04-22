@@ -10,11 +10,11 @@ public class User {
       this.pwd = pwd;
   }
 
-  public String getLogin()  {
+  public String getLogin() {
     return login;
   }
 
-  public String getPwd()  {
+  public String getPwd() {
     return pwd;
   }
 
