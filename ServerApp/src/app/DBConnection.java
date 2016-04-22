@@ -21,7 +21,7 @@ public class DBConnection implements Runnable {
   public void run() {
     User user = null;
     Serialization s = new Serialization();
-    boolean userConnected=false;
+    boolean userConnected = false;
 
     try {
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

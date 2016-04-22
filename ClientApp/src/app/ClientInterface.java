@@ -213,8 +213,8 @@ public class ClientInterface extends JFrame {
   }
 
   private void authenticationIhm() {
-    ImageIcon   trait = new ImageIcon(this.getClass().getResource("/pictures/LogoL5.png"));
-    Image         im  =  trait.getImage();
+    ImageIcon trait = new ImageIcon(this.getClass().getResource("/pictures/LogoL5.png"));
+    Image im = trait.getImage();
     int width = 250;
     int height = 152;
     im  = im.getScaledInstance(width,height,1);
