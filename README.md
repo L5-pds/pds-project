@@ -9,5 +9,5 @@ L5 PDS Project
   - `javac -encoding ISO-8859-1 -d buildClient -cp "ClientApp/lib/*" ClientApp/src/app/*.java`
 
  3. Launch the app :
-  - `java -cp buildServer:ServerApp/lib/postgresql-9.4.1207.jre6.jar app.Launcher`
-  - `java -cp buildClient app.Launcher`
+  - `java -cp "buildServer:ServerApp/lib/*" app.Launcher`
+  - `java -cp "buildClient:ClientApp/lib/*" app.Launcher`
