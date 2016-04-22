@@ -71,26 +71,26 @@ public class DBConnection implements Runnable {
         String creationReturn=null;
 
         int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
-                      + newCustomer.adresse_num + "', '"
-                      + newCustomer.adresse_voie + "', '"
-                      + newCustomer.adresse_cp + "')",
+                      + newCustomer.addressNumber + "', '"
+                      + newCustomer.street + "', '"
+                      + newCustomer.zipCode + "')",
                       "SELECT * FROM T_ADRESSE_CLIENT WHERE "
-                            + "nume_rue = '" + newCustomer.adresse_num + "' AND "
-                            + "nom_rue = '" + newCustomer.adresse_voie + "' AND "
-                            + "code_postal = '" + newCustomer.adresse_cp + "'");
+                            + "nume_rue = '" + newCustomer.addressNumber + "' AND "
+                            + "nom_rue = '" + newCustomer.street + "' AND "
+                            + "code_postal = '" + newCustomer.zipCode + "'");
 
         creationReturn = Server.connectionPool[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
-                    + newCustomer.nom + "', '"
-                    + newCustomer.prenom + "', '"
+                    + newCustomer.lastName + "', '"
+                    + newCustomer.firstName + "', '"
                     + newCustomer.mail + "', 2, "
                     + addressId + ")",
                     "SELECT COUNT(*) AS Result FROM T_CLIENT WHERE "
-                            + "nom_client = '" + newCustomer.nom + "' AND "
-                            + "prenom_client = '" + newCustomer.prenom + "' AND "
+                            + "nom_client = '" + newCustomer.lastName + "' AND "
+                            + "prenom_client = '" + newCustomer.firstName + "' AND "
                             + "mail_client = '" + newCustomer.mail + "' AND "
                             + "id_adresse = '" + addressId + "'");
 
-        ServerInterface.changeTextLog("AJOUT --> " + newCustomer.nom + " " + newCustomer.prenom + " (" + creationReturn + ")" );
+        ServerInterface.changeTextLog("AJOUT --> " + newCustomer.lastName + " " + newCustomer.firstName + " (" + creationReturn + ")" );
         out.println(creationReturn);
         out.flush();
       } catch (IOException e) {
