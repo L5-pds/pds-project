@@ -14,3 +14,5 @@ ServerApp/.settings
 ServerApp/.project
 ServerApp/.classpath
 ServerApp/.gitignore
+buildServer/*
+buildClient/*
