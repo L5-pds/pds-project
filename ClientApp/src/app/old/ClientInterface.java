@@ -41,9 +41,7 @@ public class ClientInterface extends JFrame {
 
   //Create the frame.
   public ClientInterface(Socket sck) {
-
     socket = sck;
-
     connection=false;
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
