@@ -1,7 +1,7 @@
 package app;
 
 import app.views.welcome.Authentication;
-
+import app.controllers.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -39,7 +39,8 @@ public class Launcher {
   private static void getConnection(String url, int port){
     try {
       socket = new Socket(url, port);
-      Authentication ihm = new Authentication(socket);
+      WelcomeController ws = new WelcomeController(socket);
+      JPanel ihm = new Authentication(ws);
       contentPane.remove(body);
       contentPane.add(ihm);
     } catch (Exception e) {
@@ -51,6 +52,7 @@ public class Launcher {
       exception.setAlignmentX(Component.CENTER_ALIGNMENT);
       body.add(exception);
     }
+
     frame.revalidate();
     frame.repaint();
   }
