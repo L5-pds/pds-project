@@ -1,6 +1,6 @@
 package app.views.welcome;
 
-import app.controllers.WelcomeController;
+import app.controllers.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Authentication extends JPanel {
   WelcomeController wc;
-  private String answer="";
+  private String answer;
   private JLabel answerLabel;
 
   private JTextField loginField;

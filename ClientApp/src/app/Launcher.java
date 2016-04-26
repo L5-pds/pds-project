@@ -2,6 +2,7 @@ package app;
 
 import app.views.welcome.Authentication;
 import app.controllers.*;
+import app.models.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -10,7 +11,6 @@ import java.util.ResourceBundle;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.Image;
 
 import javax.swing.*;
 
@@ -30,9 +30,11 @@ public class Launcher {
     ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");
     String serverAddress = bundle.getString("server");
     int port = Integer.parseInt(bundle.getString("port"));
-    //create empty IHM
+
+    //create empty IHM with L5 logo
     template();
-    //try to cpnnect to the server
+
+    //try to connect to the server
     getConnection(serverAddress, port);
   }
 
