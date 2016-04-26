@@ -58,8 +58,13 @@ public class DBConnection implements Runnable {
             userConnected = false;
           }
 
-        } catch (IOException e) {
-          ServerInterface.changeTextLog("Problème de connexion...");
+        } catch (Exception e) {
+          ServerInterface.changeTextLog("Le client a quitté.");
+          try {
+            socket.close();
+          } catch (IOException e1) {
+            ServerInterface.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+          }
         }
       }
       else{
