@@ -1,6 +1,7 @@
 package app.views.welcome;
 
 import app.controllers.*;
+import app.listeners.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -33,13 +34,14 @@ public class WelcomeView extends JFrame implements WelcomeListener {
     wc.createSocket();
   }
 
-  private static void template(){
-    frame = new JFrame("L5 Simulator");
-    contentPane = frame.getContentPane();
+  private void template(){
+    //answer.setAlignmentX(Component.CENTER_ALIGNMENT);
+    setTitle("L5 Simulator");
+    contentPane = this.getContentPane();
     header = new JPanel();
     body = new JPanel();
 
-    trait = new ImageIcon(Launcher.class.getResource("/pictures/LogoL5.png"));
+    trait = new ImageIcon(WelcomeView.class.getResource("/pictures/LogoL5.png"));
     im = trait.getImage();
     im  = im.getScaledInstance(150,91,1);
     image = new JLabel( new ImageIcon(im));
@@ -50,12 +52,12 @@ public class WelcomeView extends JFrame implements WelcomeListener {
 
     contentPane.add(header, BorderLayout.NORTH);
     contentPane.add(body, BorderLayout.CENTER);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(600, 500);
-    frame.setVisible(true);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setSize(600, 500);
+    setVisible(true);
   }
 
-  private void authenticationIhm() {
+  public void authenticationIhm() {
     this.setLayout(new GridLayout(3, 2));
     pwdField = new JPasswordField();
     loginField = new JTextField();
@@ -71,13 +73,15 @@ public class WelcomeView extends JFrame implements WelcomeListener {
 
     validate.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        answer = wc.getConnection(loginField.getText(), pwdField.getText());
-        update(answer);
+        wc.getConnection(loginField.getText(), pwdField.getText());
       }
     });
+
+    this.revalidate();
+    this.repaint();
   }
 
-  private void testOK(){
+  public void testOK(){
     this.removeAll();
     answerLabel.setText("Bienvenu " + loginField.getText());
     this.add(answerLabel);
@@ -86,7 +90,9 @@ public class WelcomeView extends JFrame implements WelcomeListener {
     this.repaint();
   }
 
-  public void updateAnswerLabel(String, answer){
+  public void updateAnswerLabel(String answer){
     this.answerLabel.setText(answer);
+    this.revalidate();
+    this.repaint();
   }
 }

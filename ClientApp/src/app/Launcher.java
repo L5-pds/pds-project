@@ -1,5 +1,7 @@
 package app;
 
+import java.util.ResourceBundle;
+
 import app.views.welcome.*;
 import app.controllers.*;
 
@@ -11,7 +13,7 @@ public class Launcher {
     int port = Integer.parseInt(bundle.getString("port"));
 
     WelcomeController ws = new WelcomeController(serverAddress, port);
-    JPanel ihm = new WelcomeView(ws);
+    WelcomeView ihm = new WelcomeView(ws);
     ws.addListener(ihm);
   }
 }

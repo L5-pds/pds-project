@@ -4,8 +4,6 @@ import app.models.User;
 import app.helpers.Serialization;
 import app.listeners.WelcomeListener;
 
-import java.util.ResourceBundle;
-
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -22,9 +20,6 @@ public class WelcomeController {
   private static Socket socket;
   private PrintWriter out = null;
   private BufferedReader in = null;
-  private String serverAnswer;
-
-  //answer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
   public WelcomeController(String url, int port) {
     this.url = url;
@@ -35,7 +30,7 @@ public class WelcomeController {
     listener = l;
   }
 
-  private void createSocket(){
+  public void createSocket(){
     String answer;
     try {
       socket = new Socket(url, port);
@@ -46,12 +41,12 @@ public class WelcomeController {
       else
         answer = "Aucun serveur à l'écoute du port";
 
-      l.updateAnswerLabel(answer);
+      listener.updateAnswerLabel(answer);
     }
   }
 
   public void getConnection(String login, String pwd) {
-    Strign serverAnswer;
+    String serverAnswer;
     try {
       out = new PrintWriter(socket.getOutputStream());
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -65,12 +60,12 @@ public class WelcomeController {
       //Waiting for the answer (answer = "authentic" if success)
       serverAnswer = in.readLine();
       if (serverAnswer.equals("authentic")) {
-        l.testOK();
+        listener.testOK();
       } else {
-        l.updateAnswerLabel(serverAnswer);
+        listener.updateAnswerLabel(serverAnswer);
       }
     } catch (Exception e) {
-      l.updateAnswerLabel("Le serveur ne répond plus");
+      listener.updateAnswerLabel("Le serveur ne répond plus");
     }
   }
 }
