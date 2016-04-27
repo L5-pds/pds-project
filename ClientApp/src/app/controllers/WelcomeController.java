@@ -2,18 +2,17 @@ package app.controllers;
 
 import app.models.User;
 import app.helpers.Serialization;
+import app.listeners.WelcomeListener;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
-import java.awt.Image;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.IOException;
 
 public class WelcomeController {
   private WelcomeListener listener;
@@ -51,7 +50,7 @@ public class WelcomeController {
     }
   }
 
-  public void getConnection(String login, String pwd ) {
+  public void getConnection(String login, String pwd) {
     Strign serverAnswer;
     try {
       out = new PrintWriter(socket.getOutputStream());
@@ -64,12 +63,14 @@ public class WelcomeController {
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
-      serverAnswer=in.readLine();
+      serverAnswer = in.readLine();
+      if (serverAnswer.equals("authentic")) {
+        l.testOK();
+      } else {
+        l.updateAnswerLabel(serverAnswer);
+      }
     } catch (Exception e) {
-      serverAnswer = "disconnected";
+      l.updateAnswerLabel("Le serveur ne répond plus");
     }
-
-    for (HelloListener l : listeners)
-      l.TATATAA(serverAnswer);
   }
 }

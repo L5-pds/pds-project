@@ -2,7 +2,6 @@ package app;
 
 import app.views.welcome.*;
 import app.controllers.*;
-import app.models.*;
 
 public class Launcher {
   public static void main(String[] args) {

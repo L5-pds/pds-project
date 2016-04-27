@@ -71,26 +71,16 @@ public class WelcomeView extends JFrame implements WelcomeListener {
 
     validate.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        answer = wc.connection(loginField.getText(), pwdField.getText());
+        answer = wc.getConnection(loginField.getText(), pwdField.getText());
         update(answer);
       }
     });
   }
 
-  private void update(String answer){
-    if (answer.equals("authentic")){
-      this.removeAll();
-      answerLabel.setText("Bienvenu " + loginField.getText());
-      this.add(answerLabel);
-    }
-    else if(answer.equals("disconnected")){
-      this.removeAll();
-      answerLabel.setText("Le serveur ne répond plus");
-      this.add(answerLabel);
-    }
-    else{
-      answerLabel.setText(answer);
-    }
+  private void testOK(){
+    this.removeAll();
+    answerLabel.setText("Bienvenu " + loginField.getText());
+    this.add(answerLabel);
 
     this.revalidate();
     this.repaint();
