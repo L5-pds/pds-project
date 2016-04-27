@@ -1,4 +1,4 @@
-package app;
+package app.models;
 
 public class Customer {
   private String lastName;

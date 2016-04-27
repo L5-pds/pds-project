@@ -1,4 +1,6 @@
-package app;
+package app.helpers;
+
+import app.models.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

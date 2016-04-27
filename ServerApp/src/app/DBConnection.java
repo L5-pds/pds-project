@@ -23,80 +23,88 @@ public class DBConnection implements Runnable {
     Serialization s = new Serialization();
     boolean userConnected = false;
 
-    try {
-      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      out = new PrintWriter(socket.getOutputStream());
+    while(!socket.isClosed()){
+      if(userConnected == false){
+        try {
+          in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+          out = new PrintWriter(socket.getOutputStream());
 
-      serializedUser = in.readLine();
-      user = s.unserializeUser(serializedUser);
+          serializedUser = in.readLine();
+          user = s.unserializeUser(serializedUser);
 
-      if(authentication(user.getLogin(), user.getPwd())){
-        for(int i=0 ; i<Server.connectionPoolSize ; i++) {
-          if(Server.connectionPool[i].isUsed() == false) {
-            Server.connectionPool[i].setUsed(true);
-            poolIndex= i;
-            out.println("connect_ok");
+          if(authentication(user.getLogin(), user.getPwd())){
+            for(int i=0 ; i<Server.connectionPoolSize ; i++) {
+              if(Server.connectionPool[i].isUsed() == false) {
+                Server.connectionPool[i].setUsed(true);
+                poolIndex= i;
+                out.println("authentic");
+                out.flush();
+                ServerInterface.changeTextLog(user.getLogin() + " est maintenant connecté");
+                userConnected = true;
+                break;
+              }
+            }
+            if(userConnected == false) {
+              out.println("Aucune connexion disponible (ressayer ultérieurement)");
+              out.flush();
+              ServerInterface.changeTextLog(user.getLogin() + " plus de connexion disponible");
+              userConnected = false;
+            }
+          }
+          else {
+            out.println("Authentification incorrecte");
             out.flush();
-            ServerInterface.changeTextLog(user.getLogin() + " est maintenant connecter");
-            userConnected = true;
-            break;
+            ServerInterface.changeTextLog(user.getLogin() + " erreur authentification");
+            userConnected = false;
+          }
+
+        } catch (Exception e) {
+          ServerInterface.changeTextLog("Le client a quitté.");
+          try {
+            socket.close();
+          } catch (IOException e1) {
+            ServerInterface.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
           }
         }
-        if(userConnected == false) {
-          out.println("Aucune connexion disponible (ressayer ult�rieurement)");
-          out.flush();
-          ServerInterface.changeTextLog(user.getLogin() + " plus de connexion disponible");
-          userConnected = false;
-        }
       }
-      else {
-        out.println("Authentification incorrect");
-        out.flush();
-        ServerInterface.changeTextLog(user.getLogin() + " erreur authentification");
-        userConnected = false;
-      }
-
-    } catch (IOException e) {
-      ServerInterface.changeTextLog("Probl�me de connexion...");
-    }
-
-    while(userConnected == true){
-      try {
-        String creationReturn=null;
-        message = in.readLine();
-        Customer newCustomer = s.unserializeCustomer(message);
-        int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
-                      + newCustomer.addressNumber + "', '"
-                      + newCustomer.street + "', '"
-                      + newCustomer.zipCode + "')",
-                      "SELECT * FROM T_ADRESSE_CLIENT WHERE "
-                            + "nume_rue = '" + newCustomer.addressNumber + "' AND "
-                            + "nom_rue = '" + newCustomer.street + "' AND "
-                            + "code_postal = '" + newCustomer.zipCode + "'");
-
-        creationReturn = Server.connectionPool[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
-                    + newCustomer.lastName + "', '"
-                    + newCustomer.firstName + "', '"
-                    + newCustomer.mail + "', 2, "
-                    + addressId + ")",
-                    "SELECT COUNT(*) AS Result FROM T_CLIENT WHERE "
-                            + "nom_client = '" + newCustomer.lastName + "' AND "
-                            + "prenom_client = '" + newCustomer.firstName + "' AND "
-                            + "mail_client = '" + newCustomer.mail + "' AND "
-                            + "id_adresse = '" + addressId + "'");
-
-        ServerInterface.changeTextLog("AJOUT --> " + newCustomer.lastName + " " + newCustomer.firstName + " (" + creationReturn + ")" );
-        out.println(creationReturn);
-        out.flush();
-      } catch (IOException e) {
-        Server.connectionPool[poolIndex].setUsed(false);
-        ServerInterface.changeTextLog(user.getLogin() +" s'est d�connect�");
-
-        userConnected=false;
+      else{
         try {
-          socket.close();
-        } catch (IOException e1) {
-          ServerInterface.changeTextLog("WARNING - Probl�me de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+          String creationReturn=null;
+          message = in.readLine();
+          Customer newCustomer = s.unserializeCustomer(message);
+          int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
+                        + newCustomer.addressNumber + "', '"
+                        + newCustomer.street + "', '"
+                        + newCustomer.zipCode + "')",
+                        "SELECT * FROM T_ADRESSE_CLIENT WHERE "
+                              + "nume_rue = '" + newCustomer.addressNumber + "' AND "
+                              + "nom_rue = '" + newCustomer.street + "' AND "
+                              + "code_postal = '" + newCustomer.zipCode + "'");
+
+          creationReturn = Server.connectionPool[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
+                      + newCustomer.lastName + "', '"
+                      + newCustomer.firstName + "', '"
+                      + newCustomer.mail + "', 2, "
+                      + addressId + ")",
+                      "SELECT COUNT(*) AS Result FROM T_CLIENT WHERE "
+                              + "nom_client = '" + newCustomer.lastName + "' AND "
+                              + "prenom_client = '" + newCustomer.firstName + "' AND "
+                              + "mail_client = '" + newCustomer.mail + "' AND "
+                              + "id_adresse = '" + addressId + "'");
+
+          ServerInterface.changeTextLog("AJOUT --> " + newCustomer.lastName + " " + newCustomer.firstName + " (" + creationReturn + ")" );
+          out.println(creationReturn);
+          out.flush();
+        } catch (Exception e) {
+          Server.connectionPool[poolIndex].setUsed(false);
+          ServerInterface.changeTextLog(user.getLogin() +" s'est déconnecté");
+
+          userConnected = false;
+          try {
+            socket.close();
+          } catch (IOException e1) {
+            ServerInterface.changeTextLog("WARNING - Problème de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+          }
         }
       }
     }//end of while loop
