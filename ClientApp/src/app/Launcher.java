@@ -12,8 +12,9 @@ public class Launcher {
     String serverAddress = bundle.getString("server");
     int port = Integer.parseInt(bundle.getString("port"));
 
-    WelcomeController ws = new WelcomeController(serverAddress, port);
-    WelcomeView ihm = new WelcomeView(ws);
-    ws.addListener(ihm);
+    WelcomeController wc = new WelcomeController(serverAddress, port);
+    WelcomeView ihm = new WelcomeView(wc);
+    wc.addListener(ihm);
+    wc.createSocket();
   }
 }

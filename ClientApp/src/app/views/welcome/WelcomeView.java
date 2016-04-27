@@ -31,7 +31,6 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   public WelcomeView(WelcomeController wc) {
     this.wc = wc;
     template();
-    wc.createSocket();
   }
 
   private void template(){
@@ -58,18 +57,18 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void authenticationIhm() {
-    this.setLayout(new GridLayout(3, 2));
+    body.setLayout(new GridLayout(3, 2));
     pwdField = new JPasswordField();
     loginField = new JTextField();
     answerLabel = new JLabel("");
     pwdField.setColumns(10);
     loginField.setColumns(10);
-    this.add(peudoLabel);
-    this.add(passwordLabel);
-    this.add(loginField);
-    this.add(pwdField);
-    this.add(validate);
-    this.add(answerLabel);
+    body.add(peudoLabel);
+    body.add(passwordLabel);
+    body.add(loginField);
+    body.add(pwdField);
+    body.add(validate);
+    body.add(answerLabel);
 
     validate.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
@@ -82,9 +81,9 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void testOK(){
-    this.removeAll();
     answerLabel.setText("Bienvenu " + loginField.getText());
-    this.add(answerLabel);
+    body.removeAll();
+    body.add(answerLabel);
 
     this.revalidate();
     this.repaint();
