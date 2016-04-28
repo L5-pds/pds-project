@@ -1,4 +1,8 @@
 package app;
+
+import java.util.HashMap;
+import java.lang.Object;
+
 import java.net.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,93 +25,64 @@ public class DBConnection implements Runnable {
   public void run() {
     User user = null;
     Serialization s = new Serialization();
-    boolean userConnected = false;
 
     while(!socket.isClosed()){
-      if(userConnected == false){
-        try {
-          in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-          out = new PrintWriter(socket.getOutputStream());
+      try {
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream());
 
-          serializedUser = in.readLine();
-          user = s.unserializeUser(serializedUser);
+        String query = in.readLine();
 
-          if(authentication(user.getLogin(), user.getPwd())){
-            for(int i=0 ; i<Server.connectionPoolSize ; i++) {
-              if(Server.connectionPool[i].isUsed() == false) {
-                Server.connectionPool[i].setUsed(true);
-                poolIndex= i;
-                out.println("authentic");
-                out.flush();
-                ServerInterface.changeTextLog(user.getLogin() + " est maintenant connecté");
-                userConnected = true;
-                break;
-              }
-            }
-            if(userConnected == false) {
-              out.println("Aucune connexion disponible (ressayer ultérieurement)");
-              out.flush();
-              ServerInterface.changeTextLog(user.getLogin() + " plus de connexion disponible");
-              userConnected = false;
-            }
-          }
-          else {
-            out.println("Authentification incorrecte");
-            out.flush();
-            ServerInterface.changeTextLog(user.getLogin() + " erreur authentification");
-            userConnected = false;
-          }
+        String[] splitedQuery = query.split("/");
 
-        } catch (Exception e) {
-          ServerInterface.changeTextLog("Le client a quitté.");
-          try {
-            socket.close();
-          } catch (IOException e1) {
-            ServerInterface.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+        String method = splitedQuery[0];
+        String type = splitedQuery[1];
+        String object = splitedQuery[2];
+
+        if (type.equals("User")){
+          if(method.equals("GET")){
+            user = s.unserializeUser(object);
+            getConnection(user.getLogin(), user.getPwd());
           }
         }
-      }
-      else{
+      } catch (Exception e) {
+        ServerInterface.changeTextLog("Le client a quitté.");
         try {
-          String creationReturn=null;
-          message = in.readLine();
-          Customer newCustomer = s.unserializeCustomer(message);
-          int addressId = Server.connectionPool[poolIndex].createAddress("INSERT INTO T_ADRESSE_CLIENT (nume_rue, nom_rue, code_postal) VALUES('"
-                        + newCustomer.addressNumber + "', '"
-                        + newCustomer.street + "', '"
-                        + newCustomer.zipCode + "')",
-                        "SELECT * FROM T_ADRESSE_CLIENT WHERE "
-                              + "nume_rue = '" + newCustomer.addressNumber + "' AND "
-                              + "nom_rue = '" + newCustomer.street + "' AND "
-                              + "code_postal = '" + newCustomer.zipCode + "'");
-
-          creationReturn = Server.connectionPool[poolIndex].createClient("INSERT INTO T_CLIENT (nom_client, prenom_client, mail_client, id_agence, id_adresse) VALUES('"
-                      + newCustomer.lastName + "', '"
-                      + newCustomer.firstName + "', '"
-                      + newCustomer.mail + "', 2, "
-                      + addressId + ")",
-                      "SELECT COUNT(*) AS Result FROM T_CLIENT WHERE "
-                              + "nom_client = '" + newCustomer.lastName + "' AND "
-                              + "prenom_client = '" + newCustomer.firstName + "' AND "
-                              + "mail_client = '" + newCustomer.mail + "' AND "
-                              + "id_adresse = '" + addressId + "'");
-
-          ServerInterface.changeTextLog("AJOUT --> " + newCustomer.lastName + " " + newCustomer.firstName + " (" + creationReturn + ")" );
-          out.println(creationReturn);
-          out.flush();
-        } catch (Exception e) {
-          Server.connectionPool[poolIndex].setUsed(false);
-          ServerInterface.changeTextLog(user.getLogin() +" s'est déconnecté");
-
-          userConnected = false;
-          try {
-            socket.close();
-          } catch (IOException e1) {
-            ServerInterface.changeTextLog("WARNING - Problème de fermeture de la socket pour l'utilisateur : " + user.getLogin());
-          }
+          socket.close();
+        } catch (IOException e1) {
+          ServerInterface.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
         }
       }
     }//end of while loop
+  }
+
+  public void getConnection(String login, String pwd){
+    boolean userConnected = false;
+    if(authentication(login, pwd)){
+      for(int i=0 ; i<Server.connectionPoolSize ; i++) {
+        if(Server.connectionPool[i].isUsed() == false) {
+          Server.connectionPool[i].setUsed(true);
+          poolIndex= i;
+          out.println("authentic");
+          out.flush();
+          ServerInterface.changeTextLog(login + " est maintenant connecté");
+          userConnected = true;
+          break;
+        }
+      }
+      if(userConnected == false) {
+        out.println("Aucune connexion disponible (ressayer ultérieurement)");
+        out.flush();
+        ServerInterface.changeTextLog(login + " plus de connexion disponible");
+        userConnected = false;
+      }
+    }
+    else {
+      out.println("Authentification incorrecte");
+      out.flush();
+      ServerInterface.changeTextLog(login + " erreur authentification");
+      userConnected = false;
+    }
   }
 
   private static boolean authentication(String login, String pass) {

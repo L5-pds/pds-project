@@ -54,7 +54,7 @@ public class WelcomeController {
       User user = new User(login, pwd);
       Serialization s = new Serialization();
       //Send information in Json format to server
-      out.println(s.serialize(user));
+      out.println("GET/User/" + s.serialize(user));
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
