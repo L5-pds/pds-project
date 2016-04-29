@@ -9,7 +9,7 @@ public class Customer {
   private String street;
   private String zipCode;
 
-  Customer(String lastName,
+  public Customer(String lastName,
         String firstName,
         String mail,
         String addressNumber,
