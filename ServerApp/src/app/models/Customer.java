@@ -1,4 +1,4 @@
-package app;
+package app.models;
 
 public class Customer {
 
@@ -10,7 +10,7 @@ public class Customer {
   public String street;
   public String zipCode;
 
-  Customer(String lastName,
+  public Customer(String lastName,
         String firstName,
         String mail,
         String addressNumber,

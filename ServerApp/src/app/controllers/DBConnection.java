@@ -1,25 +1,28 @@
-package app;
+package app.controllers;
+
+import app.listeners.*;
+import app.models.*;
+import app.helpers.*;
 
 import java.util.HashMap;
 import java.lang.Object;
 
-import java.net.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.io.*;
+import java.net.*;
+import java.sql.*;
 
 public class DBConnection implements Runnable {
   private Socket socket;
+  private WelcomeListener listener;
   private PrintWriter out = null;
   private BufferedReader in = null;
   private String serializedUser;
   private String message = null;
   private int poolIndex=-1;
 
-  public DBConnection(Socket socket){
+  public DBConnection(Socket socket, WelcomeListener l){
     this.socket = socket;
+    this.listener = l;
   }
 
   public void run() {
@@ -46,11 +49,11 @@ public class DBConnection implements Runnable {
           }
         }
       } catch (Exception e) {
-        ServerInterface.changeTextLog("Le client a quitté.");
+        listener.changeTextLog("Le client a quitté.");
         try {
           socket.close();
         } catch (IOException e1) {
-          ServerInterface.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
+          listener.changeTextLog("WARNING - Probleme de fermeture de la socket pour l'utilisateur : " + user.getLogin());
         }
       }
     }//end of while loop
@@ -59,13 +62,14 @@ public class DBConnection implements Runnable {
   public void getConnection(String login, String pwd){
     boolean userConnected = false;
     if(authentication(login, pwd)){
-      for(int i=0 ; i<Server.connectionPoolSize ; i++) {
+      for(int i=0 ; i<Server.poolSize ; i++) {
         if(Server.connectionPool[i].isUsed() == false) {
-          Server.connectionPool[i].setUsed(true);
+          Server.connectionPool[i].use();
+          listener.updateInfoLabel();
           poolIndex= i;
           out.println("authentic");
           out.flush();
-          ServerInterface.changeTextLog(login + " est maintenant connecté");
+          listener.changeTextLog(login + " est maintenant connecté");
           userConnected = true;
           break;
         }
@@ -73,41 +77,41 @@ public class DBConnection implements Runnable {
       if(userConnected == false) {
         out.println("Aucune connexion disponible (ressayer ultérieurement)");
         out.flush();
-        ServerInterface.changeTextLog(login + " plus de connexion disponible");
+        listener.changeTextLog(login + " plus de connexion disponible");
         userConnected = false;
       }
     }
     else {
       out.println("Authentification incorrecte");
       out.flush();
-      ServerInterface.changeTextLog(login + " erreur authentification");
+      listener.changeTextLog(login + " erreur authentification");
       userConnected = false;
     }
   }
 
-  private static boolean authentication(String login, String pass) {
+  private boolean authentication(String login, String pass) {
     boolean authentic = false;
     Connection conn = null;
     Statement stat = null;
-    ResultSet resultat = null;
+    ResultSet results = null;
 
     try {
       conn = Server.getConnection();
-      stat=conn.createStatement();
-      resultat=stat.executeQuery("SELECT * FROM T_CONSEILLER WHERE pseudo = '" + login + "' AND password = '" + pass + "';");
+      stat = conn.createStatement();
+      results = stat.executeQuery("SELECT * FROM T_CONSEILLER WHERE pseudo = '" + login + "' AND password = '" + pass + "';");
 
-      resultat.next();
+      results.next();
 
-      if(resultat.getRow() != 0) {
+      if(results.getRow() != 0)
         authentic = true;
-      }
-      resultat.close();
+
+      results.close();
       stat.close();
       conn.close();
     }
     catch (SQLException e) {
-      ServerInterface.changeTextLog("ERREUR (SQL) pour l'authentification de " + login);
-      authentic=false;
+      listener.changeTextLog("ERREUR (SQL) pour l'authentification de " + login);
+      authentic = false;
     }
 
     return authentic;

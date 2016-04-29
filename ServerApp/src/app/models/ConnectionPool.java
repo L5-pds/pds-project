@@ -1,9 +1,6 @@
-package app;
+package app.models;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ConnectionPool {
 
@@ -11,11 +8,11 @@ public class ConnectionPool {
   private int id;
   private boolean used;
 
-  ConnectionPool(int i){
+  public ConnectionPool(int i){
     try {
-      connection = Server.getConnection();
-      id = i;
-      used = false;
+      this.connection = Server.getConnection();
+      this.id = i;
+      this.used = false;
     } catch (SQLException e) {
       System.out.println(e);
     }
@@ -25,9 +22,8 @@ public class ConnectionPool {
     return used;
   }
 
-  public void setUsed(boolean used) {
-    this.used = used;
-    Server.updateConnectionAvailability();
+  public void use() {
+    this.used = true;
   }
 
   public String createClient(String query1, String query2){
@@ -44,7 +40,7 @@ public class ConnectionPool {
         queryReturn="OK";
       }
       else  {
-        queryReturn="Utilisateur d�ja pr�sent dans la base";
+        queryReturn="Utilisateur déja présent dans la base";
       }
 
     } catch (SQLException e) {
