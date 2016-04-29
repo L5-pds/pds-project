@@ -8,19 +8,17 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class WelcomeView extends JFrame implements WelcomeListener {
-  private static JFrame frame;
-  private static Container contentPane;
-  private static JPanel header;
-  private static JPanel body;
-  private static ImageIcon trait;
-  private static Image im;
-  private static JLabel image;
-  private static JLabel exception;
+  private JFrame frame;
+  private Container contentPane;
+  private JPanel header;
+  private JPanel body;
+  private ImageIcon trait;
+  private Image im;
+  private JLabel image;
+  private JLabel answerLabel;
 
 
   WelcomeController wc;
-  private String answer;
-  private JLabel answerLabel;
 
   private JTextField loginField;
   private JTextField pwdField;
@@ -34,7 +32,6 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   private void template(){
-    //answer.setAlignmentX(Component.CENTER_ALIGNMENT);
     setTitle("L5 Simulator");
     contentPane = this.getContentPane();
     header = new JPanel();
@@ -47,6 +44,9 @@ public class WelcomeView extends JFrame implements WelcomeListener {
     header.setLayout(new FlowLayout(FlowLayout.LEFT));
     header.add(image);
 
+    answerLabel = new JLabel("");
+    answerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    body.add(answerLabel);
     body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
 
     contentPane.add(header, BorderLayout.NORTH);
@@ -57,6 +57,7 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void authenticationIhm() {
+    body.removeAll();
     body.setLayout(new GridLayout(3, 2));
     pwdField = new JPasswordField();
     loginField = new JTextField();
@@ -81,8 +82,8 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void testOK(){
-    answerLabel.setText("Bienvenu " + loginField.getText());
     body.removeAll();
+    answerLabel.setText("Bienvenu " + loginField.getText());
     body.add(answerLabel);
 
     this.revalidate();
