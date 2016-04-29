@@ -1,51 +1,43 @@
-package app;
+package app.views.welcome;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.TextArea;
-import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import app.listeners.WelcomeListener;
+import app.controllers.WelcomeController;
 
-public class ServerInterface extends JFrame {
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.*;
 
-  private static final long serialVersionUID = 1L;
+public class WelcomeView extends JFrame implements WelcomeListener{
+  private WelcomeController controller;
+  private final long serialVersionUID = 1L;
   private JPanel contentPane;
-  private static TextArea lblLogServer = new TextArea();
-  private static JButton btnStartServer = new JButton("Start server");
-  private Server server;
-  private static JLabel userNbLabel;
-  private static JLabel availableNbLabel;
+  private TextArea lblLogServer = new TextArea();
+  private JButton btnStartServer = new JButton("Start server");
+  private JLabel userNbLabel;
+  private JLabel availableNbLabel;
 
-  /**
-   * Create the frame.
-   */
-  public ServerInterface() {
-
+  public WelcomeView(WelcomeController wc) {
+    this.controller = wc;
     printIHM();
-
-    server = new Server();
-
-    btnStartServer.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-          server.launch();
-      }
-    });
-
   }
 
-  public static void changeTextLog(String addText)  {
+  public void changeTextLog(String addText) {
     lblLogServer.setText(lblLogServer.getText() + addText + System.getProperty("line.separator"));
   }
 
-  public static void updateInfoLabel(int connect, int dispo)  {
-    userNbLabel.setText(connect + " connexions");
-    availableNbLabel.setText(dispo + " disponibles");
+  public void updateInfoLabel() {
+    int connected = 0;
+    int available = 0;
+    for(int i=0; i< controller.server.connectionPool.length; i++) {
+      if (controller.server.connectionPool[i].isUsed() == true)
+        connected++;
+      else
+        available++;
+    }
+
+    userNbLabel.setText(connected + " connexions");
+    availableNbLabel.setText(available + " disponibles");
   }
 
   private void printIHM() {
@@ -64,6 +56,11 @@ public class ServerInterface extends JFrame {
     btnStartServer.setBorder(null);
     btnStartServer.setBackground(Color.LIGHT_GRAY);
     btnStartServer.setBounds(10, 11, 549, 69);
+    btnStartServer.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+          controller.launch();
+      }
+    });
     contentPane.add(btnStartServer);
 
     userNbLabel = new JLabel("0 utilis\u00E9e");
