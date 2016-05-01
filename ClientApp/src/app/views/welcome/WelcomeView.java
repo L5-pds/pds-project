@@ -57,19 +57,26 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void authenticationIhm() {
-    body.removeAll();
-    body.setLayout(new GridLayout(3, 2));
+	  
+JPanel pan =new JPanel();
+	  
+	  
+	  pan.setLayout(new FlowLayout());
+	  body.add(pan);
+
+
     pwdField = new JPasswordField();
     loginField = new JTextField();
     answerLabel = new JLabel("");
-    pwdField.setColumns(10);
-    loginField.setColumns(10);
-    body.add(peudoLabel);
-    body.add(passwordLabel);
-    body.add(loginField);
-    body.add(pwdField);
-    body.add(validate);
-    body.add(answerLabel);
+    pwdField.setColumns(5);
+    loginField.setColumns(5);
+    pan.add(peudoLabel);
+    pan.add(loginField);
+    pan.add(passwordLabel);
+   
+    pan.add(pwdField);
+    pan.add(validate);
+    pan.add(answerLabel);
 
     validate.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {

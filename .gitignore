@@ -16,3 +16,4 @@ ServerApp/.classpath
 ServerApp/.gitignore
 buildServer/app
 buildClient/app
+.recommenders
