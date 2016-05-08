@@ -55,12 +55,6 @@ public class FixedRateSimulationView extends JFrame implements ActionListener {
         // make the JFrame visible
         setVisible(true);
     }
-    
-    public static void main(String[] args) {
-        FixedRateSimulation m = new FixedRateSimulation();
-        FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m);
-        FixedRateSimulationView v = new FixedRateSimulationView(c);
-    }
 
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
