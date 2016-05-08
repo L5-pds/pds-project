@@ -57,10 +57,10 @@ public class WelcomeView extends JFrame implements WelcomeListener {
   }
 
   public void authenticationIhm() {
-	  
-JPanel pan =new JPanel();
-	  
-	  
+
+    JPanel pan =new JPanel();
+
+
 	  pan.setLayout(new FlowLayout());
 	  body.add(pan);
 
@@ -73,7 +73,7 @@ JPanel pan =new JPanel();
     pan.add(peudoLabel);
     pan.add(loginField);
     pan.add(passwordLabel);
-   
+
     pan.add(pwdField);
     pan.add(validate);
     pan.add(answerLabel);

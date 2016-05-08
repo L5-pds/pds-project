@@ -50,7 +50,7 @@ public class WelcomeController {
             socket = serverSck.accept();
             listener.changeTextLog("Un client veut se connecter : " + socket.getInetAddress());
 
-            connectionThread = new Thread(new DBConnection(socket, listener));
+            connectionThread = new Thread(new DBConnection(socket, listener));// A revoir
             connectionThread.start();
           }
         } catch (IOException e) {
