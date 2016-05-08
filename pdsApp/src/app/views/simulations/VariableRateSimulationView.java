@@ -4,10 +4,13 @@ package app.views.simulations;
 	import java.awt.BorderLayout;
 	import java.awt.Component;
 	import java.awt.Container;
-	import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 	import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-	import javax.swing.BoxLayout;
+import javax.swing.BoxLayout;
 	import javax.swing.ImageIcon;
 	import javax.swing.JButton;
 	import javax.swing.JComboBox;
@@ -26,20 +29,29 @@ import app.views.welcome.WelcomeViewClient;
 		
 		
 		    // Title of the fields
+		
 		  	private JLabel label_lastname;
 			private JLabel label_firstname;
 			private JLabel label_amount;
 			private JLabel label_initial_rate;
 			private JLabel label_cap;
+			private JLabel label_time;
+		
 			
 			//Fields to fill for the previous titles
+			
 			private JTextField answer_lastname;
 			private JTextField answer_firstname;
 			private JTextField answer_amount;
+			private JTextField answer_time;
+			JButton bouton = new JButton("Valider");
 			
 			// Fields to choose for the previous titles
-			private JComboBox answer_initial_rate;
+			//private JComboBox answer_initial_rate;
+			
+			private JTextField answer_initial_rate;
 			private JComboBox answer_cap;
+			
 			
 		
 			// Container of the previous components
@@ -48,6 +60,8 @@ import app.views.welcome.WelcomeViewClient;
 			private JPanel pan3;
 			private JPanel pan4;
 			private JPanel pan5;
+			private JPanel pan6;
+			private JPanel pan7;
 			private JPanel body1;
 			
 			
@@ -87,7 +101,7 @@ import app.views.welcome.WelcomeViewClient;
 			    contentPane.add(header, BorderLayout.NORTH);
 			    contentPane.add(body2, BorderLayout.CENTER);
 			    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			    setSize(600, 500);
+			    setSize(800,800);
 			    setVisible(true);
 			  }
 
@@ -102,15 +116,13 @@ import app.views.welcome.WelcomeViewClient;
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 			
-				
-				// Instantiation of JComboBox for the rates
-			    String[] tab1 = {"3,2", "4,3", "5", "7,8"};
-			    answer_initial_rate= new JComboBox(tab1);
 			    
 			    
 			 // Instantiation of JComboBox for the cap 
-			    String[] tab2 = {"1", "2", "3"};
+			    String[] tab2 = {" ","-1%  et +1%", "-2%  et +2%", "-3%  et 3%"};
 			    answer_cap= new JComboBox(tab2);
+			    answer_cap.setPreferredSize(new Dimension (250,20));
+			    answer_cap.setSelectedIndex(0); // definition of the default value
 			    
 			    
 	//Instanciation of five JPanel and JLabel for the fields firstname,lastname,amount,cap and iniatial rate in order to range them in the JFrame more easly.		
@@ -153,6 +165,8 @@ import app.views.welcome.WelcomeViewClient;
 				 pan4.setLayout(new FlowLayout());
 				 label_initial_rate= new JLabel("Taux initiale");
 				 pan4.add(label_initial_rate);
+				 answer_initial_rate=new JTextField();
+				 answer_initial_rate.setColumns(20);
 				 pan4.add(answer_initial_rate);
 				
 				
@@ -163,23 +177,56 @@ import app.views.welcome.WelcomeViewClient;
 				 pan5.add(label_cap);
 				 pan5.add(answer_cap);
 				 
+				 //Instantiation of time JLabel and JPanel and inclusion in a Jpanel.
+				 pan6= new JPanel();
+				 pan6.setLayout(new FlowLayout());
+				 label_time= new JLabel("Durée");
+				 pan6.add(label_time);
+				 answer_time=new JTextField();
+				 answer_time.setColumns(22);
+				 pan6.add(answer_time);
+				 
 				 // instantiation of the Jpanel body1, which will contain all the Jpanel.
 				 body1= new JPanel();
 				 body1.setLayout(new BoxLayout(body1, BoxLayout.Y_AXIS));
+				 
+				 // add of component bouton in a Jpanel
+				 pan7= new JPanel();
+				 pan7.add(bouton);
 				
 			
 				 body1.add(pan1);
 				 body1.add(pan2);
 				 body1.add(pan3);
-				 body1.add(pan4);
 				 body1.add(pan5);
+				 body1.add(pan4);
+				 body1.add(pan6);
+				 body1.add(pan7);
 				 
 				 this.add(body1);
 				
-
+				
+			
 				 
-
-	}
+	// Add of actionListener on answer_cap
+			answer_cap.addActionListener(new ActionListener() {
+			      public void actionPerformed(ActionEvent arg0) {
+			    	  if (answer_cap.getSelectedItem()== "-1%  et +1%"){
+				    	answer_initial_rate.setText("1,5");
+			    	  }
+				    	
+				    if (answer_cap.getSelectedItem()== "-2%  et +2%"){
+					    	answer_initial_rate.setText("2,5");
+				    	}
+					    	
+					 if (answer_cap.getSelectedItem()== "-3%  et +3%"){
+						    	answer_initial_rate.setText("3,5");
+			      }
+			    }});
+	
+			
+			}
+			
 			public static void main(String[] args){
 				VariableRateSimulationView ihm = new VariableRateSimulationView();
 				ihm.setVisible(true);
