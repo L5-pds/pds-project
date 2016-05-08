@@ -14,6 +14,6 @@ L5 PDS Project
   - `./compile.sh`
 
  4. Launch the app :
-  - `java -cp "buildServer:ServerApp/lib/*" app.Launcher`
+  - `java -cp "build:pdsApp/lib/*:pdsApp/src" app.ServerLauncher`
   - **Start server**
-  - `java -cp "buildClient:ClientApp/lib/*" app.Launcher`
+  - `java -cp "build:pdsApp/lib/*:pdsApp/src" app.ClientLauncher`

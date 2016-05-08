@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import app.views.welcome.*;
 import app.controllers.*;
 
-public class LauncherClient {
+public class ClientLauncher {
   public static void main(String[] args) {
     //Get properties information
     ResourceBundle bundle = ResourceBundle.getBundle("domaine.properties.config");

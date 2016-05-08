@@ -14,5 +14,4 @@ ServerApp/.settings
 ServerApp/.project
 ServerApp/.classpath
 ServerApp/.gitignore
-buildServer/app
-buildClient/app
+build

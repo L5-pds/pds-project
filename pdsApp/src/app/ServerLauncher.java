@@ -6,7 +6,7 @@ import app.views.welcome.*;
 
 import java.util.ResourceBundle;
 
-public class LauncherServer {
+public class ServerLauncher {
   private static int connectionPoolSize;
 
   public static void main(String[] args) {
