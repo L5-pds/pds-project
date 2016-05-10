@@ -50,6 +50,10 @@ public class DBConnection implements Runnable {
         }
       } catch (Exception e) {
         listener.changeTextLog("Le client a quitté.");
+        if (poolIndex != -1){
+          Server.connectionPool[poolIndex].unUse();
+          listener.updateInfoLabel();
+        }
         try {
           socket.close();
         } catch (IOException e1) {

@@ -26,6 +26,10 @@ public class ConnectionPool {
     this.used = true;
   }
 
+  public void unUse() {
+    this.used = false;
+  }
+
   public String createClient(String query1, String query2){
     String queryReturn=null;
     Statement stat;
