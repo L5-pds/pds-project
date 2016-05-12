@@ -49,6 +49,8 @@ public class DBConnection implements Runnable {
           }
         }
       } catch (Exception e) {
+    	Server.connectionPool[poolIndex].use(false);
+        listener.updateInfoLabel();
         listener.changeTextLog("Le client a quitté.");
         if (poolIndex != -1){
           Server.connectionPool[poolIndex].unUse();
@@ -68,7 +70,7 @@ public class DBConnection implements Runnable {
     if(authentication(login, pwd)){
       for(int i=0 ; i<Server.poolSize ; i++) {
         if(Server.connectionPool[i].isUsed() == false) {
-          Server.connectionPool[i].use();
+          Server.connectionPool[i].use(true);
           listener.updateInfoLabel();
           poolIndex= i;
           out.println("authentic");

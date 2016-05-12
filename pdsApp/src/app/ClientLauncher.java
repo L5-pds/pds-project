@@ -16,5 +16,6 @@ public class ClientLauncher {
     WelcomeViewClient ihm = new WelcomeViewClient(wc);
     wc.addListener(ihm);
     wc.createSocket();
+    
   }
 }

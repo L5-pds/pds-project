@@ -22,8 +22,8 @@ public class ConnectionPool {
     return used;
   }
 
-  public void use() {
-    this.used = true;
+  public void use(boolean tmp) {
+    this.used = tmp;
   }
 
   public void unUse() {
