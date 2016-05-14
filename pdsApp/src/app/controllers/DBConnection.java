@@ -104,7 +104,7 @@ public class DBConnection implements Runnable {
     try {
       conn = Server.getConnection();
       stat = conn.createStatement();
-      results = stat.executeQuery("SELECT * FROM T_CONSEILLER WHERE pseudo = '" + login + "' AND password = '" + pass + "';");
+      results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + login + "' AND password = '" + pass + "';");
 
       results.next();
 
