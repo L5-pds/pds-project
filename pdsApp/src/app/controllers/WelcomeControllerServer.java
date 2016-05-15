@@ -28,17 +28,17 @@ public class WelcomeControllerServer {
   public void launch(){
     try {
       serverSck = new ServerSocket(1234);
-      listener.changeTextLog("Le serveur est en ligne.");
-      listener.changeTextLog("Le serveur est à l'écoute du port "+serverSck.getLocalPort());
+      listener.changeTextLog("SERVER - online");
+      listener.changeTextLog("SERVER - port "+serverSck.getLocalPort());
 
-      listener.changeTextLog("Création du pool:");
+      listener.changeTextLog("POOL - create");
       server.createConnectionPool();
-      listener.changeTextLog(server.connectionPool.length + " connexions créées.");
+      listener.changeTextLog("POOL - " + server.connectionPool.length + " connection created.");
       listener.updateInfoLabel();
 
       start();
     } catch (IOException e) {
-      listener.changeTextLog("WARNING : Problème ouverture du port (" + e.getMessage() + ")");
+      listener.changeTextLog("WARNING_SERVER - port opening problem (" + e.getMessage() + ")");
     }
   }
 
@@ -48,13 +48,13 @@ public class WelcomeControllerServer {
         try {
           while(true){
             socket = serverSck.accept();
-            listener.changeTextLog("Un client veut se connecter : " + socket.getInetAddress());
+            listener.changeTextLog("SERVER - " + socket.getInetAddress() + " - try");
 
-            connectionThread = new Thread(new DBConnection(socket, listener));
+            connectionThread = new Thread(new UserCommunicate(socket, listener));
             connectionThread.start();
           }
         } catch (IOException e) {
-          listener.changeTextLog("Déconnexion du client : " + socket.getInetAddress());
+          listener.changeTextLog("SERVER - " + socket.getInetAddress() + " - gone");
         }
       }
     });

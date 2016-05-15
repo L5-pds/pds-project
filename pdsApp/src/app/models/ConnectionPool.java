@@ -7,12 +7,14 @@ public class ConnectionPool {
   private Connection connection;
   private int id;
   private boolean used;
+  private String user;
 
   public ConnectionPool(int i){
     try {
       this.connection = Server.getConnection();
       this.id = i;
       this.used = false;
+      this.user = "";
     } catch (SQLException e) {
       System.out.println(e);
     }
@@ -24,10 +26,17 @@ public class ConnectionPool {
 
   public void use(boolean tmp) {
     this.used = tmp;
+    if(tmp==false)  {
+        this.user = "";
+    }
   }
-
-  public void unUse() {
-    this.used = false;
+  
+  public void setUser(String user) {
+    this.user = user;
+  }
+  
+  public String getUser() {
+    return this.user;
   }
 
   public String createClient(String query1, String query2){

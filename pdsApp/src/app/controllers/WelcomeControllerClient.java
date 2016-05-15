@@ -46,6 +46,7 @@ public class WelcomeControllerClient {
   }
 
   public void getConnection(String login, String pwd) {
+    
     String serverAnswer;
     try {
       out = new PrintWriter(socket.getOutputStream());
@@ -54,7 +55,7 @@ public class WelcomeControllerClient {
       User user = new User(login, pwd);
       Serialization s = new Serialization();
       //Send information in Json format to server
-      out.println("GET/User/" + s.serialize(user));
+      out.println("SELECT/User/Authentication/" + s.serialize(user));
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
