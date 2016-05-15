@@ -156,7 +156,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     this.repaint();
   }
 
-  public void testOK(){
+  public void setMenu(){
     body.removeAll();
     answerLabel.setText("Bienvenu " + loginField.getText());
     body.add(answerLabel);

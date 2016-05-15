@@ -32,7 +32,7 @@ public class UserCommunicate implements Runnable {
     String[] splitedQuery;
     String method;
     String typeObject;
-    String typeInfo;
+    String information;
     String object;
     boolean userConnected = false;
 
@@ -48,6 +48,7 @@ public class UserCommunicate implements Runnable {
         listener.changeTextLog("WARNING - Erreur de déclaration des variables de communications (in/out)");
     }
 
+    //Authentication process
     while((!socket.isClosed()) && (!userConnected)){
       try {
         query = in.readLine();
@@ -55,11 +56,11 @@ public class UserCommunicate implements Runnable {
 
         method = splitedQuery[0];
         typeObject = splitedQuery[1];
-        typeInfo = splitedQuery[2];
+        information = splitedQuery[2];
         object = splitedQuery[3];
 
-        if (typeObject.equals("User")){
-          if(method.equals("SELECT")){
+        if (method.equals("AUTH")){
+          if(typeObject.equals("User")){
             user = s.unserializeUser(object);
             userConnected = getConnection(user.getLogin(), user.getPwd());
           }
@@ -78,9 +79,37 @@ public class UserCommunicate implements Runnable {
       }
     }//end of while loop
       
+    //Communicate process
     while((!socket.isClosed()) && (userConnected)){
       try {
         query = in.readLine();
+        splitedQuery = query.split("/");
+
+        method = splitedQuery[0];
+        typeObject = splitedQuery[1];
+        information = splitedQuery[2];
+        object = splitedQuery[3];
+        
+        switch (typeObject) {
+            case "Customer":
+                switch (method) {
+                    case "getAllUser":
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - " + information);
+                        Customer costumerTmp = s.unserializeCustomer(object);
+                        costumerTmp.serverGetAllUser(poolIndex);
+                        out.println(s.serialize(costumerTmp));
+                        out.flush();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                //coding
+                break;
+        }
+                
+        
       } catch (Exception e) {
         listener.changeTextLog("CONNECT_WARNING - " + user.getLogin() + " - gone");
         if (poolIndex != -1){

@@ -39,6 +39,18 @@ public class ConnectionPool {
     return this.user;
   }
 
+  public ResultSet selectWithRespons(String requete)  {
+      Statement stat;
+      ResultSet response = null;
+      try {
+          stat = connection.createStatement();
+          response = stat.executeQuery(requete);
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+      return response;
+  }
+  
   public String createClient(String query1, String query2){
     String queryReturn=null;
     Statement stat;

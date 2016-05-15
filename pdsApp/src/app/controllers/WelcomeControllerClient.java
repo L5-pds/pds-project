@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.models.User;
+import app.models.*;
 import app.helpers.Serialization;
 import app.listeners.WelcomeListenerClient;
 
@@ -55,7 +55,7 @@ public class WelcomeControllerClient {
       User user = new User(login, pwd);
       Serialization s = new Serialization();
       //Send information in Json format to server
-      out.println("SELECT/User/Authentication/" + s.serialize(user));
+      out.println("AUTH/User/Send connection information/" + s.serialize(user));
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
