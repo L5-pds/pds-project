@@ -158,8 +158,15 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
   public void setMenu(){
     body.removeAll();
-    answerLabel.setText("Bienvenu " + loginField.getText());
-    body.add(answerLabel);
+    JButton jButton1 = new javax.swing.JButton();
+
+        jButton1.setText("Nombre de client");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wc.getAllCustomer();
+            }
+        });
+    body.add(jButton1);
 
     this.revalidate();
     this.repaint();

@@ -97,7 +97,8 @@ public class UserCommunicate implements Runnable {
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - " + information);
                         Customer costumerTmp = s.unserializeCustomer(object);
                         costumerTmp.serverGetAllUser(poolIndex);
-                        out.println(s.serialize(costumerTmp));
+                        listener.changeTextLog("Il y a " + costumerTmp.getCustomerCount() + " clients");
+                        out.println(s.serializeCustomer(costumerTmp));
                         out.flush();
                         break;
                     default:

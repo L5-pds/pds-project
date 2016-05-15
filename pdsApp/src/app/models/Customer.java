@@ -41,8 +41,7 @@ public class Customer {
   }
 
   public void serverGetAllUser(int indexPool) {
-      responseRequest = Server.connectionPool[indexPool].selectWithRespons("SELECT * FROM t_advisor;");
-      
+      responseRequest = Server.connectionPool[indexPool].selectWithRespons("SELECT * FROM t_client WHERE id_client < 2000;");
   }
 
   public void serverGetOnlyUser(int id) {
