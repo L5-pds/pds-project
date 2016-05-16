@@ -10,3 +10,4 @@ pdsApp/.classpath
 pdsApp/.gitignore
 pdsApp/src/domaine
 build
+/pdsApp/nbproject/private/
