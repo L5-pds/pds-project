@@ -72,12 +72,15 @@ public class WelcomeControllerClient {
   
   public void getAllCustomer()  {
       try {
-      Customer allCustomer = new Customer();
-      out.println("getAllUser/Customer/Get all users of database/" + s.serializeCustomer(allCustomer));
+      Adress newAdress = new Adress(55555, 10, "route de chabanais", "CHASSENON", "16150");
+      out.println("INSERT/Adress/" + s.serializeAdress(newAdress));
       out.flush();
       String response = in.readLine();
-      allCustomer = s.unserializeCustomer(response);
-      javax.swing.JOptionPane.showMessageDialog(null,"Nombre de client : " + allCustomer.getCustomerCount());
+      if(response.equals("success")) {
+          javax.swing.JOptionPane.showMessageDialog(null,"Adresse ajoutée avec succes");
+      }else {
+          javax.swing.JOptionPane.showMessageDialog(null,"Erreur : " + response);
+      }
     } catch (Exception e) {
       javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
     } 

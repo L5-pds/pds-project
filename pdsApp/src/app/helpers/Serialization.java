@@ -23,12 +23,20 @@ public class Serialization {
       return gson.toJson(c);
   }
 
+  public String serializeAdress(Adress a) {
+      return gson.toJson(a);
+  }
+
   public User unserializeUser(String u) {
       return gson.fromJson(u, User.class);
   }
 
   public Customer unserializeCustomer(String c) {
       return gson.fromJson(c, Customer.class);
+  }
+
+  public Adress unserializeAdress(String a) {
+      return gson.fromJson(a, Adress.class);
   }
 
 }

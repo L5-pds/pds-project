@@ -39,14 +39,27 @@ public class ConnectionPool {
     return this.user;
   }
 
-  public ResultSet selectWithRespons(String requete)  {
+  public ResultSet requestWithRespons(String requete)  {
       Statement stat;
       ResultSet response = null;
       try {
-          stat = connection.createStatement();
+          stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT);
           response = stat.executeQuery(requete);
       } catch (SQLException e) {
           e.printStackTrace();
+      }
+      return response;
+  }
+
+  public String requestWithoutRespons(String requete)  {
+      Statement stat;
+      String response="";
+      try {
+        stat = connection.createStatement();
+        stat.executeUpdate(requete);
+        response = "success";
+      } catch (SQLException e) {
+        response = e.getMessage();
       }
       return response;
   }

@@ -16,18 +16,18 @@ public class UserCommunicate implements Runnable {
   private WelcomeListenerServer listener;
   private PrintWriter out = null;
   private BufferedReader in = null;
-  private String serializedUser;
+  private Serialization gsonSerial;
   private String message = null;
   private int poolIndex=-1;
 
   public UserCommunicate(Socket socket, WelcomeListenerServer l){
     this.socket = socket;
     this.listener = l;
+    this.gsonSerial = new Serialization();
   }
 
   public void run() {
     User user = null;
-    Serialization s = new Serialization();
     String query;
     String[] splitedQuery;
     String method;
@@ -61,7 +61,7 @@ public class UserCommunicate implements Runnable {
 
         if (method.equals("AUTH")){
           if(typeObject.equals("User")){
-            user = s.unserializeUser(object);
+            user = gsonSerial.unserializeUser(object);
             userConnected = getConnection(user.getLogin(), user.getPwd());
           }
         }
@@ -87,20 +87,113 @@ public class UserCommunicate implements Runnable {
 
         method = splitedQuery[0];
         typeObject = splitedQuery[1];
-        information = splitedQuery[2];
-        object = splitedQuery[3];
+        object = splitedQuery[2];
         
-        switch (typeObject) {
-            case "Customer":
-                switch (method) {
-                    case "getAllUser":
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - " + information);
-                        Customer costumerTmp = s.unserializeCustomer(object);
-                        costumerTmp.serverGetAllUser(poolIndex);
-                        listener.changeTextLog("Il y a " + costumerTmp.getCustomerCount() + " clients");
-                        out.println(s.serializeCustomer(costumerTmp));
+        switch (method) {
+            case "INSERT":
+                switch (typeObject) {
+                    case "Adress":
+                        Adress newAdress = gsonSerial.unserializeAdress(object);
+                        String request = "INSERT INTO t_adress VALUES (" 
+                                + newAdress.getId() + ", " 
+                                + newAdress.getStreetNb() + ", " 
+                                + "'" + newAdress.getStreetName() + "'" + ", " 
+                                + "'" + newAdress.getCityName() + "'" + ", " 
+                                + "'" + newAdress.getZipCode() + "'"
+                                + ");";
+                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
+                        out.println(response);
                         out.flush();
                         break;
+                    default:
+                        break;
+                }
+                break;
+            case "UPDATE":
+                switch (typeObject) {
+                    case "Adress":
+                        Adress newAdress = gsonSerial.unserializeAdress(object);
+                        String request = "INSERT INTO t_adress VALUES (" 
+                                + newAdress.getId() + ", " 
+                                + newAdress.getStreetNb() + ", " 
+                                + "'" + newAdress.getStreetName() + "'" + ", " 
+                                + "'" + newAdress.getCityName() + "'" + ", " 
+                                + "'" + newAdress.getZipCode() + "'"
+                                + ");";
+                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
+                        out.println(response);
+                        out.flush();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "DELETE":
+                switch (typeObject) {
+                    case "Adress":
+                        Adress newAdress = gsonSerial.unserializeAdress(object);
+                        String request = "INSERT INTO t_adress VALUES (" 
+                                + newAdress.getId() + ", " 
+                                + newAdress.getStreetNb() + ", " 
+                                + "'" + newAdress.getStreetName() + "'" + ", " 
+                                + "'" + newAdress.getCityName() + "'" + ", " 
+                                + "'" + newAdress.getZipCode() + "'"
+                                + ");";
+                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
+                        out.println(response);
+                        out.flush();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_1":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_2":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_3":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_4":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_5":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
+                    default:
+                        break;
+                }
+                break;
+            case "SPECIF_6":
+                switch (typeObject) {
+                    case "Adress":
+                        //Coding
                     default:
                         break;
                 }

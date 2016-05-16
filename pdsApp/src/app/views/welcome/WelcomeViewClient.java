@@ -158,15 +158,51 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
   public void setMenu(){
     body.removeAll();
+    
     JButton jButton1 = new javax.swing.JButton();
-
-        jButton1.setText("Nombre de client");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wc.getAllCustomer();
-            }
-        });
+    jButton1.setText("test_1");
+    jButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.getAllCustomer();
+        }
+    });
     body.add(jButton1);
+    
+    JButton jButton2 = new javax.swing.JButton();
+    jButton2.setText("test_2");
+    jButton2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.getAllCustomer();
+        }
+    });
+    body.add(jButton2);
+    
+    JButton jButton3 = new javax.swing.JButton();
+    jButton3.setText("test_3");
+    jButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.getAllCustomer();
+        }
+    });
+    body.add(jButton3);
+    
+    JButton jButton4 = new javax.swing.JButton();
+    jButton4.setText("test_4");
+    jButton4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.getAllCustomer();
+        }
+    });
+    body.add(jButton4);
+    
+    JButton jButton5 = new javax.swing.JButton();
+    jButton5.setText("test_5");
+    jButton5.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.getAllCustomer();
+        }
+    });
+    body.add(jButton5);
 
     this.revalidate();
     this.repaint();

@@ -1,63 +1,67 @@
 package app.models;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Customer {
   private int id;
+  private int id_agency;
+  private int id_adress;
   private String lastName;
   private String firstName;
   private String mail;
-
-  private String addressNumber;
-  private String street;
-  private String zipCode;
+  private Double salary;
+  private String password;
+  private String birth;
+  private String sex;
   
-  private ResultSet responseRequest;
-
   public Customer()   {
-    this.id = -1;
+    this.id = 0;
+    this.id_agency = 0;
+    this.id_adress = 0;
     this.lastName = "";
     this.firstName = "";
     this.mail = "";
-    this.addressNumber = "";
-    this.street = "";
-    this.zipCode = "";
+    this.salary = 0.0;
+    this.password = "";
+    this.birth = "";
+    this.sex = "";
   }
   
   public Customer(int id,
-        String lastName,
-        String firstName,
-        String mail,
-        String addressNumber,
-        String street,
-        String zipCode){
+                int id_agency,
+                int id_adress,
+                String lastName,
+                String firstName,
+                String mail,
+                Double salary,
+                String password,
+                String birth,
+                String sex) {
     this.id = id;
+    this.id_agency = id_agency;
+    this.id_adress = id_adress;
     this.lastName = lastName;
     this.firstName = firstName;
     this.mail = mail;
-    this.addressNumber = addressNumber;
-    this.street = street;
-    this.zipCode = zipCode;
+    this.salary = salary;
+    this.password = password;
+    this.birth = birth;
+    this.sex = sex;
   }
 
   public void serverGetAllUser(int indexPool) {
-      responseRequest = Server.connectionPool[indexPool].selectWithRespons("SELECT * FROM t_client WHERE id_client < 2000;");
+      
   }
 
   public void serverGetOnlyUser(int id) {
       
   }
   
-  public int getCustomerCount() {
-      int result = -1;
-      try   {
-          responseRequest.last();
-          result = responseRequest.getRow();
-      } catch (SQLException e) {
-          
-      }
+  public void getCustomerCount() {
       
-      return result;
   }
   
 }
