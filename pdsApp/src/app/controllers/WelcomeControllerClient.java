@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.models.User;
+import app.models.*;
 import app.helpers.Serialization;
 import app.listeners.WelcomeListenerClient;
 
@@ -20,10 +20,12 @@ public class WelcomeControllerClient {
   private static Socket socket;
   private PrintWriter out = null;
   private BufferedReader in = null;
+  private Serialization s;
 
   public WelcomeControllerClient(String url, int port) {
     this.url = url;
     this.port = port;
+    this.s = new Serialization();
   }
 
   public void addListener(WelcomeListenerClient l) {
@@ -34,6 +36,8 @@ public class WelcomeControllerClient {
     String answer;
     try {
       socket = new Socket(url, port);
+      out = new PrintWriter(socket.getOutputStream());
+      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       listener.authenticationIhm();
     } catch (Exception e) {
       if (e instanceof UnknownHostException)
@@ -46,26 +50,40 @@ public class WelcomeControllerClient {
   }
 
   public void getConnection(String login, String pwd) {
+    
     String serverAnswer;
     try {
-      out = new PrintWriter(socket.getOutputStream());
-      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
       User user = new User(login, pwd);
-      Serialization s = new Serialization();
       //Send information in Json format to server
-      out.println("GET/User/" + s.serialize(user));
+      out.println("AUTH/User/Send connection information/" + s.serializeUser(user));
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
       serverAnswer = in.readLine();
       if (serverAnswer.equals("authentic")) {
-        listener.testOK();
+        listener.setMenu();
       } else {
         listener.updateAnswerLabel(serverAnswer);
       }
     } catch (Exception e) {
-      listener.updateAnswerLabel("Le serveur ne répond plus");
+      javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
     }
   }
+  
+  public void getAllCustomer()  {
+      try {
+      Adress newAdress = new Adress(55555, 10, "route de chabanais", "CHASSENON", "16150");
+      out.println("INSERT/Adress/" + s.serializeAdress(newAdress));
+      out.flush();
+      String response = in.readLine();
+      if(response.equals("success")) {
+          javax.swing.JOptionPane.showMessageDialog(null,"Adresse ajoutée avec succes");
+      }else {
+          javax.swing.JOptionPane.showMessageDialog(null,"Erreur : " + response);
+      }
+    } catch (Exception e) {
+      javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+    } 
+  }
+  
 }

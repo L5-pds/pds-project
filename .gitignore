@@ -9,4 +9,10 @@ pdsApp/.project
 pdsApp/.classpath
 pdsApp/.gitignore
 pdsApp/src/domaine
+pdsApp/build
+pdsApp/nbproject
+pdsApp/test
+pdsApp/build.xml
+pdsApp/manifest.mf
 build
+/pdsApp/nbproject/private/

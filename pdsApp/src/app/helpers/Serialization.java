@@ -15,12 +15,16 @@ public class Serialization {
     gson = builder.create();
   }
 
-  public String serialize(User p) {
+  public String serializeUser(User p) {
     return gson.toJson(p);
   }
 
-  public String serialize(Customer c) {
+  public String serializeCustomer(Customer c) {
       return gson.toJson(c);
+  }
+
+  public String serializeAdress(Adress a) {
+      return gson.toJson(a);
   }
 
   public User unserializeUser(String u) {
@@ -29,6 +33,10 @@ public class Serialization {
 
   public Customer unserializeCustomer(String c) {
       return gson.fromJson(c, Customer.class);
+  }
+
+  public Adress unserializeAdress(String a) {
+      return gson.fromJson(a, Adress.class);
   }
 
 }
