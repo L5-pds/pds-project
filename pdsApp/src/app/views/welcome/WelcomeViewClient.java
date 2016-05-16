@@ -16,35 +16,10 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   private Container contentPane;
   private JPanel header;
   private JPanel body;
-  private ImageIcon trait;
-  private Image im;
-  private JLabel image;
   private JLabel answerLabel;
-  private JTextField pwdField;
-  private JTextField loginField;
-
+  private JButton buttonBackMenu;
 
   WelcomeControllerClient wc;
-
-  private JLabel peudoLabel = new JLabel("Pseudo");
-  private JLabel passwordLabel = new JLabel("Mot de passe");
-  private JButton validate = new JButton("Valider");
-  private JPanel panInfoUser;
-  private JPanel panInfoUser1;
-  private JPanel panInfoUser2;
-  private JLabel lblInfoUser11;
-  private JLabel lblInfoUser12;
-  private JLabel lblInfoUser13;
-  private JLabel lblInfoUser21;
-  private JLabel lblInfoUser22;
-  private JLabel lblInfoUser23;
-  private JMenu mnNewMenu;
-  private JMenuBar menuBar;
-  private JMenuItem mntmNewMenuItem;
-  private JMenuItem menuItem;
-  private JMenu menu;
-  private JMenuItem menuItem_1;
-  private JMenuItem menuItem_2;
 
   public WelcomeViewClient(WelcomeControllerClient wc) {
     this.wc = wc;
@@ -53,71 +28,18 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
   private void template(){
     setTitle("Gestion de banque");
-
-    trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/LogoL5.png"));
-    im = trait.getImage();
+    
+    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/LogoL5.png"));
+    Image im = trait.getImage();
     im  = im.getScaledInstance(330,200,1);
-    image = new JLabel( new ImageIcon(im));
-    lblInfoUser11 = new JLabel("Utilisateur : ");
-    lblInfoUser11.setFont(new Font("Verdana", Font.PLAIN, 22));
-    lblInfoUser12 = new JLabel("Profil : ");
-    lblInfoUser12.setFont(new Font("Verdana", Font.PLAIN, 22));
-    lblInfoUser13 = new JLabel("Autre : ");
-    lblInfoUser13.setFont(new Font("Verdana", Font.PLAIN, 22));
-    panInfoUser1 = new JPanel();
-    panInfoUser1.setLayout(new BoxLayout(panInfoUser1, BoxLayout.PAGE_AXIS));
-    panInfoUser1.add(lblInfoUser11);
-    panInfoUser1.add(lblInfoUser12);
-    panInfoUser1.add(lblInfoUser13);
-    panInfoUser1.setBackground(new Color(215,203,233,200));
-    lblInfoUser21 = new JLabel("reg");
-    lblInfoUser21.setFont(new Font("Verdana", Font.PLAIN, 22));
-    lblInfoUser22 = new JLabel("erg");
-    lblInfoUser22.setFont(new Font("Verdana", Font.PLAIN, 22));
-    lblInfoUser23 = new JLabel("erg");
-    lblInfoUser23.setFont(new Font("Verdana", Font.PLAIN, 22));
-    panInfoUser2 = new JPanel();
-    panInfoUser2.setLayout(new BoxLayout(panInfoUser2, BoxLayout.PAGE_AXIS));
-    panInfoUser2.add(lblInfoUser21);
-    panInfoUser2.add(lblInfoUser22);
-    panInfoUser2.add(lblInfoUser23);
-    panInfoUser2.setBackground(new Color(215,203,233,200));
-    panInfoUser = new JPanel();
-    panInfoUser.add(panInfoUser1);
-    panInfoUser.add(panInfoUser2);
-    panInfoUser.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-    panInfoUser.setBackground(new Color(215,203,233,200));
-    panInfoUser.setSize(2000, 1000);
+    JLabel image = new JLabel( new ImageIcon(im));
+    
     header = new JPanel();
-    
-    menuBar = new JMenuBar();
-    header.add(menuBar);
-    
-    mnNewMenu = new JMenu("New menu");
-    menuBar.add(mnNewMenu);
-    
-    mntmNewMenuItem = new JMenuItem("New menu item");
-    mnNewMenu.add(mntmNewMenuItem);
-    
-    menuItem = new JMenuItem("New menu item");
-    mnNewMenu.add(menuItem);
-    
-    menu = new JMenu("New menu");
-    menuBar.add(menu);
-    
-    menuItem_1 = new JMenuItem("New menu item");
-    menu.add(menuItem_1);
-    
-    menuItem_2 = new JMenuItem("New menu item");
-    menu.add(menuItem_2);
+        
     header.add(image);
-    header.add(panInfoUser);
     header.setBackground(new Color(215,203,233,200));
     
-    answerLabel = new JLabel("");
-    answerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     body = new JPanel();
-    body.add(answerLabel);
     body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
     body.setBackground(new Color(215,203,233,200));
     
@@ -133,81 +55,155 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
   public void authenticationIhm() {
     body.removeAll();
-    body.setLayout(new GridLayout(3, 2));
-    pwdField = new JPasswordField();
-    loginField = new JTextField();
-    answerLabel = new JLabel("");
-    pwdField.setColumns(10);
-    loginField.setColumns(10);
-    body.add(peudoLabel);
-    body.add(passwordLabel);
-    body.add(loginField);
-    body.add(pwdField);
-    body.add(validate);
-    body.add(answerLabel);
+            
+	JButton buttonValide = new JButton();
+    	JLabel labelPass = new JLabel();
+   	JLabel labelTitle = new JLabel();
+    	JLabel labelLogin = new JLabel();
+    	JPanel panelGlobal = new JPanel();
+    	JTextField loginField = new JTextField();
+    	JTextField passField = new JTextField();
+        answerLabel = new JLabel();
 
-    validate.addActionListener(new ActionListener() {
+        loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
+        loginField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        loginField.setText("");
+
+        labelPass.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        labelPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPass.setText("Mot de passe");
+
+        passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
+        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passField.setText("");
+
+        labelTitle.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitle.setText("Authentification");
+
+        labelLogin.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        labelLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelLogin.setText("Nom d'utilisateur");
+
+        answerLabel.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        answerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        answerLabel.setText("");
+        
+        buttonValide.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+        buttonValide.setText("Valider");
+        
+        panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
+        panelGlobal.add(labelTitle);
+        panelGlobal.add(labelLogin);
+        panelGlobal.add(loginField);
+        panelGlobal.add(labelPass);
+        panelGlobal.add(passField);
+        panelGlobal.add(answerLabel);
+        panelGlobal.add(buttonValide);
+        panelGlobal.setBackground(new Color(215,203,233,200));
+        
+    buttonValide.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        wc.getConnection(loginField.getText(), pwdField.getText());
+        wc.getConnection(loginField.getText(), passField.getText());
       }
     });
-
+        
+    body.setLayout(new FlowLayout());
+    body.add(panelGlobal);
+        
     this.revalidate();
     this.repaint();
   }
 
   public void setMenu(){
+          
     body.removeAll();
     
-    JButton jButton1 = new javax.swing.JButton();
-    jButton1.setText("test_1");
-    jButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAdress();
-        }
-    });
-    body.add(jButton1);
+    JPanel panelGlobal = new JPanel();
+    panelGlobal.setLayout(new GridLayout(6, 1, 0, 0));
+    panelGlobal.setBackground(new Color(215,203,233,200));
     
-    JButton jButton2 = new javax.swing.JButton();
-    jButton2.setText("test_2");
-    jButton2.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAdress();
-        }
-    });
-    body.add(jButton2);
+    JLabel labelTitle = new JLabel();
+    labelTitle.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+    labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    labelTitle.setText("     Menu du programme     ");
+    panelGlobal.add(labelTitle);
     
-    JButton jButton3 = new javax.swing.JButton();
-    jButton3.setText("test_3");
-    jButton3.addActionListener(new java.awt.event.ActionListener() {
+    JButton button1 = new javax.swing.JButton();
+    button1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button1.setText("test_1");
+    button1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.testAddNewAdress();
         }
     });
-    body.add(jButton3);
+    panelGlobal.add(button1);
     
-    JButton jButton4 = new javax.swing.JButton();
-    jButton4.setText("test_4");
-    jButton4.addActionListener(new java.awt.event.ActionListener() {
+    JButton button2 = new javax.swing.JButton();
+    button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button2.setText("test_2");
+    button2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.testAddNewAdress();
         }
     });
-    body.add(jButton4);
+    panelGlobal.add(button2);
     
-    JButton jButton5 = new javax.swing.JButton();
-    jButton5.setText("test_5");
-    jButton5.addActionListener(new java.awt.event.ActionListener() {
+    JButton button3 = new javax.swing.JButton();
+    button3.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button3.setText("test_3");
+    button3.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.testAddNewAdress();
         }
     });
-    body.add(jButton5);
+    panelGlobal.add(button3);
+    
+    JButton button4 = new javax.swing.JButton();
+    button4.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button4.setText("test_4");
+    button4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.testAddNewAdress();
+        }
+    });
+    panelGlobal.add(button4);
+    
+    JButton button5 = new javax.swing.JButton();
+    button5.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button5.setText("test_5");
+    button5.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.testAddNewAdress();
+        }
+    });
+    panelGlobal.add(button5);
 
+    body.add(panelGlobal);
+    
     this.revalidate();
     this.repaint();
   }
 
+  public void setButtonBackMenu()   {
+    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/Home.png"));
+    Image im = trait.getImage();
+    im  = im.getScaledInstance(80,80,1);
+    JButton buttonBackMenu = new JButton(new ImageIcon(im));
+    buttonBackMenu.setBackground(new Color(215,203,233,200));
+    buttonBackMenu.setBorder(null);
+    
+    buttonBackMenu.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        wc.menuBack();
+      }
+    });
+    
+    header.add(buttonBackMenu);
+    this.revalidate();
+    this.repaint();
+  }
+  
   public void updateAnswerLabel(String answer){
     this.answerLabel.setText(answer);
     this.revalidate();
