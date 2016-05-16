@@ -8,7 +8,7 @@ pdsApp/.settings
 pdsApp/.project
 pdsApp/.classpath
 pdsApp/.gitignore
-
+pdsApp/src/domaine/properties/config.properties
 pdsApp/build
 pdsApp/nbproject
 pdsApp/test
