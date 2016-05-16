@@ -88,9 +88,9 @@ public class UserCommunicate implements Runnable {
         object = splitedQuery[2];
         
         switch (method) {
-            case "INSERT":
+            case "INSERT": //Case for insert into database
                 switch (typeObject) {
-                    case "Adress":
+                    case "Adress": //Case for insert into database new adress
                         Adress newAdress = gsonSerial.unserializeAdress(object);
                         String request = "INSERT INTO t_adress VALUES (" 
                                 + newAdress.getId() + ", " 
@@ -105,94 +105,81 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         break;
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "UPDATE":
+            case "UPDATE": //Case for update database
                 switch (typeObject) {
-                    case "Adress":
-                        Adress newAdress = gsonSerial.unserializeAdress(object);
-                        String request = "INSERT INTO t_adress VALUES (" 
-                                + newAdress.getId() + ", " 
-                                + newAdress.getStreetNb() + ", " 
-                                + "'" + newAdress.getStreetName() + "'" + ", " 
-                                + "'" + newAdress.getCityName() + "'" + ", " 
-                                + "'" + newAdress.getZipCode() + "'"
-                                + ");";
-                        String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
-                        out.println(response);
-                        out.flush();
+                    case "Adress": //Case for update existing adress into database
+                        //Coding
                         break;
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "DELETE":
+            case "DELETE": //Case for delete from database
                 switch (typeObject) {
-                    case "Adress":
-                        Adress newAdress = gsonSerial.unserializeAdress(object);
-                        String request = "INSERT INTO t_adress VALUES (" 
-                                + newAdress.getId() + ", " 
-                                + newAdress.getStreetNb() + ", " 
-                                + "'" + newAdress.getStreetName() + "'" + ", " 
-                                + "'" + newAdress.getCityName() + "'" + ", " 
-                                + "'" + newAdress.getZipCode() + "'"
-                                + ");";
-                        String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
-                        out.println(response);
-                        out.flush();
+                    case "Adress": //Case for delete existing adress from database
+                        //Coding
                         break;
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_1":
+            case "SPECIF_1": //Spécifique THIBAULT DON'T TOUCHE !!!
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_2":
+            case "SPECIF_2": //Spécifique TARIK DON'T TOUCHE !!!
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_3":
+            case "SPECIF_3": //Spécifique RUBEN
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_4":
+            case "SPECIF_4": //Spécifique ALEXANDRE
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_5":
+            case "SPECIF_5": //Spécifique MARIAM
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
-            case "SPECIF_6":
+            case "SPECIF_6": //Spécifique LINDA
                 switch (typeObject) {
                     case "Adress":
                         //Coding
                     default:
+                        //Coding
                         break;
                 }
                 break;
