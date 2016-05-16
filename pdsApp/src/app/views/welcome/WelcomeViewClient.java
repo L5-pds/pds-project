@@ -62,7 +62,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     	JLabel labelLogin = new JLabel();
     	JPanel panelGlobal = new JPanel();
     	JTextField loginField = new JTextField();
-    	JTextField passField = new JTextField();
+    	JPasswordField passField = new JPasswordField();
         answerLabel = new JLabel();
 
         loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
@@ -76,6 +76,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
         passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passField.setText("");
+        
 
         labelTitle.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
         labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -104,7 +105,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         
     buttonValide.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        wc.getConnection(loginField.getText(), passField.getText());
+        wc.getConnection(loginField.getText(), String.valueOf(passField.getPassword()));
       }
     });
         
