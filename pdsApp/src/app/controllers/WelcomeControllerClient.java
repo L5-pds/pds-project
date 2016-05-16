@@ -61,6 +61,7 @@ public class WelcomeControllerClient {
       //Waiting for the answer (answer = "authentic" if success)
       serverAnswer = in.readLine();
       if (serverAnswer.equals("authentic")) {
+        listener.setButtonBackMenu();
         listener.setMenu();
       } else {
         listener.updateAnswerLabel(serverAnswer);
@@ -84,6 +85,10 @@ public class WelcomeControllerClient {
     } catch (Exception e) {
       javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
     } 
+  }
+  
+  public void menuBack()    {
+      listener.setMenu();
   }
   
 }
