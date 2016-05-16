@@ -39,7 +39,7 @@ public class ConnectionPool {
     return this.user;
   }
 
-  public ResultSet requestWithRespons(String requete)  {
+  public ResultSet requestWithResult(String requete)  {
       Statement stat;
       ResultSet response = null;
       try {
@@ -51,7 +51,7 @@ public class ConnectionPool {
       return response;
   }
 
-  public String requestWithoutRespons(String requete)  {
+  public String requestWithoutResult(String requete)  {
       Statement stat;
       String response="";
       try {

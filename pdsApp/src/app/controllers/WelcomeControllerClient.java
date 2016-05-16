@@ -55,7 +55,7 @@ public class WelcomeControllerClient {
     try {
       User user = new User(login, pwd);
       //Send information in Json format to server
-      out.println("AUTH/User/Send connection information/" + s.serializeUser(user));
+      out.println("AUTH/User/" + s.serializeUser(user));
       out.flush();
 
       //Waiting for the answer (answer = "authentic" if success)
@@ -70,7 +70,7 @@ public class WelcomeControllerClient {
     }
   }
   
-  public void getAllCustomer()  {
+  public void testAddNewAdress()  {
       try {
       Adress newAdress = new Adress(55555, 10, "route de chabanais", "CHASSENON", "16150");
       out.println("INSERT/Adress/" + s.serializeAdress(newAdress));

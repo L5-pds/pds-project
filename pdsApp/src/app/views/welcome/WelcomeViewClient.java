@@ -163,7 +163,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     jButton1.setText("test_1");
     jButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.getAllCustomer();
+            wc.testAddNewAdress();
         }
     });
     body.add(jButton1);
@@ -172,7 +172,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     jButton2.setText("test_2");
     jButton2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.getAllCustomer();
+            wc.testAddNewAdress();
         }
     });
     body.add(jButton2);
@@ -181,7 +181,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     jButton3.setText("test_3");
     jButton3.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.getAllCustomer();
+            wc.testAddNewAdress();
         }
     });
     body.add(jButton3);
@@ -190,7 +190,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     jButton4.setText("test_4");
     jButton4.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.getAllCustomer();
+            wc.testAddNewAdress();
         }
     });
     body.add(jButton4);
@@ -199,7 +199,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     jButton5.setText("test_5");
     jButton5.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.getAllCustomer();
+            wc.testAddNewAdress();
         }
     });
     body.add(jButton5);

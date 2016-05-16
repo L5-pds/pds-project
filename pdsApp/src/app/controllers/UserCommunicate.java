@@ -32,7 +32,6 @@ public class UserCommunicate implements Runnable {
     String[] splitedQuery;
     String method;
     String typeObject;
-    String information;
     String object;
     boolean userConnected = false;
 
@@ -56,8 +55,7 @@ public class UserCommunicate implements Runnable {
 
         method = splitedQuery[0];
         typeObject = splitedQuery[1];
-        information = splitedQuery[2];
-        object = splitedQuery[3];
+        object = splitedQuery[2];
 
         if (method.equals("AUTH")){
           if(typeObject.equals("User")){
@@ -101,7 +99,7 @@ public class UserCommunicate implements Runnable {
                                 + "'" + newAdress.getCityName() + "'" + ", " 
                                 + "'" + newAdress.getZipCode() + "'"
                                 + ");";
-                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
                         out.println(response);
                         out.flush();
@@ -121,7 +119,7 @@ public class UserCommunicate implements Runnable {
                                 + "'" + newAdress.getCityName() + "'" + ", " 
                                 + "'" + newAdress.getZipCode() + "'"
                                 + ");";
-                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
                         out.println(response);
                         out.flush();
@@ -141,7 +139,7 @@ public class UserCommunicate implements Runnable {
                                 + "'" + newAdress.getCityName() + "'" + ", " 
                                 + "'" + newAdress.getZipCode() + "'"
                                 + ");";
-                        String response = Server.connectionPool[poolIndex].requestWithoutRespons(request);
+                        String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
                         out.println(response);
                         out.flush();
