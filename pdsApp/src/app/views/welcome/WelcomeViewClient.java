@@ -64,8 +64,6 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     	JTextField loginField = new JTextField();
     	JTextField passField = new JTextField();
         answerLabel = new JLabel();
-        
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
         loginField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
