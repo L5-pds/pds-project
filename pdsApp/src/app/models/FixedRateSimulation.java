@@ -8,5 +8,6 @@ public class FixedRateSimulation {
     private float rate;
     private int amount;
     private int duration;
+    private int monthlyPayment;
     
 }
