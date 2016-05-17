@@ -1,64 +1,118 @@
 package app.views.simulations;
 
 import app.controllers.FixedRateSimulationControllerClient;
-import app.models.FixedRateSimulation;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 
-public class FixedRateSimulationView extends JFrame implements ActionListener {
-    
+public class FixedRateSimulationView extends JPanel {
+
     // components of the simulation frame
-    private JButton btnSimulate;
-    private JButton btnCancel;
-    private JComboBox cbCreditType;
+    private JComboBox cbLoanType;
     private JSpinner amount;
     private JLabel baseRate;
-    
+    private JButton btnSimulate;
+    private JButton btnOk;
+    private JButton btnCancel;
+
     // controller for the fixed rate credit simulation
     FixedRateSimulationControllerClient controller;
-    
+
     public FixedRateSimulationView(FixedRateSimulationControllerClient c) {
+        // set the panel layout
+        super(new GridBagLayout());
+
         // assign a controller to the view
         controller = c;
-        
-        // JFrame settings
-        setSize(500,500);
-        //setResizable(false);
-        setLocationRelativeTo(null);
-        setLayout(new FlowLayout());
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         // initialisation of the components
+        cbLoanType = new JComboBox(controller.getCreditTypes()); // fill the JComboBox with the credit types list
+        btnOk = new JButton("OK");
         btnCancel = new JButton("Annuler");
-        btnSimulate = new JButton("Simuler");
-        cbCreditType = new JComboBox(controller.getCreditTypes()); // fill the JComboBox with the credit types list
-        
+
         // add the action listener to the components
-        btnCancel.addActionListener(this);
-        btnSimulate.addActionListener(this);
-        cbCreditType.addActionListener(this);
+        cbLoanType.addActionListener(new CbLoanTypeListener());
+        btnCancel.addActionListener(new BtnCancelListener());
+
+        // add components to the panel using the GridBagLayout and GridBagConstraints
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.weightx = 0;
+        gc.weightx = 1;
+        gc.insets = new Insets(10, 10, 10, 10);
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(new JLabel("Type de prêt :"), gc);
+
+        gc.gridwidth = 2;
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(cbLoanType, gc);
+
+        gc.gridwidth = 1;
+        gc.gridx = 2;
+        gc.gridy = 1;
+        add(btnCancel, gc);
+    }
+    
+    public void displayForm(String loanType) {
         
-        // disable the components that ha ve to be disabled when the frame is displayed
-        btnSimulate.setEnabled(false);
         
-        // add components to the JFrame
-        getContentPane().add(cbCreditType);
-        getContentPane().add(btnSimulate);
-        getContentPane().add(btnCancel);
-        
-        // make the JFrame visible
-        setVisible(true);
+        // perform the operations needed after the removal and the addition of components
+        revalidate();
+        repaint();
     }
 
-    public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-        
-        // ajout retour au menu pour btn cancel
+    /**
+     * *** inner listener classes ****
+     */
+    // listener for the cbLoanTypeListener JComboBox
+    class CbLoanTypeListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    // listener for the btnCancel JButton
+    class BtnOkListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    // listener for the btnCancel JButton
+    class BtnCancelListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    // listener for the btnSimulate JButton
+    class BtnSimulateListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    public static void main(String[] args) {
+        javax.swing.JFrame f = new javax.swing.JFrame("test");
+        app.models.FixedRateSimulation m = new app.models.FixedRateSimulation();
+        FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m);
+        FixedRateSimulationView v = new FixedRateSimulationView(c);
+        f.add(v);
+        f.pack();
+        f.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        f.setVisible(true);
     }
 }
