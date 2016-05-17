@@ -2,7 +2,8 @@ package app.controllers;
 
 import app.models.*;
 import app.helpers.Serialization;
-import app.listeners.WelcomeListenerClient;
+import app.listeners.*;
+import app.views.indicator.*;
 
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -89,6 +90,12 @@ public class WelcomeControllerClient {
   
   public void menuBack()    {
       listener.setMenu();
+  }
+  
+  public void goIndicator() {
+    ControllerClientIndicator cci = new ControllerClientIndicator(socket);
+    IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);    
   }
   
 }

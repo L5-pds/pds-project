@@ -12,7 +12,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.border.MatteBorder;
 
 public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
-  private JFrame frame;
+  //private JFrame frame;
   private Container contentPane;
   private JPanel header;
   private JPanel body;
@@ -135,7 +135,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     button1.setText("test_1");
     button1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAdress();
+            wc.goIndicator();
         }
     });
     panelGlobal.add(button1);
@@ -209,5 +209,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     this.answerLabel.setText(answer);
     this.revalidate();
     this.repaint();
+  }
+  
+  public JPanel getBody()   {
+      return this.body;
+  }
+  
+  public Container getContainer()    {
+      return this.getContentPane();
   }
 }
