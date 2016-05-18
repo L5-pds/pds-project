@@ -2,17 +2,10 @@ package app.views.welcome;
 
 import app.controllers.*;
 import app.listeners.*;
-import app.models.component.RoundJButton;
-import app.models.component.RoundJPasswordField;
-import app.models.component.RoundJTextField;
+import app.models.component.*;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import javax.swing.border.LineBorder;
-import javax.swing.GroupLayout.Alignment;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.border.MatteBorder;
 
 public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   //private JFrame frame;
@@ -20,7 +13,6 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   private JPanel header;
   private JPanel body;
   private JLabel answerLabel;
-  private JButton buttonBackMenu;
 
   WelcomeControllerClient wc;
 
@@ -59,66 +51,52 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   public void authenticationIhm() {
     body.removeAll();
             
-	//RoundJButton buttonValide = new RoundJButton();
     	JLabel labelPass = new JLabel();
-   	JLabel labelTitle = new JLabel();
-    	JLabel labelLogin = new JLabel();
-    	JPanel panelGlobal = new JPanel();
-    	RoundJTextField loginField = new RoundJTextField(20);
-    	RoundJPasswordField passField = new RoundJPasswordField(20);
-        answerLabel = new JLabel();
+    JLabel labelLogin = new JLabel();
+    JPanel panelGlobal = new JPanel();
+    RoundJTextField loginField = new RoundJTextField(20);
+    RoundJPasswordField passField = new RoundJPasswordField(20);
+    answerLabel = new JLabel();
 
-        loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
-        loginField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        loginField.setText("");
+    loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
+    loginField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    loginField.setText("");
 
-        labelPass.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
-        labelPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelPass.setText("Mot de passe");
+    labelPass.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+    labelPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    labelPass.setText("Mot de passe");
 
-        passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
-        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passField.setText("");
-        
-        labelTitle.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
-        labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitle.setText("");
+    passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
+    passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    passField.setText("");
 
-        labelLogin.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
-        labelLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelLogin.setText("Nom d'utilisateur");
+    labelLogin.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+    labelLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    labelLogin.setText("Nom d'utilisateur");
 
-        answerLabel.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        answerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        answerLabel.setText("");
-        
-        //buttonValide.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-        //buttonValide.setText("Valider");
-        
-        
-        ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconConnection.png"));
-        Image im = trait.getImage();
-        im  = im.getScaledInstance(296,66,1);
-        JLabel buttonvalide = new JLabel(new ImageIcon(im));
-        //buttonBackMenu.setBackground(new Color(215,203,233,200));
-        
-        buttonvalide.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                wc.getConnection(loginField.getText(), String.valueOf(passField.getPassword()));
-            }
-        });
-        
-        panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
-        //panelGlobal.add(labelTitle);
-        panelGlobal.add(labelLogin);
-        panelGlobal.add(loginField);
-        panelGlobal.add(labelPass);
-        panelGlobal.add(passField);
-        panelGlobal.add(answerLabel);
-        panelGlobal.add(buttonvalide);
-        panelGlobal.setOpaque(false);
-        
-        
+    answerLabel.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+    answerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    answerLabel.setText("");
+
+    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconConnection.png"));
+    Image im = trait.getImage();
+    im  = im.getScaledInstance(296,66,1);
+    JLabel buttonvalide = new JLabel(new ImageIcon(im));
+
+    buttonvalide.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            wc.getConnection(loginField.getText(), String.valueOf(passField.getPassword()));
+        }
+    });
+
+    panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
+    panelGlobal.add(labelLogin);
+    panelGlobal.add(loginField);
+    panelGlobal.add(labelPass);
+    panelGlobal.add(passField);
+    panelGlobal.add(answerLabel);
+    panelGlobal.add(buttonvalide);
+    panelGlobal.setOpaque(false);
         
     body.setLayout(new FlowLayout());
     body.add(panelGlobal);
@@ -133,7 +111,6 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     
     JPanel panelGlobal = new JPanel();
     panelGlobal.setLayout(new GridLayout(6, 1, 0, 0));
-    //panelGlobal.setBackground(new Color(215,203,233,200));
     panelGlobal.setOpaque(false);
     
     JLabel labelTitle = new JLabel();
@@ -146,24 +123,12 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     Image im = trait.getImage();
     im  = im.getScaledInstance(50,50,1);
     JLabel buttonGoIndicator = new JLabel(new ImageIcon(im));
-    //buttonBackMenu.setBackground(new Color(215,203,233,200));
     buttonGoIndicator.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 wc.goIndicator();
             }
         });
     panelGlobal.add(buttonGoIndicator);
-    /*
-    JButton button1 = new javax.swing.JButton();
-    button1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button1.setText("test_1");
-    button1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.goIndicator();
-        }
-    });
-    panelGlobal.add(button1);
-*/    
 
     JButton button2 = new javax.swing.JButton();
     button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
@@ -216,7 +181,6 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     Image im = trait.getImage();
     im  = im.getScaledInstance(80,80,1);
     JLabel buttonBackMenu = new JLabel(new ImageIcon(im));
-    //buttonBackMenu.setBackground(new Color(215,203,233,200));
     buttonBackMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 wc.menuBack();
@@ -235,30 +199,30 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   }
   
   public JPanel getBody()   {
-      return this.body;
+    return this.body;
   }
   
   public Container getContainer()    {
-      return this.getContentPane();
+    return this.getContentPane();
   }
   
   public void setErrorSocket()  {
-      body.removeAll();
-      JPanel panelGlobal = new JPanel();
-      
-      ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/errorSocket.png"));
-      Image im = trait.getImage();
-      im  = im.getScaledInstance(945,567,1);
-      JLabel lblError = new JLabel(new ImageIcon(im));
-      
-      panelGlobal.add(lblError);
-      panelGlobal.setOpaque(false);
-        
-      body.setLayout(new FlowLayout());
-      body.add(panelGlobal);
+    body.removeAll();
+    JPanel panelGlobal = new JPanel();
 
-      this.revalidate();
-      this.repaint();
+    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/errorSocket.png"));
+    Image im = trait.getImage();
+    im  = im.getScaledInstance(945,567,1);
+    JLabel lblError = new JLabel(new ImageIcon(im));
+
+    panelGlobal.add(lblError);
+    panelGlobal.setOpaque(false);
+
+    body.setLayout(new FlowLayout());
+    body.add(panelGlobal);
+
+    this.revalidate();
+    this.repaint();
   }
   
 }
