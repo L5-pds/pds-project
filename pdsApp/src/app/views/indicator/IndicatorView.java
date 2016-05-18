@@ -2,6 +2,7 @@ package app.views.indicator;
 
 import app.controllers.*;
 import app.listeners.*;
+import app.models.component.RoundJTextField;
 import app.views.welcome.*;
 import java.awt.Color;
 import java.awt.Container;
@@ -21,7 +22,7 @@ public class IndicatorView implements ListenerClientIndicator {
     public void setIHM() {
         body.removeAll();
         
-        JButton button5 = new javax.swing.JButton();
+        JButton button5 = new JButton();
         button5.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
         button5.setText("test_5");
         button5.addActionListener(new java.awt.event.ActionListener() {

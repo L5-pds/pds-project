@@ -16,4 +16,5 @@ public interface WelcomeListenerClient {
     void setButtonBackMenu();
     JPanel getBody();
     Container getContainer();
+    void setErrorSocket();
 }
