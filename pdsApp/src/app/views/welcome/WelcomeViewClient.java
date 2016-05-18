@@ -191,7 +191,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     Image im = trait.getImage();
     im  = im.getScaledInstance(80,80,1);
     JButton buttonBackMenu = new JButton(new ImageIcon(im));
-    buttonBackMenu.setBackground(new Color(215,203,233,200));
+    //buttonBackMenu.setBackground(new Color(215,203,233,200));
     buttonBackMenu.setBorder(null);
     
     buttonBackMenu.addActionListener(new ActionListener() {

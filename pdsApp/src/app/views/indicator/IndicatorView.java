@@ -26,7 +26,7 @@ public class IndicatorView implements ListenerClientIndicator {
         button5.setText("test_5");
         button5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                javax.swing.JOptionPane.showMessageDialog(null,"Ton message");
+                cci.testCountAdress();
             }
         });
         body.setBackground(new Color(215,203,233,200));

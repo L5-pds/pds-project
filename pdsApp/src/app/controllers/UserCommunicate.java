@@ -132,7 +132,13 @@ public class UserCommunicate implements Runnable {
             case "SPECIF_1": //Spécifique THIBAULT DON'T TOUCHE !!!
                 switch (typeObject) {
                     case "Adress":
-                        //Coding
+                        String request = "SELECT COUNT(*) AS COUNTADRESS FROM t_adress;";
+                        ResultSet response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        response.next();
+                        response.getInt("COUNTADRESS");
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - count adress - " + response.getInt("COUNTADRESS"));
+                        out.println("success/" + response.getInt("COUNTADRESS"));
+                        out.flush();
                     default:
                         //Coding
                         break;
