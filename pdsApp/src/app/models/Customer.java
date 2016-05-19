@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public class Customer {
   private int id;
   private int id_agency;
-  private int id_adress;
+  private int id_address;
   private String lastName;
   private String firstName;
   private String mail;
@@ -16,11 +16,11 @@ public class Customer {
   private String password;
   private String birth;
   private String sex;
-  
+
   public Customer()   {
     this.id = 0;
     this.id_agency = 0;
-    this.id_adress = 0;
+    this.id_address = 0;
     this.lastName = "";
     this.firstName = "";
     this.mail = "";
@@ -29,10 +29,10 @@ public class Customer {
     this.birth = "";
     this.sex = "";
   }
-  
+
   public Customer(int id,
                 int id_agency,
-                int id_adress,
+                int id_address,
                 String lastName,
                 String firstName,
                 String mail,
@@ -42,7 +42,7 @@ public class Customer {
                 String sex) {
     this.id = id;
     this.id_agency = id_agency;
-    this.id_adress = id_adress;
+    this.id_address = id_address;
     this.lastName = lastName;
     this.firstName = firstName;
     this.mail = mail;
@@ -53,15 +53,15 @@ public class Customer {
   }
 
   public void serverGetAllUser(int indexPool) {
-      
+
   }
 
   public void serverGetOnlyUser(int id) {
-      
+
   }
-  
+
   public void getCustomerCount() {
-      
+
   }
-  
+
 }

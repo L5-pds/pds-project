@@ -9,23 +9,23 @@ import java.sql.Statement;
  *
  * @author Thibault
  */
-public class Adress {
-    
+public class Address {
+
     private int id;
     private int street_nb;
     private String street_name;
     private String city_name;
     private String zip_code;
-    
-    public Adress() {
+
+    public Address() {
         this.id = 0;
         this.street_nb = 0;
         this.street_name = "";
         this.city_name = "";
         this.zip_code = "";
     }
-    
-    public Adress(int id,
+
+    public Address(int id,
             int street_nb,
             String street_name,
             String city_name,
@@ -36,25 +36,25 @@ public class Adress {
         this.city_name = city_name;
         this.zip_code = zip_code;
     }
-    
+
     public int getId()  {
         return this.id;
     }
-    
+
     public int getStreetNb()  {
         return this.street_nb;
     }
-    
+
     public String getStreetName()  {
         return this.street_name;
     }
-    
+
     public String getCityName()  {
         return this.city_name;
     }
-    
+
     public String getZipCode()  {
         return this.zip_code;
     }
-    
+
 }

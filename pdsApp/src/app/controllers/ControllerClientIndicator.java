@@ -15,7 +15,7 @@ public class ControllerClientIndicator {
     private PrintWriter out = null;
     private BufferedReader in = null;
     private Serialization s;
-    
+
     public ControllerClientIndicator(Socket socket) {
         this.socket = socket;
         this.s = new Serialization();
@@ -26,19 +26,19 @@ public class ControllerClientIndicator {
           javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + e.getMessage());
         }
     }
-    
+
     public void addListener(ListenerClientIndicator l) {
         this.listener = l;
         listener.setIHM();
     }
-    
+
     public void testmsg(String tes) {
         javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + tes);
     }
-  
-    public void testCountAdress()  {
+
+    public void testCountAddress()  {
         try {
-        out.println("SPECIF_1/Adress/COUNT");
+        out.println("SPECIF_1/Address/COUNT");
         out.flush();
         String response = in.readLine();
         String[] splitedQuery = response.split("/");
@@ -52,6 +52,6 @@ public class ControllerClientIndicator {
         }
       } catch (Exception e) {
         javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
-      } 
+      }
     }
 }

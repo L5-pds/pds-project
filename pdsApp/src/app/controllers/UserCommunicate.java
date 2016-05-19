@@ -73,7 +73,7 @@ public class UserCommunicate implements Runnable {
         }
       }
     }//end of while loop
-      
+
     //Communicate process
     while((!socket.isClosed()) && (userConnected)){
       try {
@@ -83,21 +83,21 @@ public class UserCommunicate implements Runnable {
         method = splitedQuery[0];
         typeObject = splitedQuery[1];
         object = splitedQuery[2];
-        
+
         switch (method) {
             case "INSERT": //Case for insert into database
                 switch (typeObject) {
-                    case "Adress": //Case for insert into database new adress
-                        Adress newAdress = gsonSerial.unserializeAdress(object);
-                        String request = "INSERT INTO t_adress VALUES (" 
-                                + newAdress.getId() + ", " 
-                                + newAdress.getStreetNb() + ", " 
-                                + "'" + newAdress.getStreetName() + "'" + ", " 
-                                + "'" + newAdress.getCityName() + "'" + ", " 
-                                + "'" + newAdress.getZipCode() + "'"
+                    case "Address": //Case for insert into database new address
+                        Address newAddress = gsonSerial.unserializeAddress(object);
+                        String request = "INSERT INTO t_adress VALUES ("
+                                + newAddress.getId() + ", "
+                                + newAddress.getStreetNb() + ", "
+                                + "'" + newAddress.getStreetName() + "'" + ", "
+                                + "'" + newAddress.getCityName() + "'" + ", "
+                                + "'" + newAddress.getZipCode() + "'"
                                 + ");";
                         String response = Server.connectionPool[poolIndex].requestWithoutResult(request);
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new adress - " + response);
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - add new address - " + response);
                         out.println(response);
                         out.flush();
                         break;
@@ -108,7 +108,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "UPDATE": //Case for update database
                 switch (typeObject) {
-                    case "Adress": //Case for update existing adress into database
+                    case "Address": //Case for update existing address into database
                         //Coding
                         break;
                     default:
@@ -118,7 +118,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "DELETE": //Case for delete from database
                 switch (typeObject) {
-                    case "Adress": //Case for delete existing adress from database
+                    case "Address": //Case for delete existing address from database
                         //Coding
                         break;
                     default:
@@ -128,12 +128,12 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_1": //Spécifique THIBAULT DON'T TOUCHE !!!
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         String request = "SELECT COUNT(*) AS COUNTADRESS FROM t_adress;";
                         ResultSet response = Server.connectionPool[poolIndex].requestWithResult(request);
                         response.next();
                         response.getInt("COUNTADRESS");
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - count adress - " + response.getInt("COUNTADRESS"));
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - count address - " + response.getInt("COUNTADRESS"));
                         out.println("success/" + response.getInt("COUNTADRESS"));
                         out.flush();
                     default:
@@ -143,7 +143,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_2": //Spécifique TARIK DON'T TOUCHE !!!
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         //Coding
                     default:
                         //Coding
@@ -152,7 +152,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_3": //Spécifique RUBEN
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         //Coding
                     default:
                         //Coding
@@ -161,7 +161,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_4": //Spécifique ALEXANDRE
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         //Coding
                     default:
                         //Coding
@@ -170,7 +170,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_5": //Spécifique MARIAM
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         //Coding
                     default:
                         //Coding
@@ -179,7 +179,7 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_6": //Spécifique LINDA
                 switch (typeObject) {
-                    case "Adress":
+                    case "Address":
                         //Coding
                     default:
                         //Coding
@@ -190,8 +190,8 @@ public class UserCommunicate implements Runnable {
                 //coding
                 break;
         }
-                
-        
+
+
       } catch (Exception e) {
         listener.changeTextLog("CONNECT_WARNING - " + user.getLogin() + " - gone");
         if (poolIndex != -1){
@@ -212,7 +212,7 @@ public class UserCommunicate implements Runnable {
     boolean userAuth = false;
     boolean userAlreadyUse = false;
     boolean userNoPool = true;
-    
+
     userAuth=authentication(login, pwd);
     if(userAuth == false)   {
         out.println("Error/Authentification incorrecte blabla blabla blabla blabla blabla");
@@ -220,7 +220,7 @@ public class UserCommunicate implements Runnable {
         listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
         return false;
     }
-    
+
     user.getAdvisor();
     if(user.getError() == true)   {
         out.println("Error/Erreur de récupération des informations");
@@ -228,7 +228,7 @@ public class UserCommunicate implements Runnable {
         listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
         return false;
     }
-    
+
     for (int i = 0; i < Server.poolSize; i++) {
         if (Server.connectionPool[i].getUser().equals(login)) {
             out.println("Error/Cet utilisateur est déja connecté (ressayer ultérieurement)");
@@ -238,7 +238,7 @@ public class UserCommunicate implements Runnable {
             return false;
         }
     }
-    
+
     for (int i = 0; i < Server.poolSize; i++) {
         if (Server.connectionPool[i].isUsed() == false) {
             Server.connectionPool[i].use(true);
@@ -253,14 +253,14 @@ public class UserCommunicate implements Runnable {
             return true;
         }
     }
-    
+
     if (userNoPool == true) {
         out.println("Error/Aucune connexion disponible (ressayer ultérieurement)");
         out.flush();
         listener.changeTextLog("CONNECT_WARNING - " + login + " - no connection available");
         return false;
     }
-    
+
     return userConnected;
   }
 
@@ -274,7 +274,7 @@ public class UserCommunicate implements Runnable {
       conn = Server.getConnection();
       stat = conn.createStatement();
       results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + login + "' AND password = '" + pass + "';");
-      
+
       results.next();
 
       if(results.getRow() != 0)

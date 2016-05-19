@@ -20,7 +20,7 @@ public class WelcomeControllerClient {
   private Serialization s;
 
   private Advisor userConnect;
-  
+
   public WelcomeControllerClient(String url, int port) {
     this.url = url;
     this.port = port;
@@ -44,7 +44,7 @@ public class WelcomeControllerClient {
   }
 
   public void getConnection(String login, String pwd) {
-    
+
     String serverAnswer;
     try {
       Advisor user = new Advisor(login, pwd);
@@ -57,7 +57,7 @@ public class WelcomeControllerClient {
       String[] splitedAnswer = serverAnswer.split("/");
       String response = splitedAnswer[0];
       String other = splitedAnswer[1];
-      
+
       if (response.equals("Success")) {
         userConnect = s.unserializeUser(other);
         listener.setButtonBackMenu();
@@ -69,12 +69,12 @@ public class WelcomeControllerClient {
       javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
     }
   }
-  
-  public void testAddNewAdress()  {
+
+  public void testAddNewAddress()  {
     /*
     try {
-      Adress newAdress = new Adress(55555, 10, "route de chabanais", "CHASSENON", "16150");
-      out.println("INSERT/Adress/" + s.serializeAdress(newAdress));
+      Address newAddress = new Address(55555, 10, "route de chabanais", "CHASSENON", "16150");
+      out.println("INSERT/Address/" + s.serializeAddress(newAddress));
       out.flush();
       String response = in.readLine();
       if(response.equals("success")) {
@@ -88,15 +88,15 @@ public class WelcomeControllerClient {
     */
     javax.swing.JOptionPane.showMessageDialog(null,"Utilisateur connecté : " + userConnect.getFirstName() + " " + userConnect.getLastName());
   }
-  
+
   public void menuBack()    {
       listener.setMenu();
   }
-  
+
   public void goIndicator() {
     ControllerClientIndicator cci = new ControllerClientIndicator(socket);
     IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer());
-    cci.addListener(ihm);    
+    cci.addListener(ihm);
   }
-  
+
 }

@@ -8,5 +8,6 @@ javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/mode
 javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/helpers/*.java
 javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/controllers/*.java
 javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/views/welcome/*.java
+javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/views/indicator/*.java
 javac -encoding ISO-8859-1 -d build -cp "build:pdsApp/lib/*" pdsApp/src/app/*.java
 printf "\33[32;5;32m%s\33[0m\n" "done!"

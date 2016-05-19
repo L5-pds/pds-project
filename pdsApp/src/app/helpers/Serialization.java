@@ -23,7 +23,7 @@ public class Serialization {
       return gson.toJson(c);
   }
 
-  public String serializeAdress(Adress a) {
+  public String serializeAddress(Address a) {
       return gson.toJson(a);
   }
 
@@ -35,8 +35,8 @@ public class Serialization {
       return gson.fromJson(c, Customer.class);
   }
 
-  public Adress unserializeAdress(String a) {
-      return gson.fromJson(a, Adress.class);
+  public Address unserializeAddress(String a) {
+      return gson.fromJson(a, Address.class);
   }
 
 }

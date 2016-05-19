@@ -15,10 +15,10 @@ public class Advisor {
   private String password;
   private String login;
   private String mail;
-  private Adress adressAgency;
+  private Address agencyAddress;
   private boolean error;
   private String errorMessage;
-  
+
   public Advisor() {
     this.id = -1;
     this.last_name = "";
@@ -30,19 +30,19 @@ public class Advisor {
     this.mail = "";
     this.error = true;
   }
-  
+
   public Advisor(String login, String password) {
       this.login = login;
       this.password = password;
   }
-  
-  public Advisor(int id, 
-          String last_name, 
+
+  public Advisor(int id,
+          String last_name,
           String first_name,
-          boolean director, 
-          int id_agency, 
-          String password, 
-          String login, 
+          boolean director,
+          int id_agency,
+          String password,
+          String login,
           String mail) {
     this.id = id;
     this.last_name = last_name;
@@ -53,39 +53,39 @@ public class Advisor {
     this.login = login;
     this.mail = mail;
   }
-  
-  public void setAdressAgency(Adress adressAgency)  {
-      this.adressAgency = adressAgency;
+
+  public void setAgencyAddress(Address agencyAddress)  {
+      this.agencyAddress = agencyAddress;
   }
-  
+
   public void setError(boolean error)   {
       this.error = error;
   }
-  
+
   public void setErrorMessage(String errorMessage)   {
       this.errorMessage = errorMessage;
   }
-  
+
   public int getId() {
     return id;
   }
-  
+
   public String getLastName() {
     return last_name;
   }
-  
+
   public String getFirstName() {
     return first_name;
   }
-  
+
   public boolean isDirector() {
     return director;
   }
-  
+
   public int getAgency() {
     return id_agency;
   }
-  
+
   public String getLogin() {
     return login;
   }
@@ -98,8 +98,8 @@ public class Advisor {
     return mail;
   }
 
-  public Adress getAdress() {
-    return adressAgency;
+  public Address getAddress() {
+    return agencyAddress;
   }
 
   public boolean getError() {
@@ -114,12 +114,12 @@ public class Advisor {
     Connection conn = null;
     Statement stat = null;
     ResultSet results = null;
-    
+
     try {
       conn = Server.getConnection();
       stat = conn.createStatement();
       results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + this.login + "' AND password = '" + this.password + "';");
-      
+
       results.next();
 
       this.id = results.getInt("id_advisor");
@@ -130,21 +130,21 @@ public class Advisor {
       this.password = results.getString("password");
       this.login = results.getString("login");
       this.mail = results.getString("mail");
-      
+
       results.close();
-      
-      results = stat.executeQuery("SELECT t_adress.id_adress, t_adress.street_nb, t_adress.street_name, t_adress.city_name, t_adress.zip_code " + 
-                                  "FROM t_adress, t_advisor " + 
+
+      results = stat.executeQuery("SELECT t_adress.id_adress, t_adress.street_nb, t_adress.street_name, t_adress.city_name, t_adress.zip_code " +
+                                  "FROM t_adress, t_advisor " +
                                   "WHERE t_adress.id_adress = t_advisor.id_agency AND t_advisor.login = '" + this.login + "' AND t_advisor.password = '" + this.password + "';");
-      
+
       results.next();
 
-      this.adressAgency = new Adress(results.getInt("id_adress"), 
-                                results.getInt("street_nb"), 
-                                results.getString("street_name"), 
-                                results.getString("city_name"), 
+      this.agencyAddress = new Address(results.getInt("id_adress"),
+                                results.getInt("street_nb"),
+                                results.getString("street_name"),
+                                results.getString("city_name"),
                                 results.getString("zip_code"));
-      
+
       stat.close();
       conn.close();
       this.error = false;
