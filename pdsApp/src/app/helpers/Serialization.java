@@ -15,7 +15,7 @@ public class Serialization {
     gson = builder.create();
   }
 
-  public String serializeUser(User p) {
+  public String serializeUser(Advisor p) {
     return gson.toJson(p);
   }
 
@@ -27,8 +27,8 @@ public class Serialization {
       return gson.toJson(a);
   }
 
-  public User unserializeUser(String u) {
-      return gson.fromJson(u, User.class);
+  public Advisor unserializeUser(String u) {
+      return gson.fromJson(u, Advisor.class);
   }
 
   public Customer unserializeCustomer(String c) {
