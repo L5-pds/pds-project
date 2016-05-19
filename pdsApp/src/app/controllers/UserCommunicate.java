@@ -4,9 +4,6 @@ import app.listeners.*;
 import app.models.*;
 import app.helpers.*;
 
-import java.util.HashMap;
-import java.lang.Object;
-
 import java.io.*;
 import java.net.*;
 import java.sql.*;
@@ -218,14 +215,13 @@ public class UserCommunicate implements Runnable {
     
     userAuth=authentication(login, pwd);
     if(userAuth == false)   {
-        out.println("Error/Authentification incorrecte");
+        out.println("Error/Authentification incorrecte blabla blabla blabla blabla blabla");
         out.flush();
         listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
         return false;
     }
     
-    user = getAdvisor(login, pwd);
-    getAdressAgency(login, pwd);
+    user.getAdvisor();
     if(user.getError() == true)   {
         out.println("Error/Erreur de récupération des informations");
         out.flush();
@@ -268,72 +264,6 @@ public class UserCommunicate implements Runnable {
     return userConnected;
   }
 
-  private void getAdressAgency(String login, String pass) {
-    Connection conn = null;
-    Statement stat = null;
-    ResultSet results = null;
-    
-    try {
-      conn = Server.getConnection();
-      stat = conn.createStatement();
-      results = stat.executeQuery("SELECT t_adress.id_adress, t_adress.street_nb, t_adress.street_name, t_adress.city_name, t_adress.zip_code " + 
-                                  "FROM t_adress, t_advisor " + 
-                                  "WHERE t_adress.id_adress = t_advisor.id_agency AND t_advisor.login = '" + login + "' AND t_advisor.password = '" + pass + "';");
-      
-      results.next();
-
-      Adress tmp = new Adress(results.getInt("id_adress"), 
-                                results.getInt("street_nb"), 
-                                results.getString("street_name"), 
-                                results.getString("city_name"), 
-                                results.getString("zip_code"));
-      
-      results.close();
-      stat.close();
-      conn.close();
-      user.setAdressAgency(tmp);
-    }
-    catch (SQLException e) {
-      listener.changeTextLog("ERREUR (SQL) pour récupérer les données de l'utilisateur " + login);
-      user.setError(true);
-    }
-  }
-  
-  private Advisor getAdvisor(String login, String pass) {
-    Connection conn = null;
-    Statement stat = null;
-    ResultSet results = null;
-    Advisor tmp = new Advisor();
-    
-    try {
-      conn = Server.getConnection();
-      stat = conn.createStatement();
-      results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + login + "' AND password = '" + pass + "';");
-      
-      results.next();
-
-      tmp = new Advisor(results.getInt("id_advisor"), 
-                       results.getString("last_name"), 
-                       results.getString("first_name"), 
-                       results.getBoolean("director"), 
-                       results.getInt("id_agency"), 
-                       results.getString("password"), 
-                       results.getString("login"), 
-                       results.getString("mail"));
-      
-      results.close();
-      stat.close();
-      conn.close();
-      tmp.setError(false);
-    }
-    catch (SQLException e) {
-      listener.changeTextLog("ERREUR (SQL) pour récupérer les données de l'utilisateur " + login);
-      tmp.setError(true);
-    }
-
-    return tmp;
-  }
-  
   private boolean authentication(String login, String pass) {
     boolean authentic = false;
     Connection conn = null;

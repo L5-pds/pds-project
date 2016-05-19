@@ -44,8 +44,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     contentPane.add(header, BorderLayout.NORTH);
     pack();
     
-    //setResizable(false);
     setExtendedState(MAXIMIZED_BOTH);
+    this.setMinimumSize(new Dimension(1000, 900));
     setVisible(true);
   }
 
@@ -171,6 +171,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     });
     panelGlobal.add(button5);
 
+    
+    body.setLayout(new FlowLayout());
     body.add(panelGlobal);
     
     this.revalidate();
