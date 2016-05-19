@@ -19,6 +19,7 @@ public class UserCommunicate implements Runnable {
   private Serialization gsonSerial;
   private String message = null;
   private int poolIndex=-1;
+  private Advisor user = null;
 
   public UserCommunicate(Socket socket, WelcomeListenerServer l){
     this.socket = socket;
@@ -27,7 +28,6 @@ public class UserCommunicate implements Runnable {
   }
 
   public void run() {
-    User user = null;
     String query;
     String[] splitedQuery;
     String method;
@@ -60,7 +60,7 @@ public class UserCommunicate implements Runnable {
         if (method.equals("AUTH")){
           if(typeObject.equals("User")){
             user = gsonSerial.unserializeUser(object);
-            userConnected = getConnection(user.getLogin(), user.getPwd());
+            userConnected = getConnection(user.getLogin(), user.getPassword());
           }
         }
       } catch (Exception e) {
@@ -218,7 +218,16 @@ public class UserCommunicate implements Runnable {
     
     userAuth=authentication(login, pwd);
     if(userAuth == false)   {
-        out.println("Authentification incorrecte");
+        out.println("Error/Authentification incorrecte");
+        out.flush();
+        listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
+        return false;
+    }
+    
+    user = getAdvisor(login, pwd);
+    getAdressAgency(login, pwd);
+    if(user.getError() == true)   {
+        out.println("Error/Erreur de récupération des informations");
         out.flush();
         listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
         return false;
@@ -226,7 +235,7 @@ public class UserCommunicate implements Runnable {
     
     for (int i = 0; i < Server.poolSize; i++) {
         if (Server.connectionPool[i].getUser().equals(login)) {
-            out.println("Cet utilisateur est déja connecté (ressayer ultérieurement)");
+            out.println("Error/Cet utilisateur est déja connecté (ressayer ultérieurement)");
             out.flush();
             listener.changeTextLog("CONNECT_WARNING - " + login + " - already connect");
             userAlreadyUse = true;
@@ -240,7 +249,7 @@ public class UserCommunicate implements Runnable {
             Server.connectionPool[i].setUser(login);
             listener.updateInfoLabel();
             poolIndex = i;
-            out.println("authentic");
+            out.println("Success/" + gsonSerial.serializeUser(user));
             out.flush();
             listener.changeTextLog("CONNECT_WARNING - " + login + " - connected");
             userNoPool = false;
@@ -250,7 +259,7 @@ public class UserCommunicate implements Runnable {
     }
     
     if (userNoPool == true) {
-        out.println("Aucune connexion disponible (ressayer ultérieurement)");
+        out.println("Error/Aucune connexion disponible (ressayer ultérieurement)");
         out.flush();
         listener.changeTextLog("CONNECT_WARNING - " + login + " - no connection available");
         return false;
@@ -259,6 +268,72 @@ public class UserCommunicate implements Runnable {
     return userConnected;
   }
 
+  private void getAdressAgency(String login, String pass) {
+    Connection conn = null;
+    Statement stat = null;
+    ResultSet results = null;
+    
+    try {
+      conn = Server.getConnection();
+      stat = conn.createStatement();
+      results = stat.executeQuery("SELECT t_adress.id_adress, t_adress.street_nb, t_adress.street_name, t_adress.city_name, t_adress.zip_code " + 
+                                  "FROM t_adress, t_advisor " + 
+                                  "WHERE t_adress.id_adress = t_advisor.id_agency AND t_advisor.login = '" + login + "' AND t_advisor.password = '" + pass + "';");
+      
+      results.next();
+
+      Adress tmp = new Adress(results.getInt("id_adress"), 
+                                results.getInt("street_nb"), 
+                                results.getString("street_name"), 
+                                results.getString("city_name"), 
+                                results.getString("zip_code"));
+      
+      results.close();
+      stat.close();
+      conn.close();
+      user.setAdressAgency(tmp);
+    }
+    catch (SQLException e) {
+      listener.changeTextLog("ERREUR (SQL) pour récupérer les données de l'utilisateur " + login);
+      user.setError(true);
+    }
+  }
+  
+  private Advisor getAdvisor(String login, String pass) {
+    Connection conn = null;
+    Statement stat = null;
+    ResultSet results = null;
+    Advisor tmp = new Advisor();
+    
+    try {
+      conn = Server.getConnection();
+      stat = conn.createStatement();
+      results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + login + "' AND password = '" + pass + "';");
+      
+      results.next();
+
+      tmp = new Advisor(results.getInt("id_advisor"), 
+                       results.getString("last_name"), 
+                       results.getString("first_name"), 
+                       results.getBoolean("director"), 
+                       results.getInt("id_agency"), 
+                       results.getString("password"), 
+                       results.getString("login"), 
+                       results.getString("mail"));
+      
+      results.close();
+      stat.close();
+      conn.close();
+      tmp.setError(false);
+    }
+    catch (SQLException e) {
+      listener.changeTextLog("ERREUR (SQL) pour récupérer les données de l'utilisateur " + login);
+      tmp.setError(true);
+    }
+
+    return tmp;
+  }
+  
   private boolean authentication(String login, String pass) {
     boolean authentic = false;
     Connection conn = null;
@@ -269,7 +344,7 @@ public class UserCommunicate implements Runnable {
       conn = Server.getConnection();
       stat = conn.createStatement();
       results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + login + "' AND password = '" + pass + "';");
-
+      
       results.next();
 
       if(results.getRow() != 0)

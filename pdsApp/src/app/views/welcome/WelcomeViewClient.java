@@ -43,8 +43,9 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     contentPane.add(body, BorderLayout.CENTER);
     contentPane.add(header, BorderLayout.NORTH);
     pack();
-    setExtendedState(MAXIMIZED_BOTH);
     
+    //setResizable(false);
+    setExtendedState(MAXIMIZED_BOTH);
     setVisible(true);
   }
 
