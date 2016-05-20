@@ -4,6 +4,11 @@ import app.models.*;
 import app.helpers.Serialization;
 import app.listeners.*;
 import app.views.indicator.*;
+import app.views.linda.*;
+import app.views.ruben.*;
+import app.views.tarik.*;
+import app.views.mariam.*;
+import app.views.alexandre.*;
 
 import java.net.*;
 
@@ -86,7 +91,7 @@ public class WelcomeControllerClient {
       javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
     }
     */
-    javax.swing.JOptionPane.showMessageDialog(null,"Utilisateur connecté : " + userConnect.getFirstName() + " " + userConnect.getLastName());
+    javax.swing.JOptionPane.showMessageDialog(null,"Utilisateur connecté : " + userConnect.getFirstName() + " " + userConnect.getLastName() + " de l'agence '" + userConnect.getAgencyInfo().getName() + "'");
   }
 
   public void menuBack()    {
@@ -96,6 +101,36 @@ public class WelcomeControllerClient {
   public void goIndicator() {
     ControllerClientIndicator cci = new ControllerClientIndicator(socket);
     IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+  }
+
+  public void goLinda() {
+    ControllerLinda cci = new ControllerLinda(socket);
+    ViewLinda ihm = new ViewLinda(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+  }
+
+  public void goRuben() {
+    ControllerRuben cci = new ControllerRuben(socket);
+    ViewRuben ihm = new ViewRuben(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+  }
+
+  public void goTarik() {
+    ControllerTarik cci = new ControllerTarik(socket);
+    ViewTarik ihm = new ViewTarik(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+  }
+
+  public void goMariam() {
+    ControllerMariam cci = new ControllerMariam(socket);
+    ViewMariam ihm = new ViewMariam(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+  }
+
+  public void goAlexandre() {
+    ControllerAlexandre cci = new ControllerAlexandre(socket);
+    ViewAlexandre ihm = new ViewAlexandre(cci, listener.getBody(), listener.getContainer());
     cci.addListener(ihm);
   }
 

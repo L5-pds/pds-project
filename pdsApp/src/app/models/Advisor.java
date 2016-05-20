@@ -15,7 +15,7 @@ public class Advisor {
   private String password;
   private String login;
   private String mail;
-  private Address agencyAddress;
+  private Agency agencyInfo;
   private boolean error;
   private String errorMessage;
 
@@ -54,8 +54,8 @@ public class Advisor {
     this.mail = mail;
   }
 
-  public void setAgencyAddress(Address agencyAddress)  {
-      this.agencyAddress = agencyAddress;
+  public void setAgency(Agency agencyInfo)  {
+      this.agencyInfo = agencyInfo;
   }
 
   public void setError(boolean error)   {
@@ -98,8 +98,8 @@ public class Advisor {
     return mail;
   }
 
-  public Address getAddress() {
-    return agencyAddress;
+  public Agency getAgencyInfo() {
+    return agencyInfo;
   }
 
   public boolean getError() {
@@ -118,7 +118,7 @@ public class Advisor {
     try {
       conn = Server.getConnection();
       stat = conn.createStatement();
-      results = stat.executeQuery("SELECT * FROM t_advisor WHERE login = '" + this.login + "' AND password = '" + this.password + "';");
+      results = stat.executeQuery("SELECT * FROM t_advisor, t_agency WHERE login = '" + this.login + "' AND t_agency.id_agency = t_advisor.id_agency;");
 
       results.next();
 
@@ -131,19 +131,11 @@ public class Advisor {
       this.login = results.getString("login");
       this.mail = results.getString("mail");
 
-      results.close();
-
-      results = stat.executeQuery("SELECT t_adress.id_adress, t_adress.street_nb, t_adress.street_name, t_adress.city_name, t_adress.zip_code " +
-                                  "FROM t_adress, t_advisor " +
-                                  "WHERE t_adress.id_adress = t_advisor.id_agency AND t_advisor.login = '" + this.login + "' AND t_advisor.password = '" + this.password + "';");
-
-      results.next();
-
-      this.agencyAddress = new Address(results.getInt("id_adress"),
-                                results.getInt("street_nb"),
-                                results.getString("street_name"),
-                                results.getString("city_name"),
-                                results.getString("zip_code"));
+      this.agencyInfo = new Agency(results.getInt("id_agency"),
+                                results.getString("name"),
+                                results.getInt("id_adress"),
+                                results.getString("phone_nb"),
+                                results.getString("fax_nb"));
 
       stat.close();
       conn.close();

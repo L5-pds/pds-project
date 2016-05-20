@@ -111,7 +111,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     body.removeAll();
 
     JPanel panelGlobal = new JPanel();
-    panelGlobal.setLayout(new GridLayout(6, 1, 0, 0));
+    panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
     panelGlobal.setOpaque(false);
 
     JLabel labelTitle = new JLabel();
@@ -133,43 +133,53 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     JButton button2 = new javax.swing.JButton();
     button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button2.setText("test_2");
+    button2.setText("Linda");
     button2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAddress();
+            wc.goLinda();
         }
     });
     panelGlobal.add(button2);
 
     JButton button3 = new javax.swing.JButton();
     button3.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button3.setText("test_3");
+    button3.setText("Ruben");
     button3.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAddress();
+            wc.goRuben();
         }
     });
     panelGlobal.add(button3);
 
     JButton button4 = new javax.swing.JButton();
     button4.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button4.setText("test_4");
+    button4.setText("Tarik");
     button4.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAddress();
+            wc.goTarik();
         }
     });
     panelGlobal.add(button4);
 
     JButton button5 = new javax.swing.JButton();
     button5.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button5.setText("test_5");
+    button5.setText("Mariam");
     button5.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.testAddNewAddress();
+            wc.goMariam();
         }
     });
     panelGlobal.add(button5);
+
+    JButton button6 = new javax.swing.JButton();
+    button6.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button6.setText("Alexandre");
+    button6.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            wc.goAlexandre();
+        }
+    });
+    panelGlobal.add(button6);
 
 
     body.setLayout(new FlowLayout());
