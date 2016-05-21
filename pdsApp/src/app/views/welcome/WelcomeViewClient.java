@@ -53,7 +53,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   public void authenticationIhm() {
     body.removeAll();
 
-    	JLabel labelPass = new JLabel();
+    JLabel labelPass = new JLabel();
     JLabel labelLogin = new JLabel();
     JPanel panelGlobal = new JPanel();
     RoundJTextField loginField = new RoundJTextField(20);
@@ -62,7 +62,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     loginField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
     loginField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-    loginField.setText("");
+    loginField.setText("LBOUZID");
 
     labelPass.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
     labelPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -70,8 +70,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
     passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-    passField.setText("");
-
+    passField.setText("ing");
+    
     labelLogin.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
     labelLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     labelLogin.setText("Nom d'utilisateur");
