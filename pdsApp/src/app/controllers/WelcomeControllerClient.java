@@ -7,7 +7,7 @@ import app.views.indicator.*;
 import app.views.linda.*;
 import app.views.ruben.*;
 import app.views.tarik.*;
-import app.views.mariam.*;
+import app.views.simulations.*;
 import app.views.alexandre.*;
 
 import java.net.*;
@@ -123,9 +123,12 @@ public class WelcomeControllerClient {
   }
 
   public void goMariam() {
-    ControllerMariam cci = new ControllerMariam(socket);
-    ViewMariam ihm = new ViewMariam(cci, listener.getBody(), listener.getContainer());
-    cci.addListener(ihm);
+    //ControllerMariam cci = new ControllerMariam(socket);
+    //ViewMariam ihm = new ViewMariam(cci, listener.getBody(), listener.getContainer());
+    //cci.addListener(ihm);
+    VariableRateSimulationController c = new VariableRateSimulationController();
+    VariableRateSimulationView ihm = new VariableRateSimulationView(c);
+    c.addListener(ihm);
   }
 
   public void goAlexandre() {

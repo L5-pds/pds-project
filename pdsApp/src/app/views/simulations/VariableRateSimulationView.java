@@ -451,11 +451,11 @@ private void resultsIHM2(String title) {
 
 
 
-  public static void main(String[] args){
-    VariableRateSimulationController c = new VariableRateSimulationController();
-    VariableRateSimulationView ihm = new VariableRateSimulationView(c);
-    c.addListener(ihm);
-  }
+  //public static void main(String[] args){
+  //  VariableRateSimulationController c = new VariableRateSimulationController();
+  //  VariableRateSimulationView ihm = new VariableRateSimulationView(c);
+  //  c.addListener(ihm);
+  //}
 
 }
 
