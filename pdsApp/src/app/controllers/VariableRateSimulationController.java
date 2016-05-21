@@ -16,6 +16,9 @@ public class VariableRateSimulationController {
 
   public void addListener(VariableRateSimulationListener l) {
     listener = l;
+  }
+
+  public void initialization(){
     this.amount=listener.labelString(listener.getAnswerAmount());
     this.interestRate=listener.labelString(listener.getAnswerInitialRate());
     this.duration=listener.labelString(listener.getAnswerTime())*12;

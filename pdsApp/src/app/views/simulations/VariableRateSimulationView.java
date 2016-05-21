@@ -219,17 +219,13 @@ public class VariableRateSimulationView extends JFrame implements VariableRateSi
         resultsIHM2("Scénarios Favorables");
 
       }
-});
+    });
     // Add of an event when clicking on the bouton3
     bouton3.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         resultsIHM2("Scénarios défavorables");
-
       }
-
-
-  });
-
+    });
 
     this.add(body1);
     this.setVisible(true);
@@ -258,23 +254,18 @@ public class VariableRateSimulationView extends JFrame implements VariableRateSi
 
   //Creation of the results view
 private void resultsIHM1(String interestRate) {
-
-
     body1.removeAll();
-
     //Update of the title
     titre_use_case.setText(answer_firstname.getText()+ " " + answer_lastname.getText()+ " "+ "voici le résultat de votre première simulation de prêt:");
 
     lowerBoundary=labelString(interestRate)-borne();
     upperBoundary=labelString(interestRate)+borne();
 
-
     double lowerBoundaryRound= Math.floor(100*lowerBoundary)/100;
     double upperBoundaryRound=Math.floor(100*upperBoundary)/100;
-
+    controller.initialization();
     double monthPayment1= controller.calculateMonthlyPayment(this.labelString(this.getAnswerInitialRate()));
     double totalToPay = monthPayment1*(this.labelString(this.getAnswerTime())*12);
-
 
     label_lastname.setText("Montant du prêt:  " + getAnswerAmount());
     label_firstname.setText("Durée du prêt:   "+ answer_time.getSelectedItem()+ "ans");
@@ -322,16 +313,15 @@ private void resultsIHM1(String interestRate) {
 
 private void resultsIHM2(String title) {
     double interest= this.labelString(this.getAnswerInitialRate());
+    controller.initialization();
     double monthPayment2= controller.calculateMonthlyPayment(interest);
     int duree= (int) (this.labelString(this.getAnswerTime()));
 
     //Amount to pay for one year
-      double monthPayment;
-      double totalMonth =0;
-
+    double monthPayment;
+    double totalMonth =0;
 
     JFrame fenetre= new JFrame();
-
     JPanel pan1= new JPanel();
     pan1.setLayout(new BorderLayout());
 
@@ -344,57 +334,48 @@ private void resultsIHM2(String title) {
     JTabbedPane onglet;
     onglet = new JTabbedPane();
 
-
     fenetre.setLocationRelativeTo(null);
-      fenetre.setTitle(title);
-      fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      fenetre.setExtendedState(this.MAXIMIZED_BOTH);
+    fenetre.setTitle(title);
+    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenetre.setExtendedState(this.MAXIMIZED_BOTH);
 
-      //Instantiation of the titles
-        String[] titles = {"Année", "Taux", "Mensualité", "Total Payé"};
-        Object[][] data = null;
+    //Instantiation of the titles
+    String[] titles = {"Année", "Taux", "Mensualité", "Total Payé"};
+    Object[][] data = null;
 
-        //Instantiation of the table
-        DefaultTableModel model = new DefaultTableModel(data,titles);
-      JTable table = new JTable(model);
+    //Instantiation of the table
+    DefaultTableModel model = new DefaultTableModel(data,titles);
+    JTable table = new JTable(model);
 
-
-
-  if(title=="Scénarios Favorables"){
-
+    if(title=="Scénarios Favorables"){
       for(int i=1; i<=duree; i++){
+        //Update of the interest rate and the monthly payment
+        interest=Math.floor(100*(interest+ (1.0/duree)))/100;
+        monthPayment2=controller.calculateMonthlyPayment(interest);
+        monthPayment=monthPayment2*12;
+        //Add of new line in the table
+        model.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
+      }
+    }
+    else{
+      for(int i=1; i<=duree; i++){
+        interest=Math.floor(100*(interest-(1.0/duree)))/100;
+        monthPayment2=controller.calculateMonthlyPayment(interest);
+        monthPayment=monthPayment2*12;
+        model.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
+      }
+    }
 
-          //Update of the interest rate and the monthly payment
-          interest=Math.floor(100*(interest+ (1.0/duree)))/100;
-          monthPayment2=controller.calculateMonthlyPayment(interest);
-          monthPayment=monthPayment2*12;
-          //Add of new line in the table
-          model.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
+    //System.out.println(labelString(model.getValueAt(0,3).toString()));
+    model.addRow(new Object[]{"Le montant","total","a payer est :",totalMonth});
 
-          }}
+    pan1.add(new JScrollPane(table),BorderLayout.CENTER);
+    onglet.add("scénario1",pan1);
+    onglet.add("scénari2",pan2);
+    onglet.add("scénario3",pan3);
 
-  else{
-
-     for(int i=1; i<=duree; i++){
-          interest=Math.floor(100*(interest-(1.0/duree)))/100;
-          monthPayment2=controller.calculateMonthlyPayment(interest);
-          monthPayment=monthPayment2*12;
-          model.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
-
-          }
-  }
-
-
-     //System.out.println(labelString(model.getValueAt(0,3).toString()));
-     model.addRow(new Object[]{"Le montant","total","a payer est :",totalMonth});
-
-     pan1.add(new JScrollPane(table),BorderLayout.CENTER);
-     onglet.add("scénario1",pan1);
-     onglet.add("scénari2",pan2);
-     onglet.add("scénario3",pan3);
-
-     fenetre.getContentPane().add(onglet);
-     fenetre.setVisible(true);
+    fenetre.getContentPane().add(onglet);
+    fenetre.setVisible(true);
 }
 
 
