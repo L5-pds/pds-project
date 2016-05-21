@@ -6,16 +6,18 @@ import app.models.component.RoundJTextField;
 import app.views.welcome.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-
-
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -40,89 +42,11 @@ public class IndicatorView implements ListenerClientIndicator {
 
     public void setIHM() {
         body.removeAll();
-               
-        JPanel topPan = new JPanel();
-        topPan.setBackground(new Color(0,0,0,0));
-        topPan.setLayout(new GridLayout(0, 2, 0, 0));
-        topPan.setBorder((BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255, 255, 255, 100))));
 
-        JPanel test = new JPanel();
-        test.setBackground(new Color(0,0,0,0));
-        test.setLayout(new GridLayout(0, 2, 0, 0));
-        
-        test.add(makePanTopLeft());
-        test.add(makePanMiddleLeft());
-        
-        topPan.add(test);
-
-        topPan.add(makePanTopRight());
-
-        JPanel bottomPan = new JPanel();
-        bottomPan.setBackground(new Color(0,0,0,0));
-        bottomPan.setLayout(new GridLayout(0, 3, 0, 0));
-        bottomPan.setBorder(javax.swing.BorderFactory.createBevelBorder(1, new Color(0, 0, 0, 255), new Color(0,0,0,0)));
-
-        JPanel panel_4 = new JPanel();
-        panel_4.setBackground(new Color(0,0,0,0));
-        panel_4.setBorder(javax.swing.BorderFactory.createBevelBorder(1, new Color(215,203,233,255), new Color(0,0,0,0)));
-        bottomPan.add(panel_4);
-
-        JPanel panel_5 = new JPanel();
-        panel_5.setBackground(new Color(0,0,0,0));
-        panel_5.setBorder(javax.swing.BorderFactory.createBevelBorder(1, new Color(215,203,233,255), new Color(0,0,0,0)));
-        bottomPan.add(panel_5);
-
-        JPanel panel_6 = new JPanel();
-        panel_6.setBackground(new Color(0,0,0,0));
-        panel_6.setBorder(javax.swing.BorderFactory.createBevelBorder(1, new Color(215,203,233,255), new Color(0,0,0,0)));
-        bottomPan.add(panel_6);
-        
-        body.setLayout(new GridLayout(2, 0, 0, 0));
-        body.setBackground(new Color(215,203,233,255));
-        body.add(topPan);
-        body.add(bottomPan);
-        body.revalidate();
-        body.repaint();
-            
-        cont.revalidate();
-        cont.repaint();
-    }
-    
-    private JPanel makePanTopLeft() {
-        JPanel panel_2 = new JPanel(new BorderLayout());
-        panel_2.setBackground(new Color(215,203,233,255));
-        
-        DefaultPieDataset union = new DefaultPieDataset();
-        union.setValue("Immobilier",2345);
-        union.setValue("Automobile",1234);
-        union.setValue("Divers",4321);
-        
-        JFreeChart repart = ChartFactory.createPieChart("Répartition des prêts suivant le type", union, true, true, false);
-        repart.setBorderVisible(false);
-        repart.setBackgroundPaint(new Color(215,203,233,255));
-        
-        Plot plot = repart.getPlot();
-        plot.setBackgroundPaint(new Color(215,203,233,255));
-        plot.setOutlineVisible(false);
-        
-        ChartPanel panechart = new ChartPanel(repart);
-        panechart.setBackground(new Color(215,203,233,255));
-        panechart.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        
-        panechart.setOpaque(true);
-        panechart.validate();
-        panechart.repaint();
-        panel_2.add(panechart, BorderLayout.CENTER);
-                
-        panel_2.validate();
-        panel_2.repaint();
-        
-        return panel_2;
-    }
-    
-    private JPanel makePanMiddleLeft() {
-        JPanel panel_2 = new JPanel(new BorderLayout());
-        panel_2.setBackground(new Color(215,203,233,255));
+        DefaultPieDataset union1 = new DefaultPieDataset();
+        union1.setValue("Immobilier",2345);
+        union1.setValue("Automobile",1234);
+        union1.setValue("Divers",4321);
         
         DefaultPieDataset union = new DefaultPieDataset();
         union.setValue("Thibault",2345);
@@ -138,32 +62,11 @@ public class IndicatorView implements ListenerClientIndicator {
         union.setValue("Sarah",1234);
         union.setValue("Aurélie",4321);
         
-        JFreeChart repart = ChartFactory.createPieChart("Répartition des prêts par conseillés", union, true, true, false);
-        repart.setBorderVisible(false);
-        repart.setBackgroundPaint(new Color(215,203,233,255));
-        
-        Plot plot = repart.getPlot();
-        plot.setBackgroundPaint(new Color(215,203,233,255));
-        plot.setOutlineVisible(false);
-        
-        ChartPanel panechart = new ChartPanel(repart);
-        panechart.setBackground(new Color(215,203,233,255));
-        panechart.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        
-        panechart.setOpaque(true);
-        panechart.validate();
-        panechart.repaint();
-        panel_2.add(panechart, BorderLayout.CENTER);
-                
-        panel_2.validate();
-        panel_2.repaint();
-        
-        return panel_2;
-    }
-    
-    private JPanel makePanTopRight() {
-        JPanel panel_3 = new JPanel(new BorderLayout());
-        panel_3.setBackground(new Color(215,203,233,255));
+        JPanel topPanLeft = new JPanel();
+        topPanLeft.setBackground(new Color(0,0,0,0));
+        topPanLeft.setLayout(new GridLayout(0, 2, 0, 0));
+        topPanLeft.add(makePieChart("Répartition des prêts suivant le type", union1));
+        topPanLeft.add(makePieChart("Répartition des prêts par conseillés", union));
         
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.addValue(123456, "Immobilié", "2006");
@@ -177,7 +80,6 @@ public class IndicatorView implements ListenerClientIndicator {
         dataset.addValue(345631, "Immobilié", "2014");
         dataset.addValue(345753, "Immobilié", "2015");
         dataset.addValue(864345, "Immobilié", "2016");
-        
         dataset.addValue(123456, "Automobile", "2006");
         dataset.addValue(312456, "Automobile", "2007");
         dataset.addValue(234561, "Automobile", "2008");
@@ -189,7 +91,6 @@ public class IndicatorView implements ListenerClientIndicator {
         dataset.addValue(345631, "Automobile", "2014");
         dataset.addValue(345753, "Automobile", "2015");
         dataset.addValue(864345, "Automobile", "2016");
-        
         dataset.addValue(234561, "Divers", "2006");
         dataset.addValue(312456, "Divers", "2007");
         dataset.addValue(234561, "Divers", "2008");
@@ -202,33 +103,196 @@ public class IndicatorView implements ListenerClientIndicator {
         dataset.addValue(632134, "Divers", "2015");
         dataset.addValue(864345, "Divers", "2016");
         
-        JFreeChart repart1 = ChartFactory.createBarChart("Bénéfices prévisionnel de l'agence par année", "Année", "Résultat prévisionnel", dataset, PlotOrientation.VERTICAL, true, true, false);
-        repart1.setBorderVisible(false);
-        repart1.setBackgroundPaint(new Color(215,203,233,255));
+        JPanel topPan = new JPanel();
+        topPan.setBackground(new Color(0,0,0,0));
+        topPan.setLayout(new GridLayout(0, 2, 0, 0));
+        topPan.setBorder((BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255, 255, 255, 100))));
+        topPan.add(topPanLeft);
+        topPan.add(makeBarChart("Bénéfices prévisionnel de l'agence par année", "Année", "Résultat prévisionnel", dataset));
+                
+        JPanel bottomPan = new JPanel();
+        bottomPan.setBackground(new Color(0,0,0,0));
+        bottomPan.setLayout(new BorderLayout());
+        bottomPan.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(255, 255, 255, 100))));
+        bottomPan.add(makePanBottomLeft(), BorderLayout.WEST);
+        bottomPan.add(makePanBottomMiddle(), BorderLayout.CENTER);
+        bottomPan.add(makeOptionPane("  Options  "), BorderLayout.EAST);
         
-        ChartPanel panechart1 = new ChartPanel(repart1);
-        panechart1.setBackground(new Color(215,203,233,255));
-        panechart1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        body.setLayout(new GridLayout(2, 0, 0, 0));
+        body.setBackground(new Color(215,203,233,255));
+        body.add(topPan);
+        body.add(bottomPan);
+        body.revalidate();
+        body.repaint();
+            
+        cont.revalidate();
+        cont.repaint();
+    }
+    
+    private JPanel makePieChart(String chartTitle, DefaultPieDataset dataset) {
+
+        // Creat the chart with parameters
+        JFreeChart theChart = ChartFactory.createPieChart(chartTitle, dataset, true, true, false);
+        // Set properties for the chart
+        theChart.setBorderVisible(false);
+        theChart.setBackgroundPaint(new Color(215,203,233,255));
         
-        Plot plot1 = repart1.getPlot();
-        plot1.setBackgroundPaint(new Color(215,203,233,255));
-        plot1.setOutlineVisible(false);
+        // Creat the plot with the chart in parameter
+        Plot thePlot = theChart.getPlot();
+        // Set propoerties for the composent of chart
+        thePlot.setBackgroundPaint(new Color(215,203,233,255));
+        thePlot.setOutlineVisible(false);
         
-        panechart1.setOpaque(true);
-        panechart1.validate();
-        panechart1.repaint();
-        panechart1.setDomainZoomable(false);
-        panechart1.setRangeZoomable(false);
-        panechart1.setZoomAroundAnchor(false);
+        // Creat the chartpanel with the chart in parameter
+        ChartPanel theChartPanel = new ChartPanel(theChart);
+        // Set properties for the chartpanel
+        theChartPanel.setBackground(new Color(215,203,233,255));
+        theChartPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        theChartPanel.setOpaque(true);
         
-        panechart1.repaint();
-        panel_3.add(panechart1, BorderLayout.CENTER);
-                   
-        panel_3.validate();
-        panel_3.repaint();
+        return theChartPanel;
+    }
+    
+    private JPanel makeBarChart(String chartTitle, String abscissTitle, String ordonatTitle, DefaultCategoryDataset dataset) {
+        // Creat the chart with parameters
+        JFreeChart theChart = ChartFactory.createBarChart(chartTitle, abscissTitle, ordonatTitle, dataset, PlotOrientation.VERTICAL, true, true, false);
+        // Set properties for the chart
+        theChart.setBorderVisible(false);
+        theChart.setBackgroundPaint(new Color(215,203,233,255));
         
+        // Creat the plot with the chart in parameter
+        Plot thePlot = theChart.getPlot();
+        // Set propoerties for the composent of chart
+        thePlot.setBackgroundPaint(new Color(215,203,233,255));
+        thePlot.setOutlineVisible(false);
         
-        return panel_3;
+        // Creat the chartpanel with the chart in parameter
+        ChartPanel theChartPane = new ChartPanel(theChart);
+        // Set properties for the chartpanel
+        theChartPane.setBackground(new Color(215,203,233,255));
+        theChartPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        theChartPane.setOpaque(true);
+        theChartPane.setDomainZoomable(false);
+        theChartPane.setRangeZoomable(false);
+        
+        return theChartPane;
+    }
+    
+    private JPanel makePanBottomLeft()  {
+        JPanel thePane = new JPanel();
+        //thePane.setLayout(new GridLayout(11, 1));
+        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
+        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(255, 255, 255, 100))));
+        
+        JLabel lblTitle = new JLabel();
+        lblTitle.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitle.setText("          Classement collaborateur          ");
+        
+        JLabel lbl1 = new JLabel();
+        lbl1.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        lbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl1.setText("1 - BOURGEOIS Thibault");
+        
+        JLabel lbl2 = new JLabel();
+        lbl2.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        lbl2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl2.setText("2 - EDERY Ruben");
+        
+        JLabel lbl3 = new JLabel();
+        lbl3.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        lbl3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl3.setText("3 - KICH Tarik");
+        
+        JLabel lbl4 = new JLabel();
+        lbl4.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        lbl4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl4.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl4.setText("4 - GENGOUL Alexandre");
+        
+        JLabel lbl5 = new JLabel();
+        lbl5.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        lbl5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl5.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lbl5.setText("5 - BOUZID Linda");
+        
+        JButton btMore = new JButton();
+        btMore.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+        btMore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btMore.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btMore.setText("Rapport spécifique");
+        
+        thePane.add(new JLabel(" "));
+        thePane.add(lblTitle);
+        thePane.add(new JLabel(" "));
+        thePane.add(lbl1);
+        thePane.add(lbl2);
+        thePane.add(lbl3);
+        thePane.add(lbl4);
+        thePane.add(lbl5);
+        thePane.add(new JLabel(" "));
+        thePane.add(btMore);
+        thePane.add(new JLabel(" "));
+        return thePane;
+    }
+    
+    private JPanel makePanBottomMiddle()  {
+        JPanel thePane = new JPanel();
+        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
+        thePane.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(255, 255, 255, 100))));
+
+        JLabel lblTitle = new JLabel("Indicateurs suivant des axes spécifiques");
+        lblTitle.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        thePane.add(new JLabel(" "));
+        thePane.add(lblTitle);
+        thePane.add(new JLabel("Imaginer des ComboBox et un jolie récapitulatif suivant les résultats des combobox"));
+        return thePane;
+    }
+    
+    private JPanel makeOptionPane(String paneTitle)  {
+        ImageIcon trait;
+        Image im;
+        JLabel buttonRefresh;
+        JLabel buttonPrint;
+        JLabel lblTitle;
+        
+        // Creat label with title
+        lblTitle = new JLabel(paneTitle);
+        lblTitle.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Create button for refresh with a jlabel
+        trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefresh.png"));
+        im = trait.getImage().getScaledInstance(50, 50, 1);
+        buttonRefresh = new JLabel(new ImageIcon(im));
+        buttonRefresh.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Create button for refresh with a jlabel
+        trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinter.png"));
+        im = trait.getImage().getScaledInstance(50, 50, 1);
+        buttonPrint = new JLabel(new ImageIcon(im));
+        buttonPrint.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JPanel thePane = new JPanel();
+        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
+        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setBorder((BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(255, 255, 255, 100))));
+
+        thePane.add(new JLabel(" "));
+        thePane.add(lblTitle);
+        thePane.add(new JLabel(" "));
+        thePane.add(buttonRefresh);
+        thePane.add(new JLabel(" "));
+        thePane.add(buttonPrint);
+        return thePane;
     }
     
 }
