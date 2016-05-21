@@ -6,6 +6,7 @@ import app.models.component.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   //private JFrame frame;
@@ -32,11 +33,11 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     header = new JPanel();
 
     header.add(image);
-    header.setBackground(new Color(215,203,233,200));
+    header.setBackground(new Color(215,203,233,255));
 
     body = new JPanel();
     body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
-    body.setBackground(new Color(215,203,233,200));
+    body.setBackground(new Color(215,203,233,255));
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     contentPane = this.getContentPane();
@@ -120,22 +121,23 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     labelTitle.setText("     Menu du programme     ");
     panelGlobal.add(labelTitle);
 
-    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconSpeed.png"));
-    Image im = trait.getImage();
-    im  = im.getScaledInstance(50,50,1);
-    JLabel buttonGoIndicator = new JLabel(new ImageIcon(im));
-    buttonGoIndicator.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                wc.goIndicator();
-            }
-        });
-    panelGlobal.add(buttonGoIndicator);
+    JButton button1 = new javax.swing.JButton();
+    button1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
+    button1.setText("Thibault");
+    button1.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            wc.goIndicator();
+        }
+    });
+    panelGlobal.add(button1);
 
     JButton button2 = new javax.swing.JButton();
     button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button2.setText("Linda");
-    button2.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
+    button2.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
             wc.goLinda();
         }
     });
@@ -144,7 +146,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     JButton button3 = new javax.swing.JButton();
     button3.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button3.setText("Ruben");
-    button3.addActionListener(new java.awt.event.ActionListener() {
+    button3.addActionListener(new ActionListener() {
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.goRuben();
         }
@@ -154,7 +157,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     JButton button4 = new javax.swing.JButton();
     button4.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button4.setText("Tarik");
-    button4.addActionListener(new java.awt.event.ActionListener() {
+    button4.addActionListener(new ActionListener() {
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.goTarik();
         }
@@ -164,7 +168,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     JButton button5 = new javax.swing.JButton();
     button5.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button5.setText("Mariam");
-    button5.addActionListener(new java.awt.event.ActionListener() {
+    button5.addActionListener(new ActionListener() {
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.goMariam();
         }
@@ -174,7 +179,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     JButton button6 = new javax.swing.JButton();
     button6.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button6.setText("Alexandre");
-    button6.addActionListener(new java.awt.event.ActionListener() {
+    button6.addActionListener(new ActionListener() {
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             wc.goAlexandre();
         }
@@ -195,6 +201,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     im  = im.getScaledInstance(80,80,1);
     JLabel buttonBackMenu = new JLabel(new ImageIcon(im));
     buttonBackMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 wc.menuBack();
             }
