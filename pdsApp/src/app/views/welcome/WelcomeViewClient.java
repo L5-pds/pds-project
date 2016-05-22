@@ -182,7 +182,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     button6.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.goAlexandre();
+            wc.goFixedRateSimulation();
         }
     });
     panelGlobal.add(button6);
