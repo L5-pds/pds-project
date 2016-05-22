@@ -2,6 +2,7 @@ package app.views.indicator;
 
 import app.controllers.*;
 import app.listeners.*;
+import app.models.*;
 import app.models.component.RoundJTextField;
 import app.views.welcome.*;
 import java.awt.BorderLayout;
@@ -17,6 +18,10 @@ import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
@@ -33,21 +38,18 @@ public class IndicatorView implements ListenerClientIndicator {
     private ControllerClientIndicator cci;
     private JPanel body;
     private Container cont;
+    private Advisor user;
     
-    public IndicatorView(ControllerClientIndicator cci, JPanel body, Container cont) {
+    public IndicatorView(ControllerClientIndicator cci, JPanel body, Container cont, Advisor user) {
       this.cci = cci;
       this.body = body;
       this.cont = cont;
+      this.user = user;
     }
 
     public void setIHM() {
         body.removeAll();
 
-        DefaultPieDataset union1 = new DefaultPieDataset();
-        union1.setValue("Immobilier",2345);
-        union1.setValue("Automobile",1234);
-        union1.setValue("Divers",4321);
-        
         DefaultPieDataset union = new DefaultPieDataset();
         union.setValue("Thibault",2345);
         union.setValue("Linda",1234);
@@ -65,7 +67,7 @@ public class IndicatorView implements ListenerClientIndicator {
         JPanel topPanLeft = new JPanel();
         topPanLeft.setBackground(new Color(0,0,0,0));
         topPanLeft.setLayout(new GridLayout(0, 2, 0, 0));
-        topPanLeft.add(makePieChart("Répartition des prêts suivant le type", union1));
+        topPanLeft.add(makePieChart("Répartition des prêts suivant le type", cci.getPieDatasetLoanPerType()));
         topPanLeft.add(makePieChart("Répartition des prêts par conseillés", union));
         
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -117,6 +119,7 @@ public class IndicatorView implements ListenerClientIndicator {
         bottomPan.add(makePanBottomLeft(), BorderLayout.WEST);
         bottomPan.add(makePanBottomMiddle(), BorderLayout.CENTER);
         bottomPan.add(makeOptionPane("  Options  "), BorderLayout.EAST);
+        bottomPan.add(makeUserPane(), BorderLayout.SOUTH);
         
         body.setLayout(new GridLayout(2, 0, 0, 0));
         body.setBackground(new Color(215,203,233,255));
@@ -230,11 +233,7 @@ public class IndicatorView implements ListenerClientIndicator {
         thePane.add(new JLabel(" "));
         thePane.add(lblTitle);
         thePane.add(new JLabel(" "));
-        thePane.add(lbl1);
-        thePane.add(lbl2);
-        thePane.add(lbl3);
-        thePane.add(lbl4);
-        thePane.add(lbl5);
+        thePane.add(cci.getAdvisorClassement(this.user.getAgency()));
         thePane.add(new JLabel(" "));
         thePane.add(btMore);
         thePane.add(new JLabel(" "));
@@ -292,6 +291,30 @@ public class IndicatorView implements ListenerClientIndicator {
         thePane.add(buttonRefresh);
         thePane.add(new JLabel(" "));
         thePane.add(buttonPrint);
+        return thePane;
+    }
+    
+    private JPanel makeUserPane()   {
+        
+        // Date format (a commenter)
+        Locale locale = Locale.getDefault();
+	Date actuelle = new Date();
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd à HH:mm:ss");
+        
+        // Creat label with information
+        JLabel lblInformation = new JLabel();
+        lblInformation.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        lblInformation.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblInformation.setText("Utilisateur: " + user.getFirstName() + " " + user.getLastName() +
+                "  |  Agence: " + user.getAgencyInfo().getName() +
+                "  |  Date: " + dateFormat.format(actuelle));
+        
+        JPanel thePane = new JPanel();
+        thePane.setLayout(new FlowLayout());
+        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setBorder((BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(255, 255, 255, 100))));
+
+        thePane.add(lblInformation);
         return thePane;
     }
     
