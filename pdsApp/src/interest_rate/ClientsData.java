@@ -12,9 +12,10 @@ public class ClientsData {
 		
 		listdata.add(c1);
 		
-		System.out.println("Client number " + listdata.get(0).getId_client() + ": " + listdata.get(0).getname());
+		// System.out.println("Client number " + listdata.get(0).getId_client() + ": " + listdata.get(0).getname());
 		
-		Rate_calculation.grade(c1) ; // fonctionne pas
+		
+		System.out.println(c1.grade());
 		
 		/*
 		c1.setId_client() ;

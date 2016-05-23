@@ -1,6 +1,6 @@
 package interest_rate;
 import java.time.*;
-import java.util.Date;
+import java.util.*;
 
 public class Rate_calculation {
 
@@ -19,8 +19,20 @@ public class Rate_calculation {
 	public int disease_risk ;
 	public int job_risk ; 
 
-	public Rate_calculation(int id_client, String name,int age,int salary,int loan_amount,int loan_duration, String type_loan, int smoker, int disease, int corpulence, int alcohol, int disease_risk, int job_risk) {
-
+	public Rate_calculation(int id_client, 
+			String name,
+			int age,
+			int salary,
+			int loan_amount,
+			int loan_duration, 
+			String type_loan, 
+			int smoker,
+			int disease,
+			int corpulence, 
+			int alcohol, 
+			int disease_risk, 
+			int job_risk) 
+	{
 		this.id_client = id_client ;
 		this.name = name ;
 		this.age = age;
@@ -36,101 +48,11 @@ public class Rate_calculation {
 		this.job_risk = job_risk;
 	}
 
-	public int getId_client(){
-		return id_client ; 
-	}
-	public int setId_client(){
-		return id_client ; 
-	}
-
-	public String getname(){
-		return name ; 
-	}
-	public String setname(){
-		return name ; 
-	}
-
-	public int getAge(){
-		return age ;
-	}
-	public int setAge(){
-		return age ;
-	}
-
-	public int getSalary(){
-		return salary ; 
-	}
-	public int setSalary(){
-		return salary ; 
-	}
-
-	public int getDisease(){
-		return disease ; 
-	}
-	public int setDisease(){
-		return disease ; 
-	}
-
-	public int getLoan_amount(){
-		return loan_amount ;
-	}
-	public int setLoan_amount(){
-		return loan_amount ;
-	}
-
-	public int getLoan_duration(){
-		return loan_duration ; 
-	}
-	public int setLoan_duration(){
-		return loan_duration ; 
-	}
-
-	public String getType_loan(){
-		return type_loan ;
-	}
-	public String setType_loan(){
-		return type_loan ;
-	}
-
-	public int getSmoker(){
-		return smoker ; 
-	}
-	public int setSmoker(){
-		return smoker ; 
-	}
-
-	public int getCorpulence(){
-		return corpulence ; 
-	}
-	public int setCorpulence(){
-		return corpulence ; 
-	}
-
-	public int getAlcohol(){
-		return alcohol ;
-	}
-	public int setAlcohol(){
-		return alcohol ;
-	}
-
-	public int getDisease_risk(){
-		return disease_risk ;
-	}
-	public int setDisease_risk(){
-		return disease_risk ;
-	}
-
-	public int getJob_risk(){
-		return job_risk ;
-	}
-	public int setJob_risk(){
-		return job_risk ;
-	}
 
 	// Each client will have a grade according to his personal information 
 	// for the moment it only takes one client
 
-	public static double grade(Rate_calculation client){
+	public double grade(){
 
 		double rate = 0 ; // need to be retrieved from the database
 		double monthly_payment = 0 ; // in each case, generate a coefficient that will be added to the grade
@@ -138,32 +60,28 @@ public class Rate_calculation {
 		double coeff_salary = 0 ;
 
 	// treatment of the client and the loan : the more the client earns, the smallest the coefficient will be => the grade too
-		switch(client.getType_loan()){
-		
+		switch(type_loan){
 		case "AUTOMOBILE" :
 			rate = 4.21 ;
-			monthly_payment = ((client.getLoan_amount()*rate - client.getLoan_amount())/client.getLoan_duration()) ;
-			coeff_salary = monthly_payment / client.getSalary();
-			grade = grade + coeff_salary ;
+			break ;
 
 		case "IMMOBILIER" :
 			rate = 1.84 ;
-			monthly_payment = ((client.getLoan_amount()*rate - client.getLoan_amount())/client.getLoan_duration()) ; 
-			coeff_salary = monthly_payment / client.getSalary();
-			grade = grade + coeff_salary ;
-
+			break ;
+			
 		case "CONSOMMATION" :
 			rate = 7.61 ; 
-			monthly_payment = ((client.getLoan_amount()*rate - client.getLoan_amount())/client.getLoan_duration()) ;
-			coeff_salary = monthly_payment / client.getSalary();
-			grade = grade + coeff_salary ;
-
+			break ;
+			
 		default : 
 			System.out.println("Erreur : vérifier que le client possède un prêt");
 		}
 		
-		switch(client.getSmoker()) {
+		monthly_payment = ((loan_amount*rate - loan_amount)/loan_duration) ;
+		coeff_salary = monthly_payment / salary;
+		grade = grade + coeff_salary ;
 		
+		switch(smoker) {
 		case 1 : // client has nothing to report
 			grade = grade + 1 ;
 			break ;
@@ -180,7 +98,7 @@ public class Rate_calculation {
 			grade = 1 ;
 		}
 		
-		switch(client.getCorpulence()) {
+		switch(corpulence) {
 		
 		case 1 :
 			grade = grade + 1 ;
@@ -198,7 +116,7 @@ public class Rate_calculation {
 			grade = 1 ;
 		}
 		
-		switch(client.getAlcohol()) {
+		switch(alcohol) {
 		
 		case 1 :
 			grade = grade + 1 ;
@@ -216,7 +134,7 @@ public class Rate_calculation {
 			grade = 1 ;
 		}
 		
-		switch(client.getDisease_risk()) {
+		switch(disease_risk) {
 		case 1 :
 			grade = grade + 1 ;
 			break ;
@@ -233,7 +151,7 @@ public class Rate_calculation {
 			grade = 1 ;
 		}
 		
-		switch(client.getJob_risk()) {
+		switch(job_risk) {
 		
 		case 1 :
 			grade = grade + 1 ;
@@ -250,8 +168,9 @@ public class Rate_calculation {
 		default : 
 			grade = 1 ;
 		}
-	return grade ;
+		return grade ;
 	}
+	
 
 }
 
