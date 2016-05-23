@@ -3,10 +3,13 @@ package app.controllers;
 import app.listeners.*;
 import app.models.*;
 import app.helpers.*;
+import app.models.other.datasetPieChart;
 
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+import java.util.ArrayList;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class UserCommunicate implements Runnable {
   private Socket socket;
@@ -127,15 +130,57 @@ public class UserCommunicate implements Runnable {
                 }
                 break;
             case "SPECIF_1": //Spécifique THIBAULT DON'T TOUCHE !!!
+                String request;
+                ResultSet response;
+                ArrayList<String> listString = new ArrayList<String>();
                 switch (typeObject) {
                     case "Address":
-                        String request = "SELECT COUNT(*) AS COUNTADRESS FROM t_adress;";
-                        ResultSet response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        request = "SELECT COUNT(*) AS COUNTADRESS FROM t_address;";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
                         response.next();
                         response.getInt("COUNTADRESS");
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - count address - " + response.getInt("COUNTADRESS"));
                         out.println("success/" + response.getInt("COUNTADRESS"));
                         out.flush();
+                    case "LoanPerType":
+                        request = "SELECT t_type_loan.wording AS name, COUNT(t_loan.id_loan) AS value " + 
+                                "FROM t_type_loan, t_loan " + 
+                                "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " + 
+                                "GROUP BY t_type_loan.wording;";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        datasetPieChart returnToClient = new datasetPieChart();
+                        if(response != null)    {
+                            while (response.next())  {
+                                returnToClient.addToCollect(response.getString("name"), response.getInt("value"));
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - " + response.getRow() + " line");
+                        } else  {
+                            returnToClient.addToCollect("ERROR", 1);
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - error");
+                        }
+                        out.println(gsonSerial.serializedatasetPieChart(returnToClient));
+                        out.flush();
+                        break;
+                    case "AdvisorClassement":
+                        request = "SELECT first_name AS firstn, last_name AS lastn " + 
+                                "FROM t_advisor " + 
+                                "WHERE id_agency = " + object + ";";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+
+                        if(response != null)    {
+                            while (response.next())  {
+                                listString.add(response.getString("firstn") + " " + response.getString("lastn"));
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get the advisor classement - " + response.getRow() + " line");
+                        } else  {
+                            listString.add("ERROR");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get the advisor classement - error");
+                        }
+                        out.println(gsonSerial.serializeArrayList(listString));
+                        out.flush();
+                        break;
                     default:
                         //Coding
                         break;
@@ -192,8 +237,9 @@ public class UserCommunicate implements Runnable {
         }
 
 
-      } catch (Exception e) {
+      } catch (IOException | SQLException e) {
         listener.changeTextLog("CONNECT_WARNING - " + user.getLogin() + " - gone");
+        listener.changeTextLog("message: " + e.getMessage());
         if (poolIndex != -1){
           Server.connectionPool[poolIndex].use(false);
           listener.updateInfoLabel();
