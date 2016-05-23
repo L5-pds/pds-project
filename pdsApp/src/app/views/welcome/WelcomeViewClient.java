@@ -75,7 +75,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     passField.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
     passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     passField.setText("ing");
-    
+
     labelLogin.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
     labelLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     labelLogin.setText("Nom d'utilisateur");
@@ -165,11 +165,11 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     JButton button4 = new javax.swing.JButton();
     button4.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button4.setText("Tarik");
+    button4.setText("Comparer des simulations de prêts");
     button4.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.goTarik();
+            wc.goCompareSimulation();
         }
     });
     panelGlobal.add(button4);

@@ -6,7 +6,6 @@ import app.listeners.*;
 import app.views.indicator.*;
 import app.views.linda.*;
 import app.views.ruben.*;
-import app.views.tarik.*;
 import app.views.simulations.*;
 import app.views.alexandre.*;
 
@@ -96,9 +95,9 @@ public class WelcomeControllerClient {
     cci.addListener(ihm);
   }
 
-  public void goTarik() {
-    ControllerTarik cci = new ControllerTarik(socket);
-    ViewTarik ihm = new ViewTarik(cci, listener.getBody(), listener.getContainer());
+  public void goCompareSimulation() {
+    CompareSimulationController cci = new CompareSimulationController(socket);
+    CompareSimulationView ihm = new CompareSimulationView(cci, listener.getBody(), listener.getContainer());
     cci.addListener(ihm);
   }
 
