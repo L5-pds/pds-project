@@ -1,13 +1,11 @@
 package app.helpers;
 
 import app.models.*;
-import app.models.other.datasetPieChart;
+import app.models.other.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import org.jfree.data.general.DefaultPieDataset;
 
 public class Serialization {
 
@@ -30,16 +28,16 @@ public class Serialization {
   public String serializeAddress(Address a) {
       return gson.toJson(a);
   }
+  
+  public String serializedatasetPieChart(datasetPieChart dpd) {
+      return gson.toJson(dpd);
+  }
 
-  public String serializeDefaultPieDataset(DefaultPieDataset dpd) {
+  public String serializedatasetBarChart(datasetBarChart dpd) {
       return gson.toJson(dpd);
   }
 
   public String serializeArrayList(ArrayList dpd) {
-      return gson.toJson(dpd);
-  }
-
-  public String serializedatasetPieChart(datasetPieChart dpd) {
       return gson.toJson(dpd);
   }
 
@@ -59,8 +57,11 @@ public class Serialization {
       return gson.fromJson(dpd, datasetPieChart.class);
   }
 
+  public datasetBarChart unserializedatasetBarChart(String dpd) {
+      return gson.fromJson(dpd, datasetBarChart.class);
+  }
+
   public ArrayList unserializeArrayList(String dpd) {
       return gson.fromJson(dpd, ArrayList.class);
   }
-
 }

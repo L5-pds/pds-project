@@ -50,6 +50,10 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     setVisible(true);
   }
 
+    /**
+     *
+     */
+    @Override
   public void authenticationIhm() {
     body.removeAll();
 
@@ -86,6 +90,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     JLabel buttonvalide = new JLabel(new ImageIcon(im));
 
     buttonvalide.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             wc.getConnection(loginField.getText(), String.valueOf(passField.getPassword()));
         }
@@ -107,6 +112,10 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     this.repaint();
   }
 
+    /**
+     *
+     */
+    @Override
   public void setMenu(){
 
     body.removeAll();
@@ -195,6 +204,10 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     this.repaint();
   }
 
+    /**
+     *
+     */
+    @Override
   public void setButtonBackMenu()   {
     ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/Home.png"));
     Image im = trait.getImage();
@@ -212,20 +225,38 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     this.repaint();
   }
 
+    /**
+     *
+     */
+    @Override
   public void updateAnswerLabel(String answer){
     this.answerLabel.setText(answer);
     this.revalidate();
     this.repaint();
   }
 
+    /**
+     *
+     * @return 
+     */
+    @Override
   public JPanel getBody()   {
     return this.body;
   }
 
+    /**
+     *
+     * @return 
+     */
+    @Override
   public Container getContainer()    {
     return this.getContentPane();
   }
 
+    /**
+     *
+     */
+    @Override
   public void setErrorSocket()  {
     body.removeAll();
     JPanel panelGlobal = new JPanel();
