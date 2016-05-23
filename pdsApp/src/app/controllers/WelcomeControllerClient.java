@@ -17,12 +17,12 @@ import java.io.*;
 public class WelcomeControllerClient {
   private WelcomeListenerClient listener;
 
-  private String url;
-  private int port;
+  private final String url;
+  private final int port;
   private static Socket socket;
   private PrintWriter out = null;
   private BufferedReader in = null;
-  private Serialization s;
+  private final Serialization s;
 
   private Advisor userConnect;
 
@@ -37,7 +37,6 @@ public class WelcomeControllerClient {
   }
 
   public void createSocket(){
-    String answer;
     try {
       socket = new Socket(url, port);
       out = new PrintWriter(socket.getOutputStream());
@@ -75,32 +74,13 @@ public class WelcomeControllerClient {
     }
   }
 
-  public void testAddNewAddress()  {
-    /*
-    try {
-      Address newAddress = new Address(55555, 10, "route de chabanais", "CHASSENON", "16150");
-      out.println("INSERT/Address/" + s.serializeAddress(newAddress));
-      out.flush();
-      String response = in.readLine();
-      if(response.equals("success")) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Adresse ajoutée avec succes");
-      }else {
-          javax.swing.JOptionPane.showMessageDialog(null,"Erreur : " + response);
-      }
-    } catch (Exception e) {
-      javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
-    }
-    */
-    javax.swing.JOptionPane.showMessageDialog(null,"Utilisateur connecté : " + userConnect.getFirstName() + " " + userConnect.getLastName() + " de l'agence '" + userConnect.getAgencyInfo().getName() + "'");
-  }
-
   public void menuBack()    {
       listener.setMenu();
   }
 
   public void goIndicator() {
-    ControllerClientIndicator cci = new ControllerClientIndicator(socket);
-    IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer(), this.userConnect);
+    ControllerIndicator cci = new ControllerIndicator(socket);
+    ViewIndicatorAll ihm = new ViewIndicatorAll(cci, listener.getBody(), listener.getContainer(), this.userConnect);
     cci.addListener(ihm);
   }
 

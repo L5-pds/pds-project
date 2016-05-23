@@ -2,32 +2,24 @@ package app.controllers;
 
 import app.helpers.Serialization;
 import app.listeners.*;
-import app.models.other.datasetPieChart;
-import java.awt.Color;
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import app.models.other.*;
+import java.awt.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import javax.swing.*;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class ControllerClientIndicator {
-    private ListenerClientIndicator listener;
+public class ControllerIndicator {
+    private ListenerIndicator listener;
 
     private static Socket socket;
     private PrintWriter out = null;
     private BufferedReader in = null;
     private Serialization s;
 
-    public ControllerClientIndicator(Socket socket) {
+    public ControllerIndicator(Socket socket) {
         this.socket = socket;
         this.s = new Serialization();
         try {
@@ -38,7 +30,7 @@ public class ControllerClientIndicator {
         }
     }
 
-    public void addListener(ListenerClientIndicator l) {
+    public void addListener(ListenerIndicator l) {
         this.listener = l;
         listener.setIHM();
     }
@@ -62,18 +54,54 @@ public class ControllerClientIndicator {
         }else {
             javax.swing.JOptionPane.showMessageDialog(null,"Erreur : " + response);
         }
-        } catch (Exception e) {
+        } catch (IOException | HeadlessException e) {
           javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
         }
         return resutl;
     }
     
-    public DefaultPieDataset getPieDatasetLoanPerType()    {
+    public DefaultPieDataset getPieDatasetLoanPerType(int idAgency)    {
         
         DefaultPieDataset dataset = null;
             
         try {
-            out.println("SPECIF_1/LoanPerType/ ");
+            out.println("SPECIF_1/LoanPerType/" + idAgency);
+            out.flush();
+
+            datasetPieChart response = s.unserializedatasetPieChart(in.readLine());
+            dataset = response.getDataSet();
+        } catch (IOException | NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            System.exit(0);
+        }
+        
+        return dataset;
+    }
+    
+    public DefaultCategoryDataset getBarDatasetLoanPerTypeByYears(int idAgency)    {
+        
+        DefaultCategoryDataset dataset = null;
+            
+        try {
+            out.println("SPECIF_1/LoanPerTypeByYear/" + idAgency);
+            out.flush();
+
+            datasetBarChart response = s.unserializedatasetBarChart(in.readLine());
+            dataset = response.getDataSet();
+        } catch (IOException | NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            System.exit(0);
+        }
+        
+        return dataset;
+    }
+    
+    public DefaultPieDataset getPieDatasetLoanPerAdvisor(int idAgency)    {
+        
+        DefaultPieDataset dataset = null;
+            
+        try {
+            out.println("SPECIF_1/LoanPerAdvisor/" + idAgency);
             out.flush();
 
             datasetPieChart response = s.unserializedatasetPieChart(in.readLine());
