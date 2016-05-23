@@ -100,7 +100,7 @@ public class WelcomeControllerClient {
 
   public void goIndicator() {
     ControllerClientIndicator cci = new ControllerClientIndicator(socket);
-    IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer(), this.userConnect);
+    IndicatorView ihm = new IndicatorView(cci, listener.getBody(), listener.getContainer());
     cci.addListener(ihm);
   }
 
