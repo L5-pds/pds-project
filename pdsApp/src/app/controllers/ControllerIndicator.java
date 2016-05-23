@@ -11,15 +11,15 @@ import javax.swing.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class ControllerClientIndicator {
-    private ListenerClientIndicator listener;
+public class ControllerIndicator {
+    private ListenerIndicator listener;
 
     private static Socket socket;
     private PrintWriter out = null;
     private BufferedReader in = null;
     private Serialization s;
 
-    public ControllerClientIndicator(Socket socket) {
+    public ControllerIndicator(Socket socket) {
         this.socket = socket;
         this.s = new Serialization();
         try {
@@ -30,7 +30,7 @@ public class ControllerClientIndicator {
         }
     }
 
-    public void addListener(ListenerClientIndicator l) {
+    public void addListener(ListenerIndicator l) {
         this.listener = l;
         listener.setIHM();
     }

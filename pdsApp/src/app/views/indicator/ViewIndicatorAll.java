@@ -14,13 +14,13 @@ import org.jfree.chart.plot.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class IndicatorView implements ListenerClientIndicator {
-    private final ControllerClientIndicator cci;
+public class ViewIndicatorAll implements ListenerIndicator {
+    private final ControllerIndicator cci;
     private final JPanel body;
     private final Container cont;
     private final Advisor user;
     
-    public IndicatorView(ControllerClientIndicator cci, JPanel body, Container cont, Advisor user) {
+    public ViewIndicatorAll(ControllerIndicator cci, JPanel body, Container cont, Advisor user) {
       this.cci = cci;
       this.body = body;
       this.cont = cont;
