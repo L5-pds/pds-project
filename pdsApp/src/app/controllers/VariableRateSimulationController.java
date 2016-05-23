@@ -1,5 +1,12 @@
 package app.controllers;
-import app.views.simulations.VariableRateSimulationView;
+import app.views.simulations.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import app.helpers.Serialization;
 import app.listeners.VariableRateSimulationListener;
 
 public class VariableRateSimulationController {
@@ -11,11 +18,25 @@ public class VariableRateSimulationController {
 
   private VariableRateSimulationListener listener;
 
-  public VariableRateSimulationController(){
+  private static Socket socket;
+  private PrintWriter out = null;
+  private BufferedReader in = null;
+  private Serialization s;  
+  
+  public VariableRateSimulationController(Socket socket){
+	  this.socket = socket;
+      this.s = new Serialization();
+      try {
+        out = new PrintWriter(socket.getOutputStream());
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + e.getMessage());
+      }
   }
 
   public void addListener(VariableRateSimulationListener l) {
     listener = l;
+    listener.setIHM();
   }
 
   public void initialization(){
@@ -25,8 +46,6 @@ public class VariableRateSimulationController {
   }
 
   public double calculateMonthlyPayment(double i){
-
-
     double numerator;
     double denominator;
 
@@ -37,11 +56,7 @@ public class VariableRateSimulationController {
 
     double n =Math.floor(100*monthlyPayment)/100;
 
-
     return n;
   }
-
-
-
 
 }

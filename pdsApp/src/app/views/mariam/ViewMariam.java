@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app.views.mariam;
+/*package app.views.mariam;
 
 import app.controllers.*;
 import app.listeners.*;
@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author Thibault
  */
-public class ViewMariam implements ListenerMariam {
+/*public class ViewMariam implements ListenerMariam {
     
     private ControllerMariam cci;
     private JPanel body;
@@ -42,6 +42,6 @@ public class ViewMariam implements ListenerMariam {
         
         cont.revalidate();
         cont.repaint();
-    }
+    }*/
     
-}
+

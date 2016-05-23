@@ -7,4 +7,5 @@ public interface VariableRateSimulationListener {
   public String getAnswerAmount();
   public String getAnswerInitialRate();
   public String getAnswerTime();
+  public void setIHM();
 }

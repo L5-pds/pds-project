@@ -1,10 +1,11 @@
 package app.controllers;
 
-import app.models.*;
+import app.models.*; 
 import app.helpers.Serialization;
 import app.listeners.*;
 import app.views.indicator.*;
 import app.views.linda.*;
+//import app.views.mariam.ViewMariam;
 import app.views.ruben.*;
 import app.views.simulations.*;
 import app.views.alexandre.*;
@@ -102,12 +103,12 @@ public class WelcomeControllerClient {
   }
 
   public void goMariam() {
-    //ControllerMariam cci = new ControllerMariam(socket);
-    //ViewMariam ihm = new ViewMariam(cci, listener.getBody(), listener.getContainer());
-    //cci.addListener(ihm);
-    VariableRateSimulationController c = new VariableRateSimulationController();
-    VariableRateSimulationView ihm = new VariableRateSimulationView(c);
-    c.addListener(ihm);
+	VariableRateSimulationController cci = new VariableRateSimulationController(socket);
+	VariableRateSimulationView ihm = new VariableRateSimulationView(cci, listener.getBody(), listener.getContainer());
+    cci.addListener(ihm);
+    //VariableRateSimulationController c = new VariableRateSimulationController();
+    //VariableRateSimulationView ihm = new VariableRateSimulationView(c);
+    //c.addListener(ihm);
   }
 
   public void goAlexandre() {
