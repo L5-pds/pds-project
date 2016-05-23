@@ -128,13 +128,12 @@ public class ControllerIndicator {
         ArrayList<JLabel> lblTab = new ArrayList();
         
         for(int i=0 ; i<responseAll.size() ; i++)   {
-            JLabel lbl5 = new JLabel();
-            lbl5.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-            lbl5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            lbl5.setAlignmentX(Component.CENTER_ALIGNMENT);
-            lbl5.setText(responseAll.get(i));
+            JLabel tmp = new JLabel();
+            tmp.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+            tmp.setAlignmentX(Component.CENTER_ALIGNMENT);
+            tmp.setText(responseAll.get(i));
             
-            lblTab.add(lbl5);
+            lblTab.add(tmp);
         }
         for(int i=0 ; i<lblTab.size() ; i++)   {
             thePane.add(lblTab.get(i));
