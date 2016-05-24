@@ -9,6 +9,15 @@ public class LoanType {
     private int minAmount; // minimum amount of the loan type
     private int maxAmount; // maximum amount of the loan type
 
+    public LoanType(String w, float r, int minL, int maxL, int minA, int maxA) {
+        wording = w;
+        rate = r;
+        minLength = minL;
+        maxLength = maxL;
+        minAmount = minA;
+        maxAmount = maxA;
+    }
+    
     // returns the wording of the loan type
     public String getWording() {
         return wording;

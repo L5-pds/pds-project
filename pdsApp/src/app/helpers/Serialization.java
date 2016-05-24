@@ -40,6 +40,10 @@ public class Serialization {
   public String serializeArrayList(ArrayList dpd) {
       return gson.toJson(dpd);
   }
+  
+  public String serializeLoanType(LoanType lt) {
+      return gson.toJson(lt);
+  }
 
   public Advisor unserializeUser(String u) {
       return gson.fromJson(u, Advisor.class);
@@ -64,4 +68,9 @@ public class Serialization {
   public ArrayList unserializeArrayList(String dpd) {
       return gson.fromJson(dpd, ArrayList.class);
   }
+  
+  public LoanType unserializeLoanType(String lt) {
+      return gson.fromJson(lt, LoanType.class);
+  }
+  
 }

@@ -34,6 +34,8 @@ public class UserCommunicate implements Runnable {
     String method;
     String typeObject;
     String object;
+    String sqlQuery; // à supprimer quand les requetes BD seront dans les controleurs
+    ResultSet rs; // à supprimer quand les requetes BD seront dans les controleurs
     boolean userConnected = false;
 
     try {
@@ -258,8 +260,8 @@ public class UserCommunicate implements Runnable {
                     case "LoanTypes":
                         // get the loan types list from the database
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
-                        String sqlQuery = "SELECT wording FROM t_type_loan;";
-                        ResultSet rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+                        sqlQuery = "SELECT wording FROM t_type_loan;";
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
                         
                         // put each loan type in an ArrayList
                         ArrayList<String> loanTypes = new ArrayList<>();
@@ -267,7 +269,7 @@ public class UserCommunicate implements Runnable {
                             loanTypes.add(rs.getString(1));
                         }
                         
-                        // send the loan types list to the client
+                        // serialize and send the loan types list to the client
                         out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypes));
                         out.flush();
                         
@@ -275,8 +277,27 @@ public class UserCommunicate implements Runnable {
 
                     // case : get the details of a loan type
                     case "LoanTypeDetails" :
-                        
-                        break;
+                        LoanType lt;
+                        // attributes of a loan type
+                        String wording = object;
+                        float rate;
+                        int length_min, length_max, amount_min, amount_max;
+
+                        // get the loan type details from the database
+                        sqlQuery = "SELECT rate, length_min, length_max, amount_min, amount_max FROM t_type_loan where wording = '" + wording + "'";
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+
+                        // get the values from the result set
+                        rate = rs.getFloat("rate");
+                        length_min = rs.getInt("length_min");
+                        length_max = rs.getInt("length_max");
+                        amount_min = rs.getInt("amount_min");
+                        amount_max = rs.getInt("amount_max");
+        
+                         // create a LoanType with the values taken from the database, serialize it, and send it to the client
+                        lt = new LoanType(wording, rate, length_min, length_max, amount_min, amount_max);
+                        out.println("SUCCESS/" + gsonSerial.serializeLoanType(lt));
+                        out.flush();
                         
                     // case : simulate a fixed rate loan
                     case "CalculateLoan" :
