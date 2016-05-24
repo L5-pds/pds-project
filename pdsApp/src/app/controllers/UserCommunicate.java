@@ -252,12 +252,40 @@ public class UserCommunicate implements Runnable {
                         break;
                 }
                 break;
-            case "SPECIF_4": //Spécifique ALEXANDRE
+            case "FIXEDRATE": // fixed rate loan simulation case
                 switch (typeObject) {
-                    case "Address":
-                        //Coding
+                    // case : get loan types list
+                    case "LoanTypes":
+                        // get the loan types list from the database
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
+                        String sqlQuery = "SELECT wording FROM t_type_loan;";
+                        ResultSet rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+                        
+                        // put each loan type in an ArrayList
+                        ArrayList<String> loanTypes = new ArrayList<>();
+                        while(rs.next()) {
+                            loanTypes.add(rs.getString(1));
+                        }
+                        
+                        // send the loan types list to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypes));
+                        out.flush();
+                        
+                        break;
+
+                    // case : get the details of a loan type
+                    case "LoanTypeDetails" :
+                        
+                        break;
+                        
+                    // case : simulate a fixed rate loan
+                    case "CalculateLoan" :
+                        
+                        break;
+                        
+                    // case : malformed query
                     default:
-                        //Coding
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - bad query");
                         break;
                 }
                 break;

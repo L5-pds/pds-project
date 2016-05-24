@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -15,8 +16,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 
-public class FixedRateSimulationView extends JPanel {
+public class FixedRateSimulationView {
 
+    // JPanel that contains all the components
+    JPanel panel;
+    
     // components of the simulation frame
     private JComboBox cbLoanType;
     private JSpinner spinnerAmount;
@@ -29,21 +33,27 @@ public class FixedRateSimulationView extends JPanel {
     // controller for the fixed rate credit simulation
     FixedRateSimulationControllerClient controller;
 
-    public FixedRateSimulationView(FixedRateSimulationControllerClient c) {
+    public FixedRateSimulationView(FixedRateSimulationControllerClient c, JPanel p) {
         // set the panel layout
-        super(new GridBagLayout());
-
-        try {
+        //super(new GridBagLayout());
+        panel = p;
+        
+        /*try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             System.out.println("Erreur : " + e.getMessage());
-        }
+        }*/
         
         // assign a controller to the view
         controller = c;
+        
+        // prepare the JPanel to the addition of the components
+        panel.setVisible(false);
+        panel.removeAll();
+        panel.setLayout(new GridBagLayout());
 
         // initialisation of the components
-        cbLoanType = new JComboBox(controller.getCreditTypes()); // fill the JComboBox with the credit types list
+        cbLoanType = new JComboBox(controller.getLoanTypes().toArray()); // fill the JComboBox with the loan types list
         btnOk = new JButton("OK");
         btnCancel = new JButton("Annuler");
 
@@ -61,28 +71,32 @@ public class FixedRateSimulationView extends JPanel {
 
         gc.gridx = 0;
         gc.gridy = 0;
-        add(new JLabel("Type de prêt :"), gc);
+        panel.add(new JLabel("Type de prêt :"), gc);
 
         gc.gridx = 1;
         gc.gridy = 0;
-        add(cbLoanType, gc);
+        panel.add(cbLoanType, gc);
 
         gc.gridx = 0;
         gc.gridy = 1;
-        add(btnOk, gc);
+        panel.add(btnOk, gc);
         
         gc.gridx = 1;
         gc.gridy = 1;
-        add(btnCancel, gc);
+        panel.add(btnCancel, gc);
+        
+        // display the JPanel
+        panel.setVisible(true);
     }
     
+    // display the fixed rate loan simulation form, adapted to the chosen loan type
     public void displayForm(String loanType) {
         // hide the JPanel
-        setVisible(false);
+        panel.setVisible(false);
 
         // remove components from the JPanel
-        remove(btnOk);
-        remove(btnCancel);
+        panel.remove(btnOk);
+        panel.remove(btnCancel);
         
         // disable the modification of the loan type
         cbLoanType.setEnabled(false);
@@ -106,50 +120,50 @@ public class FixedRateSimulationView extends JPanel {
         
         gc.gridx = 0;
         gc.gridy = 1;
-        add(new JLabel("Taux de base :"), gc);
+        panel.add(new JLabel("Taux de base :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 1;
-        add(new JLabel("4,76 %"), gc);
+        panel.add(new JLabel("4,76 %"), gc);
         
         gc.gridx = 0;
         gc.gridy = 2;
-        add(new JLabel("Taux :"), gc);
+        panel.add(new JLabel("Taux :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 2;
-        add(txtFieldRate, gc);
+        panel.add(txtFieldRate, gc);
         
         gc.gridx = 0;
         gc.gridy = 3;
-        add(new JLabel("Montant :"), gc);
+        panel.add(new JLabel("Montant :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 3;
-        add(spinnerAmount, gc);
+        panel.add(spinnerAmount, gc);
         
         gc.gridx = 0;
         gc.gridy = 4;
-        add(new JLabel("Durée :"), gc);
+        panel.add(new JLabel("Durée :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 4;
-        add(txtFieldDuration, gc);
+        panel.add(txtFieldDuration, gc);
         
         gc.gridx = 0;
         gc.gridy = 5;
-        add(btnSimulate, gc);
+        panel.add(btnSimulate, gc);
         
         gc.gridx = 1;
         gc.gridy = 5;
-        add(btnCancel, gc);
+        panel.add(btnCancel, gc);
         
         // perform the operations needed after the removal and the addition of components
-        revalidate();
-        repaint();
+        panel.revalidate();
+        panel.repaint();
         
         // display the JPanel
-        setVisible(true);
+        panel.setVisible(true);
     }
     
     // ######################
@@ -166,6 +180,7 @@ public class FixedRateSimulationView extends JPanel {
     // listener for the btnCancel JButton
     class BtnOkListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            // get the chosen loan type and display the simulation form
             String type = cbLoanType.getSelectedItem().toString();
             displayForm(type);
         }
@@ -185,7 +200,7 @@ public class FixedRateSimulationView extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         javax.swing.JFrame f = new javax.swing.JFrame("test");
         app.models.FixedRateSimulation m = new app.models.FixedRateSimulation();
         FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m);
@@ -194,5 +209,5 @@ public class FixedRateSimulationView extends JPanel {
         f.setSize(500,500);
         f.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         f.setVisible(true);
-    }
+    }*/
 }
