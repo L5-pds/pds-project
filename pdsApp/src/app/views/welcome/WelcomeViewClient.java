@@ -209,14 +209,24 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
      */
     @Override
   public void setButtonBackMenu()   {
-    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/Home.png"));
+    ImageIcon trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHome.png"));
     Image im = trait.getImage();
     im  = im.getScaledInstance(80,80,1);
     JLabel buttonBackMenu = new JLabel(new ImageIcon(im));
+    buttonBackMenu.setToolTipText("Retour à l'accueil");
     buttonBackMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 wc.menuBack();
+            }
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHomeHover.png")).getImage().getScaledInstance(80, 80, 1);
+                buttonBackMenu.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHome.png")).getImage().getScaledInstance(80, 80, 1);
+                buttonBackMenu.setIcon(new ImageIcon(im));
             }
         });
 
