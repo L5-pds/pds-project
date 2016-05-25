@@ -15,7 +15,7 @@ public class Customer {
   private Double salary;
   private String password;
   private String birth;
-  private String sex;
+  private String gender;
 
   public Customer()   {
     this.id = 0;
@@ -27,7 +27,7 @@ public class Customer {
     this.salary = 0.0;
     this.password = "";
     this.birth = "";
-    this.sex = "";
+    this.gender = "";
   }
 
   public Customer(int id,
@@ -39,7 +39,7 @@ public class Customer {
                 Double salary,
                 String password,
                 String birth,
-                String sex) {
+                String gender) {
     this.id = id;
     this.id_agency = id_agency;
     this.id_address = id_address;
@@ -49,7 +49,7 @@ public class Customer {
     this.salary = salary;
     this.password = password;
     this.birth = birth;
-    this.sex = sex;
+    this.gender = gender;
   }
 
   public void serverGetAllUser(int indexPool) {

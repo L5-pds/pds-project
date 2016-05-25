@@ -146,11 +146,11 @@ public class UserCommunicate implements Runnable {
                         out.println("success/" + response.getInt("COUNTADRESS"));
                         out.flush();
                     case "LoanPerType":
-                        request = "SELECT t_type_loan.wording AS name, COUNT(t_loan.id_loan) AS value " + 
-                                "FROM t_type_loan, t_loan, t_advisor " + 
-                                "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " + 
-                                "AND t_loan.id_advisor = t_advisor.id_advisor " + 
-                                "AND t_advisor.id_agency = " + object + " " + 
+                        request = "SELECT t_type_loan.wording AS name, COUNT(t_loan.id_loan) AS value " +
+                                "FROM t_type_loan, t_loan, t_advisor " +
+                                "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " +
+                                "AND t_loan.id_advisor = t_advisor.id_advisor " +
+                                "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_type_loan.wording;";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetPieChart = new datasetPieChart();
@@ -190,9 +190,9 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         break;
                     case "LoanPerAdvisor":
-                        request = "SELECT t_advisor.login AS name, COUNT(t_loan.id_loan) AS value " + 
+                        request = "SELECT t_advisor.login AS name, COUNT(t_loan.id_loan) AS value " +
                                 "FROM t_advisor, t_loan " +
-                                "WHERE t_advisor.id_advisor = t_loan.id_advisor " + 
+                                "WHERE t_advisor.id_advisor = t_loan.id_advisor " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_advisor.login;";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
@@ -211,8 +211,8 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         break;
                     case "AdvisorClassement":
-                        request = "SELECT first_name AS firstn, last_name AS lastn " + 
-                                "FROM t_advisor " + 
+                        request = "SELECT first_name AS firstn, last_name AS lastn " +
+                                "FROM t_advisor " +
                                 "WHERE id_agency = " + object + ";";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
 
@@ -235,12 +235,65 @@ public class UserCommunicate implements Runnable {
                 }
                 break;
             case "SPECIF_2": //Spécifique TARIK DON'T TOUCHE !!!
+                ArrayList<String[]> objectList = new ArrayList<String[]>();
                 switch (typeObject) {
-                    case "Address":
-                        //Coding
+                    case "Customer":
+                        request = "SELECT * " +
+                                "FROM t_client " +
+                                "WHERE lower(first_name) LIKE lower('%" + object +"%') "+
+                                "OR lower(last_name) LIKE lower('%"+object+"%');";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        if(response != null)  {
+                            while (response.next()){
+                                String[] customer = {response.getString("id_client"), response.getString("last_name"), response.getString("first_name")};
+                                objectList.add(customer);
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - " + response.getRow() + " line");
+                        } else  {
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - error");
+                        }
+
+                        out.println(gsonSerial.serializeListArray(objectList));
+                        out.flush();
+                    break;
+                    case "Simulation" :
+                        String tmp = splitedQuery[3];
+                        String type="";
+                        switch (tmp){
+                            case "AUTOMOBILE" :
+                                type = "1";
+                            break;
+                            case "CONSOMMATION" :
+                                type = "3";
+                            break;
+                            case "IMMOBILIER" :
+                                type = "2";
+                            break;
+                        }
+                        request = "SELECT * " +
+                                "FROM t_loan_simulation " +
+                                "WHERE id_client ="+object+
+                                " AND id_type_loan ="+type+
+                                " ORDER BY entry ASC;";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        if(response != null)  {
+                            while (response.next()){
+                                String[] sim = {response.getString("id_loan"), response.getString("entry"), response.getString("wording"),response.getString("amount"),response.getString("length_loan")};
+                                objectList.add(sim);
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - " + response.getRow() + " line");
+                        } else  {
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - error");
+                        }
+
+                        out.println(gsonSerial.serializeListArray(objectList));
+                        out.flush();
+                    break;
                     default:
                         //Coding
-                        break;
+                    break;
                 }
                 break;
             case "SPECIF_3": //Spécifique RUBEN
@@ -285,7 +338,7 @@ public class UserCommunicate implements Runnable {
         }
 
 
-      } catch (IOException | SQLException e) {
+      } catch (Exception e) {
         listener.changeTextLog("CONNECT_WARNING - " + user.getLogin() + " - gone");
         if (poolIndex != -1){
           Server.connectionPool[poolIndex].use(false);

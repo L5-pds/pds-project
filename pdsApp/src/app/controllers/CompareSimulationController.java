@@ -4,6 +4,7 @@ import app.helpers.*;
 import app.listeners.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class CompareSimulationController {
   private CompareSimulationListener listener;
@@ -27,5 +28,36 @@ public class CompareSimulationController {
   public void addListener(CompareSimulationListener l) {
       this.listener = l;
       listener.setIHM();
+  }
+
+
+
+
+  public ArrayList<String[]> getCustomers(String name){
+    ArrayList<String[]> cutomers = new ArrayList<String[]>();
+    out.println("SPECIF_2/Customer/"+name);
+    out.flush();
+
+    try{
+      cutomers = s.unserializeListArray(in.readLine());
+    }
+    catch (Exception e) {
+    }
+
+    return cutomers;
+  }
+
+  public ArrayList<String[]> getSimulations(Integer id, String type){
+    ArrayList<String[]> simulations = new ArrayList<String[]>();
+    out.println("SPECIF_2/Simulation/"+String.valueOf(id)+"/"+type);
+    out.flush();
+
+    try{
+      simulations = s.unserializeListArray(in.readLine());
+    }
+    catch (Exception e) {
+    }
+
+    return simulations;
   }
 }
