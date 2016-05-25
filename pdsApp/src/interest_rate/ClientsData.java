@@ -6,7 +6,7 @@ public class ClientsData {
 	
 	public static void main(String[] args) { 
 		// client
-		Rate_calculation c1 = new Rate_calculation(1,"BOUZID",25, 20000, 20000,48,"AUTOMOBILE",2,2,1,1,1,1) ;
+		Rate_calculation c1 = new Rate_calculation(1,"BOUZID",25, 30000, 40000,48,"AUTOMOBILE",2,2,1,1,1,1) ;
 		// creating a list of client 
 		ArrayList<Rate_calculation> listdata = new ArrayList<Rate_calculation>();
 		
