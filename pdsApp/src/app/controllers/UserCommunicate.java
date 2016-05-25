@@ -235,7 +235,7 @@ public class UserCommunicate implements Runnable {
                 }
                 break;
             case "SPECIF_2": //Spécifique TARIK DON'T TOUCHE !!!
-                ArrayList<String[]> customers = new ArrayList<String[]>();
+                ArrayList<String[]> objectList = new ArrayList<String[]>();
                 switch (typeObject) {
                     case "Customer":
                         request = "SELECT * " +
@@ -246,7 +246,7 @@ public class UserCommunicate implements Runnable {
                         if(response != null)  {
                             while (response.next()){
                                 String[] customer = {response.getString("id_client"), response.getString("last_name"), response.getString("first_name")};
-                                customers.add(customer);
+                                objectList.add(customer);
                             }
                             response.last();
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - " + response.getRow() + " line");
@@ -254,9 +254,43 @@ public class UserCommunicate implements Runnable {
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - error");
                         }
 
-                        out.println(gsonSerial.serializeListArray(customers));
+                        out.println(gsonSerial.serializeListArray(objectList));
                         out.flush();
-                        break;
+                    break;
+                    case "Simulation" :
+                        String tmp = splitedQuery[3];
+                        String type="";
+                        switch (tmp){
+                            case "AUTOMOBILE" :
+                                type = "1";
+                            break;
+                            case "CONSOMMATION" :
+                                type = "3";
+                            break;
+                            case "IMMOBILIER" :
+                                type = "2";
+                            break;
+                        }
+                        request = "SELECT * " +
+                                "FROM t_loan_simulation " +
+                                "WHERE id_client ="+object+
+                                " AND id_type_loan ="+type+
+                                " ORDER BY entry ASC;";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        if(response != null)  {
+                            while (response.next()){
+                                String[] sim = {response.getString("id_loan"), response.getString("entry"), response.getString("wording"),response.getString("amount"),response.getString("length_loan")};
+                                objectList.add(sim);
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - " + response.getRow() + " line");
+                        } else  {
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - error");
+                        }
+
+                        out.println(gsonSerial.serializeListArray(objectList));
+                        out.flush();
+                    break;
                     default:
                         //Coding
                     break;

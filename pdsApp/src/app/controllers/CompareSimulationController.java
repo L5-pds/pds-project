@@ -30,6 +30,9 @@ public class CompareSimulationController {
       listener.setIHM();
   }
 
+
+
+
   public ArrayList<String[]> getCustomers(String name){
     ArrayList<String[]> cutomers = new ArrayList<String[]>();
     out.println("SPECIF_2/Customer/"+name);
@@ -42,5 +45,19 @@ public class CompareSimulationController {
     }
 
     return cutomers;
+  }
+
+  public ArrayList<String[]> getSimulations(Integer id, String type){
+    ArrayList<String[]> simulations = new ArrayList<String[]>();
+    out.println("SPECIF_2/Simulation/"+String.valueOf(id)+"/"+type);
+    out.flush();
+
+    try{
+      simulations = s.unserializeListArray(in.readLine());
+    }
+    catch (Exception e) {
+    }
+
+    return simulations;
   }
 }

@@ -6,6 +6,7 @@ import app.listeners.*;
 import app.models.component.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.event.*;
 import java.util.*;
 
@@ -17,12 +18,14 @@ public class CompareSimulationView implements CompareSimulationListener{
   private JComboBox cbClient;
   private JComboBox cbType;
   private ArrayList<String[]> clients;
+  private ArrayList<String[]> simulations;
   private JLabel nameLabel;
   private JLabel selectClientLabel;
   private JLabel selectTypeLabel;
   private RoundJTextField nameField;
   private RoundJButton searchButton;
   private RoundJButton validateButton;
+  private RoundJButton compareButton;
   private JPanel globalPanel;
 
   public CompareSimulationView(CompareSimulationController cci, JPanel body, Container cont) {
@@ -39,6 +42,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     selectTypeLabel = new JLabel();
     nameField = new RoundJTextField(20);
     searchButton = new RoundJButton();
+    compareButton = new RoundJButton();
     validateButton = new RoundJButton();
     globalPanel = new JPanel();
 
@@ -67,7 +71,14 @@ public class CompareSimulationView implements CompareSimulationListener{
     validateButton.setText("Valider");
     validateButton.addActionListener(new ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        nextStep("finish");
+        nextStep("list");
+      }
+    });
+
+    compareButton.setText("Comparer");
+    compareButton.addActionListener(new ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("Click !");
       }
     });
 
@@ -96,13 +107,8 @@ public class CompareSimulationView implements CompareSimulationListener{
         globalPanel.remove(selectTypeLabel);
         globalPanel.remove(cbType);
         globalPanel.remove(validateButton);
-        //clients = new ArrayList<String>();
-        //clients.add(nameField.getText()+"1");
-        //clients.add(nameField.getText()+"2");
-        //clients.add(nameField.getText()+"3");
 
         clients = cci.getCustomers(nameField.getText());
-
         for( ActionListener al : cbClient.getActionListeners() )
           cbClient.removeActionListener( al );
 
@@ -131,13 +137,54 @@ public class CompareSimulationView implements CompareSimulationListener{
         });
       break;
 
-      case "finish" :
-        String c = cbClient.getSelectedItem().toString();
-        String t = cbType.getSelectedItem().toString();
+      case "list" :
         Item selected = (Item)cbClient.getSelectedItem();
-        String id = String.valueOf(selected.getId());
-        System.out.println("Finish : "+ id +" - "+ c + " - " + t);
+        simulations = cci.getSimulations(selected.getId(), cbType.getSelectedItem().toString());
+        Object[][] data =  new Object[simulations.size()][6];;
+        for(int i=0; i< simulations.size(); i++){
+          String[] tmp = simulations.get(i);
+          data[i] = tmp;
+        }
+
+        globalPanel.removeAll();
+        JTable tab = table(data);
+        JScrollPane scrollPane = new JScrollPane(tab);
+        globalPanel.add(scrollPane);
+        globalPanel.add(compareButton);
+        cont.revalidate();
+        cont.repaint();
+      break;
+
+      case "finish" :
+
       break;
     }
+  }
+
+  public JTable table(Object[][] data){
+    Object[] columnNames = {"Id", "Date", "Label", "Montant", "Durée", ""};
+    DefaultTableModel model = new DefaultTableModel(data, columnNames);
+    JTable table = new JTable(model) {
+      private final long serialVersionUID = 1L;
+      public Class getColumnClass(int column) {
+        switch (column) {
+          case 0:
+            return String.class;
+          case 1:
+            return String.class;
+          case 2:
+            return String.class;
+          case 3:
+            return String.class;
+          case 4:
+            return String.class;
+          default:
+            return Boolean.class;
+        }
+      }
+    };
+    table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+    return table;
   }
 }
