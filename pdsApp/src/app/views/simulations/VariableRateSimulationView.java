@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,9 +38,9 @@ import app.listeners.VariableRateSimulationListener;
 
 public class VariableRateSimulationView extends JPanel implements VariableRateSimulationListener{
 
-	private JPanel body;
-	private Container cont;
-	private VariableRateSimulationController controller;
+  private JPanel body;
+  private Container cont;
+  private VariableRateSimulationController controller;
   // component of the simulation frame
   // Title of the fields
   private JLabel label_lastname;
@@ -48,6 +49,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private JLabel label_initial_rate;
   private JLabel label_cap;
   private JLabel label_time;
+  private JLabel label_title;
 
   //Fields to fill for the previous titles
   private JTextField answer_lastname;
@@ -63,19 +65,12 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 
   // Container of the previous components
   private JPanel pan1;
-  private JPanel pan2;
-  private JPanel pan3;
-  private JPanel pan4;
-  private JPanel pan5;
-  private JPanel pan6;
-  private JPanel pan7;
-  private JPanel pan8;
   private JPanel body1;
 
   //Interest rate max and min value
   private double lowerBoundary;
   private double upperBoundary;
-  double i;
+  double stringToInt;
 
   //Attributes for the whole project
   private Container contentPane;
@@ -83,7 +78,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private ImageIcon trait;
   private Image im;
   private JLabel image;
-  private JLabel titre_use_case;
+ 
 
   public VariableRateSimulationView(VariableRateSimulationController controller, JPanel body, Container cont){
     this.controller = controller;
@@ -100,85 +95,63 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
  
   public JPanel initComponent(){
 	  
-	// Instantiation of JComboBox for the cap
+	    // Instantiation of JComboBox for the cap
 	    String[] tab1 = {"","-1%  et +1%", "-2%  et +2%"};
 	    answer_cap = new JComboBox(tab1);
 	    answer_cap.setPreferredSize(new Dimension (250,20));
 	    answer_cap.setSelectedIndex(0); // definition of the default value
 
 	    // Instantiation of JComboBox for the time
-	        String[] tab2 = {"","7","10","15","20","25","30"};
-	        setAnswer_time(new JComboBox(tab2));
-	        answer_time.setPreferredSize(new Dimension (250,20));
-	        answer_time.setSelectedIndex(0); // definition of the default value
+	    String[] tab2 = {"","7","10","15","20","25","30"};
+	    setAnswer_time(new JComboBox(tab2));
+	    answer_time.setPreferredSize(new Dimension (250,20));
+	    answer_time.setSelectedIndex(0); // definition of the default value
 
-	    //Instantiation of five JPanel and JLabel for the fields firstname,lastname,amount,cap
-	    //and initial rate in order to range them in the JFrame more easier.
-	    // Instantiation of Lastname JLabel and JPanel and inclusion in a Jpanel.
-	    pan1= new JPanel();
-	    pan1.setLayout(new FlowLayout());
 	    label_lastname= new JLabel("Nom");
-	    pan1.add(label_lastname);
 	    answer_lastname= new JTextField();
 	    answer_lastname.setColumns(22);
-	    pan1.add(answer_lastname);
-
-	    // Instantiation of firstname JLabel and JPanel and inclusion in a Panel.
-	    pan2= new JPanel();
-	    pan2.setLayout(new FlowLayout());
+	    
+	    answer_lastname.setSize(33,8);
+	  
+	   
 	    label_firstname= new JLabel("Prenom");
-	    pan2.add(label_firstname);
 	    answer_firstname= new JTextField();
 	    answer_firstname.setColumns(20);
-	    pan2.add(answer_firstname);
-
-	    // Instantiation of amount JLabel and JPanel and inclusion in a Panel.
-	    pan3= new JPanel();
-	    pan3.setLayout(new FlowLayout());
+	
 	    label_amount= new JLabel("Montant");
-	    pan3.add(label_amount);
 	    setAnswer_amount(new JTextField());
 	    answer_amount.setColumns(20);
-	    pan3.add(answer_amount);
 
-	    // Instantiation of JLabel and JPanel and inclusion in a Panel.
-	    pan4= new JPanel();
-	    pan4.setLayout(new FlowLayout());
+
 	    label_initial_rate= new JLabel("Taux initiale");
-	    pan4.add(label_initial_rate);
 	    setAnswer_initial_rate(new JTextField());
 	    answer_initial_rate.setColumns(20);
-	    pan4.add(answer_initial_rate);
 
-	    // Instantiation of cap JLabel and JPanel and inclusion in a Panel.
-	    pan5= new JPanel();
-	    pan5.setLayout(new FlowLayout());
 	    label_cap= new JLabel("Cap");
-	    pan5.add(label_cap);
-	    pan5.add(answer_cap);
-
-	    //Instantiation of time JLabel and JPanel and inclusion in a Panel.
-	    pan6= new JPanel();
-	    pan6.setLayout(new FlowLayout());
 	    label_time= new JLabel("Durée");
-	    pan6.add(label_time);
-	    pan6.add(answer_time);
-
-	    // add of component bouton in a Panel
-	    pan7= new JPanel();
-	    pan7.add(bouton1);
-
-	    // instantiation of the Panel body1, which will contain all the Panels.
-	    body1= new JPanel();
-	    body1.setLayout(new BoxLayout(body1, BoxLayout.Y_AXIS));
 	    
-	    body1.add(pan1);
-	    body1.add(pan2);
-	    body1.add(pan3);
-	    body1.add(pan6);
-	    body1.add(pan5);
-	    body1.add(pan4);
-	    body1.add(pan7);
+	 
+	    
+	  
+
+	    body1= new JPanel();
+	    body1.setLayout(new GridLayout(7, 3, 0, 0));
+		body1.setBackground(new Color(215,203,233,255));
+		
+		
+		body1.add(label_lastname);
+		body1.add(answer_lastname);
+		body1.add(label_firstname);
+		body1.add(answer_firstname);
+		body1.add(label_amount);
+		body1.add(answer_amount);
+		body1.add(label_time);
+	    body1.add(answer_time);
+		body1.add(label_cap);
+		body1.add(answer_cap);
+		body1.add(label_initial_rate);
+		body1.add(answer_initial_rate);
+		body1.add(bouton1);
 
 	    // Add actionListener on answer_cap
 	    answer_cap.addActionListener(new ActionListener() {
@@ -189,24 +162,48 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	          switch(answer_time.getSelectedIndex())
 	          {
 	          case 1:
-	            answer_initial_rate.setText("1.05");
+	            answer_initial_rate.setText("2.95");
 	            break;
 	          case 2:
-	            answer_initial_rate.setText("1.17");
+	            answer_initial_rate.setText("2.17");
 	            break;
 	          case 3:
-	            answer_initial_rate.setText("1.28");
+	            answer_initial_rate.setText("2.28");
 	            break;
 	          case 4:
-	            answer_initial_rate.setText("1.56");
+	            answer_initial_rate.setText("2.56");
 	            break;
 	          case 5:
-	            answer_initial_rate.setText("1.85");
+	            answer_initial_rate.setText("2.85");
 	          case 6:
-	            answer_initial_rate.setText("2.32");
+	            answer_initial_rate.setText("3.32");
 
 	          }
 	        }
+	        
+	        else if (answer_cap.getSelectedItem()=="-2%  et +2%"){
+
+		          switch(answer_time.getSelectedIndex())
+		          {
+		          case 1:
+		            answer_initial_rate.setText("2.92");
+		            break;
+		          case 2:
+		            answer_initial_rate.setText("2.14");
+		            break;
+		          case 3:
+		            answer_initial_rate.setText("2.19");
+		            break;
+		          case 4:
+		            answer_initial_rate.setText("2.56");
+		            break;
+		          case 5:
+		            answer_initial_rate.setText("2.75");
+		          case 6:
+		            answer_initial_rate.setText("3.29");
+
+		          }
+		        }
 	          else answer_initial_rate.setText("0.00");
 
 	    }});
@@ -245,7 +242,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   //Creation of the results view
   private JPanel resultsIHM1(String interestRate) {
     body1.removeAll();
-    //Update of the title
+ 
     
     lowerBoundary=labelString(interestRate)-borne();
     upperBoundary=labelString(interestRate)+borne();
@@ -255,7 +252,11 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
     controller.initialization();
     double monthPayment1= controller.calculateMonthlyPayment(this.labelString(this.getAnswerInitialRate()));
     double totalToPay = monthPayment1*(this.labelString(this.getAnswerTime())*12);
+    
+    
+   // label_title=new JLabel();
 
+    //label_title.setText(getAnswerFistname()+ " "+ getAnswerLastname()+ "  voici une première simulation de votre prêt: ");
     label_lastname.setText("Montant du prêt:  " + getAnswerAmount());
     label_firstname.setText("Durée du prêt:   "+ answer_time.getSelectedItem()+ "ans");
     label_amount.setText("Montant de la mensualité:   "+ monthPayment1);
@@ -263,42 +264,26 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
     label_cap.setText("Taux d'intérêt actuel: " + "  " + interestRate + "%");
     label_time.setText("Le taux d'intérêt sera au minimum   "+lowerBoundaryRound+"%  "+ "et au maximum   "+upperBoundaryRound+ "%");
 
-    pan1=new JPanel();
-    pan1.setLayout(new FlowLayout());
-    pan1.add(label_lastname);
+    
+    
+    body1.setLayout(new GridLayout(7, 2, 1, 1));
+    //body.add(label_title);
+    body1.add(label_lastname);
+    body1.add(label_firstname);
+    body1.add(label_amount);
+    body1.add(label_initial_rate);
+    body1.add(label_cap);
+    body1.add(label_time);
+
+    pan1= new JPanel();
+    pan1.setLayout(new BoxLayout(pan1,BoxLayout.LINE_AXIS));
+    pan1.add(bouton2);
+    pan1.add(bouton3);
     body1.add(pan1);
-
-    pan2=new JPanel();
-    pan2.setLayout(new FlowLayout());
-    pan2.add(label_firstname);
-    body1.add(pan2);
-
-    pan3=new JPanel();
-    pan3.setLayout(new FlowLayout());
-    pan3.add(label_amount);
-    body1.add(pan3);
-
-    pan4=new JPanel();
-    pan4.setLayout(new FlowLayout());
-    pan4.add(label_initial_rate);
-    body1.add(pan4);
-
-    pan5=new JPanel();
-    pan5.setLayout(new FlowLayout());
-    pan5.add(label_cap);
-    body1.add(pan5);
-
-    pan6=new JPanel();
-    pan6.setLayout(new FlowLayout());
-    pan6.add(label_time);
-    body1.add(pan6);
-
-    pan8= new JPanel();
-    pan8.add(bouton2);
-    pan8.add(bouton3);
-    body1.add(pan8);
-	return body;
+   
+	return body1;
   }
+
 
 
 private void resultsIHM2(String title) {
@@ -478,12 +463,12 @@ private void resultsIHM2(String title) {
   // Convert a string to int
   public double labelString(String g){
     try {
-      i=Double.parseDouble(g);
+      stringToInt=Double.parseDouble(g);
 
     } catch (NumberFormatException e) {
 
     }
-    return i;
+    return stringToInt;
   }
 
 
@@ -521,6 +506,14 @@ private void resultsIHM2(String title) {
   public String getAnswerTime() {
     return answer_time.getSelectedItem().toString();
   }
+  
+  public String getAnswerLastname() {
+	    return answer_lastname.getText();
+	  }
+  
+  public String getAnswerFistname() {
+	    return answer_firstname.getText();
+	  }
 
   public void setAnswer_time(JComboBox answer_time) {
     this.answer_time = answer_time;
