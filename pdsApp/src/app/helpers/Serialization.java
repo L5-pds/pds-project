@@ -5,7 +5,10 @@ import app.models.other.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Serialization {
 
@@ -44,6 +47,14 @@ public class Serialization {
   public String serializeLoanType(LoanType lt) {
       return gson.toJson(lt);
   }
+  
+  public String serializeFixedRateSimulation(FixedRateSimulation frs) {
+      return gson.toJson(frs);
+  }
+  
+  public String serializeVector(Vector v) {
+      return gson.toJson(v);
+  }
 
   public Advisor unserializeUser(String u) {
       return gson.fromJson(u, Advisor.class);
@@ -73,4 +84,20 @@ public class Serialization {
       return gson.fromJson(lt, LoanType.class);
   }
   
+  public FixedRateSimulation unserializeFixedRateSimulation(String frs) {
+      return gson.fromJson(frs, FixedRateSimulation.class);
+  }
+  
+  public Vector unserializeVector(String v) {
+      return gson.fromJson(v, Vector.class);
+  }
+  
+  public ArrayList<Insurance> unserializeInsuranceArrayList(String i) {
+    System.out.println("ins ArrayList unserialization...");
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(i).getAsJsonArray();
+    Insurance ins = gson.fromJson(array.get(0), Insurance.class);
+    System.out.println("insurance : " + ins);
+    return new ArrayList<>();
+  }
 }
