@@ -7,6 +7,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,23 +38,23 @@ import javax.swing.table.DefaultTableModel;
 import app.controllers.VariableRateSimulationController;
 import app.views.welcome.WelcomeViewClient;
 import app.listeners.VariableRateSimulationListener;
+import app.models.component.RoundJTextField;
 
 public class VariableRateSimulationView extends JPanel implements VariableRateSimulationListener{
 
   private JPanel body;
   private Container cont;
   private VariableRateSimulationController controller;
-  // component of the simulation frame
-  // Title of the fields
-  private JLabel label_lastname;
-  private JLabel label_firstname;
+
+  
+  private JLabel label_result;
   private JLabel label_amount;
   private JLabel label_initial_rate;
   private JLabel label_cap;
   private JLabel label_time;
   private JLabel label_title;
 
-  //Fields to fill for the previous titles
+
   private JTextField answer_lastname;
   private JTextField answer_firstname;
   private JTextField answer_amount;
@@ -62,33 +65,25 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private JButton bouton1 = new JButton("Valider");
   private JButton bouton2 = new JButton("Afficher les scénarios favorables");
   private JButton bouton3 = new JButton("Afficher les scénarios défavorables");
-
-  // Container of the previous components
-  private JPanel pan1;
   private JPanel body1;
+ 
 
   //Interest rate max and min value
   private double lowerBoundary;
   private double upperBoundary;
   double stringToInt;
 
-  //Attributes for the whole project
-  private Container contentPane;
-  private JPanel header;
-  private ImageIcon trait;
-  private Image im;
-  private JLabel image;
- 
 
   public VariableRateSimulationView(VariableRateSimulationController controller, JPanel body, Container cont){
     this.controller = controller;
     this.body = body;
     this.cont = cont;
   }
+  
   public void setIHM() {
       body.removeAll();
-      
       body.add(initComponent());
+      
       cont.revalidate();
       cont.repaint();
   }
@@ -100,49 +95,61 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	    answer_cap = new JComboBox(tab1);
 	    answer_cap.setPreferredSize(new Dimension (250,20));
 	    answer_cap.setSelectedIndex(0); // definition of the default value
+	    answer_cap.setFont(new Font(tab1.toString(), Font.ITALIC, 20));
 
 	    // Instantiation of JComboBox for the time
 	    String[] tab2 = {"","7","10","15","20","25","30"};
 	    setAnswer_time(new JComboBox(tab2));
 	    answer_time.setPreferredSize(new Dimension (250,20));
-	    answer_time.setSelectedIndex(0); // definition of the default value
-
-	    label_lastname= new JLabel("Nom");
-	    answer_lastname= new JTextField();
-	    answer_lastname.setColumns(22);
-	    
-	    answer_lastname.setSize(33,8);
-	  
-	   
-	    label_firstname= new JLabel("Prenom");
-	    answer_firstname= new JTextField();
-	    answer_firstname.setColumns(20);
+	    answer_time.setSelectedIndex(0);
+	    answer_time.setFont(new Font(tab2.toString(), Font.ITALIC, 20));
 	
 	    label_amount= new JLabel("Montant");
-	    setAnswer_amount(new JTextField());
+	    setAnswer_amount(new RoundJTextField(20));
 	    answer_amount.setColumns(20);
+	    
+	    
+	    label_amount.setFont(new java.awt.Font("Verdana", 0,20)); // NOI18N
+	    label_amount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+	    
+	    answer_amount.setFont(new java.awt.Font("Verdana", 0,20)); // NOI18N
+	    answer_amount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
 
-	    label_initial_rate= new JLabel("Taux initiale");
-	    setAnswer_initial_rate(new JTextField());
+	    label_initial_rate= new JLabel("Taux initiale :");
+	    setAnswer_initial_rate(new RoundJTextField(20));
 	    answer_initial_rate.setColumns(20);
+	    
+	    
+	    label_initial_rate.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+	    label_initial_rate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+	    
+	    answer_initial_rate.setFont(new java.awt.Font("Verdana", 0,20)); // NOI18N
+	    answer_initial_rate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-	    label_cap= new JLabel("Cap");
-	    label_time= new JLabel("Durée");
+	    label_cap= new JLabel("Cap :");
+	    label_cap.setFont(new java.awt.Font("Verdana", 0,20));
+	    label_cap.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+	    answer_cap.setPreferredSize(new Dimension(30,30));
 	    
-	 
 	    
+	    label_time= new JLabel("Durée :");
+	    label_time.setFont(new java.awt.Font("Verdana", 0, 20));
+	    label_time.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+	    answer_time.setPreferredSize(new Dimension(30,30));
+	    
+	    label_result= new JLabel();
+	    label_result.setFont(new java.awt.Font("Verdana", 0, 20));
+	    
+	    
+	   
 	  
 
 	    body1= new JPanel();
-	    body1.setLayout(new GridLayout(7, 3, 0, 0));
 		body1.setBackground(new Color(215,203,233,255));
+		body1.setLayout(new BoxLayout(body1,BoxLayout.Y_AXIS));
 		
-		
-		body1.add(label_lastname);
-		body1.add(answer_lastname);
-		body1.add(label_firstname);
-		body1.add(answer_firstname);
+		//body1.setLayout(new GridLayout(10,2,10,10));
 		body1.add(label_amount);
 		body1.add(answer_amount);
 		body1.add(label_time);
@@ -152,8 +159,9 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 		body1.add(label_initial_rate);
 		body1.add(answer_initial_rate);
 		body1.add(bouton1);
-
-	    // Add actionListener on answer_cap
+		
+		
+		// Add actionListener on answer_cap
 	    answer_cap.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent arg0) {
 
@@ -254,46 +262,34 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
     double totalToPay = monthPayment1*(this.labelString(this.getAnswerTime())*12);
     
     
-   // label_title=new JLabel();
-
-    //label_title.setText(getAnswerFistname()+ " "+ getAnswerLastname()+ "  voici une première simulation de votre prêt: ");
-    label_lastname.setText("Montant du prêt:  " + getAnswerAmount());
-    label_firstname.setText("Durée du prêt:   "+ answer_time.getSelectedItem()+ "ans");
-    label_amount.setText("Montant de la mensualité:   "+ monthPayment1);
-    label_initial_rate.setText("Total à payer:  " +totalToPay);
-    label_cap.setText("Taux d'intérêt actuel: " + "  " + interestRate + "%");
-    label_time.setText("Le taux d'intérêt sera au minimum   "+lowerBoundaryRound+"%  "+ "et au maximum   "+upperBoundaryRound+ "%");
-
+ 
+    label_amount.setText("Montant du prêt:  " + getAnswerAmount());
+    label_time.setText("Durée du prêt:   "+ answer_time.getSelectedItem()+ "ans");
+    label_cap.setText("Le cap choisit est "+ answer_cap.getSelectedItem());
+    label_initial_rate.setText("Taux d'intérêt actuel: " + "  " + interestRate + "%");
+    label_result.setText("Le taux d'intérêt sera au minimum "+lowerBoundaryRound+"%  "+ "et au maximum "+upperBoundaryRound+ "%");
     
-    
-    body1.setLayout(new GridLayout(7, 2, 1, 1));
-    //body.add(label_title);
-    body1.add(label_lastname);
-    body1.add(label_firstname);
+ 
+    body1.setLayout(new GridLayout(7,1,20,20));
     body1.add(label_amount);
-    body1.add(label_initial_rate);
-    body1.add(label_cap);
     body1.add(label_time);
-
-    pan1= new JPanel();
-    pan1.setLayout(new BoxLayout(pan1,BoxLayout.LINE_AXIS));
-    pan1.add(bouton2);
-    pan1.add(bouton3);
-    body1.add(pan1);
-   
-	return body1;
+    body1.add(label_cap);
+    body1.add(label_result);
+    body1.add(bouton2);
+    body1.add(bouton3);
+   // body1.setBorder(BorderFactory.createTitledBorder(getAnswerFistname()+ " "+ getAnswerLastname()+ "  voici une première simulation de votre prêt: "));
+    return body1;
   }
 
 
 
 private void resultsIHM2(String title) {
+	
     double interest= this.labelString(this.getAnswerInitialRate());
     controller.initialization();
     double monthPayment2= controller.calculateMonthlyPayment(interest);
     int duree= (int) (this.labelString(this.getAnswerTime()));
-
-    //Amount to pay for one year
-    double monthPayment;
+    double monthPayment; //Amount to pay for one year
 
     JFrame fenetre= new JFrame();
     fenetre.setExtendedState(fenetre.MAXIMIZED_BOTH);
@@ -336,16 +332,14 @@ private void resultsIHM2(String title) {
     	//Scenario 1
     	double totalToPay1= 0;
     	for(int i=1; i<=duree; i++){
-        //Update of the interest rate and the monthly payment
-        interest=Math.floor(100*(interest-(1.0/duree)))/100;
         monthPayment2=controller.calculateMonthlyPayment(interest);
         monthPayment=monthPayment2*12;
-        //Add of new line in the table
         model1.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
         totalToPay1=totalToPay1+labelString(model1.getValueAt(i - 1,3).toString());
+        interest=Math.floor(100*(interest-(1.0/duree)))/100;
       }
     	model1.addRow(new Object[]{"Total",totalToPay1});
-    	
+    	interest= this.labelString(this.getAnswerInitialRate());
     	
     	//Scenario 2
     	double totalToPay2= 0;
@@ -356,7 +350,7 @@ private void resultsIHM2(String title) {
             totalToPay2=totalToPay2+labelString(model2.getValueAt(i - 1,3).toString());
           }
     	model2.addRow(new Object[]{"Total",totalToPay2});
-    	
+    	interest= this.labelString(this.getAnswerInitialRate());
     	
     	//Scenario 3
     	double totalToPay31=0 ;
@@ -383,7 +377,9 @@ private void resultsIHM2(String title) {
     
     else{
     	
+    	
       //Scenarios 1
+      interest= this.labelString(this.getAnswerInitialRate());
       double totalToPay1= 0;
       for(int i=1; i<=duree; i++){
 
@@ -395,8 +391,9 @@ private void resultsIHM2(String title) {
       }
       model1.addRow(new Object[]{"Total",totalToPay1});
       
-      
+     
       //Scenarios 2
+      interest= this.labelString(this.getAnswerInitialRate());
       double totalToPay21= 0;
       for(int i=1; i<=(duree/2)+1; i++){
           monthPayment2=controller.calculateMonthlyPayment(interest);
@@ -420,6 +417,7 @@ private void resultsIHM2(String title) {
        
        
        //Scenarios 3
+       interest= this.labelString(this.getAnswerInitialRate());
        double totalToPay31= 0;
   	   for(int i=1; i<=(duree/2)+1; i++){
   	    //Update of the interest rate and the monthly payment
