@@ -16,3 +16,4 @@ pdsApp/build.xml
 pdsApp/manifest.mf
 build
 /pdsApp/nbproject/private/
+/pdsApp/dist/

@@ -7,6 +7,8 @@ import app.models.component.*;
 import app.views.welcome.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -73,10 +75,11 @@ public class ViewIndicatorAll implements ListenerIndicator {
         bottomPan.setBackground(new Color(0,0,0,0));
         bottomPan.setLayout(new BorderLayout());
         bottomPan.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(255, 255, 255, 100))));
-        bottomPan.add(makePanBottomLeft(), BorderLayout.WEST);
+        //bottomPan.add(makePanBottomLeft(), BorderLayout.WEST);
         bottomPan.add(makePanBottomMiddle(), BorderLayout.CENTER);
         bottomPan.add(makeOptionPane(), BorderLayout.EAST);
         bottomPan.add(makeUserPane(), BorderLayout.SOUTH);
+        
         
         body.setLayout(new GridLayout(2, 0, 0, 0));
         body.setBackground(new Color(215,203,233,255));
@@ -127,165 +130,20 @@ public class ViewIndicatorAll implements ListenerIndicator {
         thePane.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(255, 255, 255, 100))));
 
         JLabel lblTitle = new JLabel("Indicateurs suivant des axes spécifiques");
-        lblTitle.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
+        lblTitle.setForeground(Color.BLACK);
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        JPanel paneShearchIndicator = new JPanel();
+        paneShearchIndicator.setLayout(new BorderLayout());
+        paneShearchIndicator.setBackground(new Color(215,203,233,255));
         
-        JLabel lblRanch = new JLabel("Plage");
-        lblRanch.setHorizontalAlignment(SwingConstants.CENTER);
-        lblRanch.setFont(new java.awt.Font("Verdana", 0, 17));
-        lblRanch.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JLabel lbldateBegin = new JLabel("Du:");
-        lbldateBegin.setFont(new java.awt.Font("Verdana", 0, 17));
-        lbldateBegin.setAlignmentY(Component.CENTER_ALIGNMENT);
-        lbldateBegin.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel lbldateEnd = new JLabel("Au:");
-        lbldateEnd.setFont(new java.awt.Font("Verdana", 0, 17));
-        lbldateEnd.setAlignmentY(Component.CENTER_ALIGNMENT);
-        lbldateEnd.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JXDatePicker dateBegin1 = new JXDatePicker(new Date());
-        dateBegin1.setFont(new java.awt.Font("Verdana", 0, 15));
-        JXDatePicker dateEnd1 = new JXDatePicker(new Date());
-        dateEnd1.setFont(new java.awt.Font("Verdana", 0, 15));
-        
-        JPanel paneRangeDateLoanLbl = new JPanel(); //To ADD
-        paneRangeDateLoanLbl.setBackground(new Color(0,0,0,0));
-        paneRangeDateLoanLbl.setLayout(new BoxLayout(paneRangeDateLoanLbl, BoxLayout.Y_AXIS));
-        paneRangeDateLoanLbl.add(lbldateBegin);
-        paneRangeDateLoanLbl.add(lbldateEnd);
-        
-        JPanel paneRangeDateLoanDate = new JPanel(); //To ADD
-        paneRangeDateLoanDate.setBackground(new Color(0,0,0,0));
-        paneRangeDateLoanDate.setLayout(new BoxLayout(paneRangeDateLoanDate, BoxLayout.Y_AXIS));
-        paneRangeDateLoanDate.add(dateBegin1);
-        paneRangeDateLoanDate.add(dateEnd1);
-        
-        JPanel paneRangeDateLoan = new JPanel();
-        paneRangeDateLoan.setBackground(new Color(0,0,0,0));
-        paneRangeDateLoan.setLayout(new BorderLayout());
-        paneRangeDateLoan.add(lblRanch, BorderLayout.NORTH);
-        paneRangeDateLoan.add(paneRangeDateLoanLbl, BorderLayout.WEST);
-        paneRangeDateLoan.add(paneRangeDateLoanDate, BorderLayout.EAST);
-        
-        
-        JLabel lblComboAdvisor = new JLabel("      Conseillé      ");
-        lblComboAdvisor.setHorizontalAlignment(SwingConstants.CENTER);
-        lblComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 17));
-        JComboBox ComboAdvisor = new JComboBox(); //To ADD
-        ComboAdvisor.setBackground(Color.WHITE);
-        ComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 15));
-        ComboAdvisor.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
-        
-        JPanel paneAdvisor = new JPanel();
-        paneAdvisor.setBackground(new Color(0,0,0,0));
-        paneAdvisor.setLayout(new BorderLayout());
-        paneAdvisor.add(lblComboAdvisor, BorderLayout.NORTH);
-        paneAdvisor.add(ComboAdvisor, BorderLayout.CENTER);
-        
-        
-        JLabel lblComboTypeLoan = new JLabel("     Type de prêt     "); //To ADD
-        lblComboTypeLoan.setHorizontalAlignment(SwingConstants.CENTER);
-        lblComboTypeLoan.setFont(new java.awt.Font("Verdana", 0, 17));
-        JComboBox ComboTypeLoan = new JComboBox(); //To ADD
-        ComboTypeLoan.setBackground(Color.WHITE);
-        ComboTypeLoan.setFont(new java.awt.Font("Verdana", 0, 15));
-        ComboTypeLoan.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
-        
-        JPanel paneTypeLoan = new JPanel();
-        paneTypeLoan.setBackground(new Color(0,0,0,0));
-        paneTypeLoan.setLayout(new BorderLayout());
-        paneTypeLoan.add(lblComboTypeLoan, BorderLayout.NORTH);
-        paneTypeLoan.add(ComboTypeLoan, BorderLayout.CENTER);
-        
-        
-        JLabel lblRanchCustomer = new JLabel("Plage");
-        lblRanchCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
-        lblRanchCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblRanchCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JLabel lbldateBeginCustomer = new JLabel("Du:");
-        lbldateBeginCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
-        lbldateBeginCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-        lbldateBeginCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel lbldateEndCustomer = new JLabel("Au:");
-        lbldateEndCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
-        lbldateEndCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-        lbldateEndCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JXDatePicker dateBegin1Customer = new JXDatePicker(new Date());
-        dateBegin1Customer.setFont(new java.awt.Font("Verdana", 0, 15));
-        JXDatePicker dateEnd1Customer = new JXDatePicker(new Date());
-        dateEnd1Customer.setFont(new java.awt.Font("Verdana", 0, 15));
-        
-        JPanel paneRangeDateCustomerLbl = new JPanel(); //To ADD
-        paneRangeDateCustomerLbl.setBackground(new Color(0,0,0,0));
-        paneRangeDateCustomerLbl.setLayout(new BoxLayout(paneRangeDateCustomerLbl, BoxLayout.Y_AXIS));
-        paneRangeDateCustomerLbl.add(lbldateBeginCustomer);
-        paneRangeDateCustomerLbl.add(lbldateEndCustomer);
-        
-        JPanel paneRangeDateCustomerDate = new JPanel(); //To ADD
-        paneRangeDateCustomerDate.setBackground(new Color(0,0,0,0));
-        paneRangeDateCustomerDate.setLayout(new BoxLayout(paneRangeDateCustomerDate, BoxLayout.Y_AXIS));
-        paneRangeDateCustomerDate.add(dateBegin1Customer);
-        paneRangeDateCustomerDate.add(dateEnd1Customer);
-        
-        JPanel paneRangeDateCustomer = new JPanel();
-        paneRangeDateCustomer.setBackground(new Color(0,0,0,0));
-        paneRangeDateCustomer.setLayout(new BorderLayout());
-        paneRangeDateCustomer.add(lblRanchCustomer, BorderLayout.NORTH);
-        paneRangeDateCustomer.add(paneRangeDateCustomerLbl, BorderLayout.WEST);
-        paneRangeDateCustomer.add(paneRangeDateCustomerDate, BorderLayout.EAST);
-        
-        
-        JButton btnValide = new JButton("Valider");
-        btnValide.setFont(new java.awt.Font("Verdana", 0, 17));
-        
-        
-        JPanel jpcombo = new JPanel();
-        jpcombo.setLayout(new FlowLayout(FlowLayout.CENTER));
-        jpcombo.setBackground(new Color(215,203,233,255));
-        jpcombo.add(paneRangeDateLoan);
-        jpcombo.add(paneAdvisor);
-        jpcombo.add(paneTypeLoan);
-        jpcombo.add(paneRangeDateCustomer);
-        jpcombo.add(new JLabel(" "));
-        jpcombo.add(btnValide);
-        
-        
-        JLabel label = new JLabel("Nombre de prêt contractés : 1452");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Verdana", Font.PLAIN, 30));
-        JLabel label_1 = new JLabel("Bénéfices perçu : 452154€");
-        label_1.setHorizontalAlignment(SwingConstants.CENTER);
-        label_1.setFont(new Font("Verdana", Font.PLAIN, 30));
-        JLabel label_2 = new JLabel("Bénéfices restants : 452154€");
-        label_2.setHorizontalAlignment(SwingConstants.CENTER);
-        label_2.setFont(new Font("Verdana", Font.PLAIN, 30));
-        JLabel label_3 = new JLabel("Durée moyenne des prêts : 45 mois");
-        label_3.setHorizontalAlignment(SwingConstants.CENTER);
-        label_3.setFont(new Font("Verdana", Font.PLAIN, 30));
-        JLabel label_4 = new JLabel("Montant moyen des prêts : 45124€");
-        label_4.setHorizontalAlignment(SwingConstants.CENTER);
-        label_4.setFont(new Font("Verdana", Font.PLAIN, 30));
-        
-        
-        JPanel jpinfo = new JPanel();
-        jpinfo.setLayout(new GridLayout(5, 0, 0, 0));
-        jpinfo.setBackground(new Color(215,203,233,255));
-        jpinfo.add(label_4);
-        jpinfo.add(label_3);
-        jpinfo.add(label_2);
-        jpinfo.add(label_2);
-        jpinfo.add(label_1);
-        jpinfo.add(label);
+        paneShearchIndicator.add(makeSearchPane(), BorderLayout.WEST);
         
         thePane.add(new JLabel(" "));
         thePane.add(lblTitle);
         thePane.add(new JLabel(" "));
-        thePane.add(jpcombo);
-        thePane.add(jpinfo);
+        thePane.add(paneShearchIndicator);
         return thePane;
     }
     
@@ -295,29 +153,87 @@ public class ViewIndicatorAll implements ListenerIndicator {
         Image im;
         JLabel buttonRefresh;
         JLabel buttonPrint;
+        JLabel buttonAdvisor;
+        JLabel buttonHelp;
         JLabel lblTitle;
         
         // Creat label with title
         lblTitle = new JLabel("  Options  ");
-        lblTitle.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
+        lblTitle.setForeground(Color.BLACK);
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Create button for refresh with a jlabel
-        trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefresh.png"));
-        im = trait.getImage().getScaledInstance(50, 50, 1);
+        im = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefresh.png")).getImage().getScaledInstance(50, 50, 1);
         buttonRefresh = new JLabel(new ImageIcon(im));
         buttonRefresh.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonRefresh.addMouseListener(new MouseAdapter()   {  
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefreshHover.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonRefresh.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefresh.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonRefresh.setIcon(new ImageIcon(im));
+            }
+        });
         
-        // Create button for refresh with a jlabel
+        // Create button for print with a jlabel
         trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinter.png"));
         im = trait.getImage().getScaledInstance(50, 50, 1);
         buttonPrint = new JLabel(new ImageIcon(im));
         buttonPrint.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPrint.addMouseListener(new MouseAdapter()   {  
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinterHover.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonPrint.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinter.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonPrint.setIcon(new ImageIcon(im));
+            }
+        });
+        
+        // Create button for advisor informations with a jlabel
+        trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconUser.png"));
+        im = trait.getImage().getScaledInstance(50, 50, 1);
+        buttonAdvisor = new JLabel(new ImageIcon(im));
+        buttonAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonAdvisor.addMouseListener(new MouseAdapter()   {  
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconUserHover.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonAdvisor.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconUser.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonAdvisor.setIcon(new ImageIcon(im));
+            }
+        });
+        
+        // Create button for help with a jlabel
+        trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelp.png"));
+        im = trait.getImage().getScaledInstance(50, 50, 1);
+        buttonHelp = new JLabel(new ImageIcon(im));
+        buttonHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonHelp.addMouseListener(new MouseAdapter()   {  
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelpHover.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonHelp.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelp.png")).getImage().getScaledInstance(50, 50, 1);
+                buttonHelp.setIcon(new ImageIcon(im));
+            }
+        });
         
         // Create the panel
         JPanel thePane = new JPanel();
         thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
-        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setBackground(new Color(215,203,233,255));
         thePane.setBorder((BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(255, 255, 255, 100))));
 
         // Add all composent in the panel
@@ -327,10 +243,144 @@ public class ViewIndicatorAll implements ListenerIndicator {
         thePane.add(buttonRefresh);
         thePane.add(new JLabel(" "));
         thePane.add(buttonPrint);
+        thePane.add(new JLabel(" "));
+        thePane.add(buttonAdvisor);
+        thePane.add(new JLabel(" "));
+        thePane.add(buttonHelp);
         return thePane;
     }
     
-    // Method for the panel on the bottom with user informations
+    
+    /**
+     * Method for the panel with search composent
+     * @return 
+     */
+    private JPanel makeSearchPane() {
+        
+        // Create the panel
+        JPanel thePane = new JPanel();
+        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
+        thePane.setBackground(new Color(215,203,233,255));
+        thePane.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(255, 255, 255, 100))));
+        
+        // Creat label with title
+        JLabel lblTitle = new JLabel("Axes d'analyses");
+        lblTitle.setFont(new java.awt.Font("Verdana", Font.BOLD, 17)); // NOI18N
+        lblTitle.setForeground(Color.BLACK);
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel lblRanchLoan = new JLabel("Prêts du ... au ...");
+        lblRanchLoan.setHorizontalAlignment(SwingConstants.CENTER);
+        lblRanchLoan.setFont(new java.awt.Font("Verdana", 0, 17));
+        lblRanchLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JXDatePicker dateBegin1 = new JXDatePicker(new Date());
+        dateBegin1.setFont(new java.awt.Font("Verdana", 0, 15));
+        
+        JXDatePicker dateEnd1 = new JXDatePicker(new Date());
+        dateEnd1.setFont(new java.awt.Font("Verdana", 0, 15));
+        
+        JPanel paneRangeDateLoanLbl = new JPanel(); //To ADD
+        paneRangeDateLoanLbl.setBackground(new Color(0,0,0,0));
+        paneRangeDateLoanLbl.setLayout(new FlowLayout());
+        paneRangeDateLoanLbl.add(dateBegin1);
+        paneRangeDateLoanLbl.add(dateEnd1);
+        
+        JLabel lblComboAdvisor = new JLabel("Conseillé");
+        lblComboAdvisor.setHorizontalAlignment(SwingConstants.CENTER);
+        lblComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 17));
+        lblComboAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JComboBox ComboAdvisor = new JComboBox(); //To ADD
+        ComboAdvisor.setBackground(Color.WHITE);
+        ComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 15));
+        ComboAdvisor.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
+        ComboAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JPanel paneComboAdvisor = new JPanel(); //To ADD
+        paneComboAdvisor.setBackground(new Color(0,0,0,0));
+        paneComboAdvisor.setLayout(new BoxLayout(paneComboAdvisor, BoxLayout.Y_AXIS));
+        paneComboAdvisor.add(ComboAdvisor);
+        
+        JLabel lblComboTypeLoan = new JLabel("Type de prêt"); //To ADD
+        lblComboTypeLoan.setHorizontalAlignment(SwingConstants.CENTER);
+        lblComboTypeLoan.setFont(new java.awt.Font("Verdana", 0, 17));
+        lblComboTypeLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JComboBox ComboTypeLoan = new JComboBox(); //To ADD
+        ComboTypeLoan.setBackground(Color.WHITE);
+        ComboTypeLoan.setFont(new java.awt.Font("Verdana", 0, 15));
+        ComboTypeLoan.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
+        ComboTypeLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JPanel paneComboTypeLoan = new JPanel(); //To ADD
+        paneComboTypeLoan.setBackground(new Color(0,0,0,0));
+        paneComboTypeLoan.setLayout(new BoxLayout(paneComboTypeLoan, BoxLayout.Y_AXIS));
+        paneComboTypeLoan.add(ComboTypeLoan);
+        
+        JLabel lblRanchCustomer = new JLabel("Recherche du ... au ...");
+        lblRanchCustomer.setHorizontalAlignment(SwingConstants.CENTER);
+        lblRanchCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
+        lblRanchCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JXDatePicker dateBegin2 = new JXDatePicker(new Date());
+        dateBegin2.setFont(new java.awt.Font("Verdana", 0, 15));
+        
+        JXDatePicker dateEnd2 = new JXDatePicker(new Date());
+        dateEnd2.setFont(new java.awt.Font("Verdana", 0, 15));
+        
+        JPanel paneRangeDateCustomer = new JPanel(); //To ADD
+        paneRangeDateCustomer.setBackground(new Color(0,0,0,0));
+        paneRangeDateCustomer.setLayout(new FlowLayout());
+        paneRangeDateCustomer.add(dateBegin2);
+        paneRangeDateCustomer.add(dateEnd2);
+        
+        
+        JLabel lblComboTypeCustomer = new JLabel("Catégorie 'âge du client'"); //To ADD
+        lblComboTypeCustomer.setHorizontalAlignment(SwingConstants.CENTER);
+        lblComboTypeCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
+        lblComboTypeCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JComboBox ComboTypeCustomer = new JComboBox(); //To ADD
+        ComboTypeCustomer.setBackground(Color.WHITE);
+        ComboTypeCustomer.setFont(new java.awt.Font("Verdana", 0, 15));
+        ComboTypeCustomer.setModel(new DefaultComboBoxModel(new String[] {"TOUS","aeae","aeae","aeae","aeae","aeae","aeae"}));
+        ComboTypeCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JPanel paneComboTypeCustomer = new JPanel(); //To ADD
+        paneComboTypeCustomer.setBackground(new Color(0,0,0,0));
+        paneComboTypeCustomer.setLayout(new BoxLayout(paneComboTypeCustomer, BoxLayout.Y_AXIS));
+        paneComboTypeCustomer.add(ComboTypeCustomer);
+        
+        Image im = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconSearch.png")).getImage().getScaledInstance(149, 49, 1);
+        JLabel btValid = new JLabel(new ImageIcon(im));
+        btValid.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btValid.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        thePane.add(lblTitle);
+        
+        thePane.add(lblRanchLoan);
+        thePane.add(paneRangeDateLoanLbl);
+        
+        thePane.add(lblComboAdvisor);
+        thePane.add(paneComboAdvisor);
+        
+        thePane.add(lblComboTypeLoan);
+        thePane.add(paneComboTypeLoan);
+        
+        thePane.add(lblComboTypeCustomer);
+        thePane.add(paneComboTypeCustomer);
+        thePane.add(new JLabel(" "));
+        
+        thePane.add(btValid);
+        
+        return thePane;
+    }
+    
+    /**
+     * Method for the panel on the bottom with user informations
+     * @return 
+     */
     private JPanel makeUserPane()   {
         
         // Date format (a commenter)
@@ -349,7 +399,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         // Create the panel
         JPanel thePane = new JPanel();
         thePane.setLayout(new FlowLayout());
-        thePane.setBackground(new Color(0,0,0,0));
+        thePane.setBackground(new Color(215,203,233,255));
         thePane.setBorder((BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(255, 255, 255, 100))));
 
         // Add all composent in the panel
@@ -357,7 +407,14 @@ public class ViewIndicatorAll implements ListenerIndicator {
         return thePane;
     }
         
-    // Method for create pichart with a specific graphique
+    /**
+     * Method for create pichart with a specific graphique
+     * @param chartTitle
+     * Title of chart
+     * @param dataset
+     * Data for chart
+     * @return 
+     */
     private JPanel makePieChart(String chartTitle, DefaultPieDataset dataset) {
 
         // Creat the chart with parameters
@@ -382,7 +439,18 @@ public class ViewIndicatorAll implements ListenerIndicator {
         return theChartPanel;
     }
     
-    // Method for create barchart with a specific graphique
+    /**
+     * Method for create barchart with a specific graphique
+     * @param chartTitle
+     * Title of chart
+     * @param abscissTitle
+     * Title in absciss
+     * @param ordonatTitle
+     * Title in ordonat
+     * @param dataset
+     * Data for chart
+     * @return 
+     */
     private JPanel makeBarChart(String chartTitle, String abscissTitle, String ordonatTitle, DefaultCategoryDataset dataset) {
         // Creat the chart with parameters
         JFreeChart theChart = ChartFactory.createBarChart(chartTitle, abscissTitle, ordonatTitle, dataset, PlotOrientation.VERTICAL, true, true, false);
