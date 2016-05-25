@@ -59,11 +59,11 @@ public class ControllerIndicator {
         }
         return resutl;
     }
-    
+
     public DefaultPieDataset getPieDatasetLoanPerType(int idAgency)    {
-        
+
         DefaultPieDataset dataset = null;
-            
+
         try {
             out.println("SPECIF_1/LoanPerType/" + idAgency);
             out.flush();
@@ -74,14 +74,14 @@ public class ControllerIndicator {
             javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
             System.exit(0);
         }
-        
+
         return dataset;
     }
-    
+
     public DefaultCategoryDataset getBarDatasetLoanPerTypeByYears(int idAgency)    {
-        
+
         DefaultCategoryDataset dataset = null;
-            
+
         try {
             out.println("SPECIF_1/LoanPerTypeByYear/" + idAgency);
             out.flush();
@@ -92,14 +92,14 @@ public class ControllerIndicator {
             javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
             System.exit(0);
         }
-        
+
         return dataset;
     }
-    
+
     public DefaultPieDataset getPieDatasetLoanPerAdvisor(int idAgency)    {
-        
+
         DefaultPieDataset dataset = null;
-            
+
         try {
             out.println("SPECIF_1/LoanPerAdvisor/" + idAgency);
             out.flush();
@@ -110,38 +110,38 @@ public class ControllerIndicator {
             javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
             System.exit(0);
         }
-        
+
         return dataset;
     }
-    
+
     public JPanel getAdvisorClassement(int idAgency)    {
-        
+
         JPanel thePane = new JPanel();
         thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
         thePane.setBackground(new Color(0,0,0,0));
-        
+
         try {
-        out.println("SPECIF_1/AdvisorClassement/" + idAgency);
-        out.flush();
-        ArrayList<String> responseAll = s.unserializeArrayList(in.readLine());
-        
-        ArrayList<JLabel> lblTab = new ArrayList();
-        
-        for(int i=0 ; i<responseAll.size() ; i++)   {
-            JLabel tmp = new JLabel();
-            tmp.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
-            tmp.setAlignmentX(Component.CENTER_ALIGNMENT);
-            tmp.setText(responseAll.get(i));
-            
-            lblTab.add(tmp);
-        }
-        for(int i=0 ; i<lblTab.size() ; i++)   {
-            thePane.add(lblTab.get(i));
-        }
-        
+            out.println("SPECIF_1/AdvisorClassement/" + idAgency);
+            out.flush();
+            ArrayList<String> responseAll = s.unserializeArrayList(in.readLine());
+
+            ArrayList<JLabel> lblTab = new ArrayList();
+
+            for(int i=0 ; i<responseAll.size() ; i++)   {
+                JLabel tmp = new JLabel();
+                tmp.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+                tmp.setAlignmentX(Component.CENTER_ALIGNMENT);
+                tmp.setText(responseAll.get(i));
+
+                lblTab.add(tmp);
+            }
+            for(int i=0 ; i<lblTab.size() ; i++)   {
+                thePane.add(lblTab.get(i));
+            }
+
         } catch (Exception e) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
-          System.exit(0);
+            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            System.exit(0);
         }
         return thePane;
     }

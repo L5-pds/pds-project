@@ -1,6 +1,7 @@
 package app.views.simulations;
 
 import app.controllers.*;
+import app.helpers.*;
 import app.listeners.*;
 import app.models.component.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class CompareSimulationView implements CompareSimulationListener{
   private Container cont;
   private JComboBox cbClient;
   private JComboBox cbType;
-  private ArrayList<String> clients;
+  private ArrayList<String[]> clients;
   private JLabel nameLabel;
   private JLabel selectClientLabel;
   private JLabel selectTypeLabel;
@@ -95,17 +96,21 @@ public class CompareSimulationView implements CompareSimulationListener{
         globalPanel.remove(selectTypeLabel);
         globalPanel.remove(cbType);
         globalPanel.remove(validateButton);
-        clients = new ArrayList<String>();
-        clients.add(nameField.getText()+"1");
-        clients.add(nameField.getText()+"2");
-        clients.add(nameField.getText()+"3");
+        //clients = new ArrayList<String>();
+        //clients.add(nameField.getText()+"1");
+        //clients.add(nameField.getText()+"2");
+        //clients.add(nameField.getText()+"3");
+
+        clients = cci.getCustomers(nameField.getText());
 
         for( ActionListener al : cbClient.getActionListeners() )
           cbClient.removeActionListener( al );
 
         cbClient.removeAllItems();
-        for(String s:clients)
-          cbClient.addItem(s);
+        for(int i=0; i< clients.size(); i++){
+          String[] tmp = clients.get(i);
+          cbClient.addItem(new Item(Integer.parseInt(tmp[0]), tmp[1] +" "+tmp[2]));
+        }
 
         nextStep("client");
         globalPanel.add(selectClientLabel);
@@ -127,7 +132,11 @@ public class CompareSimulationView implements CompareSimulationListener{
       break;
 
       case "finish" :
-        System.out.println("Finish !");
+        String c = cbClient.getSelectedItem().toString();
+        String t = cbType.getSelectedItem().toString();
+        Item selected = (Item)cbClient.getSelectedItem();
+        String id = String.valueOf(selected.getId());
+        System.out.println("Finish : "+ id +" - "+ c + " - " + t);
       break;
     }
   }

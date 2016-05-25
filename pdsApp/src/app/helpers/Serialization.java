@@ -5,6 +5,7 @@ import app.models.other.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 public class Serialization {
@@ -28,7 +29,7 @@ public class Serialization {
   public String serializeAddress(Address a) {
       return gson.toJson(a);
   }
-  
+
   public String serializedatasetPieChart(datasetPieChart dpd) {
       return gson.toJson(dpd);
   }
@@ -38,6 +39,10 @@ public class Serialization {
   }
 
   public String serializeArrayList(ArrayList dpd) {
+      return gson.toJson(dpd);
+  }
+
+  public String serializeListArray(ArrayList<String[]> dpd) {
       return gson.toJson(dpd);
   }
 
@@ -63,5 +68,9 @@ public class Serialization {
 
   public ArrayList unserializeArrayList(String dpd) {
       return gson.fromJson(dpd, ArrayList.class);
+  }
+
+  public ArrayList unserializeListArray(String dpd) {
+      return gson.fromJson(dpd, new TypeToken<ArrayList<String[]>>() {}.getType());
   }
 }
