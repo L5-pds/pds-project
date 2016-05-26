@@ -4,6 +4,7 @@ import app.controllers.*;
 import app.listeners.*;
 import app.models.*;
 import app.models.component.*;
+import app.models.other.PaneSearchIndicator;
 import app.views.welcome.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -35,6 +36,8 @@ public class ViewIndicatorAll implements ListenerIndicator {
     private final Container cont;
     private final Advisor user;
     
+    private JPanel thePaneTable;
+    
     public ViewIndicatorAll(ControllerIndicator cci, JPanel body, Container cont, Advisor user) {
       this.cci = cci;
       this.body = body;
@@ -50,13 +53,16 @@ public class ViewIndicatorAll implements ListenerIndicator {
     public void setIHM() {
         body.removeAll();
         
+        // Create the panel for tab
+        thePaneTable = new JPanel();
+        
         // Create panel for top left of screen 
         JPanel topPanLeft = new JPanel();
         topPanLeft.setBackground(new Color(0,0,0,0));
         topPanLeft.setLayout(new GridLayout(0, 2, 0, 0));
         topPanLeft.add(makePieChart("Répartition des prêts suivant le type", 
                 cci.getPieDatasetLoanPerType(user.getAgency())));
-        topPanLeft.add(makePieChart("Répartition des prêts par conseillés", 
+        topPanLeft.add(makePieChart("Intérêts des prêts par conseillés", 
                 cci.getPieDatasetLoanPerAdvisor(user.getAgency())));
                 
         // Create panel for top of screen
@@ -65,9 +71,9 @@ public class ViewIndicatorAll implements ListenerIndicator {
         topPan.setLayout(new GridLayout(0, 2, 0, 0));
         topPan.setBorder((BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255, 255, 255, 100))));
         topPan.add(topPanLeft);
-        topPan.add(makeBarChart("Bénéfices prévisionnel de l'agence par année", 
+        topPan.add(makeBarChart("Interêts de l'agence par année", 
                 "Année", 
-                "Résultat prévisionnel", 
+                "Interêts", 
                 cci.getBarDatasetLoanPerTypeByYears(user.getAgency())));
         
         // Create panel for bottom of screen
@@ -75,9 +81,10 @@ public class ViewIndicatorAll implements ListenerIndicator {
         bottomPan.setBackground(new Color(0,0,0,0));
         bottomPan.setLayout(new BorderLayout());
         bottomPan.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 0, new Color(255, 255, 255, 100))));
-        //bottomPan.add(makePanBottomLeft(), BorderLayout.WEST);
-        bottomPan.add(makePanBottomMiddle(), BorderLayout.CENTER);
+        bottomPan.add(makePanBottomMiddle(makeSearchPane()), BorderLayout.CENTER);
+        
         bottomPan.add(makeOptionPane(), BorderLayout.EAST);
+        bottomPan.add(makePanBottomMiddle(makeSearchPane()), BorderLayout.CENTER);
         bottomPan.add(makeUserPane(), BorderLayout.SOUTH);
         
         
@@ -92,38 +99,13 @@ public class ViewIndicatorAll implements ListenerIndicator {
         cont.repaint();
     }
     
-    // Method for the panel on the bottom left with advisor classment
-    private JPanel makePanBottomLeft()  {
-        JPanel thePane = new JPanel();
-        //thePane.setLayout(new GridLayout(11, 1));
-        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
-        thePane.setBackground(new Color(0,0,0,0));
-        thePane.setBorder((BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(255, 255, 255, 100))));
-        
-        JLabel lblTitle = new JLabel();
-        lblTitle.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
-        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblTitle.setText("     Classement collaborateur     ");
-                
-        JButton btMore = new JButton();
-        btMore.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
-        btMore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btMore.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btMore.setText("Rapport spécifique");
-        
-        thePane.add(new JLabel(" "));
-        thePane.add(lblTitle);
-        thePane.add(new JLabel(" "));
-        thePane.add(cci.getAdvisorClassement(this.user.getAgency()));
-        thePane.add(new JLabel(" "));
-        thePane.add(btMore);
-        thePane.add(new JLabel(" "));
-        return thePane;
-    }
-    
-    // Method for the panel on the bottom center with specific indicator
-    private JPanel makePanBottomMiddle()  {
+    /**
+     * Method for the panel on the bottom center with specific indicator
+     * @param search
+     * JPanel with search composant
+     * @return 
+     */
+    private JPanel makePanBottomMiddle(JPanel search)  {
         JPanel thePane = new JPanel();
         thePane.setBackground(new Color(0,0,0,0));
         thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
@@ -138,16 +120,39 @@ public class ViewIndicatorAll implements ListenerIndicator {
         paneShearchIndicator.setLayout(new BorderLayout());
         paneShearchIndicator.setBackground(new Color(215,203,233,255));
         
-        paneShearchIndicator.add(makeSearchPane(), BorderLayout.WEST);
+        paneShearchIndicator.add(search, BorderLayout.WEST);
+        
+        PaneSearchIndicator tableInfo = new PaneSearchIndicator();
+                
+        makeTablePane(tableInfo);
+        paneShearchIndicator.add(thePaneTable, BorderLayout.CENTER);
         
         thePane.add(new JLabel(" "));
         thePane.add(lblTitle);
         thePane.add(new JLabel(" "));
         thePane.add(paneShearchIndicator);
+        
         return thePane;
     }
     
-    // Method for the panel on the bottom right with options
+    @Override
+    public void makeTablePane(PaneSearchIndicator theTableForPane)  {
+        thePaneTable.removeAll();
+        
+        thePaneTable.setLayout(new BorderLayout());
+        thePaneTable.setBackground(new Color(215,203,233,255));
+                
+        thePaneTable.add(theTableForPane.getInfoPane(), BorderLayout.WEST);
+        thePaneTable.add(theTableForPane.getAllTable(), BorderLayout.CENTER);
+        
+        thePaneTable.revalidate();
+        thePaneTable.repaint();
+    }
+    
+    /**
+     * Method for the panel on the bottom right with options
+     * @return 
+     */
     private JPanel makeOptionPane()  {
         ImageIcon trait;
         Image im;
@@ -167,7 +172,13 @@ public class ViewIndicatorAll implements ListenerIndicator {
         im = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefresh.png")).getImage().getScaledInstance(50, 50, 1);
         buttonRefresh = new JLabel(new ImageIcon(im));
         buttonRefresh.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonRefresh.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonRefresh.addMouseListener(new MouseAdapter()   {  
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cci.refreshAllPane();
+            }
+            
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconRefreshHover.png")).getImage().getScaledInstance(50, 50, 1);
                 buttonRefresh.setIcon(new ImageIcon(im));
@@ -184,6 +195,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         im = trait.getImage().getScaledInstance(50, 50, 1);
         buttonPrint = new JLabel(new ImageIcon(im));
         buttonPrint.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPrint.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPrint.addMouseListener(new MouseAdapter()   {  
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinterHover.png")).getImage().getScaledInstance(50, 50, 1);
@@ -201,6 +213,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         im = trait.getImage().getScaledInstance(50, 50, 1);
         buttonAdvisor = new JLabel(new ImageIcon(im));
         buttonAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonAdvisor.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonAdvisor.addMouseListener(new MouseAdapter()   {  
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconUserHover.png")).getImage().getScaledInstance(50, 50, 1);
@@ -218,6 +231,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         im = trait.getImage().getScaledInstance(50, 50, 1);
         buttonHelp = new JLabel(new ImageIcon(im));
         buttonHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonHelp.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonHelp.addMouseListener(new MouseAdapter()   {  
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelpHover.png")).getImage().getScaledInstance(50, 50, 1);
@@ -356,6 +370,12 @@ public class ViewIndicatorAll implements ListenerIndicator {
         JLabel btValid = new JLabel(new ImageIcon(im));
         btValid.setAlignmentX(Component.CENTER_ALIGNMENT);
         btValid.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btValid.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cci.setNewTable();
+            }
+        });
         
         thePane.add(lblTitle);
         
@@ -435,6 +455,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         theChartPanel.setBackground(new Color(215,203,233,255));
         theChartPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         theChartPanel.setOpaque(true);
+        theChartPanel.getChart().removeLegend();
         
         return theChartPanel;
     }

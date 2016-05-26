@@ -168,12 +168,22 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         break;
                     case "LoanPerTypeByYear":
+                        /*
                         request = "SELECT COUNT(t_loan.id_loan) AS value, t_type_loan.wording AS column, t_advisor.login AS row " +
                                 "FROM t_loan, t_type_loan, t_advisor " +
                                 "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " +
                                 "AND t_loan.id_advisor = t_advisor.id_advisor " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_type_loan.wording, t_advisor.login;";
+                        */
+                        request = "SELECT ((t_type_loan.rate * t_loan.amount) - t_loan.amount) AS value, extract(year from t_loan.entry) AS column, t_type_loan.wording AS row " +
+                                "FROM t_loan, t_type_loan, t_advisor " +
+                                "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " +
+                                "AND t_advisor.id_advisor = t_loan.id_advisor " +
+                                "AND t_advisor.id_agency = " + object + " " +
+                                "AND (extract(year from t_loan.entry)) > (extract(year from NOW()) - 10) " +
+                                "GROUP BY extract(year from t_loan.entry), t_type_loan.wording, t_type_loan.rate, t_loan.amount " + 
+                                "ORDER BY extract(year from t_loan.entry);";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetBarChart = new datasetBarChart();
                         if(response != null)    {
@@ -190,11 +200,20 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         break;
                     case "LoanPerAdvisor":
+                        /*
                         request = "SELECT t_advisor.login AS name, COUNT(t_loan.id_loan) AS value " +
                                 "FROM t_advisor, t_loan " +
                                 "WHERE t_advisor.id_advisor = t_loan.id_advisor " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_advisor.login;";
+                        */
+                        request = "SELECT t_advisor.login AS name, SUM((t_loan.amount * t_type_loan.rate) - t_loan.amount) AS value " +
+                                "FROM t_advisor, t_loan, t_type_loan " +
+                                "WHERE t_advisor.id_advisor = t_loan.id_advisor " +
+                                "AND t_type_loan.id_type_loan = t_loan.id_type_loan " +
+                                "AND t_advisor.id_agency = " + object + " " +
+                                "GROUP BY t_advisor.login;";
+                        
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetPieChart = new datasetPieChart();
                         if(response != null)    {

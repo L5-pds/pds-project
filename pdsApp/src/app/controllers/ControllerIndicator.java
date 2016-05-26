@@ -39,6 +39,18 @@ public class ControllerIndicator {
         javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + tes);
     }
 
+    public void refreshAllPane()    {
+        listener.setIHM();
+    }
+    
+    public void setNewTable()   {
+        PaneSearchIndicator tableInfo = new PaneSearchIndicator(113, 123.32, 13, 124532.42);
+        
+        tableInfo.addRow("dfvfd", "bhg", "gbsd?", "btyb?", "btyb?", "btyb?", "btyb?");
+        
+        listener.makeTablePane(tableInfo);
+    }
+    
     public String testCountAddress()  {
         String resutl = " ";
         try {
