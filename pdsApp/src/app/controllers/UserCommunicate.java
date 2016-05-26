@@ -260,8 +260,30 @@ public class UserCommunicate implements Runnable {
                     case "GetLoanTypes" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
                         
+                        ArrayList<LoanType> loanTypesList = new ArrayList<>();
+                        
+                        // get the loan types
+                        sqlQuery = "SELECT id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max "
+                                + "FROM t_type_loan;";
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+                        
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs.next()) {
+                            System.out.println("id type pret : " + rs.getInt("id_type_loan"));
+                            loanTypesList.add(new LoanType(rs.getInt("id_type_loan"), rs.getString("wording"), rs.getFloat("rate"), rs.getInt("length_min"), rs.getInt("length_max"), rs.getInt("amount_min"), rs.getInt("amount_max")));
+                        }
+                        
+                        System.out.println("arraylist :");
+                        for (LoanType l : loanTypesList) {
+                            System.out.println(l);
+                        }
+                        
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypesList));
+                        out.flush();
+                        
                         // get the loan types list from the database
-                        sqlQuery = "SELECT wording FROM t_type_loan;";
+                        /*sqlQuery = "SELECT wording FROM t_type_loan;";
                         rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
                         
                         // put each loan type in an ArrayList
@@ -272,12 +294,12 @@ public class UserCommunicate implements Runnable {
                         
                         // serialize and send the loan types list to the client
                         out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypes));
-                        out.flush();
+                        out.flush();*/
                         
                         break;
 
                     // case : get the details of a loan type
-                    case "GetLoanTypeDetails" :
+                    /*case "GetLoanTypeDetails" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan type details");
                         LoanType lt;
                         
@@ -304,25 +326,27 @@ public class UserCommunicate implements Runnable {
                         out.println("SUCCESS/" + gsonSerial.serializeLoanType(lt));
                         out.flush();
                     
-                        break;
+                        break;*/
                         
                     // case : get the details of an insurance
                     case "GetInsurances" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting insurances");
                         
                         String loanType = object;
-                        Insurance insurance;
                         ArrayList<Insurance> insurancesList = new ArrayList<>();
                         
                         // get the insurances for the given loan type
                         sqlQuery = "SELECT id_insurance, i.id_type_loan, i.rate, i.wording "
                                 + "FROM t_insurance i, t_type_loan t "
                                 + "WHERE i.id_type_loan = t.id_type_loan "
-                                + "AND t.wording = '" + loanType + "';";
+                                + "AND i.id_type_loan = " + loanType + ";";
                         rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+                        System.out.println(sqlQuery);
                         
                         // fill an ArrayList with the insurances data taken from the database
+                        System.out.println("while :");
                         while (rs.next()) {
+                            System.out.println("id assurance : " + rs.getInt("id_insurance"));
                             insurancesList.add(new Insurance(rs.getInt("id_insurance"), rs.getInt("id_type_loan"), rs.getFloat("rate"), rs.getString("wording")));
                         }
                         

@@ -3,6 +3,7 @@ package app.views.simulations;
 import app.controllers.FixedRateSimulationControllerClient;
 import app.models.FixedRateSimulation;
 import app.models.Insurance;
+import app.models.LoanType;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,7 +32,6 @@ public class FixedRateSimulationView {
     private JSpinner spinnerAmount;
     private JTextField txtFieldDuration;
     private JTextField txtFieldRate;
-    private JButton btnOk;
     private JButton btnSimulate;
     private JButton btnCancel;
 
@@ -40,7 +40,6 @@ public class FixedRateSimulationView {
 
     public FixedRateSimulationView(FixedRateSimulationControllerClient c, JPanel p) {
         // set the panel layout
-        //super(new GridBagLayout());
         panel = p;
         
         /*try {
@@ -58,15 +57,19 @@ public class FixedRateSimulationView {
         panel.setLayout(new GridBagLayout());
 
         // initialisation of the components
-        cbLoanType = new JComboBox(controller.getLoanTypes().toArray()); // fill the JComboBox with the loan types list
+        // fill the JComboBox with the loan types list
+        cbLoanType = new JComboBox();
+        ArrayList<LoanType> loanTypesList = controller.getLoanTypes();
+        for (LoanType lt : loanTypesList) {
+            cbLoanType.addItem(lt);
+        }
         cbLoanType.insertItemAt("", 0); // add blank first item in JComboBox
         cbLoanType.setSelectedIndex(0); // select the JComboBox blank field
-        //btnOk = new JButton("OK");
+        
         btnCancel = new JButton("Annuler");
 
         // add the action listeners to the components
         cbLoanType.addItemListener(new cbLoanTypeItemListener());
-        //btnOk.addActionListener(new BtnOkListener());
         btnCancel.addActionListener(new BtnCancelListener());
 
         // add components to the panel using the GridBagLayout and GridBagConstraints
@@ -84,10 +87,6 @@ public class FixedRateSimulationView {
         gc.gridy = 0;
         panel.add(cbLoanType, gc);
 
-        //gc.gridx = 0;
-        //gc.gridy = 1;
-        //panel.add(btnOk, gc);
-        
         gc.gridx = 1;
         gc.gridy = 1;
         panel.add(btnCancel, gc);
@@ -96,11 +95,10 @@ public class FixedRateSimulationView {
         panel.setVisible(true);
     }
     
-    public void displayInsurances(String loanType) {
-        System.out.println("appel de displayInsurances");
+    public void displayInsurances(int loanTypeId) {
         // hide the JPanel
         panel.setVisible(false);
-
+        
         // remove components from the JPanel
         panel.remove(btnCancel);
         
@@ -108,13 +106,15 @@ public class FixedRateSimulationView {
         cbLoanType.setEnabled(false);
         
         // initilisation of the new component
+        // fill the JComboBox with the insurances list
         cbInsurance = new JComboBox();
-        ArrayList<Insurance> insurancesList = controller.getInsurances(cbLoanType.getSelectedItem().toString());
-        //System.out.println("arraylist tostring :");
-        //insurancesList.toString();
-        //for (Insurance i : insurancesList) {
-            //cbInsurance.addItem(i);
-        //}
+        ArrayList<Insurance> insurancesList = controller.getInsurances(loanTypeId);
+        for (Insurance ins : insurancesList) {
+            System.out.println("insurence list cb : " + ins);
+            cbInsurance.addItem(ins);
+        }
+        cbInsurance.insertItemAt("", 0); // add blank first item in JComboBox
+        cbInsurance.setSelectedIndex(0); // select the JComboBox blank field
         
         // add the action listeners to the components
         cbInsurance.addItemListener(new cbInsuranceItemListener());
@@ -147,7 +147,7 @@ public class FixedRateSimulationView {
     } 
     
     // display the fixed rate loan simulation form, adapted to the chosen loan type
-    public void displayForm(int idInsurance) {
+    public void displayForm(int insuranceId) {
         // hide the JPanel
         panel.setVisible(false);
 
@@ -175,43 +175,43 @@ public class FixedRateSimulationView {
         gc.anchor = GridBagConstraints.LINE_START;
         
         gc.gridx = 0;
-        gc.gridy = 1;
+        gc.gridy = 2;
         panel.add(new JLabel("Taux de base :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 2;
         panel.add(new JLabel("4,76 %"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 3;
         panel.add(new JLabel("Taux :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 3;
         panel.add(txtFieldRate, gc);
         
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 4;
         panel.add(new JLabel("Montant :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 4;
         panel.add(spinnerAmount, gc);
         
         gc.gridx = 0;
-        gc.gridy = 4;
+        gc.gridy = 5;
         panel.add(new JLabel("Durée :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 5;
         panel.add(txtFieldDuration, gc);
         
         gc.gridx = 0;
-        gc.gridy = 5;
+        gc.gridy = 6;
         panel.add(btnSimulate, gc);
         
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 6;
         panel.add(btnCancel, gc);
         
         // perform the operations needed after the removal and the addition of components
@@ -229,11 +229,14 @@ public class FixedRateSimulationView {
     // item listener for the cbLoanType JComboBox
     class cbLoanTypeItemListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
+            // perform action when an item from the JComboBox is selected
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                // get the chosen loan type and display the alvailable insurances
-                String type = cbLoanType.getSelectedItem().toString();
-                if (!type.isEmpty()) {
-                    displayInsurances(type);
+                // get the loan type and display the insurances JComboBox
+                if (!cbLoanType.getSelectedItem().toString().isEmpty()) {
+                    LoanType lt = (LoanType) cbLoanType.getSelectedItem();
+                    int loanTypeId = lt.getLoanTypeId();
+                    controller.setLoanType(lt);
+                    displayInsurances(loanTypeId);
                 }
             }
             
@@ -243,49 +246,30 @@ public class FixedRateSimulationView {
     // item listener for the cbInsurance JComboBox
     class cbInsuranceItemListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-            // get the insurance type and display the loan form
-            String type = cbInsurance.getSelectedItem().toString();
-            int insuranceId;
-            if (!type.isEmpty()) {
-                insuranceId = Integer.parseInt(type);
-                displayForm(insuranceId);
+            // perform action when an item from the JComboBox is selected
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // get the insurance type and display the loan form
+                if (!cbInsurance.getSelectedItem().toString().isEmpty()) {
+                    Insurance ins = (Insurance) cbInsurance.getSelectedItem();
+                    int insuranceId = ins.getInsuranceId();
+                    controller.setInsurance(ins);
+                    displayForm(insuranceId);
+                }
             }
         }
     }
     
-    // listener for the btnOk JButton
-    /*class BtnOkListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            // get the chosen loan type and display the simulation form
-            String type = cbLoanType.getSelectedItem().toString();
-            displayForm(type);
-        }
-    }*/
-
     // listener for the btnCancel JButton
     class BtnCancelListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
+            
         }
     }
 
     // listener for the btnSimulate JButton
     class BtnSimulateListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
+            
         }
     }
-
-    /*public static void main(String[] args) {
-        javax.swing.JFrame f = new javax.swing.JFrame("test");
-        app.models.FixedRateSimulation m = new app.models.FixedRateSimulation();
-        JComboBox cb = new JComboBox();
-        FixedRateSimulation s = new FixedRateSimulation();
-        //FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m);
-        //FixedRateSimulationView v = new FixedRateSimulationView(c);
-        //f.add(v);
-        f.setSize(500,500);
-        f.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        f.setVisible(true);
-    }*/
 }

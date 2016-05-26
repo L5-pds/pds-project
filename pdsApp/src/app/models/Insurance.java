@@ -17,4 +17,8 @@ public class Insurance {
     public String toString() {
         return wording + " (" + rate + ")";
     }
+
+    public int getInsuranceId() {
+        return insuranceId;
+    }
 }

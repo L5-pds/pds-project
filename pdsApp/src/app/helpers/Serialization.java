@@ -92,12 +92,33 @@ public class Serialization {
       return gson.fromJson(v, Vector.class);
   }
   
-  public ArrayList<Insurance> unserializeInsuranceArrayList(String i) {
+  public ArrayList<LoanType> unserializeLoanTypeArrayList(String lt) {
+    ArrayList<LoanType> loanTypesList = new ArrayList<>();
+    System.out.println("lt ArrayList unserialization...");
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(lt).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        loanTypesList.add(gson.fromJson(array.get(i), LoanType.class));
+    }
+    System.out.println("arraylist ins :");
+    for (LoanType l : loanTypesList) {
+        System.out.println(l);
+    }
+    return loanTypesList;
+  }
+  
+  public ArrayList<Insurance> unserializeInsuranceArrayList(String ins) {
+    ArrayList<Insurance> insurancesList = new ArrayList<>();
     System.out.println("ins ArrayList unserialization...");
     JsonParser parser = new JsonParser();
-    JsonArray array = parser.parse(i).getAsJsonArray();
-    Insurance ins = gson.fromJson(array.get(0), Insurance.class);
-    System.out.println("insurance : " + ins);
-    return new ArrayList<>();
+    JsonArray array = parser.parse(ins).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        insurancesList.add(gson.fromJson(array.get(i), Insurance.class));
+    }
+    System.out.println("arraylist ins :");
+    for (Insurance in : insurancesList) {
+        System.out.println(in);
+    }
+    return insurancesList;
   }
 }
