@@ -20,13 +20,19 @@ public class CompareSimulationView implements CompareSimulationListener{
   private ArrayList<String[]> clients;
   private ArrayList<String[]> simulations;
   private JLabel nameLabel;
+  private JLabel simulationLabel;
   private JLabel selectClientLabel;
   private JLabel selectTypeLabel;
+  private JLabel errLabel;
   private RoundJTextField nameField;
   private RoundJButton searchButton;
   private RoundJButton validateButton;
   private RoundJButton compareButton;
   private JPanel globalPanel;
+  private JTable tab;
+
+  private Double rate;
+  private Double wage;
 
   public CompareSimulationView(CompareSimulationController cci, JPanel body, Container cont) {
     this.cci = cci;
@@ -40,6 +46,8 @@ public class CompareSimulationView implements CompareSimulationListener{
     nameLabel = new JLabel();
     selectClientLabel = new JLabel();
     selectTypeLabel = new JLabel();
+    simulationLabel = new JLabel();
+    errLabel = new JLabel();
     nameField = new RoundJTextField(20);
     searchButton = new RoundJButton();
     compareButton = new RoundJButton();
@@ -57,6 +65,13 @@ public class CompareSimulationView implements CompareSimulationListener{
     selectTypeLabel.setFont(new java.awt.Font("Verdana", 0, 25));
     selectTypeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     selectTypeLabel.setText("Selectionnez un type de prêt");
+
+    simulationLabel.setFont(new java.awt.Font("Verdana", 0, 25));
+    simulationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    simulationLabel.setText("Selectionnez les simulations à comparer");
+
+    errLabel.setFont(new java.awt.Font("Verdana", 0, 25));
+    errLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
     nameField.setFont(new java.awt.Font("Verdana", 0, 30));
     nameField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -78,7 +93,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     compareButton.setText("Comparer");
     compareButton.addActionListener(new ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        System.out.println("Click !");
+        nextStep("compare");
       }
     });
 
@@ -87,7 +102,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     String[] loanTypes = {"AUTOMOBILE", "CONSOMMATION","IMMOBILIER"};
     cbType = new JComboBox(loanTypes);
 
-    globalPanel.setLayout(new GridLayout(8, 1, 0, 0));
+    globalPanel.setLayout(new GridLayout(9, 1, 0, 0));
     globalPanel.add(nameLabel);
     globalPanel.add(nameField);
     globalPanel.add(searchButton);
@@ -107,20 +122,31 @@ public class CompareSimulationView implements CompareSimulationListener{
         globalPanel.remove(selectTypeLabel);
         globalPanel.remove(cbType);
         globalPanel.remove(validateButton);
+        globalPanel.remove(errLabel);
 
-        clients = cci.getCustomers(nameField.getText());
+        if (nameField.getText() != null && !nameField.getText().isEmpty())
+          clients = cci.getCustomers(nameField.getText());
+        else
+          clients = null;
         for( ActionListener al : cbClient.getActionListeners() )
-          cbClient.removeActionListener( al );
+          cbClient.removeActionListener(al);
 
         cbClient.removeAllItems();
-        for(int i=0; i< clients.size(); i++){
-          String[] tmp = clients.get(i);
-          cbClient.addItem(new Item(Integer.parseInt(tmp[0]), tmp[1] +" "+tmp[2]));
+        if(clients != null && clients.size() != 0){
+          for(int i=0; i< clients.size(); i++){
+            String[] tmp = clients.get(i);
+            cbClient.addItem(new Item(Integer.parseInt(tmp[0]), tmp[1] +" "+tmp[2]+" - "+tmp[3], Double.parseDouble(tmp[4])));
+          }
+          nextStep("client");
+          globalPanel.add(selectClientLabel);
+          globalPanel.add(cbClient);
         }
-
-        nextStep("client");
-        globalPanel.add(selectClientLabel);
-        globalPanel.add(cbClient);
+        else{
+          globalPanel.remove(selectClientLabel);
+          globalPanel.remove(cbClient);
+          errLabel.setText("aucun client trouvé");
+          globalPanel.add(errLabel);
+        }
         cont.revalidate();
         cont.repaint();
         break;
@@ -138,24 +164,51 @@ public class CompareSimulationView implements CompareSimulationListener{
       break;
 
       case "list" :
+        System.out.println();
         Item selected = (Item)cbClient.getSelectedItem();
+        wage = selected.getWage();
         simulations = cci.getSimulations(selected.getId(), cbType.getSelectedItem().toString());
-        Object[][] data =  new Object[simulations.size()][6];;
-        for(int i=0; i< simulations.size(); i++){
-          String[] tmp = simulations.get(i);
-          data[i] = tmp;
+        Object[][] data =  new Object[simulations.size() - 1][6];
+        String[] tmp = simulations.get(simulations.size() -1);
+        rate =  Double.parseDouble(tmp[0]);
+        for(int i=0; i< simulations.size() - 1; i++){
+          String[] tmp2 = simulations.get(i);
+          data[i] = tmp2;
         }
 
-        globalPanel.removeAll();
-        JTable tab = table(data);
-        JScrollPane scrollPane = new JScrollPane(tab);
-        globalPanel.add(scrollPane);
-        globalPanel.add(compareButton);
+        if(data.length != 0){
+          globalPanel.removeAll();
+          globalPanel.add(simulationLabel);
+          tab = table(data);
+          JScrollPane scrollPane = new JScrollPane(tab);
+          globalPanel.add(scrollPane);
+          globalPanel.add(compareButton);
+        }
+        else{
+          errLabel.setText("Pas de simulations trouvées.");
+          globalPanel.add(errLabel);
+        }
         cont.revalidate();
         cont.repaint();
       break;
 
-      case "finish" :
+      case "compare" :
+        int simIndex=0;
+        String[] checked = new String[5];
+        for (int i = 0; i < tab.getRowCount(); i++) {
+          Boolean isChecked = (Boolean)tab.getValueAt(i, 5);
+          if (isChecked){
+            if (simIndex < 5){
+              checked[simIndex]=tab.getValueAt(i, 0).toString();
+              simIndex++;
+            }
+            else{
+              System.out.println("Err : 5 simulations max!");
+            }
+          }
+        }
+        System.out.println("rate : "+rate);
+        System.out.println("wage : "+wage);
 
       break;
     }
@@ -184,6 +237,9 @@ public class CompareSimulationView implements CompareSimulationListener{
       }
     };
     table.setPreferredScrollableViewportSize(table.getPreferredSize());
+    for (int i = 0; i < table.getRowCount(); i++) {
+      table.setValueAt(false, i, 5);
+    }
 
     return table;
   }

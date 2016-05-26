@@ -241,11 +241,12 @@ public class UserCommunicate implements Runnable {
                         request = "SELECT * " +
                                 "FROM t_client " +
                                 "WHERE lower(first_name) LIKE lower('%" + object +"%') "+
+                                "OR lower(mail) LIKE lower('%" + object +"%') "+
                                 "OR lower(last_name) LIKE lower('%"+object+"%');";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)  {
                             while (response.next()){
-                                String[] customer = {response.getString("id_client"), response.getString("last_name"), response.getString("first_name")};
+                                String[] customer = {response.getString("id_client"), response.getString("last_name"), response.getString("first_name"), response.getString("mail"), response.getString("salary")};
                                 objectList.add(customer);
                             }
                             response.last();
@@ -276,6 +277,7 @@ public class UserCommunicate implements Runnable {
                                 "WHERE id_client ="+object+
                                 " AND id_type_loan ="+type+
                                 " ORDER BY entry ASC;";
+                        String request2 = "SELECT rate FROM t_type_loan WHERE id_type_loan="+type;
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)  {
                             while (response.next()){
@@ -286,6 +288,17 @@ public class UserCommunicate implements Runnable {
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - " + response.getRow() + " line");
                         } else  {
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - error");
+                        }
+                        response = Server.connectionPool[poolIndex].requestWithResult(request2);
+                        if(response != null)  {
+                            while (response.next()){
+                                String[] sim = {response.getString("rate")};
+                                objectList.add(sim);
+                            }
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate SPECIF_2 - " + response.getRow() + " line");
+                        } else  {
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate SPECIF_2 - error");
                         }
 
                         out.println(gsonSerial.serializeListArray(objectList));
