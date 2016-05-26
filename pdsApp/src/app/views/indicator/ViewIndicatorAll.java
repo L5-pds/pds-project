@@ -5,6 +5,7 @@ import app.listeners.*;
 import app.models.*;
 import app.models.component.*;
 import app.models.other.PaneSearchIndicator;
+import app.models.other.dataSearchIndicator;
 import app.views.welcome.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -305,11 +306,14 @@ public class ViewIndicatorAll implements ListenerIndicator {
         lblComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 17));
         lblComboAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        dataSearchIndicator dataComposent = cci.getComboData(user.getAgency());
+        
         JComboBox ComboAdvisor = new JComboBox(); //To ADD
         ComboAdvisor.setBackground(Color.WHITE);
         ComboAdvisor.setFont(new java.awt.Font("Verdana", 0, 15));
         ComboAdvisor.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
         ComboAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ComboAdvisor.setModel(new DefaultComboBoxModel(dataComposent.getAdvisor().toArray()));
         
         JPanel paneComboAdvisor = new JPanel(); //To ADD
         paneComboAdvisor.setBackground(new Color(0,0,0,0));
@@ -327,38 +331,26 @@ public class ViewIndicatorAll implements ListenerIndicator {
         ComboTypeLoan.setModel(new DefaultComboBoxModel(new String[] {"TOUS"}));
         ComboTypeLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        ComboTypeLoan.setModel(new DefaultComboBoxModel(dataComposent.getTypeLoan().toArray()));
+        
+        
         JPanel paneComboTypeLoan = new JPanel(); //To ADD
         paneComboTypeLoan.setBackground(new Color(0,0,0,0));
         paneComboTypeLoan.setLayout(new BoxLayout(paneComboTypeLoan, BoxLayout.Y_AXIS));
-        paneComboTypeLoan.add(ComboTypeLoan);
-        
-        JLabel lblRanchCustomer = new JLabel("Recherche du ... au ...");
-        lblRanchCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-        lblRanchCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
-        lblRanchCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JXDatePicker dateBegin2 = new JXDatePicker(new Date());
-        dateBegin2.setFont(new java.awt.Font("Verdana", 0, 15));
-        
-        JXDatePicker dateEnd2 = new JXDatePicker(new Date());
-        dateEnd2.setFont(new java.awt.Font("Verdana", 0, 15));
-        
-        JPanel paneRangeDateCustomer = new JPanel(); //To ADD
-        paneRangeDateCustomer.setBackground(new Color(0,0,0,0));
-        paneRangeDateCustomer.setLayout(new FlowLayout());
-        paneRangeDateCustomer.add(dateBegin2);
-        paneRangeDateCustomer.add(dateEnd2);
-        
+        paneComboTypeLoan.add(ComboTypeLoan);        
         
         JLabel lblComboTypeCustomer = new JLabel("Catégorie 'âge du client'"); //To ADD
         lblComboTypeCustomer.setHorizontalAlignment(SwingConstants.CENTER);
         lblComboTypeCustomer.setFont(new java.awt.Font("Verdana", 0, 17));
         lblComboTypeCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JComboBox ComboTypeCustomer = new JComboBox(); //To ADD
+        JComboBox ComboTypeCustomer = new JComboBox(); 
         ComboTypeCustomer.setBackground(Color.WHITE);
         ComboTypeCustomer.setFont(new java.awt.Font("Verdana", 0, 15));
-        ComboTypeCustomer.setModel(new DefaultComboBoxModel(new String[] {"TOUS","aeae","aeae","aeae","aeae","aeae","aeae"}));
+        ComboTypeCustomer.setModel(new DefaultComboBoxModel(new String[] {"TOUS", 
+            "Jeune (moins de 30 ans)", 
+            "Adulte (entre 30 ans et 60 ans)", 
+            "Sénior (plus de 60 ans)"}));
         ComboTypeCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JPanel paneComboTypeCustomer = new JPanel(); //To ADD

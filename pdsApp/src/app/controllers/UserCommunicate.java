@@ -3,6 +3,7 @@ package app.controllers;
 import app.listeners.*;
 import app.models.*;
 import app.helpers.*;
+import app.models.other.dataSearchIndicator;
 import app.models.other.datasetBarChart;
 import app.models.other.datasetPieChart;
 
@@ -133,18 +134,48 @@ public class UserCommunicate implements Runnable {
             case "SPECIF_1": //Spécifique THIBAULT DON'T TOUCHE !!!
                 String request;
                 ResultSet response;
-                ArrayList<String> listString = new ArrayList<String>();
+                ArrayList<String> listString = new ArrayList();
                 datasetPieChart returnDatasetPieChart = null;
                 datasetBarChart returnDatasetBarChart = null;
                 switch (typeObject) {
-                    case "Address":
-                        request = "SELECT COUNT(*) AS COUNTADRESS FROM t_address;";
+                    case "SelectDataSearch":
+                        
+                        dataSearchIndicator dataComposent = new dataSearchIndicator();
+                        
+                        request = "SELECT login FROM t_advisor WHERE id_agency = " + object + ";";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
-                        response.next();
-                        response.getInt("COUNTADRESS");
-                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - count address - " + response.getInt("COUNTADRESS"));
-                        out.println("success/" + response.getInt("COUNTADRESS"));
+                        if(response != null)    {
+                            ArrayList<String> listAdvisor = new ArrayList();
+                            listAdvisor.add("TOUS");
+                            while (response.next())  {
+                                listAdvisor.add(response.getString("login"));
+                            }
+                            dataComposent.setAdvisorList(listAdvisor);
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get all advisor - " + response.getRow() + " line");
+                        } else  {
+                            listString.add("ERROR");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - error");
+                        }
+                        request = "SELECT wording FROM t_type_loan;";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        if(response != null)    {
+                            ArrayList<String> listTypeLoan = new ArrayList();
+                            listTypeLoan.add("TOUS");
+                            while (response.next())  {
+                                listTypeLoan.add(response.getString("wording"));
+                            }
+                            dataComposent.setTypeLoanList(listTypeLoan);
+                            response.last();
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get all type loan - " + response.getRow() + " line");
+                        } else  {
+                            listString.add("ERROR");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - error");
+                        }
+                        
+                        out.println(gsonSerial.serializeDataSearchIndicator(dataComposent));
                         out.flush();
+                        break;
                     case "LoanPerType":
                         request = "SELECT t_type_loan.wording AS name, COUNT(t_loan.id_loan) AS value " +
                                 "FROM t_type_loan, t_loan, t_advisor " +
