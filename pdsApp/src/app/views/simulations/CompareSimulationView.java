@@ -29,6 +29,7 @@ public class CompareSimulationView implements CompareSimulationListener{
   private RoundJButton validateButton;
   private RoundJButton compareButton;
   private JPanel globalPanel;
+  private JPanel tablePanel;
   private JTable tab;
 
   private Double rate;
@@ -68,7 +69,7 @@ public class CompareSimulationView implements CompareSimulationListener{
 
     simulationLabel.setFont(new java.awt.Font("Verdana", 0, 25));
     simulationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    simulationLabel.setText("Selectionnez les simulations à comparer");
+    simulationLabel.setText("Selectionnez les simulations à comparer (2 à 5 simulations)");
 
     errLabel.setFont(new java.awt.Font("Verdana", 0, 25));
     errLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -162,7 +163,6 @@ public class CompareSimulationView implements CompareSimulationListener{
       break;
 
       case "list" :
-        System.out.println();
         Item selected = (Item)cbClient.getSelectedItem();
         wage = selected.getWage();
         simulations = cci.getSimulations(selected.getId(), cbType.getSelectedItem().toString());
@@ -191,6 +191,7 @@ public class CompareSimulationView implements CompareSimulationListener{
 
       case "compare" :
         int simIndex=0;
+        Boolean goCompare=true;
         String[][] checked = new String[5][3];
         for (int i = 0; i < tab.getRowCount(); i++) {
           Boolean isChecked = (Boolean)tab.getValueAt(i, 5);
@@ -201,34 +202,19 @@ public class CompareSimulationView implements CompareSimulationListener{
               simIndex++;
             }
             else{
-              System.out.println("Err : 5 simulations max!");
+              goCompare = false;
+              errLabel.setText("Vous ne pouvez pas comparer plus de 5 simulations");
+              globalPanel.add(errLabel);
             }
           }
         }
-        System.out.println("rate : "+rate);
-        System.out.println("wage : "+wage);
-        System.out.println("nb   : "+simIndex);
-
-        globalPanel.removeAll();
-        data =  new Object[simIndex][8];
-        for (int i=0; i<simIndex; i++){
-          String rowId = checked[i][0];
-          String rowAmount = checked[i][1];
-          String rowRem = String.valueOf(Double.parseDouble(rowAmount) * (1 + rate/100));
-          String rowPeriod = checked[i][2];
-          String rowMonthly = String.valueOf(Double.parseDouble(rowRem) / Double.parseDouble(rowPeriod));
-          String rowRate = String.valueOf(rate);
-          String rowInterest = String.valueOf(Double.parseDouble(rowAmount) * rate/100);
-          String rowRatio = String.valueOf(Double.parseDouble(rowMonthly) / wage);
-          String[] row = {rowId, rowAmount, rowRem, rowMonthly, rowPeriod, rowRate, rowInterest, rowRatio};
-          data[i] = row;
+        if(simIndex < 2){
+          goCompare = false;
+          errLabel.setText("Au moins deux simulations doivent être selectionnées");
+          globalPanel.add(errLabel);
         }
-        simulationLabel.setText("Resultats");
-        globalPanel.add(simulationLabel);
-        Object[] columnNames = {"Id", "Montant total", "Total à rembourser", "Mensualité", "Durée (en mois)", "Taux d'intérêt", "Total des intérêts", "Niveau d'endettement"};
-        tab = table(data, columnNames, false);
-        JScrollPane scrollPane = new JScrollPane(tab);
-        globalPanel.add(scrollPane);
+        if(goCompare)
+          compare(simIndex, checked);
       break;
     }
     cont.revalidate();
@@ -260,5 +246,40 @@ public class CompareSimulationView implements CompareSimulationListener{
     }
 
     return table;
+  }
+
+  public void compare(int simIndex,String[][] checked){
+    globalPanel.removeAll();
+    body.remove(globalPanel);
+
+    tablePanel = new JPanel();
+    tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
+
+    Object[][] data =  new Object[simIndex][8];
+    for (int i=0; i<simIndex; i++){
+      String rowId = checked[i][0];
+      String rowAmount = checked[i][1];
+      String rowRem = String.valueOf(Double.parseDouble(rowAmount) * (1 + rate/100));
+      String rowPeriod = checked[i][2];
+      String rowMonthly = String.valueOf(Double.parseDouble(rowRem) / Double.parseDouble(rowPeriod));
+      String rowRate = String.valueOf(rate);
+      String rowInterest = String.valueOf(Double.parseDouble(rowAmount) * rate/100);
+      String rowRatio = String.valueOf(Double.parseDouble(rowMonthly) / wage);
+      String[] row = {rowId, rowAmount, rowRem, rowMonthly, rowPeriod, rowRate, rowInterest, rowRatio};
+      data[i] = row;
+    }
+
+    simulationLabel.setText("Resultats");
+    Object[] columnNames = {"Id", "Montant total", "Total à rembourser", "Mensualité", "Durée (en mois)", "Taux d'intérêt", "Total des intérêts", "Niveau d'endettement"};
+    tab = table(data, columnNames, false);
+    JScrollPane scrollPane = new JScrollPane(tab);
+
+    tablePanel.add(simulationLabel);
+    tablePanel.add(scrollPane);
+    tablePanel.setPreferredSize(new Dimension(1200,200));
+    tablePanel.setOpaque(false);
+    scrollPane.setOpaque(false);
+
+    body.add(tablePanel);
   }
 }
