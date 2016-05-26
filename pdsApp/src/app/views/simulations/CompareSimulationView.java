@@ -147,9 +147,7 @@ public class CompareSimulationView implements CompareSimulationListener{
           errLabel.setText("aucun client trouvé");
           globalPanel.add(errLabel);
         }
-        cont.revalidate();
-        cont.repaint();
-        break;
+      break;
 
       case "client" :
         cbClient.addActionListener(new ActionListener() {
@@ -179,7 +177,8 @@ public class CompareSimulationView implements CompareSimulationListener{
         if(data.length != 0){
           globalPanel.removeAll();
           globalPanel.add(simulationLabel);
-          tab = table(data);
+          Object[] columnNames = {"Id", "Date", "Label", "Montant", "Durée", ""};
+          tab = table(data, columnNames, true);
           JScrollPane scrollPane = new JScrollPane(tab);
           globalPanel.add(scrollPane);
           globalPanel.add(compareButton);
@@ -188,18 +187,17 @@ public class CompareSimulationView implements CompareSimulationListener{
           errLabel.setText("Pas de simulations trouvées.");
           globalPanel.add(errLabel);
         }
-        cont.revalidate();
-        cont.repaint();
       break;
 
       case "compare" :
         int simIndex=0;
-        String[] checked = new String[5];
+        String[][] checked = new String[5][3];
         for (int i = 0; i < tab.getRowCount(); i++) {
           Boolean isChecked = (Boolean)tab.getValueAt(i, 5);
           if (isChecked){
             if (simIndex < 5){
-              checked[simIndex]=tab.getValueAt(i, 0).toString();
+              String[] r = {tab.getValueAt(i, 0).toString(), tab.getValueAt(i, 3).toString(), tab.getValueAt(i, 4).toString()};
+              checked[simIndex] =r;
               simIndex++;
             }
             else{
@@ -209,36 +207,56 @@ public class CompareSimulationView implements CompareSimulationListener{
         }
         System.out.println("rate : "+rate);
         System.out.println("wage : "+wage);
+        System.out.println("nb   : "+simIndex);
 
+        globalPanel.removeAll();
+        data =  new Object[simIndex][8];
+        for (int i=0; i<simIndex; i++){
+          String rowId = checked[i][0];
+          String rowAmount = checked[i][1];
+          String rowRem = String.valueOf(Double.parseDouble(rowAmount) * (1 + rate/100));
+          String rowPeriod = checked[i][2];
+          String rowMonthly = String.valueOf(Double.parseDouble(rowRem) / Double.parseDouble(rowPeriod));
+          String rowRate = String.valueOf(rate);
+          String rowInterest = String.valueOf(Double.parseDouble(rowAmount) * rate/100);
+          String rowRatio = String.valueOf(Double.parseDouble(rowMonthly) / wage);
+          String[] row = {rowId, rowAmount, rowRem, rowMonthly, rowPeriod, rowRate, rowInterest, rowRatio};
+          data[i] = row;
+        }
+        simulationLabel.setText("Resultats");
+        globalPanel.add(simulationLabel);
+        Object[] columnNames = {"Id", "Montant total", "Total à rembourser", "Mensualité", "Durée (en mois)", "Taux d'intérêt", "Total des intérêts", "Niveau d'endettement"};
+        tab = table(data, columnNames, false);
+        JScrollPane scrollPane = new JScrollPane(tab);
+        globalPanel.add(scrollPane);
       break;
     }
+    cont.revalidate();
+    cont.repaint();
   }
 
-  public JTable table(Object[][] data){
-    Object[] columnNames = {"Id", "Date", "Label", "Montant", "Durée", ""};
+  public JTable table(Object[][] data, Object[] columnNames, Boolean bool){
     DefaultTableModel model = new DefaultTableModel(data, columnNames);
     JTable table = new JTable(model) {
       private final long serialVersionUID = 1L;
       public Class getColumnClass(int column) {
-        switch (column) {
-          case 0:
-            return String.class;
-          case 1:
-            return String.class;
-          case 2:
-            return String.class;
-          case 3:
-            return String.class;
-          case 4:
-            return String.class;
-          default:
-            return Boolean.class;
+        if(bool){
+          switch (column) {
+            case 5:
+              return Boolean.class;
+            default:
+              return String.class;
+          }
+        }else{
+          return String.class;
         }
       }
     };
     table.setPreferredScrollableViewportSize(table.getPreferredSize());
-    for (int i = 0; i < table.getRowCount(); i++) {
-      table.setValueAt(false, i, 5);
+    if(bool){
+      for (int i = 0; i < table.getRowCount(); i++) {
+        table.setValueAt(false, i, 5);
+      }
     }
 
     return table;
