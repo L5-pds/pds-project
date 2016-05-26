@@ -88,6 +88,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     Image im = trait.getImage();
     im  = im.getScaledInstance(296,66,1);
     JLabel buttonvalide = new JLabel(new ImageIcon(im));
+    buttonvalide.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
     buttonvalide.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
@@ -214,6 +215,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     im  = im.getScaledInstance(80,80,1);
     JLabel buttonBackMenu = new JLabel(new ImageIcon(im));
     buttonBackMenu.setToolTipText("Retour à l'accueil");
+    buttonBackMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
     buttonBackMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
