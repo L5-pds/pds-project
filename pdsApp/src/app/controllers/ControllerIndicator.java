@@ -39,6 +39,20 @@ public class ControllerIndicator {
         javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + tes);
     }
 
+    public dataSearchIndicator getComboData(int idAgency)  {
+        
+        dataSearchIndicator dataComposent = new dataSearchIndicator();
+        
+        try {
+            out.println("SPECIF_1/SelectDataSearch/" + idAgency);
+            out.flush();
+            dataComposent = s.unserializeDataSearchIndicator(in.readLine());
+        } catch (IOException | HeadlessException e) {
+          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+        }
+        return dataComposent;
+    }
+    
     public void refreshAllPane()    {
         listener.setIHM();
     }

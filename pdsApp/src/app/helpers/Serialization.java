@@ -42,6 +42,10 @@ public class Serialization {
       return gson.toJson(dpd);
   }
 
+  public String serializeDataSearchIndicator(dataSearchIndicator dpd) {
+      return gson.toJson(dpd);
+  }
+
   public String serializeListArray(ArrayList<String[]> dpd) {
       return gson.toJson(dpd);
   }
@@ -72,5 +76,9 @@ public class Serialization {
 
   public ArrayList unserializeListArray(String dpd) {
       return gson.fromJson(dpd, new TypeToken<ArrayList<String[]>>() {}.getType());
+  }
+
+  public dataSearchIndicator unserializeDataSearchIndicator(String dpd) {
+      return gson.fromJson(dpd, dataSearchIndicator.class);
   }
 }
