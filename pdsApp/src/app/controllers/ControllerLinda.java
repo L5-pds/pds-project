@@ -7,7 +7,10 @@ package app.controllers;
 
 import app.helpers.Serialization;
 import app.listeners.*;
+
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -39,4 +42,15 @@ public class ControllerLinda {
         this.listener = l;
         listener.setIHM();
     }
+    
+    public void testBDD(int idCustomer)	{
+    	try {
+            out.println("SPECIF_6/toto/" + idCustomer);
+            out.flush();
+            javax.swing.JOptionPane.showMessageDialog(null,"RÈponse: " + in.readLine());
+        } catch (HeadlessException | IOException e) {
+          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne r√©pond plus");
+        }
+    }
+    
 }

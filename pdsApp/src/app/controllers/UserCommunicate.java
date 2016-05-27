@@ -375,8 +375,17 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_6": //Spécifique LINDA
                 switch (typeObject) {
-                    case "Address":
-                        //Coding
+                    case "toto":
+                    	request = "SELECT login FROM t_client WHERE id_client = " + object + ";";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        
+                        response.next();
+                        listener.changeTextLog("LINDA INFO - nom=" + response.getString("last_name"));
+                        
+                        out.println(response.getString("last_name"));
+                        out.flush();
+                    	break;
+                    	//Coding
                     default:
                         //Coding
                         break;
