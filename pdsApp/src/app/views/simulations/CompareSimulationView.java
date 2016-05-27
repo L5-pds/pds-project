@@ -11,6 +11,16 @@ import java.awt.event.*;
 import java.util.*;
 import java.text.DecimalFormat;
 
+import org.jfree.chart.*;
+import org.jfree.chart.axis.*;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
+
 public class CompareSimulationView implements CompareSimulationListener{
 
   private CompareSimulationController cci;
@@ -273,7 +283,7 @@ public class CompareSimulationView implements CompareSimulationListener{
       data[i] = row;
     }
 
-    simulationLabel.setText("Resultats");
+    simulationLabel.setText("Comparaison des otaux principaux");
     Object[] columnNames = {"Id", "Montant total", "Total à rembourser", "Mensualité", "Durée (en mois)", "Taux d'intérêt", "Total des intérêts", "Niveau d'endettement"};
     tab = table(data, columnNames, false);
     JScrollPane scrollPane = new JScrollPane(tab);
@@ -284,7 +294,57 @@ public class CompareSimulationView implements CompareSimulationListener{
     tablePanel.setOpaque(false);
     scrollPane.setOpaque(false);
     body.setOpaque(false);
-
     body.add(tablePanel);
+    body.add(dualChart("Niveau d'endettement"));
+    body.add(dualChart("Durée du prêt"));
+  }
+
+  public JPanel dualChart(String title){
+    JPanel pChart = new JPanel();
+    JFreeChart jfreechart = createChart(title);
+    ChartPanel chartpanel = new ChartPanel(jfreechart);
+    chartpanel.setPreferredSize(new Dimension(500, 270));
+    pChart.add(chartpanel);
+    return pChart;
+  }
+
+  private CategoryDataset createDataset() {
+    String s = "First";
+    String s1 = "Second";
+    String s3 = "Category 1";
+    String s4 = "Category 2";
+    String s5 = "Category 3";
+    String s6 = "Category 4";
+    String s7 = "Category 5";
+    DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
+    defaultcategorydataset.addValue(800, s, s3);
+    defaultcategorydataset.addValue(600, s, s4);
+    defaultcategorydataset.addValue(620, s, s5);
+    defaultcategorydataset.addValue(950, s, s6);
+    defaultcategorydataset.addValue(500, s, s7);
+    defaultcategorydataset.addValue(80, s1, s3);
+    defaultcategorydataset.addValue(60, s1, s4);
+    defaultcategorydataset.addValue(62, s1, s5);
+    defaultcategorydataset.addValue(95, s1, s6);
+    defaultcategorydataset.addValue(50, s1, s7);
+    return defaultcategorydataset;
+  }
+
+  private JFreeChart createChart(String title){
+    JFreeChart jfreechart = ChartFactory.createBarChart(title, "Simulations", "Montant (€)", createDataset(), PlotOrientation.VERTICAL, true, true, false);
+
+    CategoryPlot categoryplot = jfreechart.getCategoryPlot();
+    categoryplot.setBackgroundPaint(new Color(238, 238, 255));
+
+    categoryplot.mapDatasetToRangeAxis(1, 1);
+    CategoryAxis categoryaxis = categoryplot.getDomainAxis();
+    categoryaxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
+    NumberAxis numberaxis = new NumberAxis("Ratio (%)");
+    categoryplot.setRangeAxis(1, numberaxis);
+    LineAndShapeRenderer lineandshaperenderer = new LineAndShapeRenderer();
+
+    categoryplot.setRenderer(1, lineandshaperenderer);
+    categoryplot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+    return jfreechart;
   }
 }
