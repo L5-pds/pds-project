@@ -45,12 +45,12 @@ public class VariableRateSimulationController {
     this.duration=listener.labelString(listener.getAnswerTime())*12;
   }
 
-  public double calculateMonthlyPayment(double i){
+  public double calculateMonthlyPayment(double t){
     double numerator;
     double denominator;
 
-    numerator= amount*((i/100)/12);
-    denominator= (1-(1/(Math.pow((1+((i/100)/12)),duration))));
+    numerator= amount*((t/100)/12);
+    denominator= (1-(1/(Math.pow((1+((t/100)/12)),duration))));
 
     monthlyPayment=(numerator/denominator);
 
