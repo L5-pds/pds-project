@@ -76,25 +76,41 @@ public class Rate_calculation {
 		}
 
 		switch(corpulence) {
-
-		case 1 :
-			grade = grade + 1 ;
-			break ;
-
-		case 2 : 
-			grade = grade + 2 ;
-			break ;
-
-		case 3 :
-			grade = grade + 3 ;
-			break ;
-
-		default : 
-			grade = 1 ;
+			case 1 :
+				grade = grade + 1 ;
+				break ;
+	
+			case 2 : 
+				grade = grade + 2 ;
+				break ;
+	
+			case 3 :
+				grade = grade + 3 ;
+				break ;
+	
+			default : 
+				grade = 1 ;
 		}
-
+	
 		switch(alcohol) {
+	
+			case 1 :
+				grade = grade + 1 ;
+				break ;
+	
+			case 2 : 
+				grade = grade + 2 ;
+				break ;
+	
+			case 3 :
+				grade = grade + 3 ;
+				break ;
+	
+			default : 
+				grade = 1 ;
+		}
 
+		switch(corpulence) {
 		case 1 :
 			grade = grade + 1 ;
 			break ;
@@ -110,6 +126,7 @@ public class Rate_calculation {
 		default : 
 			grade = 1 ;
 		}
+
 
 		switch(disease_risk) {
 		case 1 :
@@ -146,15 +163,15 @@ public class Rate_calculation {
 			grade = 1 ;
 		}
 		System.out.println("grade only on health parameters : " +grade);
-		
+
 		// treatment of the client and the loan : the more the client earns, the smallest the coefficient will be => the grade too
 		switch(type_loan){
-		
+
 		case "AUTOMOBILE" :
 			rate = 0.0421 ;
 			// creating gaps for the duration and the amount of the loan
 			if (loan_duration < 36){
-				if (loan_amount < 15000){
+				if ((loan_amount >= 3000) && (loan_amount<15000)){
 					grade = grade - 1 ;	
 				}
 				else if ((loan_amount >= 15000) && (loan_amount<30000)) {
@@ -168,11 +185,11 @@ public class Rate_calculation {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 1") ;
+					System.out.println("Le montant n'est pas défini pour ce type du prêt 1-1") ;
 				}
 			}
 			else if ((loan_duration>=36) && (loan_duration <60)){
-				if (loan_amount < 15000){
+				if ((loan_amount >= 3000) && (loan_amount<15000)){
 					grade = grade ;	
 				}
 				else if ((loan_amount >= 15000) && (loan_amount < 30000)) {
@@ -186,12 +203,11 @@ public class Rate_calculation {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 2"));
+					System.out.println(("Le montant n'est pas défini pour ce type de prêt 1-2"));
 				}
 			}
 			else if ((loan_duration>=60) && (loan_duration <= 84) ){
-
-				if (loan_amount < 15000){
+				if ((loan_amount >= 3000) && (loan_amount<15000)){
 					grade = grade ;	
 				}
 				else if ((loan_amount >= 15000) && (loan_amount < 30000)) {
@@ -204,7 +220,7 @@ public class Rate_calculation {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 3");
+					System.out.println("Le montant n'est pas défini pour ce type de prêt 1-3");
 				}
 
 			}
@@ -215,22 +231,138 @@ public class Rate_calculation {
 
 		case "IMMOBILIER" :
 			rate = 0.0184 ;
+			// creating gaps for the duration and the amount of the loan
+			if ((loan_duration >= 60) && (loan_duration <180)){
+				if ((loan_amount >= 50000) && (loan_amount < 250000)){
+					grade = grade - 1 ;	
+				}
+				else if ((loan_amount >= 250000) && (loan_amount<450000)) {
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 450000) && (loan_amount<650000)){
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 650000) && (loan_amount <= 750000)){
+					grade = grade - 1 ;
+				}
+				else {
+
+					System.out.println("Le montant n'est pas défini pour ce type du prêt 2-1") ;
+				}
+			}
+			else if ((loan_duration>=180) && (loan_duration <240)){
+				if ((loan_amount >= 50000) && (loan_amount < 250000)){
+					grade = grade ;	
+				}
+				else if ((loan_amount >= 250000) && (loan_amount<450000)) {
+					grade = grade  ;
+				}
+
+				else if ((loan_amount >= 450000) && (loan_amount<650000)){
+					grade = grade + 0.5 ;
+				}
+				else if ((loan_amount >= 650000) && (loan_amount <= 750000)){
+					grade = grade - 0.5 ;
+				}
+				else {
+					System.out.println(("Le montant n'est pas défini pour ce type de prêt 2-2"));
+				}
+			}
+			else if ((loan_duration>=240) && (loan_duration <= 360) ){
+				if ((loan_amount >= 50000) && (loan_amount < 250000)){
+					grade = grade ;	
+				}
+				else if ((loan_amount >= 250000) && (loan_amount<450000)) {
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 450000) && (loan_amount<650000)){
+					grade = grade + 0.5 ;
+				}
+				else if ((loan_amount >= 650000) && (loan_amount <= 750000)){
+					grade = grade +1 ;
+				}
+				else {
+					System.out.println("Le montant n'est pas défini pour ce type de prêt 2-3");
+				}
+
+			}
+			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+
+			System.out.println("grade after adding duration and amount parameters : " + grade) ;
 			break ;
 
 		case "DIVERS" :
 			rate = 0.761 ; 
+			// creating gaps for the duration and the amount of the loan
+			if ((loan_duration >= 3) && (loan_duration <24)){
+				if ((loan_amount >= 200) && (loan_amount < 20000)){
+					grade = grade - 1 ;	
+				}
+				else if ((loan_amount >= 20000) && (loan_amount<40000)) {
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 40000) && (loan_amount<60000)){
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 60000) && (loan_amount <= 75000)){
+					grade = grade - 1 ;
+				}
+				else {
+
+					System.out.println("Le montant n'est pas défini pour ce type du prêt 3-1") ;
+				}
+			}
+			else if ((loan_duration>=24) && (loan_duration <48)){
+				if ((loan_amount >= 200) && (loan_amount < 20000)){
+					grade = grade ;	
+				}
+				else if ((loan_amount >= 20000) && (loan_amount<40000)) {
+					grade = grade  ;
+				}
+
+				else if ((loan_amount >= 40000) && (loan_amount<60000)){
+					grade = grade + 0.5 ;
+				}
+				else if ((loan_amount >= 60000) && (loan_amount <= 75000)){
+					grade = grade - 0.5 ;
+				}
+				else {
+					System.out.println(("Le montant n'est pas défini pour ce type de prêt 3-2"));
+				}
+			}
+			else if ((loan_duration>=48) && (loan_duration <= 84)){
+				if ((loan_amount >= 200) && (loan_amount < 20000)){
+					grade = grade ;	
+				}
+				else if ((loan_amount >= 20000) && (loan_amount<40000)) {
+					grade = grade - 1 ;
+				}
+				else if ((loan_amount >= 40000) && (loan_amount<60000)){
+					grade = grade + 0.5 ;
+				}
+				else if ((loan_amount >= 60000) && (loan_amount <= 75000)){
+					grade = grade +1 ;
+				}
+				else {
+					System.out.println("Le montant n'est pas défini pour ce type de prêt 3-3");
+				}
+
+			}
+			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+
+			System.out.println("grade after adding duration and amount parameters : " + grade) ;
 			break ;
 
-		default : 
+		default :
 			System.out.println("Erreur : vérifier que le client possède un prêt");
 		}
 
 		// calculating the debt ratio
 		monthly_payment = (loan_amount*(rate/12))/(1-(Math.pow(1+(rate/12),-loan_duration))) ;
 		debt_ratio = monthly_payment / (salary/12) ;
-		
+
 		//if it's over 1/3 the debt is to high so high risk for the bank
-		
+
 		if ((debt_ratio > 0.33) && (debt_ratio  < 0.4) ) {	
 			grade = grade + 2 ;
 			System.out.println("TEST1 : " +grade) ; // possible but with high risk
