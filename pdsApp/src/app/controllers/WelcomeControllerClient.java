@@ -9,10 +9,14 @@ import app.views.linda.*;
 import app.views.ruben.*;
 import app.views.simulations.*;
 import app.views.alexandre.*;
+import app.views.welcome.WelcomeViewClient;
+import java.awt.Image;
 
 import java.net.*;
 
 import java.io.*;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class WelcomeControllerClient {
   private WelcomeListenerClient listener;
@@ -70,7 +74,12 @@ public class WelcomeControllerClient {
         listener.updateAnswerLabel(other);
       }
     } catch (Exception e) {
-      javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+      Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+          JOptionPane.showMessageDialog(null, 
+            "Le serveur ne répond plus", 
+            "Erreur", 
+            JOptionPane.WARNING_MESSAGE,
+            new ImageIcon(im));
     }
   }
 
@@ -79,9 +88,21 @@ public class WelcomeControllerClient {
   }
 
   public void goIndicator() {
-    ControllerIndicator cci = new ControllerIndicator(socket);
-    ViewIndicatorAll ihm = new ViewIndicatorAll(cci, listener.getBody(), listener.getContainer(), this.userConnect);
-    cci.addListener(ihm);
+    
+      if(userConnect.isDirector())  {
+          ControllerIndicator cci = new ControllerIndicator(socket);
+          ViewIndicatorAll ihm = new ViewIndicatorAll(cci, listener.getBody(), listener.getContainer(), this.userConnect);
+          cci.addListener(ihm);
+      }else {
+          Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconAlarm.png")).getImage().getScaledInstance(75, 75, 1);
+          JOptionPane.showMessageDialog(null, 
+            "Fonctionnalité réservé", 
+            "Accès interdit", 
+            JOptionPane.WARNING_MESSAGE,
+            new ImageIcon(im));
+      }
+      
+    
   }
 
   public void goLinda() {

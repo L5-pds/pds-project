@@ -3,6 +3,7 @@ package app.controllers;
 import app.helpers.Serialization;
 import app.listeners.*;
 import app.models.other.*;
+import app.views.welcome.WelcomeViewClient;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
@@ -31,17 +32,18 @@ public class ControllerIndicator {
           out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
           in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + e.getMessage());
+          Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Erreur (I/O) : " + e.getMessage(), 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
         }
     }
 
     public void addListener(ListenerIndicator l) {
         this.listener = l;
         listener.setIHM();
-    }
-
-    public void testmsg(String tes) {
-        javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + tes);
     }
 
     public dataSearchIndicator getComboData(int idAgency)  {
@@ -53,7 +55,12 @@ public class ControllerIndicator {
             out.flush();
             dataComposent = s.unserializeDataSearchIndicator(in.readLine());
         } catch (IOException | HeadlessException e) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+          Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
         }
         return dataComposent;
     }
@@ -109,32 +116,16 @@ public class ControllerIndicator {
             }
             
         } catch (IOException | HeadlessException e) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+          Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
         }
         
     }
     
-    public String testCountAddress()  {
-        String resutl = " ";
-        try {
-        out.println("SPECIF_1/Address/COUNT");
-        out.flush();
-        String response = in.readLine();
-        String[] splitedQuery = response.split("/");
-
-        String ifsuccess = splitedQuery[0];
-        resutl = splitedQuery[1];
-        if(ifsuccess.equals("success")) {
-            javax.swing.JOptionPane.showMessageDialog(null,"Il y a " + resutl + " adresses dans la base");
-        }else {
-            javax.swing.JOptionPane.showMessageDialog(null,"Erreur : " + response);
-        }
-        } catch (IOException | HeadlessException e) {
-          javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
-        }
-        return resutl;
-    }
-
     public DefaultPieDataset getPieDatasetLoanPerType(int idAgency)    {
 
         DefaultPieDataset dataset = null;
@@ -146,7 +137,12 @@ public class ControllerIndicator {
             datasetPieChart response = s.unserializedatasetPieChart(in.readLine());
             dataset = response.getDataSet();
         } catch (IOException | NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
             System.exit(0);
         }
 
@@ -164,7 +160,12 @@ public class ControllerIndicator {
             datasetBarChart response = s.unserializedatasetBarChart(in.readLine());
             dataset = response.getDataSet();
         } catch (IOException | NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
             System.exit(0);
         }
 
@@ -182,7 +183,12 @@ public class ControllerIndicator {
             datasetPieChart response = s.unserializedatasetPieChart(in.readLine());
             dataset = response.getDataSet();
         } catch (IOException | NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
             System.exit(0);
         }
 
@@ -215,7 +221,12 @@ public class ControllerIndicator {
             }
 
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
+            Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+            JOptionPane.showMessageDialog(null, 
+              "Le serveur ne répond plus", 
+              "Erreur", 
+              JOptionPane.WARNING_MESSAGE,
+              new ImageIcon(im));
             System.exit(0);
         }
         return thePane;
