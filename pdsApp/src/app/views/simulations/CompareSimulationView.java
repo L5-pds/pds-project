@@ -120,7 +120,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     cbType = new JComboBox(loanTypes);
 
     //Add component vertically to the panel
-    globalPanel.setLayout(new GridLayout(9, 1, 0, 0));
+    globalPanel.setLayout(new GridLayout(9, 1, 0, 5));
     globalPanel.add(nameLabel);
     globalPanel.add(nameField);
     globalPanel.add(searchButton);
@@ -339,7 +339,12 @@ public class CompareSimulationView implements CompareSimulationListener{
     //Sorting data by ratio value
     for (int i=0; i<data.length -1; i++){
       Object[] tmp;
-      if(Double.parseDouble(data[i][7].toString()) > Double.parseDouble(data[i+1][7].toString())){
+      //System.out.println("test");
+      //System.out.println(data[i][7].toString());
+      //System.out.println(data[i+1][7].toString());
+      //System.out.println(Double.parseDouble(data[i+1][7].toString()));
+      
+      if(Double.parseDouble(data[i][7].toString().replace(",", ".")) > Double.parseDouble(data[i+1][7].toString().replace(",", "."))){
         tmp = data[i];
         data[i] = data[i+1];
         data[i+1] = tmp;
@@ -407,13 +412,13 @@ public class CompareSimulationView implements CompareSimulationListener{
     //chart 1 : wage Vs monthly
       for(int i=0; i<data.length; i++){
         defaultcategorydataset.addValue(wage, bar1, data[i][0].toString());
-        defaultcategorydataset.addValue(Double.parseDouble(data[i][3].toString()), bar2, data[i][0].toString());
+        defaultcategorydataset.addValue(Double.parseDouble(data[i][3].toString().replace(",", ".")), bar2, data[i][0].toString().replace(",", "."));
       }
     }
     else{
     //chart 2 : Periods
       for(int i=0; i<data.length; i++){
-        defaultcategorydataset.addValue(Double.parseDouble(data[i][4].toString())/12, bar1, data[i][0].toString());
+        defaultcategorydataset.addValue(Double.parseDouble(data[i][4].toString().replace(",", "."))/12, bar1, data[i][0].toString().replace(",", "."));
       }
     }
     return defaultcategorydataset;
