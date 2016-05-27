@@ -37,8 +37,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class CalcAm {
-// Variables declaration - do not modify                     
-    
+// Variables declaration - do not modify
+
     JPanel pane = new JPanel();
     JPanel paneLeft = new JPanel();
     JPanel paneRight = new JPanel();
@@ -58,7 +58,7 @@ public class CalcAm {
     public JButton printButton;
     public JButton graphButton = new JButton();
     public JTable tableAmort;
-   
+
     public String name = "Ruben";
     public String surname = "Edery";
     int idpdf = (int) (Math.random() * 100000 + 1);
@@ -75,8 +75,8 @@ public class CalcAm {
     DecimalFormat df = new DecimalFormat("0.00");
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy à HH:mm:ss");
     String dateStr = simpleDateFormat.format(new Date());
-    
-// End of variables declaration  
+
+// End of variables declaration
 
     public CalcAm(String data[][], int nombre_annee,
             double insuranceRate,
@@ -133,7 +133,7 @@ public class CalcAm {
             public void actionPerformed(ActionEvent arg0) {
                     Calcul ca = new Calcul();
                     Chart am = new Chart(ca);
-                    LineChart lc = new LineChart("Restant à payer selon les trimestres", "Restant à payer selon les trimestres", ca.data);
+                    LineChart lc = new LineChart(ca, "Restant à payer selon les trimestres", "Restant à payer selon les trimestres", ca.data);
                     pane.removeAll();
                     paneLeft.add(am);
                     paneRight.add(lc);
@@ -158,7 +158,7 @@ public class CalcAm {
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         lblTitle.setSize(new java.awt.Dimension(42, 30));
 
-        // Affichage de l'icone d'impression   
+        // Affichage de l'icone d'impression
         addPrintIcon();
 
         // Affichage de l'icone PDF
@@ -166,7 +166,7 @@ public class CalcAm {
 
         //Affichage des labels
         displayLabel();
-        // Affichage des label totaux           
+        // Affichage des label totaux
         displayTotalLabel();
 
     }
@@ -212,7 +212,7 @@ public class CalcAm {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinter.png")).getImage().getScaledInstance(50, 50, 1);
                 buttonPrint.setIcon(new ImageIcon(im));
             }
-            
+
         });
         paneRight.add(buttonPrint);
     }
@@ -233,9 +233,9 @@ public class CalcAm {
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                     JOptionPane.showMessageDialog(pane, "Erreur de téléchargement. Veuillez changer le code du programme.", "Erreur téléchargement", 1);
-                }   
+                }
             }
-            
+
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPDFHover.png")).getImage().getScaledInstance(50, 50, 1);
                 pdfButton.setIcon(new ImageIcon(im));
@@ -298,8 +298,8 @@ public class CalcAm {
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStr + "-" + idpdf + ".pdf"));
             document.open();
-            // Set color and police 
-            
+            // Set color and police
+
             com.itextpdf.text.Font fontText = FontFactory.getFont(FontFactory.COURIER_BOLD, 18, com.itextpdf.text.Font.UNDERLINE);
             fontText.setColor(215,203,233);
 
@@ -322,7 +322,7 @@ public class CalcAm {
             Paragraph footerParagraph = new Paragraph(footer);
             footerParagraph.setAlignment(PdfContentByte.ALIGN_LEFT);
 
-            
+
 
             //com.itextpdf.text.Image logoL5 = com.itextpdf.text.Image.getInstance("/pictures/LogoL5.png");
             //document.add(logoL5);
