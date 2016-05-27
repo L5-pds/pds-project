@@ -43,6 +43,10 @@ public class PaneSearchIndicator {
     private double moyAmount;
     private int moyLenght;
     private double allBenefit;
+        
+    private double nbImmo = 0;
+    private double nbAuto = 0;
+    private double nbOthe = 0;
     
     public PaneSearchIndicator(){
         this.nbLoan = 0;
@@ -76,6 +80,9 @@ public class PaneSearchIndicator {
         this.moyAmount = moyAmount;
         this.moyLenght = moyLenght;
         this.allBenefit = allBenefit;
+        this.nbImmo = 0;
+        this.nbAuto = 0;
+        this.nbOthe = 0;
         
         theModel = new DefaultTableModel(){
             @Override
@@ -97,12 +104,15 @@ public class PaneSearchIndicator {
     public void setInfoValue(int nbLoan, 
             double moyAmount, 
             int moyLenght, 
-            long allBenefit) {
+            double allBenefit) {
         
         this.nbLoan = nbLoan;
         this.moyAmount = moyAmount;
         this.moyLenght = moyLenght;
         this.allBenefit = allBenefit;
+        this.nbImmo = 0;
+        this.nbAuto = 0;
+        this.nbOthe = 0;
     }
     
     public DefaultTableModel getModel() {
@@ -115,14 +125,15 @@ public class PaneSearchIndicator {
     
     public void addRow(String customer, 
             String advisor, 
-            String amount, 
+            double amount, 
             String lenght, 
             String type, 
             double rate, 
             Date date){
-        NumberFormat formatterdouble = new DecimalFormat("#0.00");
+        DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.0####");
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        theModel.addRow(new Object[]{customer, advisor, amount + "€", lenght + " mois", type, formatterdouble.format(rate) + "%", format.format(date)});
+        
+        theModel.addRow(new Object[]{customer, advisor, decimalPrintFormat.format(amount) + "€", lenght + " mois", type, decimalPrintFormat.format(rate) + "%", format.format(date)});
     }
     
     public JScrollPane getAllTable() {
@@ -151,6 +162,35 @@ public class PaneSearchIndicator {
         returnPane.setLayout(new BoxLayout(returnPane, BoxLayout.Y_AXIS));
         returnPane.setBackground(new Color(215,203,233,255));
         
+        DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.0####");
+        DecimalFormat decimalPercentFormat = new DecimalFormat("#,##0.00");
+        
+        
+        this.nbImmo = 0;
+        this.nbAuto = 0;
+        this.nbOthe = 0;
+        
+        if(nbLoan != 0) {
+            for(int i=0 ; i<theModel.getRowCount() ; i++)   {
+                switch (theModel.getValueAt(i, 4).toString())  {
+                    case "Immobilier":
+                        nbImmo++;
+                        break;
+                    case "Automobile":
+                        nbAuto++;
+                        break;
+                    case "Divers":
+                        nbOthe++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            nbImmo = (nbImmo/nbLoan)*100;
+            nbAuto = (nbAuto/nbLoan)*100;
+            nbOthe = (nbOthe/nbLoan)*100;
+        }
+
         JLabel lblTitle = new JLabel("     Résultats des indicateurs     ");
         lblTitle.setFont(new java.awt.Font("Verdana", Font.BOLD, 17)); // NOI18N
         lblTitle.setForeground(Color.BLACK);
@@ -162,22 +202,22 @@ public class PaneSearchIndicator {
         info1.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info11 = new JLabel();
         info11.setFont(new Font("Verdana", Font.PLAIN, 15));
-        info11.setText("Immobilier (23%)");
+        info11.setText("Immobilier (" + decimalPercentFormat.format(nbImmo) + "%)");
         info11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         info11.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info12 = new JLabel();
         info12.setFont(new Font("Verdana", Font.PLAIN, 15));
-        info12.setText("Automobile (47%)");
+        info12.setText("Automobile (" + decimalPercentFormat.format(nbAuto) + "%)");
         info12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         info12.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info13 = new JLabel();
         info13.setFont(new Font("Verdana", Font.PLAIN, 15));
-        info13.setText("Divers (30%)");
+        info13.setText("Divers (" + decimalPercentFormat.format(nbOthe) + "%)");
         info13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         info13.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info2 = new JLabel();
         info2.setFont(new Font("Verdana", Font.PLAIN, 18));
-        info2.setText("Montant moyen: " + moyAmount + "€");
+        info2.setText("Montant moyen: " + decimalPrintFormat.format(moyAmount) + "€");
         info2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         info2.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info3 = new JLabel();
@@ -187,7 +227,7 @@ public class PaneSearchIndicator {
         info3.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel info4 = new JLabel();
         info4.setFont(new Font("Verdana", Font.PLAIN, 18));
-        info4.setText("Bénéfice total: " + allBenefit + "€");
+        info4.setText("Bénéfice total: " + decimalPrintFormat.format(allBenefit) + "€");
         info4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         info4.setAlignmentX(Component.CENTER_ALIGNMENT);
         

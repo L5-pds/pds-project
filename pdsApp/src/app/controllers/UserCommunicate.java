@@ -153,6 +153,13 @@ public class UserCommunicate implements Runnable {
                         String typeLoan = querySplited[4];
                         String typeCustomer = querySplited[5];
                         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatterQuery = new SimpleDateFormat("yyyy-MM-dd");
+                        long val1 = Long.parseLong(dateBegin);
+                        long val2 = Long.parseLong(dateEnd);
+                        Date dateBegin1=new Date(val1);
+                        Date dateEnd1=new Date(val2);
+                        
+                        String addDateCondition = "AND t_loan.entry BETWEEN '" + formatterQuery.format(dateBegin1) + "' AND '" + formatterQuery.format(dateEnd1) + "' ";
                         
                         String addAdvisorCondition = "";
                         if(!typeAdvisor.equals("TOUS")) {
@@ -206,6 +213,7 @@ public class UserCommunicate implements Runnable {
                                 addAdvisorCondition + 
                                 addTypeLoanCondition + 
                                 addCustomerCondition + 
+                                addDateCondition + 
                                 "AND t_advisor.id_agency = " + idAgency + ";";
                                 
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
@@ -214,7 +222,7 @@ public class UserCommunicate implements Runnable {
                             int nbLoan = 0;
                             double moyAmount = 0;
                             int moyLenght = 0;
-                            long allBenefit = 0;
+                            double allBenefit = 0;
                             
                             PaneSearchIndicator tableInfo = new PaneSearchIndicator();
                             ArrayList<String> listing= new ArrayList();
@@ -223,7 +231,7 @@ public class UserCommunicate implements Runnable {
                                 nbLoan++;
                                 moyAmount = moyAmount + response.getDouble("amount");
                                 moyLenght = moyLenght + response.getInt("length_loan");
-                                allBenefit = allBenefit + ((response.getLong("amount") * response.getLong("rate")) - response.getLong("amount"));
+                                allBenefit = allBenefit + ((response.getDouble("amount") * response.getDouble("rate")) - response.getDouble("amount"));
                             
                                 listing.add(response.getString("first_name") + " " + response.getString("last_name") + ";" + 
                                         response.getString("login") + ";" + 
@@ -234,26 +242,30 @@ public class UserCommunicate implements Runnable {
                                         response.getString("entry"));
                             }
                             
-                            moyAmount = (moyAmount/nbLoan)*100;
-                            moyAmount = Math.round(moyAmount)/100;
-                            moyLenght = Math.round(moyLenght/nbLoan);
-                            
-                            tableInfo.setInfoValue(nbLoan, moyAmount, moyLenght, allBenefit);
-                            
-                            response.last();
-                            listener.changeTextLog("Ligne - " + listing.size());
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - " + response.getRow() + " line");
-                            String testing = gsonSerial.serializePaneSearchIndicator(tableInfo) + "root" + gsonSerial.serializeArrayList(listing);
-                            out.println(testing);
-                            out.flush();
-                            break;
+                            if(nbLoan == 0) {
+                                out.println("no line");
+                                out.flush();
+                                break;
+                            }else   {
+                                
+                                moyAmount = (moyAmount/nbLoan)*100;
+                                moyAmount = Math.round(moyAmount)/100;
+                                moyLenght = Math.round(moyLenght/nbLoan);
+
+                                tableInfo.setInfoValue(nbLoan, moyAmount, moyLenght, allBenefit);
+                                
+                                listener.changeTextLog("Ligne - " + listing.size());
+                                listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - " + nbLoan + " line");
+                                String testing = gsonSerial.serializePaneSearchIndicator(tableInfo) + "root" + gsonSerial.serializeArrayList(listing);
+                                out.println(testing);
+                                out.flush();
+                                break;
+                            }
                         } else  {
-                            listString.add("ERROR");
+                            out.println("ERROR");
+                            out.flush();
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - error");
                         }
-                        
-                        out.println("ERROR");
-                        out.flush();
                         break;
                     case "SelectDataSearch":
                         
