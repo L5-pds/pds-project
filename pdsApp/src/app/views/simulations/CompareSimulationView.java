@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.event.*;
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class CompareSimulationView implements CompareSimulationListener{
 
@@ -34,8 +35,11 @@ public class CompareSimulationView implements CompareSimulationListener{
 
   private Double rate;
   private Double wage;
+  private DecimalFormat df = new DecimalFormat("#.00");
+
 
   public CompareSimulationView(CompareSimulationController cci, JPanel body, Container cont) {
+    df.setMaximumFractionDigits(2);
     this.cci = cci;
     this.body = body;
     this.cont = cont;
@@ -265,7 +269,7 @@ public class CompareSimulationView implements CompareSimulationListener{
       String rowRate = String.valueOf(rate);
       String rowInterest = String.valueOf(Double.parseDouble(rowAmount) * rate/100);
       String rowRatio = String.valueOf(Double.parseDouble(rowMonthly) / wage);
-      String[] row = {rowId, rowAmount, rowRem, rowMonthly, rowPeriod, rowRate, rowInterest, rowRatio};
+      String[] row = {rowId, rowAmount, df.format(Double.parseDouble(rowRem)), df.format(Double.parseDouble(rowMonthly)), rowPeriod, rowRate, df.format(Double.parseDouble(rowInterest)), new DecimalFormat("0.##").format(Double.parseDouble(rowRatio))};
       data[i] = row;
     }
 
@@ -276,9 +280,10 @@ public class CompareSimulationView implements CompareSimulationListener{
 
     tablePanel.add(simulationLabel);
     tablePanel.add(scrollPane);
-    tablePanel.setPreferredSize(new Dimension(1200,200));
+    tablePanel.setPreferredSize(new Dimension(1200,130));
     tablePanel.setOpaque(false);
     scrollPane.setOpaque(false);
+    body.setOpaque(false);
 
     body.add(tablePanel);
   }
