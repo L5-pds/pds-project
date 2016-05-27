@@ -31,6 +31,10 @@ public class Serialization {
       return gson.toJson(a);
   }
 
+  public String serializeSpecifRuben(SpecifRuben a) {
+      return gson.toJson(a);
+  }
+
   public String serializedatasetPieChart(datasetPieChart dpd) {
       return gson.toJson(dpd);
   }
@@ -98,5 +102,9 @@ public class Serialization {
   public DefaultTableModel unserializeDefaultTableModel(String dpd) {
       return gson.fromJson(dpd, DefaultTableModel.class);
   }
-  
+
+  public SpecifRuben unserializeSpecifRuben(String dpd) {
+      return gson.fromJson(dpd, SpecifRuben.class);
+  }
+
 }
