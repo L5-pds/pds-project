@@ -143,8 +143,8 @@ public class ViewIndicatorAll implements ListenerIndicator {
         thePaneTable.setLayout(new BorderLayout());
         thePaneTable.setBackground(new Color(215,203,233,255));
                 
-        thePaneTable.add(theTableForPane.getInfoPane(), BorderLayout.WEST);
         thePaneTable.add(theTableForPane.getAllTable(), BorderLayout.CENTER);
+        thePaneTable.add(theTableForPane.getInfoPane(), BorderLayout.WEST);
         
         thePaneTable.revalidate();
         thePaneTable.repaint();
@@ -289,17 +289,17 @@ public class ViewIndicatorAll implements ListenerIndicator {
         lblRanchLoan.setFont(new java.awt.Font("Verdana", 0, 17));
         lblRanchLoan.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JXDatePicker dateBegin1 = new JXDatePicker(new Date());
-        dateBegin1.setFont(new java.awt.Font("Verdana", 0, 15));
+        JXDatePicker dateBegin = new JXDatePicker(new Date());
+        dateBegin.setFont(new java.awt.Font("Verdana", 0, 15));
         
-        JXDatePicker dateEnd1 = new JXDatePicker(new Date());
-        dateEnd1.setFont(new java.awt.Font("Verdana", 0, 15));
+        JXDatePicker dateEnd = new JXDatePicker(new Date());
+        dateEnd.setFont(new java.awt.Font("Verdana", 0, 15));
         
         JPanel paneRangeDateLoanLbl = new JPanel(); //To ADD
         paneRangeDateLoanLbl.setBackground(new Color(0,0,0,0));
         paneRangeDateLoanLbl.setLayout(new FlowLayout());
-        paneRangeDateLoanLbl.add(dateBegin1);
-        paneRangeDateLoanLbl.add(dateEnd1);
+        paneRangeDateLoanLbl.add(dateBegin);
+        paneRangeDateLoanLbl.add(dateEnd);
         
         JLabel lblComboAdvisor = new JLabel("Conseillé");
         lblComboAdvisor.setHorizontalAlignment(SwingConstants.CENTER);
@@ -350,7 +350,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         ComboTypeCustomer.setModel(new DefaultComboBoxModel(new String[] {"TOUS", 
             "Jeune (moins de 30 ans)", 
             "Adulte (entre 30 ans et 60 ans)", 
-            "Sénior (plus de 60 ans)"}));
+            "Senior (plus de 60 ans)"}));
         ComboTypeCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JPanel paneComboTypeCustomer = new JPanel(); //To ADD
@@ -365,7 +365,26 @@ public class ViewIndicatorAll implements ListenerIndicator {
         btValid.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cci.setNewTable();
+                
+                //javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + ComboTypeCustomer.getSelectedItem().toString());
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date begin = dateBegin.getDate();
+                Date end = dateEnd.getDate();
+                
+                String dateBegin = formatter.format(begin);
+                String dateEnd = formatter.format(end);
+                
+                String typeAdvisor = ComboAdvisor.getSelectedItem().toString();
+                String typeLoan = ComboTypeLoan.getSelectedItem().toString();
+                String typeCustomer = ComboTypeCustomer.getSelectedItem().toString();
+                
+                cci.setNewTable(dateBegin, 
+                        dateEnd, 
+                        typeAdvisor, 
+                        typeLoan, 
+                        typeCustomer, 
+                        user.getAgency());
+                
             }
         });
         

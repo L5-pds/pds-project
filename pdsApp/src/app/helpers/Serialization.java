@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class Serialization {
 
@@ -50,6 +51,14 @@ public class Serialization {
       return gson.toJson(dpd);
   }
 
+  public String serializePaneSearchIndicator(PaneSearchIndicator dpd) {
+      return gson.toJson(dpd);
+  }
+
+  public String serializeDefaultTableModel(DefaultTableModel dpd) {
+      return gson.toJson(dpd);
+  }
+
   public Advisor unserializeUser(String u) {
       return gson.fromJson(u, Advisor.class);
   }
@@ -81,4 +90,13 @@ public class Serialization {
   public dataSearchIndicator unserializeDataSearchIndicator(String dpd) {
       return gson.fromJson(dpd, dataSearchIndicator.class);
   }
+
+  public PaneSearchIndicator unserializePaneSearchIndicator(String dpd) {
+      return gson.fromJson(dpd, PaneSearchIndicator.class);
+  }
+
+  public DefaultTableModel unserializeDefaultTableModel(String dpd) {
+      return gson.fromJson(dpd, DefaultTableModel.class);
+  }
+  
 }
