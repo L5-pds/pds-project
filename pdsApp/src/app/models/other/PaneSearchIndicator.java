@@ -12,6 +12,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.layout.Border;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -37,6 +45,11 @@ public class PaneSearchIndicator {
     private double allBenefit;
     
     public PaneSearchIndicator(){
+        this.nbLoan = 0;
+        this.moyAmount = 0;
+        this.moyLenght = 0;
+        this.allBenefit = 0;
+        
         theModel = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -57,7 +70,7 @@ public class PaneSearchIndicator {
     public PaneSearchIndicator(int nbLoan, 
             double moyAmount, 
             int moyLenght, 
-            double allBenefit){
+            long allBenefit){
         
         this.nbLoan = nbLoan;
         this.moyAmount = moyAmount;
@@ -81,14 +94,35 @@ public class PaneSearchIndicator {
         
     }
 
+    public void setInfoValue(int nbLoan, 
+            double moyAmount, 
+            int moyLenght, 
+            long allBenefit) {
+        
+        this.nbLoan = nbLoan;
+        this.moyAmount = moyAmount;
+        this.moyLenght = moyLenght;
+        this.allBenefit = allBenefit;
+    }
+    
+    public DefaultTableModel getModel() {
+        return this.theModel;
+    }
+    
+    public void setModel(DefaultTableModel model) {
+        this.theModel = model;
+    }
+    
     public void addRow(String customer, 
             String advisor, 
             String amount, 
             String lenght, 
             String type, 
-            String rate, 
-            String date){
-        theModel.addRow(new Object[]{customer, advisor, amount, lenght, type, rate, date});
+            double rate, 
+            Date date){
+        NumberFormat formatterdouble = new DecimalFormat("#0.00");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        theModel.addRow(new Object[]{customer, advisor, amount + "€", lenght + " mois", type, formatterdouble.format(rate) + "%", format.format(date)});
     }
     
     public JScrollPane getAllTable() {

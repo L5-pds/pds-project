@@ -3,6 +3,7 @@ package app.controllers;
 import app.listeners.*;
 import app.models.*;
 import app.helpers.*;
+import app.models.other.PaneSearchIndicator;
 import app.models.other.dataSearchIndicator;
 import app.models.other.datasetBarChart;
 import app.models.other.datasetPieChart;
@@ -10,7 +11,10 @@ import app.models.other.datasetPieChart;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class UserCommunicate implements Runnable {
@@ -138,6 +142,119 @@ public class UserCommunicate implements Runnable {
                 datasetPieChart returnDatasetPieChart = null;
                 datasetBarChart returnDatasetBarChart = null;
                 switch (typeObject) {
+                    case "SelectSearchLoan":
+                        
+                        String[] querySplited = object.split(";");
+
+                        String idAgency = querySplited[0];
+                        String dateBegin = querySplited[1];
+                        String dateEnd = querySplited[2];
+                        String typeAdvisor = querySplited[3];
+                        String typeLoan = querySplited[4];
+                        String typeCustomer = querySplited[5];
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        
+                        String addAdvisorCondition = "";
+                        if(!typeAdvisor.equals("TOUS")) {
+                            addAdvisorCondition = "AND t_advisor.login = '" + typeAdvisor + "' ";
+                        }
+                        String addTypeLoanCondition = "";
+                        if(!typeLoan.equals("TOUS")) {
+                            addTypeLoanCondition = "AND t_type_loan.wording = '" + typeLoan + "' ";
+                        }
+                        String addCustomerCondition = "";
+                        if(!typeCustomer.equals("TOUS")) {
+                            
+                            String dateNow = formatter.format(Calendar.getInstance().getTime());
+                            Calendar calendar = Calendar.getInstance();
+                            String date30;
+                            String date60;
+                            switch (typeCustomer) {
+                                case "Jeune (moins de 30 ans)":
+                                    calendar.add(Calendar.YEAR, -30);
+                                    date30 = formatter.format(calendar.getTime());
+                                    
+                                    addCustomerCondition = "AND t_client.birth BETWEEN '" + date30 + "' AND '" + dateNow + "' ";
+                                    
+                                    break;
+                                case "Adulte (entre 30 ans et 60 ans)":
+                                    calendar.add(Calendar.YEAR, -30);
+                                    date30 = formatter.format(calendar.getTime());
+                                    calendar.add(Calendar.YEAR, -30);
+                                    date60 = formatter.format(calendar.getTime());
+                                    
+                                    addCustomerCondition = "AND t_client.birth BETWEEN '" + date60 + "' AND '" + date30 + "' ";
+                                    
+                                    break;
+                                case "Senior (plus de 60 ans)":
+                                    calendar.add(Calendar.YEAR, -60);
+                                    date60 = formatter.format(calendar.getTime());
+                                    
+                                    addCustomerCondition = "AND t_client.birth > '" + date60 + "' ";
+                                    
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        
+                        request = "SELECT t_client.first_name, t_client.last_name, t_advisor.login, t_loan.amount, t_loan.length_loan, t_type_loan.wording, t_type_loan.rate, t_loan.entry " + 
+                                "FROM t_client, t_loan, t_type_loan, t_advisor " + 
+                                "WHERE t_loan.id_client = t_client.id_client " + 
+                                "AND t_loan.id_advisor = t_advisor.id_advisor " + 
+                                "AND t_loan.id_type_loan = t_type_loan.id_type_loan " + 
+                                addAdvisorCondition + 
+                                addTypeLoanCondition + 
+                                addCustomerCondition + 
+                                "AND t_advisor.id_agency = " + idAgency + ";";
+                                
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        if(response != null)    {
+                            
+                            int nbLoan = 0;
+                            double moyAmount = 0;
+                            int moyLenght = 0;
+                            long allBenefit = 0;
+                            
+                            PaneSearchIndicator tableInfo = new PaneSearchIndicator();
+                            ArrayList<String> listing= new ArrayList();
+                            
+                            while (response.next())  {
+                                nbLoan++;
+                                moyAmount = moyAmount + response.getDouble("amount");
+                                moyLenght = moyLenght + response.getInt("length_loan");
+                                allBenefit = allBenefit + ((response.getLong("amount") * response.getLong("rate")) - response.getLong("amount"));
+                            
+                                listing.add(response.getString("first_name") + " " + response.getString("last_name") + ";" + 
+                                        response.getString("login") + ";" + 
+                                        response.getString("amount") + ";" + 
+                                        response.getString("length_loan") + ";" + 
+                                        response.getString("wording") + ";" + 
+                                        response.getDouble("rate") + ";" + 
+                                        response.getString("entry"));
+                            }
+                            
+                            moyAmount = (moyAmount/nbLoan)*100;
+                            moyAmount = Math.round(moyAmount)/100;
+                            moyLenght = Math.round(moyLenght/nbLoan);
+                            
+                            tableInfo.setInfoValue(nbLoan, moyAmount, moyLenght, allBenefit);
+                            
+                            response.last();
+                            listener.changeTextLog("Ligne - " + listing.size());
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - " + response.getRow() + " line");
+                            String testing = gsonSerial.serializePaneSearchIndicator(tableInfo) + "root" + gsonSerial.serializeArrayList(listing);
+                            out.println(testing);
+                            out.flush();
+                            break;
+                        } else  {
+                            listString.add("ERROR");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - error");
+                        }
+                        
+                        out.println("ERROR");
+                        out.flush();
+                        break;
                     case "SelectDataSearch":
                         
                         dataSearchIndicator dataComposent = new dataSearchIndicator();
