@@ -336,6 +336,16 @@ public class CompareSimulationView implements CompareSimulationListener{
       data[i] = row;
     }
 
+    //Sorting data by ratio value
+    for (int i=0; i<data.length -1; i++){
+      Object[] tmp;
+      if(Double.parseDouble(data[i][7].toString()) > Double.parseDouble(data[i+1][7].toString())){
+        tmp = data[i];
+        data[i] = data[i+1];
+        data[i+1] = tmp;
+      }
+    }
+
     //Set body title
     simulationLabel.setText("Comparaison des totaux principaux");
 
@@ -359,8 +369,8 @@ public class CompareSimulationView implements CompareSimulationListener{
     //Change panel background
     tablePanel.setBackground(new Color(215,203,233,255));
     //create and add charts to the bottom panel
-    bottom.add(dualChart("Niveau d'endettement", "Montant (€)", "Ratio (%)"));
-    bottom.add(dualChart("Durée du prêt", "Durée (année)", ""));
+    bottom.add(dualChart(data, "Niveau d'endettement", "Montant (€)", "Ratio (%)", "Salaire", "Mensualité", true));
+    bottom.add(dualChart(data, "Durée du prêt", "Durée (année)", "", "Durée", "", false));
     bottom.setBackground(new Color(215,203,233,255));
 
     //add scrollable jtable + bottom panel(charts) vertically
@@ -372,11 +382,11 @@ public class CompareSimulationView implements CompareSimulationListener{
     body.add(tablePanel);
   }
 
-  public JPanel dualChart(String title, String column1, String column2){
+  public JPanel dualChart(Object[][] data, String title, String column1, String column2, String bar1, String bar2, Boolean chart1){
     //Create empty panel to contain the chart
     JPanel pChart = new JPanel();
     //calling creating chart method (see bellow)
-    JFreeChart jfreechart = createChart(title, column1, column2);
+    JFreeChart jfreechart = createChart(data, title, column1, column2, bar1, bar2, chart1);
     ChartPanel chartpanel = new ChartPanel(jfreechart);
     //setting customized size for the chart
     chartpanel.setPreferredSize(new Dimension(600, 290));
@@ -390,32 +400,28 @@ public class CompareSimulationView implements CompareSimulationListener{
     return pChart;
   }
 
-  private CategoryDataset createDataset() {
+  private CategoryDataset createDataset(Object[][] data, String bar1, String bar2, Boolean chart1) {
     //filling the chart with simulations information
-    String s = "First";
-    String s1 = "Second";
-    String s3 = "Category 1";
-    String s4 = "Category 2";
-    String s5 = "Category 3";
-    String s6 = "Category 4";
-    String s7 = "Category 5";
     DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
-    defaultcategorydataset.addValue(800, s, s3);
-    defaultcategorydataset.addValue(600, s, s4);
-    defaultcategorydataset.addValue(620, s, s5);
-    defaultcategorydataset.addValue(950, s, s6);
-    defaultcategorydataset.addValue(500, s, s7);
-    defaultcategorydataset.addValue(80, s1, s3);
-    defaultcategorydataset.addValue(60, s1, s4);
-    defaultcategorydataset.addValue(62, s1, s5);
-    defaultcategorydataset.addValue(95, s1, s6);
-    defaultcategorydataset.addValue(50, s1, s7);
+    if(chart1){
+    //chart 1 : wage Vs monthly
+      for(int i=0; i<data.length; i++){
+        defaultcategorydataset.addValue(wage, bar1, data[i][0].toString());
+        defaultcategorydataset.addValue(Double.parseDouble(data[i][3].toString()), bar2, data[i][0].toString());
+      }
+    }
+    else{
+    //chart 2 : Periods
+      for(int i=0; i<data.length; i++){
+        defaultcategorydataset.addValue(Double.parseDouble(data[i][4].toString())/12, bar1, data[i][0].toString());
+      }
+    }
     return defaultcategorydataset;
   }
 
-  private JFreeChart createChart(String title, String column1, String column2){
+  private JFreeChart createChart(Object[][] data, String title, String column1, String column2, String bar1, String bar2, Boolean chart1){
     //create the chart
-    JFreeChart jfreechart = ChartFactory.createBarChart(title, "Simulations", column1, createDataset(), PlotOrientation.VERTICAL, true, true, false);
+    JFreeChart jfreechart = ChartFactory.createBarChart(title, "N° Simulations", column1, createDataset(data, bar1, bar2, chart1), PlotOrientation.VERTICAL, true, true, false);
 
     //Setting a background color for the graphic bars
     CategoryPlot categoryplot = jfreechart.getCategoryPlot();
@@ -425,8 +431,12 @@ public class CompareSimulationView implements CompareSimulationListener{
     CategoryAxis categoryaxis = categoryplot.getDomainAxis();
     categoryaxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
     //add second axis (ratio)
-    NumberAxis numberaxis = new NumberAxis(column2);
-    categoryplot.setRangeAxis(1, numberaxis);
+
+    //add second column only for chart1
+    if(chart1){
+      NumberAxis numberaxis = new NumberAxis(column2);
+      categoryplot.setRangeAxis(1, numberaxis);
+    }
     LineAndShapeRenderer lineandshaperenderer = new LineAndShapeRenderer();
 
     categoryplot.setRenderer(1, lineandshaperenderer);
