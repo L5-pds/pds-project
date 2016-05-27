@@ -5,8 +5,9 @@ import java.util.*;
 public class Rate_calculation {
 
 	// client's parameters
-	public int id_client;
-	public String name ;
+	
+	//public int id_client;
+	//public String name ;
 	public int age ;
 	public int salary ; 
 	public int loan_amount ; 
@@ -19,8 +20,7 @@ public class Rate_calculation {
 	public int disease_risk ;
 	public int job_risk ; 
 
-	public Rate_calculation(int id_client, 
-			String name,
+	public Rate_calculation(
 			int age,
 			int salary,
 			int loan_amount,
@@ -33,8 +33,8 @@ public class Rate_calculation {
 			int disease_risk, 
 			int job_risk) 
 	{
-		this.id_client = id_client ;
-		this.name = name ;
+		//this.id_client = id_client ;
+		//this.name = name ;
 		this.age = age;
 		this.salary = salary;
 		this.loan_amount = loan_amount;
@@ -369,14 +369,14 @@ public class Rate_calculation {
 		}
 		else if (debt_ratio>=0.4){ // dangerous for the bank
 			grade = grade + 4 ;
-			System.out.println("TEST2 : )" +grade) ;
+			System.out.println("TEST2 : " +grade) ;
 		}
 		else {
 			grade = grade ; // debt rate is ok
 		}
-		System.out.println("Monthly_payment : " +monthly_payment);
-		System.out.println("debt_ratio : " +debt_ratio);
-		return grade ;
+		System.out.println("Monthly_payment : " + monthly_payment);
+		System.out.println("debt_ratio : " + debt_ratio);
+		return grade;
 	}
 
 }
