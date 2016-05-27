@@ -478,8 +478,44 @@ public class UserCommunicate implements Runnable {
                 break;
             case "SPECIF_3": //Spécifique RUBEN
                 switch (typeObject) {
-                    case "Address":
+                    case "getAllLoanByCustomer":
+                        request = "SELECT t_client.id_client,"
+                                + " t_client.last_name,"
+                                + " t_client.first_name,"
+                                + " t_client.mail,"
+                                + " t_type_loan.id_type_loan,"
+                                + " t_type_loan.wording,"
+                                + " t_type_loan.rate,"
+                                + " t_loan.id_loan,"
+                                + " t_loan.amount"
+                                + " FROM t_loan,"
+                                + " t_type_loan,"
+                                + " t_client"
+                                + " WHERE"
+                                + " t_client.id_client= t_loan.id_client "
+                                + "AND t_type_loan.id_type_loan =  t_loan.id_type_loan "
+                                + "AND t_client.id_client=" + object + ";";
+                        response = Server.connectionPool[poolIndex].requestWithResult(request);
+                        response.next();
+                        
+                        listener.changeTextLog("Nom: " + response.getString("last_name"));
+                        SpecifRuben tmp = new SpecifRuben(response.getInt("id_client"), 
+                        response.getString("last_name") ,
+                        response.getString("first_name"),
+                        response.getString("mail"),
+                        response.getInt("id_type_loan"),
+                        response.getString("wording"),
+                        response.getDouble("rate"),
+                        response.getInt("id_loan"),
+                        response.getDouble("amount")        
+                        );
+
+                        //response.getInt("COUNTADRESS");
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - GeteSpecifRuben");
+                        out.println(gsonSerial.serializeSpecifRuben(tmp));
+                        out.flush();
                         //Coding
+                        break;
                     default:
                         //Coding
                         break;
