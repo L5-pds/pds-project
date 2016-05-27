@@ -2,6 +2,7 @@ package app.views.ruben;
 
 import app.controllers.*;
 import app.listeners.*;
+import app.models.SpecifRuben;
 import app.views.alexandre.FixedRateSimulation;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,16 +35,21 @@ public class ViewRuben implements ListenerRuben {
         cont.revalidate();
         cont.repaint();
         
-        cci.getInfo(8388);
+        
         
     }
 
     public void homePage(){
        
+        JTextField numClient = new JTextField(30);
+        body.add(numClient);
+        
         btnAmort = new JButton("Tableau d'amortissement");
             btnAmort.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                Calcul ca = new Calcul();
+                SpecifRuben allCustomer= cci.getInfo(Integer.parseInt(numClient.getText()));
+                    
+                Calcul ca = new Calcul(allCustomer.getAmount(), allCustomer.getRate(), 48);
                 CalcAm c = new CalcAm(
                 ca.data, 
                 ca.number_month,
@@ -66,9 +72,11 @@ public class ViewRuben implements ListenerRuben {
             btnGraphiques = new JButton("Graphiques");
             btnGraphiques.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                    Calcul ca = new Calcul();
+                    SpecifRuben allCustomer= cci.getInfo(Integer.parseInt(numClient.getText()));
+                    
+                Calcul ca = new Calcul(allCustomer.getAmount(), allCustomer.getRate(), 48);
                     Chart am = new Chart(ca);
-                    LineChart lc = new LineChart("Restant à payer selon les trimestres", "Restant à payer selon les trimestres", ca.data);
+                    LineChart lc = new LineChart(ca, "Restant à payer selon les trimestres", "Restant à payer selon les trimestres", ca.data);
                     body.removeAll();
                     body.add(am);
                     body.add(lc);

@@ -41,17 +41,18 @@ public class ControllerRuben {
         listener.setIHM();
     }
     
-    public void getInfo(int idClient){
+    public SpecifRuben getInfo(int idClient){
         try {
             out.println("SPECIF_3/getAllLoanByCustomer/" + idClient);
             out.flush();
             SpecifRuben tmp = s.unserializeSpecifRuben(in.readLine());
-            javax.swing.JOptionPane.showMessageDialog(null,tmp.getFirst_name());
+            return tmp;
         } catch (HeadlessException e) {
           javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
         } catch (IOException ex) {
             Logger.getLogger(ControllerRuben.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
     
 }

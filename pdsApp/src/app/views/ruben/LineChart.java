@@ -26,9 +26,9 @@ public class LineChart extends JPanel
     ChartPanel chartPanel;
     public javax.swing.JButton printButton;
     String data[][];
-   
-    public LineChart (String applicationTitle , String chartTitle ,  String data[][]){
-        
+    Calcul theCalc;
+    public LineChart (Calcul tmp, String applicationTitle , String chartTitle ,  String data[][]){
+        this.theCalc = tmp;
         this.data=data;
         JFreeChart lineChart = ChartFactory.createLineChart(
             chartTitle,
@@ -59,7 +59,7 @@ public class LineChart extends JPanel
     
    private DefaultCategoryDataset createDataset()
    {
-       Calcul ca = new Calcul();
+       Calcul ca = this.theCalc;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
         for (int i=1; i<ca.number_month;i+=3){
             dataset.addValue(Double.parseDouble(data[i][6].replace(",",".")), "Montant à payer" , String.valueOf(i));
