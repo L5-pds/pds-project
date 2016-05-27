@@ -13,16 +13,21 @@ public class Calcul {
     public double totalMonthlyPayement;
     DecimalFormat df = new DecimalFormat("0.00");
     public String data[][] = new String [number_month+1][7];
-    
+
     public Calcul(double amount,double rate,int number_month){
         this.amount=amount;
         this.rate=rate;
         this.number_month=number_month;
         data = new String [number_month+1][7];
-        
+
         calculate();
     }
-    
+
+    public Calcul(){
+        calculate();
+    }
+
+
     public void calculate(){
         double newamount;
         double rateperyear = (rate / 12) / 100;
@@ -37,7 +42,7 @@ public class Calcul {
 
             interestpay = amount * rateperyear;//interest paid
             principal_pain = monthspay - interestpay; //princial paid
-            newamount = amount - principal_pain; //new balance 
+            newamount = amount - principal_pain; //new balance
 
             data[i][0] = String.valueOf(i);
             data[i][1] = df.format(amount);
@@ -47,13 +52,13 @@ public class Calcul {
             data[i][5] = df.format(txassur);
             data[i][6] = df.format(newamount);
             amount = newamount;  //update old balance
-            
+
             totalinsurance+=txassur;
             totalInterest+=interestpay;
-            totalMonthlyPayement+=principal_pain;    
+            totalMonthlyPayement+=principal_pain;
         }
 
-        
-           
+
+
     }
 }
