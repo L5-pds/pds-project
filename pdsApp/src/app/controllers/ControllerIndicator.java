@@ -74,24 +74,24 @@ public class ControllerIndicator {
             out.println("SPECIF_1/SelectSearchLoan/" + idAgency + ";" + new Date(dateBegin).getTime() + ";" + new Date(dateEnd).getTime() + ";" + typeAdvisor + ";" + typeLoan + ";" + typeCustomer);
             out.flush();
             String testing = in.readLine();
-            
-            String[] querySplited = testing.split("root");
+                        
+            if((!testing.equals("ERROR")) && (!testing.equals("no line"))) {
+                
+                String[] querySplited = testing.split("root");
 
-            String jsonInfo = querySplited[0];
-            String jsonTable = querySplited[1];
+                String jsonInfo = querySplited[0];
+                String jsonTable = querySplited[1];
             
-            
-            if(!testing.equals("ERROR")) {
+                
                 PaneSearchIndicator tableInfo = s.unserializePaneSearchIndicator(jsonInfo);
                 ArrayList<String> listing = s.unserializeArrayList(jsonTable);
                 
                 for(int i=0 ; i<listing.size() ; i++)   {
-                    String string = "January 2, 2010";
                     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     String[] spliting = listing.get(i).split(";");
                     tableInfo.addRow(spliting[0], 
                             spliting[1], 
-                            spliting[2], 
+                            Double.parseDouble(spliting[2]), 
                             spliting[3], 
                             spliting[4], 
                             Double.parseDouble(spliting[5]), 
@@ -100,7 +100,11 @@ public class ControllerIndicator {
                 
                 listener.makeTablePane(tableInfo);
             }else {
-                javax.swing.JOptionPane.showMessageDialog(null,"Erreur d'execution de la requête");
+                if(testing.equals("ERROR")) {
+                    javax.swing.JOptionPane.showMessageDialog(null,"Erreur d'execution de la requête.");
+                }else   {
+                    javax.swing.JOptionPane.showMessageDialog(null,"Aucun prêt ne correspond à votre demande.");
+                }
                 listener.setIHM();
             }
             

@@ -61,7 +61,7 @@ public class FixedRateSimulationView extends JPanel {
 
         gc.gridx = 0;
         gc.gridy = 0;
-        add(new JLabel("Type de prÃªt :"), gc);
+        add(new JLabel("Type de prêt :"), gc);
 
         gc.gridx = 1;
         gc.gridy = 0;
@@ -130,7 +130,7 @@ public class FixedRateSimulationView extends JPanel {
         
         gc.gridx = 0;
         gc.gridy = 4;
-        add(new JLabel("DurÃ©e :"), gc);
+        add(new JLabel("Durée :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 4;

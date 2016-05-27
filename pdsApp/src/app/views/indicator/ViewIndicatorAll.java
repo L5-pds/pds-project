@@ -14,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.text.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -368,8 +370,20 @@ public class ViewIndicatorAll implements ListenerIndicator {
 
                 //javax.swing.JOptionPane.showMessageDialog(null,"Le message est : " + ComboTypeCustomer.getSelectedItem().toString());
                 DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String dateNow = formatter.format(Calendar.getInstance().getTime());
                 Date begin = dateBegin.getDate();
                 Date end = dateEnd.getDate();
+
+
+                if(end.getTime() < begin.getTime()) {
+                    javax.swing.JOptionPane.showMessageDialog(null,"La date de fin de votre recherche est inccompatible avec votre date de début de recherche");
+                    return;
+                }
+                if((Calendar.getInstance().getTime().getTime() < begin.getTime()) ||
+                        (Calendar.getInstance().getTime().getTime() < end.getTime())) {
+                    javax.swing.JOptionPane.showMessageDialog(null,"Une date est ultérieur à autjourd'hui. Merci de ressayer.");
+                    return;
+                }
 
                 String dateBegin = formatter.format(begin);
                 String dateEnd = formatter.format(end);
@@ -380,13 +394,15 @@ public class ViewIndicatorAll implements ListenerIndicator {
 
                 try {
                     cci.setNewTable(dateBegin,
-                        dateEnd,
-                        typeAdvisor,
-                        typeLoan,
-                        typeCustomer,
-                        user.getAgency());
+                            dateEnd,
+                            typeAdvisor,
+                            typeLoan,
+                            typeCustomer,
+                            user.getAgency());
+                } catch (ParseException ex) {
+                    Logger.getLogger(ViewIndicatorAll.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch (Exception e) {}
+
             }
         });
 
