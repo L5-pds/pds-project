@@ -38,6 +38,10 @@ public class FixedRateSimulation {
     public void setInterestRate(double r) {
         interestRate = r;
     }
+    
+    public void setCustomer(Customer c) {
+        customer = c;
+    }
 
     public String getWording() {
         return wording;
@@ -77,5 +81,9 @@ public class FixedRateSimulation {
     
     public double getOwedAmount() {
         return owedAmount;
+    }
+    
+    public void setLoanWording(String w) {
+        wording = w;
     }
 }

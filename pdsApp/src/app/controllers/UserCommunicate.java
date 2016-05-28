@@ -536,6 +536,38 @@ public class UserCommunicate implements Runnable {
             case "FIXEDRATE": // fixed rate loan simulation case
                 switch (typeObject) {
                     // case : get loan types list
+                    case "GetCustomers" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting customers");
+                        
+                        String nom = object;
+                        String sqlQuery4;
+                        ResultSet rs4;
+                        ArrayList<Customer> customersList = new ArrayList<>();
+                        
+                        // get the loan types
+                        sqlQuery4 = "SELECT id_client, last_name, first_name, mail "
+                                + "FROM t_client "
+                                + "WHERE (first_name ilike '" + nom + "%' "
+                                + "OR last_name like '" + nom + "%');";
+                        rs4 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery4);
+                        
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs4.next()) {
+                            Customer c = new Customer();
+                            c.setId(rs4.getInt("id_client"));
+                            c.setLastName(rs4.getString("last_name"));
+                            c.setFirstName(rs4.getString("first_name"));
+                            c.setMail(rs4.getString("mail"));
+                            customersList.add(c);
+                        }
+                        
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(customersList));
+                        out.flush();
+                        
+                        break;
+                    
+                    // case : get loan types list
                     case "GetLoanTypes" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
                         
@@ -604,6 +636,30 @@ public class UserCommunicate implements Runnable {
                         
                         // serialize and send the fixed rate loan simulation to the client
                         out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
+                        out.flush();
+                        
+                        break;
+                        
+                    case "SaveLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting fixed rate loan save");
+                        String sqlQuery3;
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs1 = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        // insert the loan simulation into the database
+                        sqlQuery3 = "insert into t_loan_simulation(wording, amount, length_loan, type_rate_loan, id_type_loan, id_client, monthly_payment) "
+                                + "values('" + frs1.getWording() + "',"
+                                + frs1.getAmount() + ","
+                                + frs1.getDuration() + ","
+                                + "'FIXE',"
+                                + frs1.getLoanType().getId() + ","
+                                + "1," // frs1.getCustomer().getId()
+                                + frs1.getMonthlyPayment() + ");";
+                        Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery3);
+                        
+                        // respond to the client
+                        out.println("SUCCESS/.");
                         out.flush();
                         
                         break;

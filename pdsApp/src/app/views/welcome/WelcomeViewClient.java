@@ -188,7 +188,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     JButton button6 = new javax.swing.JButton();
     button6.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button6.setText("Alexandre");
+    button6.setText("Simuler un prêt à taux fixe");
     button6.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {

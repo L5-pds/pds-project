@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.0
 -- Dumped by pg_dump version 9.5.0
 
--- Started on 2016-05-28 04:09:36
+-- Started on 2016-05-28 04:44:19
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,7 +39,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 180 (class 1259 OID 18135)
+-- TOC entry 180 (class 1259 OID 18314)
 -- Name: t_adress; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -55,7 +55,7 @@ CREATE TABLE t_adress (
 ALTER TABLE t_adress OWNER TO pds_user;
 
 --
--- TOC entry 181 (class 1259 OID 18138)
+-- TOC entry 181 (class 1259 OID 18317)
 -- Name: _t_adress_id_adress_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -79,7 +79,7 @@ ALTER SEQUENCE _t_adress_id_adress_seq OWNED BY t_adress.id_adress;
 
 
 --
--- TOC entry 182 (class 1259 OID 18140)
+-- TOC entry 182 (class 1259 OID 18319)
 -- Name: t_advisor; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -98,7 +98,7 @@ CREATE TABLE t_advisor (
 ALTER TABLE t_advisor OWNER TO pds_user;
 
 --
--- TOC entry 183 (class 1259 OID 18143)
+-- TOC entry 183 (class 1259 OID 18322)
 -- Name: t_advisor_id_advisor_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -122,7 +122,7 @@ ALTER SEQUENCE t_advisor_id_advisor_seq OWNED BY t_advisor.id_advisor;
 
 
 --
--- TOC entry 184 (class 1259 OID 18145)
+-- TOC entry 184 (class 1259 OID 18324)
 -- Name: t_agency; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -138,7 +138,7 @@ CREATE TABLE t_agency (
 ALTER TABLE t_agency OWNER TO pds_user;
 
 --
--- TOC entry 185 (class 1259 OID 18148)
+-- TOC entry 185 (class 1259 OID 18327)
 -- Name: t_agency_id_agency_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -162,7 +162,7 @@ ALTER SEQUENCE t_agency_id_agency_seq OWNED BY t_agency.id_agency;
 
 
 --
--- TOC entry 186 (class 1259 OID 18150)
+-- TOC entry 186 (class 1259 OID 18329)
 -- Name: t_client; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -183,7 +183,7 @@ CREATE TABLE t_client (
 ALTER TABLE t_client OWNER TO pds_user;
 
 --
--- TOC entry 187 (class 1259 OID 18153)
+-- TOC entry 187 (class 1259 OID 18332)
 -- Name: t_client_details_id_client_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -198,7 +198,7 @@ CREATE SEQUENCE t_client_details_id_client_seq
 ALTER TABLE t_client_details_id_client_seq OWNER TO pds_user;
 
 --
--- TOC entry 188 (class 1259 OID 18155)
+-- TOC entry 188 (class 1259 OID 18334)
 -- Name: t_client_details; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -217,7 +217,7 @@ CREATE TABLE t_client_details (
 ALTER TABLE t_client_details OWNER TO pds_user;
 
 --
--- TOC entry 189 (class 1259 OID 18159)
+-- TOC entry 189 (class 1259 OID 18338)
 -- Name: t_client_details_referency_id_referency_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -232,7 +232,7 @@ CREATE SEQUENCE t_client_details_referency_id_referency_seq
 ALTER TABLE t_client_details_referency_id_referency_seq OWNER TO pds_user;
 
 --
--- TOC entry 190 (class 1259 OID 18161)
+-- TOC entry 190 (class 1259 OID 18340)
 -- Name: t_client_details_referency; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -245,7 +245,7 @@ CREATE TABLE t_client_details_referency (
 ALTER TABLE t_client_details_referency OWNER TO pds_user;
 
 --
--- TOC entry 191 (class 1259 OID 18165)
+-- TOC entry 191 (class 1259 OID 18344)
 -- Name: t_client_id_client_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -269,7 +269,7 @@ ALTER SEQUENCE t_client_id_client_seq OWNED BY t_client.id_client;
 
 
 --
--- TOC entry 201 (class 1259 OID 18302)
+-- TOC entry 192 (class 1259 OID 18346)
 -- Name: t_insurance; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -284,7 +284,7 @@ CREATE TABLE t_insurance (
 ALTER TABLE t_insurance OWNER TO pds_user;
 
 --
--- TOC entry 200 (class 1259 OID 18300)
+-- TOC entry 193 (class 1259 OID 18349)
 -- Name: t_insurance_id_insurance_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -300,7 +300,7 @@ ALTER TABLE t_insurance_id_insurance_seq OWNER TO pds_user;
 
 --
 -- TOC entry 2241 (class 0 OID 0)
--- Dependencies: 200
+-- Dependencies: 193
 -- Name: t_insurance_id_insurance_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -308,7 +308,7 @@ ALTER SEQUENCE t_insurance_id_insurance_seq OWNED BY t_insurance.id_insurance;
 
 
 --
--- TOC entry 192 (class 1259 OID 18167)
+-- TOC entry 194 (class 1259 OID 18351)
 -- Name: t_loan; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -329,7 +329,7 @@ CREATE TABLE t_loan (
 ALTER TABLE t_loan OWNER TO pds_user;
 
 --
--- TOC entry 193 (class 1259 OID 18170)
+-- TOC entry 195 (class 1259 OID 18354)
 -- Name: t_loan_details; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -345,7 +345,7 @@ CREATE TABLE t_loan_details (
 ALTER TABLE t_loan_details OWNER TO pds_user;
 
 --
--- TOC entry 194 (class 1259 OID 18173)
+-- TOC entry 196 (class 1259 OID 18357)
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -361,7 +361,7 @@ ALTER TABLE t_loan_details_id_details_seq OWNER TO pds_user;
 
 --
 -- TOC entry 2242 (class 0 OID 0)
--- Dependencies: 194
+-- Dependencies: 196
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -369,7 +369,7 @@ ALTER SEQUENCE t_loan_details_id_details_seq OWNED BY t_loan_details.id_details;
 
 
 --
--- TOC entry 195 (class 1259 OID 18175)
+-- TOC entry 197 (class 1259 OID 18359)
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -385,7 +385,7 @@ ALTER TABLE t_loan_id_loan_seq OWNER TO pds_user;
 
 --
 -- TOC entry 2243 (class 0 OID 0)
--- Dependencies: 195
+-- Dependencies: 197
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -393,7 +393,7 @@ ALTER SEQUENCE t_loan_id_loan_seq OWNED BY t_loan.id_loan;
 
 
 --
--- TOC entry 196 (class 1259 OID 18177)
+-- TOC entry 198 (class 1259 OID 18361)
 -- Name: t_loan_simulation; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -414,7 +414,7 @@ CREATE TABLE t_loan_simulation (
 ALTER TABLE t_loan_simulation OWNER TO pds_user;
 
 --
--- TOC entry 197 (class 1259 OID 18180)
+-- TOC entry 199 (class 1259 OID 18364)
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -430,7 +430,7 @@ ALTER TABLE t_loan_simulation_id_loan_seq OWNER TO pds_user;
 
 --
 -- TOC entry 2244 (class 0 OID 0)
--- Dependencies: 197
+-- Dependencies: 199
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -438,7 +438,7 @@ ALTER SEQUENCE t_loan_simulation_id_loan_seq OWNED BY t_loan_simulation.id_loan;
 
 
 --
--- TOC entry 198 (class 1259 OID 18182)
+-- TOC entry 200 (class 1259 OID 18366)
 -- Name: t_type_loan; Type: TABLE; Schema: public; Owner: pds_user
 --
 
@@ -456,7 +456,7 @@ CREATE TABLE t_type_loan (
 ALTER TABLE t_type_loan OWNER TO pds_user;
 
 --
--- TOC entry 199 (class 1259 OID 18185)
+-- TOC entry 201 (class 1259 OID 18369)
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -472,7 +472,7 @@ ALTER TABLE t_type_loan_id_type_loan_seq OWNER TO pds_user;
 
 --
 -- TOC entry 2245 (class 0 OID 0)
--- Dependencies: 199
+-- Dependencies: 201
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -480,7 +480,7 @@ ALTER SEQUENCE t_type_loan_id_type_loan_seq OWNED BY t_type_loan.id_type_loan;
 
 
 --
--- TOC entry 2041 (class 2604 OID 18187)
+-- TOC entry 2041 (class 2604 OID 18371)
 -- Name: id_adress; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -488,7 +488,7 @@ ALTER TABLE ONLY t_adress ALTER COLUMN id_adress SET DEFAULT nextval('_t_adress_
 
 
 --
--- TOC entry 2042 (class 2604 OID 18188)
+-- TOC entry 2042 (class 2604 OID 18372)
 -- Name: id_advisor; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -496,7 +496,7 @@ ALTER TABLE ONLY t_advisor ALTER COLUMN id_advisor SET DEFAULT nextval('t_adviso
 
 
 --
--- TOC entry 2043 (class 2604 OID 18189)
+-- TOC entry 2043 (class 2604 OID 18373)
 -- Name: id_agency; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -504,7 +504,7 @@ ALTER TABLE ONLY t_agency ALTER COLUMN id_agency SET DEFAULT nextval('t_agency_i
 
 
 --
--- TOC entry 2044 (class 2604 OID 18190)
+-- TOC entry 2044 (class 2604 OID 18374)
 -- Name: id_client; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -512,7 +512,7 @@ ALTER TABLE ONLY t_client ALTER COLUMN id_client SET DEFAULT nextval('t_client_i
 
 
 --
--- TOC entry 2051 (class 2604 OID 18305)
+-- TOC entry 2047 (class 2604 OID 18375)
 -- Name: id_insurance; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -520,7 +520,7 @@ ALTER TABLE ONLY t_insurance ALTER COLUMN id_insurance SET DEFAULT nextval('t_in
 
 
 --
--- TOC entry 2047 (class 2604 OID 18191)
+-- TOC entry 2048 (class 2604 OID 18376)
 -- Name: id_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -528,7 +528,7 @@ ALTER TABLE ONLY t_loan ALTER COLUMN id_loan SET DEFAULT nextval('t_loan_id_loan
 
 
 --
--- TOC entry 2048 (class 2604 OID 18192)
+-- TOC entry 2049 (class 2604 OID 18377)
 -- Name: id_details; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -536,7 +536,7 @@ ALTER TABLE ONLY t_loan_details ALTER COLUMN id_details SET DEFAULT nextval('t_l
 
 
 --
--- TOC entry 2049 (class 2604 OID 18193)
+-- TOC entry 2050 (class 2604 OID 18378)
 -- Name: id_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -544,7 +544,7 @@ ALTER TABLE ONLY t_loan_simulation ALTER COLUMN id_loan SET DEFAULT nextval('t_l
 
 
 --
--- TOC entry 2050 (class 2604 OID 18194)
+-- TOC entry 2051 (class 2604 OID 18379)
 -- Name: id_type_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -561,7 +561,7 @@ SELECT pg_catalog.setval('_t_adress_id_adress_seq', 1, false);
 
 
 --
--- TOC entry 2207 (class 0 OID 18135)
+-- TOC entry 2207 (class 0 OID 18314)
 -- Dependencies: 180
 -- Data for Name: t_adress; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -6334,7 +6334,7 @@ COPY t_adress (id_adress, street_nb, street_name, city_name, zip_code) FROM stdi
 
 
 --
--- TOC entry 2209 (class 0 OID 18140)
+-- TOC entry 2209 (class 0 OID 18319)
 -- Dependencies: 182
 -- Data for Name: t_advisor; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -6371,7 +6371,7 @@ SELECT pg_catalog.setval('t_advisor_id_advisor_seq', 1, false);
 
 
 --
--- TOC entry 2211 (class 0 OID 18145)
+-- TOC entry 2211 (class 0 OID 18324)
 -- Dependencies: 184
 -- Data for Name: t_agency; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -6392,7 +6392,7 @@ SELECT pg_catalog.setval('t_agency_id_agency_seq', 2, true);
 
 
 --
--- TOC entry 2213 (class 0 OID 18150)
+-- TOC entry 2213 (class 0 OID 18329)
 -- Dependencies: 186
 -- Data for Name: t_client; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -25201,7 +25201,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 
 
 --
--- TOC entry 2215 (class 0 OID 18155)
+-- TOC entry 2215 (class 0 OID 18334)
 -- Dependencies: 188
 -- Data for Name: t_client_details; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -44019,7 +44019,7 @@ SELECT pg_catalog.setval('t_client_details_id_client_seq', 1, false);
 
 
 --
--- TOC entry 2217 (class 0 OID 18161)
+-- TOC entry 2217 (class 0 OID 18340)
 -- Dependencies: 190
 -- Data for Name: t_client_details_referency; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
@@ -44050,8 +44050,8 @@ SELECT pg_catalog.setval('t_client_id_client_seq', 1, false);
 
 
 --
--- TOC entry 2228 (class 0 OID 18302)
--- Dependencies: 201
+-- TOC entry 2219 (class 0 OID 18346)
+-- Dependencies: 192
 -- Data for Name: t_insurance; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -44059,18 +44059,18 @@ COPY t_insurance (id_insurance, id_type_loan, rate, wording) FROM stdin;
 1	1	0.71999999999999997	Assurance décès
 2	2	0.35999999999999999	Assurance décès
 3	3	1.1599999999999999	Assurance décès
-4	1	0.96999999999999997	Assurance décès/invalidité
-5	2	0.63	Assurance décès/invalidité
-6	3	1.47	Assurance décès/invalidité
-7	1	1.0900000000000001	Assurance décès/invalidité/incapacité
-8	2	0.78000000000000003	Assurance décès/invalidité/incapacité
-9	3	1.6499999999999999	Assurance décès/invalidité/incapacité
+4	1	0.96999999999999997	Assurance décès-invalidité
+5	2	0.63	Assurance décès-invalidité
+6	3	1.47	Assurance décès-invalidité
+7	1	1.0900000000000001	Assurance décès-invalidité-incapacité
+8	2	0.78000000000000003	Assurance décès-invalidité-incapacité
+9	3	1.6499999999999999	Assurance décès-invalidité-incapacité
 \.
 
 
 --
 -- TOC entry 2252 (class 0 OID 0)
--- Dependencies: 200
+-- Dependencies: 193
 -- Name: t_insurance_id_insurance_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -44078,8 +44078,8 @@ SELECT pg_catalog.setval('t_insurance_id_insurance_seq', 9, true);
 
 
 --
--- TOC entry 2219 (class 0 OID 18167)
--- Dependencies: 192
+-- TOC entry 2221 (class 0 OID 18351)
+-- Dependencies: 194
 -- Data for Name: t_loan; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -48030,8 +48030,8 @@ COPY t_loan (id_loan, wording, amount, length_loan, type_length_loan, type_rate_
 
 
 --
--- TOC entry 2220 (class 0 OID 18170)
--- Dependencies: 193
+-- TOC entry 2222 (class 0 OID 18354)
+-- Dependencies: 195
 -- Data for Name: t_loan_details; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -48041,7 +48041,7 @@ COPY t_loan_details (id_details, year_loan, rate, monthly, id_loan) FROM stdin;
 
 --
 -- TOC entry 2253 (class 0 OID 0)
--- Dependencies: 194
+-- Dependencies: 196
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -48050,7 +48050,7 @@ SELECT pg_catalog.setval('t_loan_details_id_details_seq', 1, false);
 
 --
 -- TOC entry 2254 (class 0 OID 0)
--- Dependencies: 195
+-- Dependencies: 197
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -48058,8 +48058,8 @@ SELECT pg_catalog.setval('t_loan_id_loan_seq', 1, false);
 
 
 --
--- TOC entry 2223 (class 0 OID 18177)
--- Dependencies: 196
+-- TOC entry 2225 (class 0 OID 18361)
+-- Dependencies: 198
 -- Data for Name: t_loan_simulation; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -50584,7 +50584,7 @@ COPY t_loan_simulation (id_loan, wording, amount, length_loan, type_length_loan,
 
 --
 -- TOC entry 2255 (class 0 OID 0)
--- Dependencies: 197
+-- Dependencies: 199
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -50592,8 +50592,8 @@ SELECT pg_catalog.setval('t_loan_simulation_id_loan_seq', 1, true);
 
 
 --
--- TOC entry 2225 (class 0 OID 18182)
--- Dependencies: 198
+-- TOC entry 2227 (class 0 OID 18366)
+-- Dependencies: 200
 -- Data for Name: t_type_loan; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -50606,7 +50606,7 @@ COPY t_type_loan (id_type_loan, wording, rate, length_min, length_max, amount_mi
 
 --
 -- TOC entry 2256 (class 0 OID 0)
--- Dependencies: 199
+-- Dependencies: 201
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -50614,7 +50614,7 @@ SELECT pg_catalog.setval('t_type_loan_id_type_loan_seq', 3, true);
 
 
 --
--- TOC entry 2053 (class 2606 OID 18196)
+-- TOC entry 2053 (class 2606 OID 18381)
 -- Name: prk_constraint__t_adress; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50623,7 +50623,7 @@ ALTER TABLE ONLY t_adress
 
 
 --
--- TOC entry 2061 (class 2606 OID 18198)
+-- TOC entry 2061 (class 2606 OID 18383)
 -- Name: prk_constraint__t_client_details; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50632,7 +50632,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2063 (class 2606 OID 18200)
+-- TOC entry 2063 (class 2606 OID 18385)
 -- Name: prk_constraint__t_client_details_referency; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50641,7 +50641,7 @@ ALTER TABLE ONLY t_client_details_referency
 
 
 --
--- TOC entry 2055 (class 2606 OID 18202)
+-- TOC entry 2055 (class 2606 OID 18387)
 -- Name: prk_constraint_t_advisor; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50650,7 +50650,7 @@ ALTER TABLE ONLY t_advisor
 
 
 --
--- TOC entry 2057 (class 2606 OID 18204)
+-- TOC entry 2057 (class 2606 OID 18389)
 -- Name: prk_constraint_t_agency; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50659,7 +50659,7 @@ ALTER TABLE ONLY t_agency
 
 
 --
--- TOC entry 2059 (class 2606 OID 18206)
+-- TOC entry 2059 (class 2606 OID 18391)
 -- Name: prk_constraint_t_client; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50668,7 +50668,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- TOC entry 2065 (class 2606 OID 18208)
+-- TOC entry 2067 (class 2606 OID 18393)
 -- Name: prk_constraint_t_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50677,7 +50677,7 @@ ALTER TABLE ONLY t_loan
 
 
 --
--- TOC entry 2067 (class 2606 OID 18210)
+-- TOC entry 2069 (class 2606 OID 18395)
 -- Name: prk_constraint_t_loan_details; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50686,7 +50686,7 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
--- TOC entry 2071 (class 2606 OID 18212)
+-- TOC entry 2073 (class 2606 OID 18397)
 -- Name: prk_constraint_t_loan_simulation; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50695,7 +50695,7 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
--- TOC entry 2073 (class 2606 OID 18214)
+-- TOC entry 2075 (class 2606 OID 18399)
 -- Name: prk_constraint_t_type_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50704,7 +50704,7 @@ ALTER TABLE ONLY t_type_loan
 
 
 --
--- TOC entry 2075 (class 2606 OID 18307)
+-- TOC entry 2065 (class 2606 OID 18401)
 -- Name: t_insurance_pkey; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50713,7 +50713,7 @@ ALTER TABLE ONLY t_insurance
 
 
 --
--- TOC entry 2069 (class 2606 OID 18216)
+-- TOC entry 2071 (class 2606 OID 18403)
 -- Name: t_loan_details_year_loan_key; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50722,7 +50722,7 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
--- TOC entry 2076 (class 2606 OID 18217)
+-- TOC entry 2076 (class 2606 OID 18404)
 -- Name: fk_t_advisor_id_agency; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50731,7 +50731,7 @@ ALTER TABLE ONLY t_advisor
 
 
 --
--- TOC entry 2077 (class 2606 OID 18222)
+-- TOC entry 2077 (class 2606 OID 18409)
 -- Name: fk_t_agency_id_adress; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50740,7 +50740,7 @@ ALTER TABLE ONLY t_agency
 
 
 --
--- TOC entry 2080 (class 2606 OID 18227)
+-- TOC entry 2080 (class 2606 OID 18414)
 -- Name: fk_t_client_details_alcohol; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50749,7 +50749,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2081 (class 2606 OID 18232)
+-- TOC entry 2081 (class 2606 OID 18419)
 -- Name: fk_t_client_details_corpulence; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50758,7 +50758,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2082 (class 2606 OID 18237)
+-- TOC entry 2082 (class 2606 OID 18424)
 -- Name: fk_t_client_details_disease; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50767,7 +50767,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2083 (class 2606 OID 18242)
+-- TOC entry 2083 (class 2606 OID 18429)
 -- Name: fk_t_client_details_disease_risk; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50776,7 +50776,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2084 (class 2606 OID 18247)
+-- TOC entry 2084 (class 2606 OID 18434)
 -- Name: fk_t_client_details_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50785,7 +50785,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2085 (class 2606 OID 18252)
+-- TOC entry 2085 (class 2606 OID 18439)
 -- Name: fk_t_client_details_job_risk; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50794,7 +50794,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2086 (class 2606 OID 18257)
+-- TOC entry 2086 (class 2606 OID 18444)
 -- Name: fk_t_client_details_smoker; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50803,7 +50803,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- TOC entry 2078 (class 2606 OID 18262)
+-- TOC entry 2078 (class 2606 OID 18449)
 -- Name: fk_t_client_id_adress; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50812,7 +50812,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- TOC entry 2079 (class 2606 OID 18267)
+-- TOC entry 2079 (class 2606 OID 18454)
 -- Name: fk_t_client_id_agency; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50821,7 +50821,7 @@ ALTER TABLE ONLY t_client
 
 
 --
--- TOC entry 2089 (class 2606 OID 18272)
+-- TOC entry 2090 (class 2606 OID 18459)
 -- Name: fk_t_loan_details_id_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50830,7 +50830,7 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
--- TOC entry 2087 (class 2606 OID 18277)
+-- TOC entry 2088 (class 2606 OID 18464)
 -- Name: fk_t_loan_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50839,7 +50839,7 @@ ALTER TABLE ONLY t_loan
 
 
 --
--- TOC entry 2088 (class 2606 OID 18282)
+-- TOC entry 2089 (class 2606 OID 18469)
 -- Name: fk_t_loan_id_type_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50848,7 +50848,7 @@ ALTER TABLE ONLY t_loan
 
 
 --
--- TOC entry 2090 (class 2606 OID 18287)
+-- TOC entry 2091 (class 2606 OID 18474)
 -- Name: fk_t_loan_simulation_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50857,7 +50857,7 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
--- TOC entry 2091 (class 2606 OID 18292)
+-- TOC entry 2092 (class 2606 OID 18479)
 -- Name: fk_t_loan_simulation_id_type_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50866,7 +50866,7 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
--- TOC entry 2092 (class 2606 OID 18308)
+-- TOC entry 2087 (class 2606 OID 18484)
 -- Name: t_insurance_id_type_loan_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50886,7 +50886,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-05-28 04:09:36
+-- Completed on 2016-05-28 04:44:20
 
 --
 -- PostgreSQL database dump complete

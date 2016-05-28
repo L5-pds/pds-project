@@ -51,6 +51,10 @@ public class Customer {
     this.birth = birth;
     this.gender = gender;
   }
+  
+  public String toString() {
+      return firstName + " " + lastName + " ; " + mail;
+  }
 
   public void serverGetAllUser(int indexPool) {
 
@@ -62,6 +66,22 @@ public class Customer {
 
   public void getCustomerCount() {
 
+  }
+  
+  public void setId(int i) {
+      id = i;
+  }
+  
+  public void setLastName(String ln) {
+      lastName = ln;
+  }
+  
+  public void setFirstName(String fn) {
+      firstName = fn;
+  }
+  
+  public void setMail(String m) {
+      mail = m;
   }
 
 }
