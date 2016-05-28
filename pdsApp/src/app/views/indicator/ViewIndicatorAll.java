@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -74,7 +75,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         topPan.setLayout(new GridLayout(0, 2, 0, 0));
         topPan.setBorder((BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255, 255, 255, 100))));
         topPan.add(topPanLeft);
-        topPan.add(makeBarChart("Interêts de l'agence par année",
+        topPan.add(makeBarChart("Interêts de l'agence par année*",
                 "Année",
                 "Interêts",
                 cci.getBarDatasetLoanPerTypeByYears(user.getAgency())));
@@ -176,6 +177,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         buttonRefresh = new JLabel(new ImageIcon(im));
         buttonRefresh.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonRefresh.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonRefresh.setToolTipText("Rafraichir la fenêtre");
         buttonRefresh.addMouseListener(new MouseAdapter()   {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -199,6 +201,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         buttonPrint = new JLabel(new ImageIcon(im));
         buttonPrint.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPrint.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonPrint.setToolTipText("Imprimer le rapport");
         buttonPrint.addMouseListener(new MouseAdapter()   {
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinterHover.png")).getImage().getScaledInstance(50, 50, 1);
@@ -217,6 +220,7 @@ public class ViewIndicatorAll implements ListenerIndicator {
         buttonAdvisor = new JLabel(new ImageIcon(im));
         buttonAdvisor.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonAdvisor.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonAdvisor.setToolTipText("Analyse par conseillés");
         buttonAdvisor.addMouseListener(new MouseAdapter()   {
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconUserHover.png")).getImage().getScaledInstance(50, 50, 1);
@@ -235,7 +239,16 @@ public class ViewIndicatorAll implements ListenerIndicator {
         buttonHelp = new JLabel(new ImageIcon(im));
         buttonHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonHelp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonHelp.setToolTipText("Afficher le manuel");
         buttonHelp.addMouseListener(new MouseAdapter()   {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    cci.openManual();
+                } catch (IOException ex) {
+                    Logger.getLogger(ViewIndicatorAll.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             public void mouseEntered(MouseEvent e) {
                 Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelpHover.png")).getImage().getScaledInstance(50, 50, 1);
                 buttonHelp.setIcon(new ImageIcon(im));
@@ -260,8 +273,8 @@ public class ViewIndicatorAll implements ListenerIndicator {
         thePane.add(buttonRefresh);
         thePane.add(new JLabel(" "));
         thePane.add(buttonPrint);
-        thePane.add(new JLabel(" "));
-        thePane.add(buttonAdvisor);
+        //thePane.add(new JLabel(" "));
+        //thePane.add(buttonAdvisor);
         thePane.add(new JLabel(" "));
         thePane.add(buttonHelp);
         return thePane;
@@ -453,7 +466,8 @@ public class ViewIndicatorAll implements ListenerIndicator {
         lblInformation.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblInformation.setText("Utilisateur: " + user.getFirstName() + " " + user.getLastName() +
                 "  |  Agence: " + user.getAgencyInfo().getName() +
-                "  |  Date: " + dateFormat.format(actuelle));
+                "  |  Date: " + dateFormat.format(actuelle) +
+                "  |  * Les prêts de type immobilier sont en k€");
 
         // Create the panel
         JPanel thePane = new JPanel();

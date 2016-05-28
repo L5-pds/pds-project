@@ -236,4 +236,8 @@ public class ControllerIndicator {
         return dataset;
     }
 
+    public void openManual() throws IOException    {
+        java.awt.Desktop.getDesktop().open(new File(WelcomeViewClient.class.getResource("/document/Manual.pdf").getFile()));
+    }
+    
 }

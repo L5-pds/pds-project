@@ -141,5 +141,11 @@ public class WelcomeControllerClient {
       FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m,socket);
       FixedRateSimulationView v = new FixedRateSimulationView(c,listener.getBody());
   }
+  
+  
+    public void openManual() throws IOException    {
+        java.awt.Desktop.getDesktop().open(new File(WelcomeViewClient.class.getResource("/document/Manual.pdf").getFile()));
+    }
+    
 
 }

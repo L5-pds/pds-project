@@ -231,7 +231,12 @@ public class UserCommunicate implements Runnable {
                                 nbLoan++;
                                 moyAmount = moyAmount + response.getDouble("amount");
                                 moyLenght = moyLenght + response.getInt("length_loan");
-                                allBenefit = allBenefit + ((response.getDouble("amount") * response.getDouble("rate")) - response.getDouble("amount"));
+                                
+                                double montant = response.getDouble("amount");
+                                int mensualite = response.getInt("length_loan");
+                                double thetaux = response.getDouble("rate");
+                                
+                                allBenefit = allBenefit + ((((montant*(thetaux/100)*(Math.pow((1+thetaux/100),mensualite)))/(Math.pow((1+thetaux/100),mensualite)-1))*mensualite)-montant);
                             
                                 listing.add(response.getString("first_name") + " " + response.getString("last_name") + ";" + 
                                         response.getString("login") + ";" + 
@@ -336,19 +341,25 @@ public class UserCommunicate implements Runnable {
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_type_loan.wording, t_advisor.login;";
                         */
-                        request = "SELECT ((t_type_loan.rate * t_loan.amount) - t_loan.amount) AS value, extract(year from t_loan.entry) AS column, t_type_loan.wording AS row " +
+                        request = "SELECT ((((t_loan.amount*(t_type_loan.rate/100)*(POW((1+t_type_loan.rate/100),t_loan.length_loan)))/(POW((1+t_type_loan.rate/100),t_loan.length_loan)-1))*t_loan.length_loan)-t_loan.amount) AS value, extract(year from t_loan.entry) AS column, t_type_loan.wording AS row " +
                                 "FROM t_loan, t_type_loan, t_advisor " +
                                 "WHERE t_loan.id_type_loan = t_type_loan.id_type_loan " +
                                 "AND t_advisor.id_advisor = t_loan.id_advisor " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "AND (extract(year from t_loan.entry)) > (extract(year from NOW()) - 10) " +
-                                "GROUP BY extract(year from t_loan.entry), t_type_loan.wording, t_type_loan.rate, t_loan.amount " + 
+                                "GROUP BY extract(year from t_loan.entry), t_type_loan.wording, t_type_loan.rate, t_loan.amount, t_loan.length_loan " + 
                                 "ORDER BY extract(year from t_loan.entry);";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetBarChart = new datasetBarChart();
                         if(response != null)    {
                             while (response.next())  {
-                                returnDatasetBarChart.addToCollect(response.getDouble("value"), response.getString("row"), response.getString("column"));
+                                
+                                if(response.getString("row").equals("Immobilier"))   {
+                                    returnDatasetBarChart.addToCollect(response.getDouble("value")/100, response.getString("row"), response.getString("column"));
+                                }else   {
+                                    returnDatasetBarChart.addToCollect(response.getDouble("value"), response.getString("row"), response.getString("column"));
+                                }
+                                
                             }
                             response.last();
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - " + response.getRow() + " line");
@@ -367,12 +378,12 @@ public class UserCommunicate implements Runnable {
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_advisor.login;";
                         */
-                        request = "SELECT t_advisor.login AS name, SUM((t_loan.amount * t_type_loan.rate) - t_loan.amount) AS value " +
+                        request = "SELECT t_advisor.login AS name, SUM((((t_loan.amount*(t_type_loan.rate/100)*(POW((1+(t_type_loan.rate/100)),t_loan.length_loan)))/(POW((1+(t_type_loan.rate/100)),t_loan.length_loan)-1))*t_loan.length_loan)-t_loan.amount) AS value " +
                                 "FROM t_advisor, t_loan, t_type_loan " +
                                 "WHERE t_advisor.id_advisor = t_loan.id_advisor " +
                                 "AND t_type_loan.id_type_loan = t_loan.id_type_loan " +
                                 "AND t_advisor.id_agency = " + object + " " +
-                                "GROUP BY t_advisor.login;";
+                                "GROUP BY t_advisor.login, t_loan.length_loan;";
                         
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetPieChart = new datasetPieChart();
