@@ -123,11 +123,11 @@ public class FixedRateSimulationControllerClient {
         model.setInsurance(ins);
     }
     
-    public float getBaseRate() {
+    public double getBaseRate() {
         return model.getLoanType().getRate();
     }
     
-    public float getInsuranceRate() {
+    public double getInsuranceRate() {
         return model.getInsurance().getRate();
     }
     
@@ -151,7 +151,7 @@ public class FixedRateSimulationControllerClient {
         return model.getLoanType().getMaxLength();
     }
     
-    public void setInsuranceRate(float rate) {
+    public void setInsuranceRate(double rate) {
         model.getInsurance().setRate(rate);
     }
     
@@ -163,7 +163,11 @@ public class FixedRateSimulationControllerClient {
         model.setAmount(amount);
     }
     
-    public void setInterestRate(float rate) {
+    public void setInterestRate(double rate) {
         model.setInterestRate(rate);
+    }
+    
+    public double getMonthlyPayment() {
+        return model.getMonthlyPayment();
     }
 }

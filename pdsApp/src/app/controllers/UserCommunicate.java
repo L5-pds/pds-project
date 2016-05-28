@@ -550,7 +550,7 @@ public class UserCommunicate implements Runnable {
                         
                         // fill an ArrayList with the insurances data taken from the database
                         while (rs1.next()) {
-                            loanTypesList.add(new LoanType(rs1.getInt("id_type_loan"), rs1.getString("wording"), rs1.getFloat("rate"), rs1.getInt("length_min"), rs1.getInt("length_max"), rs1.getInt("amount_min"), rs1.getInt("amount_max")));
+                            loanTypesList.add(new LoanType(rs1.getInt("id_type_loan"), rs1.getString("wording"), rs1.getDouble("rate"), rs1.getInt("length_min"), rs1.getInt("length_max"), rs1.getInt("amount_min"), rs1.getInt("amount_max")));
                         }
                         
                         // serialize and send the ArrayList to the client
@@ -577,7 +577,7 @@ public class UserCommunicate implements Runnable {
                         
                         // fill an ArrayList with the insurances data taken from the database
                         while (rs2.next()) {
-                            insurancesList.add(new Insurance(rs2.getInt("id_insurance"), rs2.getInt("id_type_loan"), rs2.getFloat("rate"), rs2.getString("wording")));
+                            insurancesList.add(new Insurance(rs2.getInt("id_insurance"), rs2.getInt("id_type_loan"), rs2.getDouble("rate"), rs2.getString("wording")));
                         }
                         
                         // serialize and send the ArrayList to the client
@@ -593,18 +593,18 @@ public class UserCommunicate implements Runnable {
                         // get the loan simulation data from the client
                         FixedRateSimulation frs = gsonSerial.unserializeFixedRateSimulation(object);
                         
-                        System.out.println("montant pret : " + frs.getAmount());
-                        System.out.println("duree pret : " + frs.getDuration());
-                        System.out.println("taux assurance : " + frs.getInsurance().getRate());
-                        System.out.println("taux intérêt : " + frs.getInterestRate());
+                        //System.out.println("montant pret : " + frs.getAmount());
+                        //System.out.println("duree pret : " + frs.getDuration());
+                        //System.out.println("taux assurance : " + frs.getInsurance().getRate());
+                        //System.out.println("taux intérêt : " + frs.getInterestRate());
                         
                         // calculate loan monthly payment
                         FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs); 
                         c.calculateMonthlyPayment();
                         
-                        // serialize and send the monthly payment value to the client
-                        //out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
-                        //out.flush();
+                        // serialize and send the fixed rate loan simulation to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
+                        out.flush();
                         
                         break;
                         

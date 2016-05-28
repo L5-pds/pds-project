@@ -14,15 +14,15 @@ public class FixedRateSimulationControllerServer {
         // get the data needed to calculate the monthly payment value
         int amount = model.getAmount();
         int duration = model.getDuration();
-        float totalRate = model.getInsurance().getRate() + model.getInterestRate();
+        double totalRate = model.getInsurance().getRate() + model.getInterestRate();
         
-        System.out.println("Total rate : " + totalRate);
+        //System.out.println("Total rate : " + totalRate);
         
         // calculate monthly payment
-        //float monthlyPayment = 1;
+        double monthlyPayment = (amount*((totalRate/100)/12))/(1-Math.pow((double)(1+((totalRate/100)/12)),(double)-duration));
         //System.out.println("monthly : " + monthlyPayment);
         
         // update the model
-        //model.setMonthlyPayment(monthlyPayment);
+        model.setMonthlyPayment(monthlyPayment);
     }
 }

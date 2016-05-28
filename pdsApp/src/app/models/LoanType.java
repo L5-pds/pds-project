@@ -4,13 +4,13 @@ public class LoanType {
     
     private int loanTypeId; // loan type id
     private String wording; // loan type wording
-    private float rate; // rate of the loan type
+    private double rate; // rate of the loan type
     private int minLength; // minimum length of the loan type in months
     private int maxLength; // maximum length of the loan type in months
     private int minAmount; // minimum amount of the loan type
     private int maxAmount; // maximum amount of the loan type
 
-    public LoanType(int id, String w, float r, int minL, int maxL, int minA, int maxA) {
+    public LoanType(int id, String w, double r, int minL, int maxL, int minA, int maxA) {
         loanTypeId = id;
         wording = w;
         rate = r;
@@ -35,7 +35,7 @@ public class LoanType {
     }
 
     // returns the rate of the loan type
-    public float getRate() {
+    public double getRate() {
         return rate;
     }
 

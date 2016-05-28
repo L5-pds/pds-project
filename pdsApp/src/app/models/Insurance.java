@@ -4,10 +4,10 @@ public class Insurance {
     
     private int insuranceId;
     private int loanTypeId;
-    private float rate;
+    private double rate;
     private String wording;
     
-    public Insurance(int id, int ltid, float r, String w) {
+    public Insurance(int id, int ltid, double r, String w) {
         insuranceId = id;
         loanTypeId = ltid;
         rate = r;
@@ -22,11 +22,11 @@ public class Insurance {
         return insuranceId;
     }
     
-    public float getRate() {
+    public double getRate() {
         return rate;
     }
     
-    public void setRate(float r) {
+    public void setRate(double r) {
         rate = r;
     } 
 }

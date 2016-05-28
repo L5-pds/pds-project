@@ -164,8 +164,8 @@ public class FixedRateSimulationView {
         SpinnerNumberModel smDuration = new SpinnerNumberModel(controller.getMinLength(), controller.getMinLength(), controller.getMaxLength(), 1);
         spDuration = new JSpinner(smDuration);
         txtFieldRate = new JTextField(5);
-        float baseRate = controller.getBaseRate();
-        txtFieldRate.setText(Float.toString(baseRate));
+        double baseRate = controller.getBaseRate();
+        txtFieldRate.setText(Double.toString(baseRate));
         txtFieldRate.getDocument().addDocumentListener(new TxtFieldRateDocumentListener());
         btnSimulate = new JButton("Simuler");
         lblTotalRate = new JLabel("tauxtal");
@@ -186,7 +186,7 @@ public class FixedRateSimulationView {
         
         gc.gridx = 1;
         gc.gridy = 2;
-        panel.add(new JLabel(Float.toString(baseRate)), gc);
+        panel.add(new JLabel(Double.toString(baseRate)), gc);
         
         gc.gridx = 0;
         gc.gridy = 3;
@@ -237,7 +237,20 @@ public class FixedRateSimulationView {
     }
     
     public void displayResult() {
+        // hide the JPanel
+        panel.setVisible(false);
+
+        // remove components from the JPanel
+        panel.removeAll();
         
+        panel.add(new JLabel("Monthly : " + controller.getMonthlyPayment()));
+        
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
+        
+        // display the JPanel
+        panel.setVisible(true);
     }
     
     public boolean isInteger(String s) {
@@ -314,7 +327,7 @@ public class FixedRateSimulationView {
             //Integer.parseInt(spDuration.getText());
             //(Integer) spAmount.getValue();
             int duration, amount;
-            controller.setInterestRate(Float.parseFloat(txtFieldRate.getText()));
+            controller.setInterestRate(Double.parseDouble(txtFieldRate.getText()));
             duration = (Integer) spDuration.getValue();
             controller.setDuration(duration);
             amount = (Integer) spAmount.getValue();

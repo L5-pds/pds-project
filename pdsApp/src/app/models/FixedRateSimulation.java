@@ -8,12 +8,12 @@ public class FixedRateSimulation {
     
     private int id;
     private String wording;
-    private float interestRate;
+    private double interestRate;
     private int amount;
     private int duration;
-    private float monthlyPayment;
-    private float totalRate; // total loan rate (interest rate + insurance rate)
-    private float owedAmount;
+    private double monthlyPayment;
+    private double totalRate; // total loan rate (interest rate + insurance rate)
+    private double owedAmount;
     
     public void setLoanType(LoanType lt) {
         type = lt;
@@ -35,7 +35,7 @@ public class FixedRateSimulation {
         return type;
     }
     
-    public void setInterestRate(float r) {
+    public void setInterestRate(double r) {
         interestRate = r;
     }
 
@@ -43,7 +43,7 @@ public class FixedRateSimulation {
         return wording;
     }
 
-    public float getInterestRate() {
+    public double getInterestRate() {
         return interestRate;
     }
 
@@ -55,15 +55,15 @@ public class FixedRateSimulation {
         return duration;
     }
 
-    public float getMonthlyPayment() {
+    public double getMonthlyPayment() {
         return monthlyPayment;
     }
     
-    public void setMonthlyPayment(float mp) {
+    public void setMonthlyPayment(double mp) {
         monthlyPayment = mp;
     }
     
-    public float getTotalRate() {
+    public double getTotalRate() {
         return totalRate;
     }
  
@@ -75,7 +75,7 @@ public class FixedRateSimulation {
         amount = a;
     }
     
-    public float getOwedAmount() {
+    public double getOwedAmount() {
         return owedAmount;
     }
 }
