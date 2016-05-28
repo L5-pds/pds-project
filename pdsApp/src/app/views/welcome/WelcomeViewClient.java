@@ -144,7 +144,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     JButton button2 = new javax.swing.JButton();
     button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button2.setText("Taux d'intérêt de l'agence");
+    button2.setText("Taux d'intï¿½rï¿½t de l'agence");
     button2.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -192,7 +192,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     button6.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wc.goAlexandre();
+            wc.goFixedRateSimulation();
         }
     });
     panelGlobal.add(button6);

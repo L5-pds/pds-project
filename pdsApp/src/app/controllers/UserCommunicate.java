@@ -533,12 +533,86 @@ public class UserCommunicate implements Runnable {
                         break;
                 }
                 break;
-            case "SPECIF_4": //Spécifique ALEXANDRE
+            case "FIXEDRATE": // fixed rate loan simulation case
                 switch (typeObject) {
-                    case "Address":
-                        //Coding
+                    // case : get loan types list
+                    case "GetLoanTypes" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
+                        
+                        String sqlQuery1;
+                        ResultSet rs1;
+                        ArrayList<LoanType> loanTypesList = new ArrayList<>();
+                        
+                        // get the loan types
+                        sqlQuery1 = "SELECT id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max "
+                                + "FROM t_type_loan;";
+                        rs1 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery1);
+                        
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs1.next()) {
+                            loanTypesList.add(new LoanType(rs1.getInt("id_type_loan"), rs1.getString("wording"), rs1.getDouble("rate"), rs1.getInt("length_min"), rs1.getInt("length_max"), rs1.getInt("amount_min"), rs1.getInt("amount_max")));
+                        }
+                        
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypesList));
+                        out.flush();
+                        
+                        break;
+                        
+                    // case : get the details of an insurance
+                    case "GetInsurances" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting insurances");
+                        
+                        String loanType = object;
+                        ArrayList<Insurance> insurancesList = new ArrayList<>();
+                        String sqlQuery2;
+                        ResultSet rs2;
+                        
+                        // get the insurances for the given loan type
+                        sqlQuery2 = "SELECT id_insurance, i.id_type_loan, i.rate, i.wording "
+                                + "FROM t_insurance i, t_type_loan t "
+                                + "WHERE i.id_type_loan = t.id_type_loan "
+                                + "AND i.id_type_loan = " + loanType + ";";
+                        rs2 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery2);
+                        
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs2.next()) {
+                            insurancesList.add(new Insurance(rs2.getInt("id_insurance"), rs2.getInt("id_type_loan"), rs2.getDouble("rate"), rs2.getString("wording")));
+                        }
+                        
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(insurancesList));
+                        out.flush();
+                        
+                        break;
+                        
+                    // case : simulate a fixed rate loan
+                    case "CalculateLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting fixed rate loan simulation");
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        //System.out.println("montant pret : " + frs.getAmount());
+                        //System.out.println("duree pret : " + frs.getDuration());
+                        //System.out.println("taux assurance : " + frs.getInsurance().getRate());
+                        //System.out.println("taux intérêt : " + frs.getInterestRate());
+                        
+                        // calculate loan monthly payment
+                        FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs); 
+                        c.calculateMonthlyPayment();
+                        
+                        // serialize and send the fixed rate loan simulation to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
+                        out.flush();
+                        
+                        break;
+                        
+                    // case : malformed query
                     default:
-                        //Coding
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - bad query");
+                        out.println("FAIL/.");
+                        out.flush();
                         break;
                 }
                 break;

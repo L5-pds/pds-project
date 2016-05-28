@@ -5,6 +5,8 @@ import app.models.other.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -62,6 +64,10 @@ public class Serialization {
   public String serializeDefaultTableModel(DefaultTableModel dpd) {
       return gson.toJson(dpd);
   }
+  
+  public String serializeFixedRateSimulation(FixedRateSimulation frs) {
+      return gson.toJson(frs);
+  }
 
   public Advisor unserializeUser(String u) {
       return gson.fromJson(u, Advisor.class);
@@ -107,4 +113,29 @@ public class Serialization {
       return gson.fromJson(dpd, SpecifRuben.class);
   }
 
+   public FixedRateSimulation unserializeFixedRateSimulation(String frs) {
+      return gson.fromJson(frs, FixedRateSimulation.class);
+  }
+   
+   public ArrayList<LoanType> unserializeLoanTypeArrayList(String lt) {
+    ArrayList<LoanType> loanTypesList = new ArrayList<>();
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(lt).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        loanTypesList.add(gson.fromJson(array.get(i), LoanType.class));
+    }
+
+    return loanTypesList;
+  }
+  
+  public ArrayList<Insurance> unserializeInsuranceArrayList(String ins) {
+    ArrayList<Insurance> insurancesList = new ArrayList<>();
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(ins).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        insurancesList.add(gson.fromJson(array.get(i), Insurance.class));
+    }
+    
+    return insurancesList;
+  }
 }

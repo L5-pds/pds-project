@@ -2,14 +2,21 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.0
+-- Dumped by pg_dump version 9.5.0
+
+-- Started on 2016-05-28 04:09:36
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
+-- TOC entry 202 (class 3079 OID 12355)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -17,6 +24,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
+-- TOC entry 2236 (class 0 OID 0)
+-- Dependencies: 202
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -30,7 +39,8 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: t_adress; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 180 (class 1259 OID 18135)
+-- Name: t_adress; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_adress (
@@ -42,9 +52,10 @@ CREATE TABLE t_adress (
 );
 
 
-ALTER TABLE public.t_adress OWNER TO pds_user;
+ALTER TABLE t_adress OWNER TO pds_user;
 
 --
+-- TOC entry 181 (class 1259 OID 18138)
 -- Name: _t_adress_id_adress_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -56,9 +67,11 @@ CREATE SEQUENCE _t_adress_id_adress_seq
     CACHE 1;
 
 
-ALTER TABLE public._t_adress_id_adress_seq OWNER TO pds_user;
+ALTER TABLE _t_adress_id_adress_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2237 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: _t_adress_id_adress_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -66,7 +79,8 @@ ALTER SEQUENCE _t_adress_id_adress_seq OWNED BY t_adress.id_adress;
 
 
 --
--- Name: t_advisor; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 182 (class 1259 OID 18140)
+-- Name: t_advisor; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_advisor (
@@ -81,9 +95,10 @@ CREATE TABLE t_advisor (
 );
 
 
-ALTER TABLE public.t_advisor OWNER TO pds_user;
+ALTER TABLE t_advisor OWNER TO pds_user;
 
 --
+-- TOC entry 183 (class 1259 OID 18143)
 -- Name: t_advisor_id_advisor_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -95,9 +110,11 @@ CREATE SEQUENCE t_advisor_id_advisor_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_advisor_id_advisor_seq OWNER TO pds_user;
+ALTER TABLE t_advisor_id_advisor_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2238 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: t_advisor_id_advisor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -105,7 +122,8 @@ ALTER SEQUENCE t_advisor_id_advisor_seq OWNED BY t_advisor.id_advisor;
 
 
 --
--- Name: t_agency; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 184 (class 1259 OID 18145)
+-- Name: t_agency; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_agency (
@@ -117,9 +135,10 @@ CREATE TABLE t_agency (
 );
 
 
-ALTER TABLE public.t_agency OWNER TO pds_user;
+ALTER TABLE t_agency OWNER TO pds_user;
 
 --
+-- TOC entry 185 (class 1259 OID 18148)
 -- Name: t_agency_id_agency_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -131,9 +150,11 @@ CREATE SEQUENCE t_agency_id_agency_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_agency_id_agency_seq OWNER TO pds_user;
+ALTER TABLE t_agency_id_agency_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2239 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: t_agency_id_agency_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -141,7 +162,8 @@ ALTER SEQUENCE t_agency_id_agency_seq OWNED BY t_agency.id_agency;
 
 
 --
--- Name: t_client; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 186 (class 1259 OID 18150)
+-- Name: t_client; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_client (
@@ -158,9 +180,10 @@ CREATE TABLE t_client (
 );
 
 
-ALTER TABLE public.t_client OWNER TO pds_user;
+ALTER TABLE t_client OWNER TO pds_user;
 
 --
+-- TOC entry 187 (class 1259 OID 18153)
 -- Name: t_client_details_id_client_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -172,10 +195,11 @@ CREATE SEQUENCE t_client_details_id_client_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_client_details_id_client_seq OWNER TO pds_user;
+ALTER TABLE t_client_details_id_client_seq OWNER TO pds_user;
 
 --
--- Name: t_client_details; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 188 (class 1259 OID 18155)
+-- Name: t_client_details; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_client_details (
@@ -190,9 +214,10 @@ CREATE TABLE t_client_details (
 );
 
 
-ALTER TABLE public.t_client_details OWNER TO pds_user;
+ALTER TABLE t_client_details OWNER TO pds_user;
 
 --
+-- TOC entry 189 (class 1259 OID 18159)
 -- Name: t_client_details_referency_id_referency_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -204,10 +229,11 @@ CREATE SEQUENCE t_client_details_referency_id_referency_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_client_details_referency_id_referency_seq OWNER TO pds_user;
+ALTER TABLE t_client_details_referency_id_referency_seq OWNER TO pds_user;
 
 --
--- Name: t_client_details_referency; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 190 (class 1259 OID 18161)
+-- Name: t_client_details_referency; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_client_details_referency (
@@ -216,9 +242,10 @@ CREATE TABLE t_client_details_referency (
 );
 
 
-ALTER TABLE public.t_client_details_referency OWNER TO pds_user;
+ALTER TABLE t_client_details_referency OWNER TO pds_user;
 
 --
+-- TOC entry 191 (class 1259 OID 18165)
 -- Name: t_client_id_client_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -230,9 +257,11 @@ CREATE SEQUENCE t_client_id_client_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_client_id_client_seq OWNER TO pds_user;
+ALTER TABLE t_client_id_client_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2240 (class 0 OID 0)
+-- Dependencies: 191
 -- Name: t_client_id_client_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -240,7 +269,47 @@ ALTER SEQUENCE t_client_id_client_seq OWNED BY t_client.id_client;
 
 
 --
--- Name: t_loan; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 201 (class 1259 OID 18302)
+-- Name: t_insurance; Type: TABLE; Schema: public; Owner: pds_user
+--
+
+CREATE TABLE t_insurance (
+    id_insurance integer NOT NULL,
+    id_type_loan integer,
+    rate double precision NOT NULL,
+    wording character varying(100) NOT NULL
+);
+
+
+ALTER TABLE t_insurance OWNER TO pds_user;
+
+--
+-- TOC entry 200 (class 1259 OID 18300)
+-- Name: t_insurance_id_insurance_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
+--
+
+CREATE SEQUENCE t_insurance_id_insurance_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE t_insurance_id_insurance_seq OWNER TO pds_user;
+
+--
+-- TOC entry 2241 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: t_insurance_id_insurance_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
+--
+
+ALTER SEQUENCE t_insurance_id_insurance_seq OWNED BY t_insurance.id_insurance;
+
+
+--
+-- TOC entry 192 (class 1259 OID 18167)
+-- Name: t_loan; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_loan (
@@ -257,10 +326,11 @@ CREATE TABLE t_loan (
 );
 
 
-ALTER TABLE public.t_loan OWNER TO pds_user;
+ALTER TABLE t_loan OWNER TO pds_user;
 
 --
--- Name: t_loan_details; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 193 (class 1259 OID 18170)
+-- Name: t_loan_details; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_loan_details (
@@ -272,9 +342,10 @@ CREATE TABLE t_loan_details (
 );
 
 
-ALTER TABLE public.t_loan_details OWNER TO pds_user;
+ALTER TABLE t_loan_details OWNER TO pds_user;
 
 --
+-- TOC entry 194 (class 1259 OID 18173)
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -286,9 +357,11 @@ CREATE SEQUENCE t_loan_details_id_details_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_loan_details_id_details_seq OWNER TO pds_user;
+ALTER TABLE t_loan_details_id_details_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2242 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -296,6 +369,7 @@ ALTER SEQUENCE t_loan_details_id_details_seq OWNED BY t_loan_details.id_details;
 
 
 --
+-- TOC entry 195 (class 1259 OID 18175)
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -307,9 +381,11 @@ CREATE SEQUENCE t_loan_id_loan_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_loan_id_loan_seq OWNER TO pds_user;
+ALTER TABLE t_loan_id_loan_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2243 (class 0 OID 0)
+-- Dependencies: 195
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -317,7 +393,8 @@ ALTER SEQUENCE t_loan_id_loan_seq OWNED BY t_loan.id_loan;
 
 
 --
--- Name: t_loan_simulation; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 196 (class 1259 OID 18177)
+-- Name: t_loan_simulation; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_loan_simulation (
@@ -334,9 +411,10 @@ CREATE TABLE t_loan_simulation (
 );
 
 
-ALTER TABLE public.t_loan_simulation OWNER TO pds_user;
+ALTER TABLE t_loan_simulation OWNER TO pds_user;
 
 --
+-- TOC entry 197 (class 1259 OID 18180)
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -348,9 +426,11 @@ CREATE SEQUENCE t_loan_simulation_id_loan_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_loan_simulation_id_loan_seq OWNER TO pds_user;
+ALTER TABLE t_loan_simulation_id_loan_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2244 (class 0 OID 0)
+-- Dependencies: 197
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -358,7 +438,8 @@ ALTER SEQUENCE t_loan_simulation_id_loan_seq OWNED BY t_loan_simulation.id_loan;
 
 
 --
--- Name: t_type_loan; Type: TABLE; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 198 (class 1259 OID 18182)
+-- Name: t_type_loan; Type: TABLE; Schema: public; Owner: pds_user
 --
 
 CREATE TABLE t_type_loan (
@@ -372,9 +453,10 @@ CREATE TABLE t_type_loan (
 );
 
 
-ALTER TABLE public.t_type_loan OWNER TO pds_user;
+ALTER TABLE t_type_loan OWNER TO pds_user;
 
 --
+-- TOC entry 199 (class 1259 OID 18185)
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE; Schema: public; Owner: pds_user
 --
 
@@ -386,9 +468,11 @@ CREATE SEQUENCE t_type_loan_id_type_loan_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_type_loan_id_type_loan_seq OWNER TO pds_user;
+ALTER TABLE t_type_loan_id_type_loan_seq OWNER TO pds_user;
 
 --
+-- TOC entry 2245 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pds_user
 --
 
@@ -396,6 +480,7 @@ ALTER SEQUENCE t_type_loan_id_type_loan_seq OWNED BY t_type_loan.id_type_loan;
 
 
 --
+-- TOC entry 2041 (class 2604 OID 18187)
 -- Name: id_adress; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -403,6 +488,7 @@ ALTER TABLE ONLY t_adress ALTER COLUMN id_adress SET DEFAULT nextval('_t_adress_
 
 
 --
+-- TOC entry 2042 (class 2604 OID 18188)
 -- Name: id_advisor; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -410,6 +496,7 @@ ALTER TABLE ONLY t_advisor ALTER COLUMN id_advisor SET DEFAULT nextval('t_adviso
 
 
 --
+-- TOC entry 2043 (class 2604 OID 18189)
 -- Name: id_agency; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -417,6 +504,7 @@ ALTER TABLE ONLY t_agency ALTER COLUMN id_agency SET DEFAULT nextval('t_agency_i
 
 
 --
+-- TOC entry 2044 (class 2604 OID 18190)
 -- Name: id_client; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -424,6 +512,15 @@ ALTER TABLE ONLY t_client ALTER COLUMN id_client SET DEFAULT nextval('t_client_i
 
 
 --
+-- TOC entry 2051 (class 2604 OID 18305)
+-- Name: id_insurance; Type: DEFAULT; Schema: public; Owner: pds_user
+--
+
+ALTER TABLE ONLY t_insurance ALTER COLUMN id_insurance SET DEFAULT nextval('t_insurance_id_insurance_seq'::regclass);
+
+
+--
+-- TOC entry 2047 (class 2604 OID 18191)
 -- Name: id_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -431,6 +528,7 @@ ALTER TABLE ONLY t_loan ALTER COLUMN id_loan SET DEFAULT nextval('t_loan_id_loan
 
 
 --
+-- TOC entry 2048 (class 2604 OID 18192)
 -- Name: id_details; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -438,6 +536,7 @@ ALTER TABLE ONLY t_loan_details ALTER COLUMN id_details SET DEFAULT nextval('t_l
 
 
 --
+-- TOC entry 2049 (class 2604 OID 18193)
 -- Name: id_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -445,6 +544,7 @@ ALTER TABLE ONLY t_loan_simulation ALTER COLUMN id_loan SET DEFAULT nextval('t_l
 
 
 --
+-- TOC entry 2050 (class 2604 OID 18194)
 -- Name: id_type_loan; Type: DEFAULT; Schema: public; Owner: pds_user
 --
 
@@ -452,6 +552,8 @@ ALTER TABLE ONLY t_type_loan ALTER COLUMN id_type_loan SET DEFAULT nextval('t_ty
 
 
 --
+-- TOC entry 2246 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: _t_adress_id_adress_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -459,6 +561,8 @@ SELECT pg_catalog.setval('_t_adress_id_adress_seq', 1, false);
 
 
 --
+-- TOC entry 2207 (class 0 OID 18135)
+-- Dependencies: 180
 -- Data for Name: t_adress; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -6230,6 +6334,8 @@ COPY t_adress (id_adress, street_nb, street_name, city_name, zip_code) FROM stdi
 
 
 --
+-- TOC entry 2209 (class 0 OID 18140)
+-- Dependencies: 182
 -- Data for Name: t_advisor; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -6256,6 +6362,8 @@ COPY t_advisor (id_advisor, last_name, first_name, director, id_agency, password
 
 
 --
+-- TOC entry 2247 (class 0 OID 0)
+-- Dependencies: 183
 -- Name: t_advisor_id_advisor_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -6263,6 +6371,8 @@ SELECT pg_catalog.setval('t_advisor_id_advisor_seq', 1, false);
 
 
 --
+-- TOC entry 2211 (class 0 OID 18145)
+-- Dependencies: 184
 -- Data for Name: t_agency; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -6273,6 +6383,8 @@ COPY t_agency (id_agency, name, id_adress, phone_nb, fax_nb) FROM stdin;
 
 
 --
+-- TOC entry 2248 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: t_agency_id_agency_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -6280,6 +6392,8 @@ SELECT pg_catalog.setval('t_agency_id_agency_seq', 2, true);
 
 
 --
+-- TOC entry 2213 (class 0 OID 18150)
+-- Dependencies: 186
 -- Data for Name: t_client; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -7449,6 +7563,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 4792	GODIER	EDITH	EDITH.GODIER@GMAIL.COM	58325	56885	1	681	1952-10-08	F
 4795	PIGNE	MONIQUE	MONIQUE.PIGNE@GMAIL.COM	17391	73880	1	1077	1944-11-13	F
 4798	REQUIER	CLAUDINE	CLAUDINE.REQUIER@GMAIL.COM	25364	20623	2	4509	1945-12-29	F
+24875	DANEL	ANNICK	ANNICK.DANEL@GMAIL.COM	52530	31758	2	4203	1953-10-20	F
 4803	DORLEANS	CHRISTIANE	CHRISTIANE.DORLEANS@GMAIL.COM	23630	14663	2	2878	1954-08-07	F
 4806	FARCY	ANNICK	ANNICK.FARCY@GMAIL.COM	67633	61819	1	3489	1945-09-14	F
 4807	BRIÈRE	ESTELLE	ESTELLE.BRIÈRE@GMAIL.COM	28013	14023	2	5657	1968-01-12	F
@@ -7883,6 +7998,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 7232	BOUISSON	DOMINIQUE	DOMINIQUE.BOUISSON@GMAIL.COM	73769	97288	2	3643	1950-11-09	F
 7235	POIVRE	GHISLAINE	GHISLAINE.POIVRE@GMAIL.COM	51601	74828	1	3285	1958-01-01	F
 7242	LEPINE	ELIANE	ELIANE.LEPINE@GMAIL.COM	33627	99750	2	4667	1969-05-24	F
+30506	ELIE	CÉLINE	CÉLINE.ELIE@GMAIL.COM	19111	42606	2	2822	1973-07-26	F
 7253	EAP-DUPIN	MARTINE	MARTINE.EAP-DUPIN@GMAIL.COM	65577	20337	1	5122	1952-07-22	F
 7269	DETOT	ALETH	ALETH.DETOT@GMAIL.COM	40337	40298	2	367	1960-08-06	F
 7274	LEMOINE	BRIGITTE	BRIGITTE.LEMOINE@GMAIL.COM	73557	92300	1	2684	1961-01-14	F
@@ -10696,7 +10812,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 24863	HOCHART	JOSIANE	JOSIANE.HOCHART@GMAIL.COM	70513	51630	2	1472	1949-06-22	F
 24867	DUEZ	PIERRETTE	PIERRETTE.DUEZ@GMAIL.COM	61664	49140	1	4512	1941-12-30	F
 24870	JUMEZ	MARYSE	MARYSE.JUMEZ@GMAIL.COM	79415	60987	1	5747	1956-08-12	F
-24875	DANEL	ANNICK	ANNICK.DANEL@GMAIL.COM	52530	31758	2	4203	1953-10-20	F
 24885	MONTEL	MARIE-FRANÇOISE	MARIE-FRANÇOISE.MONTEL@GMAIL.COM	47002	25767	2	5002	1950-07-16	F
 24886	TRICQUET EPSE LEFEBVRE	MARGUERITE	MARGUERITE.TRICQUET EPSE LEFEBVRE@GMAIL.COM	45358	15585	2	1651	1938-10-14	F
 24891	LOISON	JASMINE	JASMINE.LOISON@GMAIL.COM	42245	59024	1	2275	1958-05-05	F
@@ -11493,7 +11608,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 30494	RODIER	CHRISTINE	CHRISTINE.RODIER@GMAIL.COM	51748	50018	1	1260	1968-11-17	F
 30501	LORAND PASQUIER	YVETTE	YVETTE.LORAND PASQUIER@GMAIL.COM	19750	54990	2	823	1953-12-03	F
 30504	HARAUX-DORMESNIL	LUDIVINE	LUDIVINE.HARAUX-DORMESNIL@GMAIL.COM	19118	75665	1	1450	1974-01-26	F
-30506	ELIE	CÉLINE	CÉLINE.ELIE@GMAIL.COM	19111	42606	2	2822	1973-07-26	F
 30507	FLAVIGNY	CATHERINE	CATHERINE.FLAVIGNY@GMAIL.COM	59294	66681	2	4920	1950-05-01	F
 30511	HORVILLE	PATRICIA	PATRICIA.HORVILLE@GMAIL.COM	44863	46813	2	2609	1949-12-26	F
 30512	BEAUDOUIN	MARIE-FRANCE	MARIE-FRANCE.BEAUDOUIN@GMAIL.COM	14667	16776	1	4949	1946-10-20	F
@@ -12804,6 +12918,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 521	DORGERE	BERTRAND	BERTRAND.DORGERE@GMAIL.COM	65261	95256	1	1595	1953-07-03	M
 2648	BERTRAND	GUY	GUY.BERTRAND@GMAIL.COM	26975	87533	1	5164	1956-03-08	M
 522	LEGRAND	BENOÎT	BENOÎT.LEGRAND@GMAIL.COM	29020	41217	2	4080	1986-06-13	M
+707	LEGRAND	YVES	YVES.LEGRAND@GMAIL.COM	43893	30356	1	3971	1950-04-15	M
 524	DE ROBERTIS	JEAN-CLAUDE	JEAN-CLAUDE.DE ROBERTIS@GMAIL.COM	30431	58565	1	4768	1947-02-24	M
 525	CONSEIL	CLAUDE	CLAUDE.CONSEIL@GMAIL.COM	40310	17110	2	5609	1946-04-23	M
 526	VALET	ERIC	ERIC.VALET@GMAIL.COM	37816	31395	2	1083	1960-06-28	M
@@ -12953,7 +13068,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 703	DENEUVILLE	RAYMOND	RAYMOND.DENEUVILLE@GMAIL.COM	32615	33311	1	1582	1944-04-18	M
 704	ROSELEUX	JEAN-PAUL	JEAN-PAUL.ROSELEUX@GMAIL.COM	37357	83648	2	1926	1948-08-20	M
 705	MONTAGNE	JOSEPH	JOSEPH.MONTAGNE@GMAIL.COM	32735	77553	2	709	1945-04-09	M
-707	LEGRAND	YVES	YVES.LEGRAND@GMAIL.COM	43893	30356	1	3971	1950-04-15	M
 708	BUVRY	BENOÎT	BENOÎT.BUVRY@GMAIL.COM	24471	86918	2	1097	1972-04-17	M
 709	LECLERCQ	JÉRÔME	JÉRÔME.LECLERCQ@GMAIL.COM	48276	95887	1	981	1967-05-16	M
 710	DE VRIENDT	HUBERT	HUBERT.DE VRIENDT@GMAIL.COM	40740	39629	2	4925	1960-05-12	M
@@ -15119,6 +15233,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 3389	MASSON	ALAIN	ALAIN.MASSON@GMAIL.COM	46466	13930	2	2185	1946-12-12	M
 3390	BRUANT	PASCAL	PASCAL.BRUANT@GMAIL.COM	14730	59479	1	2341	1964-01-13	M
 3391	OUDIN	FABRICE	FABRICE.OUDIN@GMAIL.COM	68786	72162	2	2881	1953-11-13	M
+3745	BRUNEL	DENIS	DENIS.BRUNEL@GMAIL.COM	19798	92507	1	1382	1948-10-21	M
 3392	ROSSELLE	JEAN-LUC	JEAN-LUC.ROSSELLE@GMAIL.COM	21949	67261	1	470	1975-07-10	M
 3393	COTEL	PHILIPPE	PHILIPPE.COTEL@GMAIL.COM	18439	76674	2	1522	1953-04-19	M
 3394	PINTO	DENIS	DENIS.PINTO@GMAIL.COM	70302	55803	2	4205	1956-11-28	M
@@ -15419,7 +15534,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 3742	DELQUIE	ROBERT	ROBERT.DELQUIE@GMAIL.COM	48562	54824	1	3241	1954-10-04	M
 3743	LAFFON	AIMÉ	AIMÉ.LAFFON@GMAIL.COM	58088	63204	1	2870	1936-06-29	M
 3744	DUBLOIS	DOMINIQUE	DOMINIQUE.DUBLOIS@GMAIL.COM	40767	57569	2	1511	1963-04-27	M
-3745	BRUNEL	DENIS	DENIS.BRUNEL@GMAIL.COM	19798	92507	1	1382	1948-10-21	M
 3746	FOUICH	MICHEL	MICHEL.FOUICH@GMAIL.COM	29393	63618	1	2226	1955-06-14	M
 3747	BONNET	CLAUDE	CLAUDE.BONNET@GMAIL.COM	48210	11456	2	1498	1957-12-19	M
 3748	BATLLE	GILBERT	GILBERT.BATLLE@GMAIL.COM	75157	62350	2	2422	1949-07-11	M
@@ -17581,6 +17695,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 6398	ROUSSEAU	BERNARD	BERNARD.ROUSSEAU@GMAIL.COM	38133	19331	1	653	1956-09-26	M
 6399	BARNIER	PATRICK	PATRICK.BARNIER@GMAIL.COM	35005	25963	1	4062	1958-11-27	M
 6400	CHABANCE	FABRICE	FABRICE.CHABANCE@GMAIL.COM	74299	66252	1	1641	1969-11-20	M
+6684	PENOT	ALAIN	ALAIN.PENOT@GMAIL.COM	15314	25687	1	697	1955-01-10	M
 6401	MENIGON	JACQUES	JACQUES.MENIGON@GMAIL.COM	66329	68981	2	482	1930-10-24	M
 6403	VIGNEL	JOËL	JOËL.VIGNEL@GMAIL.COM	45581	41703	2	2849	1952-08-13	M
 6405	BUGEON	PIERRE	PIERRE.BUGEON@GMAIL.COM	69388	83565	2	1438	1948-11-30	M
@@ -17803,7 +17918,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 6679	SOULIER	HENRI	HENRI.SOULIER@GMAIL.COM	43322	96351	2	4061	1947-02-09	M
 6680	JAULIN	MICHEL	MICHEL.JAULIN@GMAIL.COM	40310	43885	1	5740	1949-11-12	M
 6683	PENELOUX	DIDIER	DIDIER.PENELOUX@GMAIL.COM	28650	99750	1	655	1969-12-22	M
-6684	PENOT	ALAIN	ALAIN.PENOT@GMAIL.COM	15314	25687	1	697	1955-01-10	M
 6685	SUDOUR	CLAUDE	CLAUDE.SUDOUR@GMAIL.COM	50086	90982	2	2224	1953-05-24	M
 6686	JENTY	PHILIPPE	PHILIPPE.JENTY@GMAIL.COM	42510	76871	2	4722	1960-07-12	M
 6687	MAUPOMÉ	BERNARD	BERNARD.MAUPOMÉ@GMAIL.COM	17178	15216	1	185	1946-03-03	M
@@ -18320,6 +18434,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 7326	TUDELA	HENRI	HENRI.TUDELA@GMAIL.COM	37234	61131	1	2963	1946-12-17	M
 8064	VAURY	SERGE	SERGE.VAURY@GMAIL.COM	36693	60518	2	202	1953-12-18	M
 7327	MOISSENET	CLAUDE	CLAUDE.MOISSENET@GMAIL.COM	42655	43957	1	2186	1962-10-15	M
+8161	SOL	CHARLES	CHARLES.SOL@GMAIL.COM	32513	65543	1	319	1948-03-14	M
 7329	BORTOT	PASCAL	PASCAL.BORTOT@GMAIL.COM	22957	73415	1	5200	1962-03-04	M
 7330	GARNERET	ALEXANDRE	ALEXANDRE.GARNERET@GMAIL.COM	12081	26102	1	1363	1956-11-20	M
 7331	PERDERISET	FRANCIS	FRANCIS.PERDERISET@GMAIL.COM	60601	51441	1	2218	1969-02-06	M
@@ -18987,7 +19102,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 8157	ALARD	ANDRÉ	ANDRÉ.ALARD@GMAIL.COM	58733	53998	1	3773	1940-01-05	M
 8158	BONNEFON	PATRICK	PATRICK.BONNEFON@GMAIL.COM	66717	99330	1	4712	1954-06-02	M
 8159	MAHIEU	JEAN-PIERRE	JEAN-PIERRE.MAHIEU@GMAIL.COM	78356	56525	2	2403	1947-11-19	M
-8161	SOL	CHARLES	CHARLES.SOL@GMAIL.COM	32513	65543	1	319	1948-03-14	M
 8163	BOUCHARD	HENRI	HENRI.BOUCHARD@GMAIL.COM	71668	46701	1	5441	1946-04-15	M
 8164	MONTI	BRUNO	BRUNO.MONTI@GMAIL.COM	58315	83031	1	1592	1960-01-16	M
 8165	ZILLHARDT	PHILIPPE	PHILIPPE.ZILLHARDT@GMAIL.COM	56229	59113	1	1252	1967-04-01	M
@@ -20100,6 +20214,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 9539	FERNANDEZ	DANIEL	DANIEL.FERNANDEZ@GMAIL.COM	29881	27205	1	569	1953-04-08	M
 9541	LUNEL	GÉRARD	GÉRARD.LUNEL@GMAIL.COM	30749	99105	1	3894	1960-09-04	M
 11159	LUCIANI	JEAN	JEAN.LUCIANI@GMAIL.COM	72777	81543	2	5164	1944-01-20	M
+13085	JARRIS	RÉMI	RÉMI.JARRIS@GMAIL.COM	35699	87522	2	4761	1939-09-02	M
 9542	CATELINOIS	JEAN-MICHEL	JEAN-MICHEL.CATELINOIS@GMAIL.COM	18505	77990	2	5314	1952-04-16	M
 9543	BOURGET	VINCENT	VINCENT.BOURGET@GMAIL.COM	41428	95485	1	1850	1971-05-20	M
 9544	ARMAND	YVES	YVES.ARMAND@GMAIL.COM	39258	26573	1	1962	1951-05-21	M
@@ -22996,7 +23111,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 13081	PIQUEMAL	JEAN-LUC	JEAN-LUC.PIQUEMAL@GMAIL.COM	69304	31136	2	963	1958-02-15	M
 13082	BEC	DOMINIQUE	DOMINIQUE.BEC@GMAIL.COM	18824	13284	2	1586	1963-04-25	M
 13084	BIDALUN	JACQUES	JACQUES.BIDALUN@GMAIL.COM	33392	46360	1	5096	1947-01-23	M
-13085	JARRIS	RÉMI	RÉMI.JARRIS@GMAIL.COM	35699	87522	2	4761	1939-09-02	M
 13086	DANGIN	XAVIER	XAVIER.DANGIN@GMAIL.COM	50958	33534	2	2905	1954-02-27	M
 13087	BRETEAU	PATRICK	PATRICK.BRETEAU@GMAIL.COM	35767	80447	2	3398	1967-08-30	M
 13089	SUBERVIE	JEAN-MARC	JEAN-MARC.SUBERVIE@GMAIL.COM	43257	37947	1	1560	1956-07-31	M
@@ -24193,6 +24307,7 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 14559	GONNORD	FRANCK	FRANCK.GONNORD@GMAIL.COM	19619	74134	2	1557	1974-07-24	M
 14560	DETROYAT	BRUNO	BRUNO.DETROYAT@GMAIL.COM	62499	72067	2	5343	1952-07-28	M
 14561	GUILLUY	ALAIN	ALAIN.GUILLUY@GMAIL.COM	64885	77066	1	3769	1956-09-28	M
+14663	GUILMEAU	GUY	GUY.GUILMEAU@GMAIL.COM	48441	44946	2	3069	1938-05-25	M
 14562	MARCHIOL	FABRICE	FABRICE.MARCHIOL@GMAIL.COM	34212	32442	1	4351	1973-10-06	M
 14565	ISERABLE	PATRICE	PATRICE.ISERABLE@GMAIL.COM	24561	36961	2	5546	1955-07-18	M
 14566	PONTIER	JOËL	JOËL.PONTIER@GMAIL.COM	57109	50752	2	402	1949-01-21	M
@@ -24267,7 +24382,6 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 14659	LECUREUR	ANTHONY	ANTHONY.LECUREUR@GMAIL.COM	35017	77520	1	4397	1971-08-02	M
 14661	PINET	ROBERT	ROBERT.PINET@GMAIL.COM	33109	51679	2	4512	1955-05-23	M
 14662	LOCONTE	JEAN-PIERRE	JEAN-PIERRE.LOCONTE@GMAIL.COM	67819	82856	1	4918	1958-06-24	M
-14663	GUILMEAU	GUY	GUY.GUILMEAU@GMAIL.COM	48441	44946	2	3069	1938-05-25	M
 14664	ROLLAND	NOËL	NOËL.ROLLAND@GMAIL.COM	22496	12093	2	3061	1955-12-18	M
 14665	HOLLEVILLE	PATRICK	PATRICK.HOLLEVILLE@GMAIL.COM	51269	33152	2	3482	1946-12-29	M
 14667	DELDICQUE	JEAN-FRANCOIS	JEAN-FRANCOIS.DELDICQUE@GMAIL.COM	78734	29730	2	2356	1952-06-18	M
@@ -25087,6 +25201,8 @@ COPY t_client (id_client, last_name, first_name, mail, salary, password, id_agen
 
 
 --
+-- TOC entry 2215 (class 0 OID 18155)
+-- Dependencies: 188
 -- Data for Name: t_client_details; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -43894,6 +44010,8 @@ COPY t_client_details (id_client, smoker, disease, corpulence, alcohol, job_risk
 
 
 --
+-- TOC entry 2249 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: t_client_details_id_client_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -43901,6 +44019,8 @@ SELECT pg_catalog.setval('t_client_details_id_client_seq', 1, false);
 
 
 --
+-- TOC entry 2217 (class 0 OID 18161)
+-- Dependencies: 190
 -- Data for Name: t_client_details_referency; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -43912,6 +44032,8 @@ COPY t_client_details_referency (id_referency, wording) FROM stdin;
 
 
 --
+-- TOC entry 2250 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: t_client_details_referency_id_referency_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -43919,6 +44041,8 @@ SELECT pg_catalog.setval('t_client_details_referency_id_referency_seq', 3, true)
 
 
 --
+-- TOC entry 2251 (class 0 OID 0)
+-- Dependencies: 191
 -- Name: t_client_id_client_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -43926,6 +44050,36 @@ SELECT pg_catalog.setval('t_client_id_client_seq', 1, false);
 
 
 --
+-- TOC entry 2228 (class 0 OID 18302)
+-- Dependencies: 201
+-- Data for Name: t_insurance; Type: TABLE DATA; Schema: public; Owner: pds_user
+--
+
+COPY t_insurance (id_insurance, id_type_loan, rate, wording) FROM stdin;
+1	1	0.71999999999999997	Assurance décès
+2	2	0.35999999999999999	Assurance décès
+3	3	1.1599999999999999	Assurance décès
+4	1	0.96999999999999997	Assurance décès/invalidité
+5	2	0.63	Assurance décès/invalidité
+6	3	1.47	Assurance décès/invalidité
+7	1	1.0900000000000001	Assurance décès/invalidité/incapacité
+8	2	0.78000000000000003	Assurance décès/invalidité/incapacité
+9	3	1.6499999999999999	Assurance décès/invalidité/incapacité
+\.
+
+
+--
+-- TOC entry 2252 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: t_insurance_id_insurance_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
+--
+
+SELECT pg_catalog.setval('t_insurance_id_insurance_seq', 9, true);
+
+
+--
+-- TOC entry 2219 (class 0 OID 18167)
+-- Dependencies: 192
 -- Data for Name: t_loan; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -47876,6 +48030,8 @@ COPY t_loan (id_loan, wording, amount, length_loan, type_length_loan, type_rate_
 
 
 --
+-- TOC entry 2220 (class 0 OID 18170)
+-- Dependencies: 193
 -- Data for Name: t_loan_details; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -47884,6 +48040,8 @@ COPY t_loan_details (id_details, year_loan, rate, monthly, id_loan) FROM stdin;
 
 
 --
+-- TOC entry 2253 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: t_loan_details_id_details_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -47891,6 +48049,8 @@ SELECT pg_catalog.setval('t_loan_details_id_details_seq', 1, false);
 
 
 --
+-- TOC entry 2254 (class 0 OID 0)
+-- Dependencies: 195
 -- Name: t_loan_id_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -47898,6 +48058,8 @@ SELECT pg_catalog.setval('t_loan_id_loan_seq', 1, false);
 
 
 --
+-- TOC entry 2223 (class 0 OID 18177)
+-- Dependencies: 196
 -- Data for Name: t_loan_simulation; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
@@ -50421,6 +50583,8 @@ COPY t_loan_simulation (id_loan, wording, amount, length_loan, type_length_loan,
 
 
 --
+-- TOC entry 2255 (class 0 OID 0)
+-- Dependencies: 197
 -- Name: t_loan_simulation_id_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -50428,17 +50592,21 @@ SELECT pg_catalog.setval('t_loan_simulation_id_loan_seq', 1, true);
 
 
 --
+-- TOC entry 2225 (class 0 OID 18182)
+-- Dependencies: 198
 -- Data for Name: t_type_loan; Type: TABLE DATA; Schema: public; Owner: pds_user
 --
 
 COPY t_type_loan (id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max) FROM stdin;
-3	Divers	7.62000000000000011	2	36	1000	10000
-2	Immobilier	1.84000000000000008	120	360	200000	1000000
-1	Automobile	4.20999999999999996	12	60	5000	50000
+3	Divers	7.6200000000000001	2	36	1000	10000
+2	Immobilier	1.8400000000000001	120	360	200000	1000000
+1	Automobile	4.21	12	60	5000	50000
 \.
 
 
 --
+-- TOC entry 2256 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: t_type_loan_id_type_loan_seq; Type: SEQUENCE SET; Schema: public; Owner: pds_user
 --
 
@@ -50446,7 +50614,8 @@ SELECT pg_catalog.setval('t_type_loan_id_type_loan_seq', 3, true);
 
 
 --
--- Name: prk_constraint__t_adress; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2053 (class 2606 OID 18196)
+-- Name: prk_constraint__t_adress; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_adress
@@ -50454,7 +50623,8 @@ ALTER TABLE ONLY t_adress
 
 
 --
--- Name: prk_constraint__t_client_details; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2061 (class 2606 OID 18198)
+-- Name: prk_constraint__t_client_details; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_client_details
@@ -50462,7 +50632,8 @@ ALTER TABLE ONLY t_client_details
 
 
 --
--- Name: prk_constraint__t_client_details_referency; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2063 (class 2606 OID 18200)
+-- Name: prk_constraint__t_client_details_referency; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_client_details_referency
@@ -50470,7 +50641,8 @@ ALTER TABLE ONLY t_client_details_referency
 
 
 --
--- Name: prk_constraint_t_advisor; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2055 (class 2606 OID 18202)
+-- Name: prk_constraint_t_advisor; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_advisor
@@ -50478,7 +50650,8 @@ ALTER TABLE ONLY t_advisor
 
 
 --
--- Name: prk_constraint_t_agency; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2057 (class 2606 OID 18204)
+-- Name: prk_constraint_t_agency; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_agency
@@ -50486,7 +50659,8 @@ ALTER TABLE ONLY t_agency
 
 
 --
--- Name: prk_constraint_t_client; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2059 (class 2606 OID 18206)
+-- Name: prk_constraint_t_client; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_client
@@ -50494,7 +50668,8 @@ ALTER TABLE ONLY t_client
 
 
 --
--- Name: prk_constraint_t_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2065 (class 2606 OID 18208)
+-- Name: prk_constraint_t_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_loan
@@ -50502,7 +50677,8 @@ ALTER TABLE ONLY t_loan
 
 
 --
--- Name: prk_constraint_t_loan_details; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2067 (class 2606 OID 18210)
+-- Name: prk_constraint_t_loan_details; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_loan_details
@@ -50510,7 +50686,8 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
--- Name: prk_constraint_t_loan_simulation; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2071 (class 2606 OID 18212)
+-- Name: prk_constraint_t_loan_simulation; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_loan_simulation
@@ -50518,7 +50695,8 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
--- Name: prk_constraint_t_type_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2073 (class 2606 OID 18214)
+-- Name: prk_constraint_t_type_loan; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_type_loan
@@ -50526,7 +50704,17 @@ ALTER TABLE ONLY t_type_loan
 
 
 --
--- Name: t_loan_details_year_loan_key; Type: CONSTRAINT; Schema: public; Owner: pds_user; Tablespace: 
+-- TOC entry 2075 (class 2606 OID 18307)
+-- Name: t_insurance_pkey; Type: CONSTRAINT; Schema: public; Owner: pds_user
+--
+
+ALTER TABLE ONLY t_insurance
+    ADD CONSTRAINT t_insurance_pkey PRIMARY KEY (id_insurance);
+
+
+--
+-- TOC entry 2069 (class 2606 OID 18216)
+-- Name: t_loan_details_year_loan_key; Type: CONSTRAINT; Schema: public; Owner: pds_user
 --
 
 ALTER TABLE ONLY t_loan_details
@@ -50534,6 +50722,7 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
+-- TOC entry 2076 (class 2606 OID 18217)
 -- Name: fk_t_advisor_id_agency; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50542,6 +50731,7 @@ ALTER TABLE ONLY t_advisor
 
 
 --
+-- TOC entry 2077 (class 2606 OID 18222)
 -- Name: fk_t_agency_id_adress; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50550,6 +50740,7 @@ ALTER TABLE ONLY t_agency
 
 
 --
+-- TOC entry 2080 (class 2606 OID 18227)
 -- Name: fk_t_client_details_alcohol; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50558,6 +50749,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2081 (class 2606 OID 18232)
 -- Name: fk_t_client_details_corpulence; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50566,6 +50758,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2082 (class 2606 OID 18237)
 -- Name: fk_t_client_details_disease; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50574,6 +50767,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2083 (class 2606 OID 18242)
 -- Name: fk_t_client_details_disease_risk; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50582,6 +50776,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2084 (class 2606 OID 18247)
 -- Name: fk_t_client_details_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50590,6 +50785,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2085 (class 2606 OID 18252)
 -- Name: fk_t_client_details_job_risk; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50598,6 +50794,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2086 (class 2606 OID 18257)
 -- Name: fk_t_client_details_smoker; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50606,6 +50803,7 @@ ALTER TABLE ONLY t_client_details
 
 
 --
+-- TOC entry 2078 (class 2606 OID 18262)
 -- Name: fk_t_client_id_adress; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50614,6 +50812,7 @@ ALTER TABLE ONLY t_client
 
 
 --
+-- TOC entry 2079 (class 2606 OID 18267)
 -- Name: fk_t_client_id_agency; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50622,6 +50821,7 @@ ALTER TABLE ONLY t_client
 
 
 --
+-- TOC entry 2089 (class 2606 OID 18272)
 -- Name: fk_t_loan_details_id_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50630,6 +50830,7 @@ ALTER TABLE ONLY t_loan_details
 
 
 --
+-- TOC entry 2087 (class 2606 OID 18277)
 -- Name: fk_t_loan_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50638,6 +50839,7 @@ ALTER TABLE ONLY t_loan
 
 
 --
+-- TOC entry 2088 (class 2606 OID 18282)
 -- Name: fk_t_loan_id_type_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50646,6 +50848,7 @@ ALTER TABLE ONLY t_loan
 
 
 --
+-- TOC entry 2090 (class 2606 OID 18287)
 -- Name: fk_t_loan_simulation_id_client; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50654,6 +50857,7 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
+-- TOC entry 2091 (class 2606 OID 18292)
 -- Name: fk_t_loan_simulation_id_type_loan; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
 --
 
@@ -50662,6 +50866,17 @@ ALTER TABLE ONLY t_loan_simulation
 
 
 --
+-- TOC entry 2092 (class 2606 OID 18308)
+-- Name: t_insurance_id_type_loan_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pds_user
+--
+
+ALTER TABLE ONLY t_insurance
+    ADD CONSTRAINT t_insurance_id_type_loan_fkey FOREIGN KEY (id_type_loan) REFERENCES t_type_loan(id_type_loan);
+
+
+--
+-- TOC entry 2235 (class 0 OID 0)
+-- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -50670,6 +50885,8 @@ REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
+
+-- Completed on 2016-05-28 04:09:36
 
 --
 -- PostgreSQL database dump complete
