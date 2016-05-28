@@ -63,5 +63,32 @@ public class Customer {
   public void getCustomerCount() {
 
   }
+  
+  public String getFirstName() {
+      return firstName;
+  }
+  
+  public String getLastName() {
+      return lastName;
+  }
+  
+  public void setId(int i) {
+      id = i;
+  }
+  
+  public void setLastName(String ln) {
+      lastName = ln;
+  }
+  
+  public void setFirstName(String fn) {
+      firstName = fn;
+  }
 
+  public void setMail(String m) {
+      mail = m;
+  }
+  
+  public String toString() {
+      return getFirstName() + " " + getLastName() + " ; " + mail;
+  }
 }

@@ -29,4 +29,8 @@ public class Insurance {
     public void setRate(double r) {
         rate = r;
     } 
+    
+    public String getWording() {
+        return wording;
+    }
 }

@@ -44059,12 +44059,12 @@ COPY t_insurance (id_insurance, id_type_loan, rate, wording) FROM stdin;
 1	1	0.71999999999999997	Assurance décès
 2	2	0.35999999999999999	Assurance décès
 3	3	1.1599999999999999	Assurance décès
-4	1	0.96999999999999997	Assurance décès/invalidité
-5	2	0.63	Assurance décès/invalidité
-6	3	1.47	Assurance décès/invalidité
-7	1	1.0900000000000001	Assurance décès/invalidité/incapacité
-8	2	0.78000000000000003	Assurance décès/invalidité/incapacité
-9	3	1.6499999999999999	Assurance décès/invalidité/incapacité
+4	1	0.96999999999999997	Assurance décès-invalidité
+5	2	0.63	Assurance décès-invalidité
+6	3	1.47	Assurance décès-invalidité
+7	1	1.0900000000000001	Assurance décès-invalidité-incapacité
+8	2	0.78000000000000003	Assurance décès-invalidité-incapacité
+9	3	1.6499999999999999	Assurance décès-invalidité-incapacité
 \.
 
 

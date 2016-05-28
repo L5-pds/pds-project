@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.helpers.Serialization;
+import app.models.Customer;
 import app.models.FixedRateSimulation;
 import app.models.Insurance;
 import app.models.LoanType;
@@ -26,8 +27,38 @@ public class FixedRateSimulationControllerClient {
         serializer = new Serialization();
     }
     
+    public ArrayList<Customer> getCustomers(String name) {
+        String query = "FIXEDRATE/GetCustomers/" + name; // query to get the customers
+        ArrayList<Customer> customers = null;
+        
+        try {
+            // streams opening
+            out = new PrintWriter(socket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            
+            // ask the server for the loan types
+            out.println(query);
+            out.flush();
+            
+            // get the server answer and interpret it
+            String answer = in.readLine();
+            String[] splitAnswer = answer.split("/");
+            if (splitAnswer[0].equals("SUCCESS")) {
+                customers = serializer.unserializeCustomersArrayList(splitAnswer[1]);
+            }
+            else {
+                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        
+        return customers;
+    }
+    
     public ArrayList<LoanType> getLoanTypes() {
-        String query = "FIXEDRATE/GetLoanTypes/."; // SQL query to get the loan types
+        String query = "FIXEDRATE/GetLoanTypes/."; // query to get the loan types
         ArrayList<LoanType> loanTypes = null;
         
         try {
@@ -57,7 +88,7 @@ public class FixedRateSimulationControllerClient {
     }
 
     public ArrayList<Insurance> getInsurances(int loanTypeId) {
-        String query = "FIXEDRATE/GetInsurances/" + loanTypeId; // SQL query to get the insurances
+        String query = "FIXEDRATE/GetInsurances/" + loanTypeId; // query to get the insurances
         ArrayList<Insurance> insurances = null;
         
         try {
@@ -115,6 +146,39 @@ public class FixedRateSimulationControllerClient {
         }
     }
     
+    public void saveLoanSimulation() {
+        String query = "FIXEDRATE/SaveLoan/" + serializer.serializeFixedRateSimulation(model);
+        
+        try {
+            // streams opening
+            out = new PrintWriter(socket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            
+            // send the simulation data to the server and ask for the monthly payment
+            out.println(query);
+            out.flush();
+            
+            // get the server answer and interpret it
+            String answer = in.readLine();
+            String[] splitAnswer = answer.split("/");
+            if (splitAnswer[0].equals("SUCCESS")) {
+                // simulation saved
+            }
+            else {
+                System.out.println("Erreur, réponse du serveur incorrecte");
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+    
+    public void resetModel() {
+        Customer c = model.getCustomer();
+        model = new FixedRateSimulation();
+        model.setCustomer(c);
+    }
+    
     public void setLoanType(LoanType lt) {
         model.setLoanType(lt);
     }
@@ -163,11 +227,47 @@ public class FixedRateSimulationControllerClient {
         model.setAmount(amount);
     }
     
+    public void setCustomer(Customer c) {
+        model.setCustomer(c);
+    } 
+    
     public void setInterestRate(double rate) {
         model.setInterestRate(rate);
     }
     
     public double getMonthlyPayment() {
         return model.getMonthlyPayment();
+    }
+    
+    public String getLoanTypeWording() {
+        return model.getLoanType().getWording();
+    }
+    
+    public String getInsuranceWording() {
+        return model.getInsurance().getWording();
+    }
+    
+    public int getAmount() {
+        return model.getAmount();
+    }
+    
+    public int getDuration() {
+        return model.getDuration();
+    }
+    
+    public double getInterestRate() {
+        return model.getInterestRate();
+    }
+    
+    public void setLoanWording(String w) {
+        model.setLoanWording(w);
+    }
+    
+    public String getFirstName() {
+        return model.getCustomer().getFirstName();
+    }
+    
+    public String getLastName() {
+        return model.getCustomer().getLastName();
     }
 }

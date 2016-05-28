@@ -138,4 +138,15 @@ public class Serialization {
     
     return insurancesList;
   }
+  
+  public ArrayList<Customer> unserializeCustomersArrayList(String c) {
+    ArrayList<Customer> customersList = new ArrayList<>();
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(c).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        customersList.add(gson.fromJson(array.get(i), Customer.class));
+    }
+    
+    return customersList;
+  }
 }

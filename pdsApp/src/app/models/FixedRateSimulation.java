@@ -78,4 +78,12 @@ public class FixedRateSimulation {
     public double getOwedAmount() {
         return owedAmount;
     }
+    
+    public void setCustomer(Customer c) {
+        customer = c;
+    }
+    
+    public void setLoanWording(String w) {
+        wording = w;
+    }
 }
