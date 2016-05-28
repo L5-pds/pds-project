@@ -133,7 +133,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     JButton button1 = new javax.swing.JButton();
     button1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button1.setText("Thibault");
+    button1.setText("Indicateur de prêt");
     button1.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {

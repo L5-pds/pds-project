@@ -376,12 +376,22 @@ public class ViewIndicatorAll implements ListenerIndicator {
 
 
                 if(end.getTime() < begin.getTime()) {
-                    javax.swing.JOptionPane.showMessageDialog(null,"La date de fin de votre recherche est inccompatible avec votre date de début de recherche");
+                    Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+                        JOptionPane.showMessageDialog(null, 
+                          "La date de fin de votre recherche est inccompatible avec votre date de début de recherche", 
+                          "Erreur", 
+                          JOptionPane.WARNING_MESSAGE,
+                          new ImageIcon(im));
                     return;
                 }
                 if((Calendar.getInstance().getTime().getTime() < begin.getTime()) ||
                         (Calendar.getInstance().getTime().getTime() < end.getTime())) {
-                    javax.swing.JOptionPane.showMessageDialog(null,"Une date est ultérieur à autjourd'hui. Merci de ressayer.");
+                    Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
+                        JOptionPane.showMessageDialog(null, 
+                          "Une date est ultérieur à autjourd'hui. Merci de ressayer.", 
+                          "Erreur", 
+                          JOptionPane.WARNING_MESSAGE,
+                          new ImageIcon(im));
                     return;
                 }
 
