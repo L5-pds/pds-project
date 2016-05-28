@@ -3,10 +3,14 @@ package app.views.welcome;
 import app.controllers.*;
 import app.listeners.*;
 import app.models.component.*;
+import app.views.indicator.ViewIndicatorAll;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
   //private JFrame frame;
@@ -30,8 +34,35 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     im  = im.getScaledInstance(330,200,1);
     JLabel image = new JLabel( new ImageIcon(im));
 
+    trait = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelp.png"));
+    im = trait.getImage();
+    im  = im.getScaledInstance(80,80,1);
+    JLabel helpButton = new JLabel(new ImageIcon(im));
+    helpButton.setToolTipText("Afficher le manuel utilisateur");
+    helpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    helpButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    wc.openManual();
+                } catch (IOException ex) {
+                    Logger.getLogger(ViewIndicatorAll.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            public void mouseEntered(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelpHover.png")).getImage().getScaledInstance(80, 80, 1);
+                helpButton.setIcon(new ImageIcon(im));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconHelp.png")).getImage().getScaledInstance(80, 80, 1);
+                helpButton.setIcon(new ImageIcon(im));
+            }
+        });
+
     header = new JPanel();
 
+    header.add(helpButton);
     header.add(image);
     header.setBackground(new Color(215,203,233,255));
 

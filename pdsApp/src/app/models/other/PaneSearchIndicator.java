@@ -162,7 +162,7 @@ public class PaneSearchIndicator {
         returnPane.setLayout(new BoxLayout(returnPane, BoxLayout.Y_AXIS));
         returnPane.setBackground(new Color(215,203,233,255));
         
-        DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.0####");
+        DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.00");
         DecimalFormat decimalPercentFormat = new DecimalFormat("#,##0.00");
         
         
