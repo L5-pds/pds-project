@@ -7,11 +7,7 @@ import app.views.welcome.WelcomeViewClient;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -25,6 +21,11 @@ public class ControllerIndicator {
     private BufferedReader in = null;
     private Serialization s;
 
+    /**
+     * Constructor
+     * @param socket 
+     * get Socket in parameter
+     */
     public ControllerIndicator(Socket socket) {
         this.socket = socket;
         this.s = new Serialization();
@@ -41,11 +42,23 @@ public class ControllerIndicator {
         }
     }
 
+    /**
+     * Set listener to the controller
+     * @param l 
+     * get ListenerIndicator in parameter
+     */
     public void addListener(ListenerIndicator l) {
         this.listener = l;
         listener.setIHM();
     }
 
+    /**
+     * Communicate with server for get all advisor an type loan for search panel
+     * @param idAgency
+     * Get int in parameter
+     * @return
+     * return dataSearchIndicator object
+     */
     public dataSearchIndicator getComboData(int idAgency)  {
         
         dataSearchIndicator dataComposent = new dataSearchIndicator();
@@ -65,10 +78,23 @@ public class ControllerIndicator {
         return dataComposent;
     }
     
+    /**
+     * Recall listener methode for refresh IHM
+     */
     public void refreshAllPane()    {
         listener.setIHM();
     }
     
+    /**
+     * Methode call after search click for get specifique indicator
+     * @param dateBegin
+     * @param dateEnd
+     * @param typeAdvisor
+     * @param typeLoan
+     * @param typeCustomer
+     * @param idAgency
+     * @throws ParseException 
+     */
     public void setNewTable(String dateBegin, 
             String dateEnd, 
             String typeAdvisor, 
@@ -126,6 +152,11 @@ public class ControllerIndicator {
         
     }
     
+    /**
+     * Communicate with server for get data for fill piechart count loan by type
+     * @param idAgency
+     * @return 
+     */
     public DefaultPieDataset getPieDatasetLoanPerType(int idAgency)    {
 
         DefaultPieDataset dataset = null;
@@ -149,6 +180,11 @@ public class ControllerIndicator {
         return dataset;
     }
 
+    /**
+     * Communicate with server for get data for fill barchart with loan by type by years
+     * @param idAgency
+     * @return 
+     */
     public DefaultCategoryDataset getBarDatasetLoanPerTypeByYears(int idAgency)    {
 
         DefaultCategoryDataset dataset = null;
@@ -172,6 +208,11 @@ public class ControllerIndicator {
         return dataset;
     }
 
+    /**
+     * Communicate with server for get data for fill piechart profit by advisor
+     * @param idAgency
+     * @return 
+     */
     public DefaultPieDataset getPieDatasetLoanPerAdvisor(int idAgency)    {
 
         DefaultPieDataset dataset = null;
@@ -195,40 +236,4 @@ public class ControllerIndicator {
         return dataset;
     }
 
-    public JPanel getAdvisorClassement(int idAgency)    {
-
-        JPanel thePane = new JPanel();
-        thePane.setLayout(new BoxLayout(thePane, BoxLayout.Y_AXIS));
-        thePane.setBackground(new Color(0,0,0,0));
-
-        try {
-            out.println("SPECIF_1/AdvisorClassement/" + idAgency);
-            out.flush();
-            ArrayList<String> responseAll = s.unserializeArrayList(in.readLine());
-
-            ArrayList<JLabel> lblTab = new ArrayList();
-
-            for(int i=0 ; i<responseAll.size() ; i++)   {
-                JLabel tmp = new JLabel();
-                tmp.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
-                tmp.setAlignmentX(Component.CENTER_ALIGNMENT);
-                tmp.setText(responseAll.get(i));
-
-                lblTab.add(tmp);
-            }
-            for(int i=0 ; i<lblTab.size() ; i++)   {
-                thePane.add(lblTab.get(i));
-            }
-
-        } catch (Exception e) {
-            Image im= new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconError.png")).getImage().getScaledInstance(75, 75, 1);
-            JOptionPane.showMessageDialog(null, 
-              "Le serveur ne répond plus", 
-              "Erreur", 
-              JOptionPane.WARNING_MESSAGE,
-              new ImageIcon(im));
-            System.exit(0);
-        }
-        return thePane;
-    }
 }
