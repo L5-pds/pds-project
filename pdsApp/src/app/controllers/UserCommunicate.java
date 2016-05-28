@@ -535,6 +535,40 @@ public class UserCommunicate implements Runnable {
                 break;
             case "FIXEDRATE": // fixed rate loan simulation case
                 switch (typeObject) {
+                    // case : customers list
+                    case "GetCustomers" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting customers");
+                        
+                        String nom = object;
+                        String sqlQuery4;
+                        ResultSet rs4;
+                        ArrayList<Customer> customersList = new ArrayList<>();
+                        
+                        // get the loan types
+                        sqlQuery4 = "SELECT id_client, last_name, first_name, mail "
+                                + "FROM t_client "
+                                + "WHERE first_name ilike '" + nom + "%' "
+                                + "OR last_name ilike '" + nom + "%' "
+                                + "OR first_name||' '||last_name ilike '" + nom + "%' "
+                                + "OR last_name|| ' '||first_name ilike '" + nom + "%';";
+                        rs4 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery4);
+                        
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs4.next()) {
+                            Customer c = new Customer();
+                            c.setId(rs4.getInt("id_client"));
+                            c.setLastName(rs4.getString("last_name"));
+                            c.setFirstName(rs4.getString("first_name"));
+                            c.setMail(rs4.getString("mail"));
+                            customersList.add(c);
+                        }
+                        
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(customersList));
+                        out.flush();
+                        
+                        break;
+                        
                     // case : get loan types list
                     case "GetLoanTypes" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
