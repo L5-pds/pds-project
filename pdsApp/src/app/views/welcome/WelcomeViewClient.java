@@ -122,7 +122,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     body.removeAll();
 
     JPanel panelGlobal = new JPanel();
-    panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
+    panelGlobal.setLayout(new GridLayout(14, 1, 0, 0));
     panelGlobal.setOpaque(false);
 
     JLabel labelTitle = new JLabel();
@@ -130,10 +130,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
     labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     labelTitle.setText("     Menu du programme     ");
     panelGlobal.add(labelTitle);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button1 = new javax.swing.JButton();
     button1.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
     button1.setText("Indicateur de prêt");
+    button1.setBackground(new Color(64,29,116,255));
+    button1.setForeground(Color.WHITE);
     button1.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -141,10 +144,14 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button1);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button2 = new javax.swing.JButton();
     button2.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button2.setText("Taux d'int�r�t de l'agence");
+
+    button2.setText("Taux d'intérêt de l'agence");
+    button2.setBackground(new Color(64,29,116,255));
+    button2.setForeground(Color.WHITE);
     button2.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {
@@ -152,10 +159,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button2);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button3 = new javax.swing.JButton();
     button3.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button3.setText("Ruben");
+    button3.setText("Récapitulatif d'un prêt");
+    button3.setBackground(new Color(64,29,116,255));
+    button3.setForeground(Color.WHITE);
     button3.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,10 +173,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button3);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button4 = new javax.swing.JButton();
     button4.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button4.setText("Comparer des simulations");
+    button4.setText("Comparaison de simulations");
+    button4.setBackground(new Color(64,29,116,255));
+    button4.setForeground(Color.WHITE);
     button4.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,10 +187,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button4);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button5 = new javax.swing.JButton();
     button5.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button5.setText("Mariam");
+    button5.setText("Prêt à taux variable");
+    button5.setBackground(new Color(64,29,116,255));
+    button5.setForeground(Color.WHITE);
     button5.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,10 +201,13 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button5);
+    panelGlobal.add(new JLabel(" "));
 
     JButton button6 = new javax.swing.JButton();
     button6.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-    button6.setText("Alexandre");
+    button6.setText("Prêt à taux fixe");
+    button6.setBackground(new Color(64,29,116,255));
+    button6.setForeground(Color.WHITE);
     button6.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,6 +215,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
         }
     });
     panelGlobal.add(button6);
+    panelGlobal.add(new JLabel(" "));
 
 
     body.setLayout(new FlowLayout());
