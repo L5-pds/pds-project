@@ -1,6 +1,5 @@
 package app.views.ruben;
 
-import app.views.alexandre.FixedRateSimulation;
 import java.text.DecimalFormat;
 
 public class Calcul {

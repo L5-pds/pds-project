@@ -1,7 +1,6 @@
 package app.views.ruben;
 
 import app.models.SpecifRuben;
-import app.views.alexandre.FixedRateSimulation;
 import java.io.FileOutputStream;
 import app.views.welcome.WelcomeViewClient;
 import com.itextpdf.text.pdf.PdfContentByte;
