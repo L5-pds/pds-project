@@ -105,6 +105,7 @@ public class CalcAm {
 
     String dateStr = simpleDateFormat.format(new Date());
 
+    public String typeloan;
 // END declare
 
     public CalcAm(String data[][], int nombre_annee, double insuranceRate, double rate, double amount, double totalMonthlyPayement, double totalInterest, double totalinsurance) {
@@ -274,6 +275,25 @@ public class CalcAm {
 
     public void displayLabel() {
         // Add label for information of the loan
+        JLabel lblname = new JLabel("Identité : " + ViewRuben.getFirstname() + " " + ViewRuben.getLastname());
+        lblname.setBounds(6, 61, 161, 16);
+        paneLeft.add(lblname);
+
+
+        if (ViewRuben.getTypeloan()==1){
+             typeloan="Automobile";
+        }
+        else if(ViewRuben.getTypeloan()==2){
+            typeloan="Immobilier";
+        }
+        else if(ViewRuben.getTypeloan()==3){
+            typeloan="Divers";
+
+        }
+        JLabel lblloan = new JLabel("Type de prêt : " + typeloan);
+        lblloan.setBounds(6, 61, 161, 16);
+        paneLeft.add(lblloan);
+
         JLabel amountLoan = new JLabel("Montant emprunté : " + df.format(totalMonthlyPayement) + " €");
         amountLoan.setBounds(6, 61, 161, 16);
         paneLeft.add(amountLoan);
