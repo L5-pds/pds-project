@@ -362,18 +362,24 @@ public class CompareSimulationView implements CompareSimulationListener{
     }
 
     //Sorting data by ratio value
-    for (int i=0; i<data.length -1; i++){
-      Object[] tmp;
-      //System.out.println("test");
-      //System.out.println(data[i][7].toString());
-      //System.out.println(data[i+1][7].toString());
-      //System.out.println(Double.parseDouble(data[i+1][7].toString()));
-
-      if(Double.parseDouble(data[i][7].toString().replace(",", ".")) > Double.parseDouble(data[i+1][7].toString().replace(",", "."))){
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
+    boolean swapped = true;
+    int j = 0;
+    Object[] tmp;
+    while (swapped) {
+        swapped = false;
+        j++;
+        for (int i = 0; i < data.length -j; i++){
+            //System.out.println("test");
+            //System.out.println(data[i][7].toString());
+            //System.out.println(data[i+1][7].toString());
+            //System.out.println(Double.parseDouble(data[i+1][7].toString()));
+            if(Double.parseDouble(data[i][7].toString().replace(",", ".")) > Double.parseDouble(data[i+1][7].toString().replace(",", "."))){
+                tmp = data[i];
+                data[i] = data[i+1];
+                data[i+1] = tmp;
+                swapped = true;
+            }
+        }
     }
 
     //Set body title
