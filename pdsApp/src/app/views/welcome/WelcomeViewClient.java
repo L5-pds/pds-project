@@ -78,6 +78,7 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     setExtendedState(MAXIMIZED_BOTH);
     this.setMinimumSize(new Dimension(1000, 900));
+    setIconImage(new ImageIcon(this.getClass().getResource("/pictures/iconLogoAppClient.png")).getImage());
     setVisible(true);
   }
 
