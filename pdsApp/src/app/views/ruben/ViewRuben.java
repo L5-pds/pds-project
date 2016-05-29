@@ -3,7 +3,6 @@ package app.views.ruben;
 import app.controllers.*;
 import app.listeners.*;
 import app.models.SpecifRuben;
-import app.views.alexandre.FixedRateSimulation;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

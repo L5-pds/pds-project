@@ -8,7 +8,6 @@ import app.views.linda.*;
 //import app.views.mariam.ViewMariam;
 import app.views.ruben.*;
 import app.views.simulations.*;
-import app.views.alexandre.*;
 import app.views.welcome.WelcomeViewClient;
 import java.awt.Image;
 
@@ -133,10 +132,6 @@ public class WelcomeControllerClient {
   }
 
   public void goFixedRateSimulation() {
-    //ControllerAlexandre cci = new ControllerAlexandre(socket);
-    //ViewAlexandre ihm = new ViewAlexandre(cci, listener.getBody(), listener.getContainer());
-    //cci.addListener(ihm);
-      
       app.models.FixedRateSimulation m = new app.models.FixedRateSimulation();
       FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m,socket);
       FixedRateSimulationView v = new FixedRateSimulationView(c,listener.getBody());
