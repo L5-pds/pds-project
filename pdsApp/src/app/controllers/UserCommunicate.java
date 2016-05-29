@@ -143,7 +143,7 @@ public class UserCommunicate implements Runnable {
                 datasetBarChart returnDatasetBarChart = null;
                 switch (typeObject) {
                     case "SelectSearchLoan":
-                        
+
                         String[] querySplited = object.split(";");
 
                         String idAgency = querySplited[0];
@@ -158,9 +158,9 @@ public class UserCommunicate implements Runnable {
                         long val2 = Long.parseLong(dateEnd);
                         Date dateBegin1=new Date(val1);
                         Date dateEnd1=new Date(val2);
-                        
+
                         String addDateCondition = "AND t_loan.entry BETWEEN '" + formatterQuery.format(dateBegin1) + "' AND '" + formatterQuery.format(dateEnd1) + "' ";
-                        
+
                         String addAdvisorCondition = "";
                         if(!typeAdvisor.equals("TOUS")) {
                             addAdvisorCondition = "AND t_advisor.login = '" + typeAdvisor + "' ";
@@ -171,7 +171,7 @@ public class UserCommunicate implements Runnable {
                         }
                         String addCustomerCondition = "";
                         if(!typeCustomer.equals("TOUS")) {
-                            
+
                             String dateNow = formatter.format(Calendar.getInstance().getTime());
                             Calendar calendar = Calendar.getInstance();
                             String date30;
@@ -180,85 +180,85 @@ public class UserCommunicate implements Runnable {
                                 case "Jeune (moins de 30 ans)":
                                     calendar.add(Calendar.YEAR, -30);
                                     date30 = formatter.format(calendar.getTime());
-                                    
+
                                     addCustomerCondition = "AND t_client.birth BETWEEN '" + date30 + "' AND '" + dateNow + "' ";
-                                    
+
                                     break;
                                 case "Adulte (entre 30 ans et 60 ans)":
                                     calendar.add(Calendar.YEAR, -30);
                                     date30 = formatter.format(calendar.getTime());
                                     calendar.add(Calendar.YEAR, -30);
                                     date60 = formatter.format(calendar.getTime());
-                                    
+
                                     addCustomerCondition = "AND t_client.birth BETWEEN '" + date60 + "' AND '" + date30 + "' ";
-                                    
+
                                     break;
                                 case "Senior (plus de 60 ans)":
                                     calendar.add(Calendar.YEAR, -60);
                                     date60 = formatter.format(calendar.getTime());
-                                    
+
                                     addCustomerCondition = "AND t_client.birth > '" + date60 + "' ";
-                                    
+
                                     break;
                                 default:
                                     break;
                             }
                         }
-                        
-                        request = "SELECT t_client.first_name, t_client.last_name, t_advisor.login, t_loan.amount, t_loan.length_loan, t_type_loan.wording, t_type_loan.rate, t_loan.entry " + 
-                                "FROM t_client, t_loan, t_type_loan, t_advisor " + 
-                                "WHERE t_loan.id_client = t_client.id_client " + 
-                                "AND t_loan.id_advisor = t_advisor.id_advisor " + 
-                                "AND t_loan.id_type_loan = t_type_loan.id_type_loan " + 
-                                addAdvisorCondition + 
-                                addTypeLoanCondition + 
-                                addCustomerCondition + 
-                                addDateCondition + 
+
+                        request = "SELECT t_client.first_name, t_client.last_name, t_advisor.login, t_loan.amount, t_loan.length_loan, t_type_loan.wording, t_type_loan.rate, t_loan.entry " +
+                                "FROM t_client, t_loan, t_type_loan, t_advisor " +
+                                "WHERE t_loan.id_client = t_client.id_client " +
+                                "AND t_loan.id_advisor = t_advisor.id_advisor " +
+                                "AND t_loan.id_type_loan = t_type_loan.id_type_loan " +
+                                addAdvisorCondition +
+                                addTypeLoanCondition +
+                                addCustomerCondition +
+                                addDateCondition +
                                 "AND t_advisor.id_agency = " + idAgency + ";";
-                                
+
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)    {
-                            
+
                             int nbLoan = 0;
                             double moyAmount = 0;
                             int moyLenght = 0;
                             double allBenefit = 0;
-                            
+
                             PaneSearchIndicator tableInfo = new PaneSearchIndicator();
                             ArrayList<String> listing= new ArrayList();
-                            
+
                             while (response.next())  {
                                 nbLoan++;
                                 moyAmount = moyAmount + response.getDouble("amount");
                                 moyLenght = moyLenght + response.getInt("length_loan");
-                                
+
                                 double montant = response.getDouble("amount");
                                 int mensualite = response.getInt("length_loan");
                                 double thetaux = response.getDouble("rate");
-                                
+
                                 allBenefit = allBenefit + ((((montant*(thetaux/100)*(Math.pow((1+thetaux/100),mensualite)))/(Math.pow((1+thetaux/100),mensualite)-1))*mensualite)-montant);
-                            
-                                listing.add(response.getString("first_name") + " " + response.getString("last_name") + ";" + 
-                                        response.getString("login") + ";" + 
-                                        response.getString("amount") + ";" + 
-                                        response.getString("length_loan") + ";" + 
-                                        response.getString("wording") + ";" + 
-                                        response.getDouble("rate") + ";" + 
+
+                                listing.add(response.getString("first_name") + " " + response.getString("last_name") + ";" +
+                                        response.getString("login") + ";" +
+                                        response.getString("amount") + ";" +
+                                        response.getString("length_loan") + ";" +
+                                        response.getString("wording") + ";" +
+                                        response.getDouble("rate") + ";" +
                                         response.getString("entry"));
                             }
-                            
+
                             if(nbLoan == 0) {
                                 out.println("no line");
                                 out.flush();
                                 break;
                             }else   {
-                                
+
                                 moyAmount = (moyAmount/nbLoan)*100;
                                 moyAmount = Math.round(moyAmount)/100;
                                 moyLenght = Math.round(moyLenght/nbLoan);
 
                                 tableInfo.setInfoValue(nbLoan, moyAmount, moyLenght, allBenefit);
-                                
+
                                 listener.changeTextLog("Ligne - " + listing.size());
                                 listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - specific search - " + nbLoan + " line");
                                 String testing = gsonSerial.serializePaneSearchIndicator(tableInfo) + "root" + gsonSerial.serializeArrayList(listing);
@@ -273,9 +273,9 @@ public class UserCommunicate implements Runnable {
                         }
                         break;
                     case "SelectDataSearch":
-                        
+
                         dataSearchIndicator dataComposent = new dataSearchIndicator();
-                        
+
                         request = "SELECT login FROM t_advisor WHERE id_agency = " + object + ";";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)    {
@@ -306,7 +306,7 @@ public class UserCommunicate implements Runnable {
                             listString.add("ERROR");
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - error");
                         }
-                        
+
                         out.println(gsonSerial.serializeDataSearchIndicator(dataComposent));
                         out.flush();
                         break;
@@ -347,19 +347,19 @@ public class UserCommunicate implements Runnable {
                                 "AND t_advisor.id_advisor = t_loan.id_advisor " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "AND (extract(year from t_loan.entry)) > (extract(year from NOW()) - 10) " +
-                                "GROUP BY extract(year from t_loan.entry), t_type_loan.wording, t_type_loan.rate, t_loan.amount, t_loan.length_loan " + 
+                                "GROUP BY extract(year from t_loan.entry), t_type_loan.wording, t_type_loan.rate, t_loan.amount, t_loan.length_loan " +
                                 "ORDER BY extract(year from t_loan.entry);";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetBarChart = new datasetBarChart();
                         if(response != null)    {
                             while (response.next())  {
-                                
+
                                 if(response.getString("row").equals("Immobilier"))   {
                                     returnDatasetBarChart.addToCollect(response.getDouble("value")/100, response.getString("row"), response.getString("column"));
                                 }else   {
                                     returnDatasetBarChart.addToCollect(response.getDouble("value"), response.getString("row"), response.getString("column"));
                                 }
-                                
+
                             }
                             response.last();
                             listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get statistic of loan per type - " + response.getRow() + " line");
@@ -384,7 +384,7 @@ public class UserCommunicate implements Runnable {
                                 "AND t_type_loan.id_type_loan = t_loan.id_type_loan " +
                                 "AND t_advisor.id_agency = " + object + " " +
                                 "GROUP BY t_advisor.login, t_loan.length_loan;";
-                        
+
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         returnDatasetPieChart = new datasetPieChart();
                         if(response != null)    {
@@ -424,9 +424,10 @@ public class UserCommunicate implements Runnable {
                         break;
                 }
                 break;
-            case "SPECIF_2": //Spécifique TARIK DON'T TOUCHE !!!
+            case "GETCUSTOMERS": //specific select calls for CompareSimulationController
                 ArrayList<String[]> objectList = new ArrayList<String[]>();
                 switch (typeObject) {
+                    //case getCustomers() : list of customers matching the desired name
                     case "Customer":
                         request = "SELECT * " +
                                 "FROM t_client " +
@@ -435,22 +436,27 @@ public class UserCommunicate implements Runnable {
                                 "OR lower(last_name) LIKE lower('%"+object+"%');";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)  {
+                            //implment customers list
                             while (response.next()){
                                 String[] customer = {response.getString("id_client"), response.getString("last_name"), response.getString("first_name"), response.getString("mail"), response.getString("salary")};
                                 objectList.add(customer);
                             }
                             response.last();
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - " + response.getRow() + " line");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers GETCUSTOMERS - " + response.getRow() + " line");
                         } else  {
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers SPECIF_2 - error");
+                            //no results found
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get customers GETCUSTOMERS - error");
                         }
-
+                        //serialize the list of customer array (list<String[]>)
                         out.println(gsonSerial.serializeListArray(objectList));
                         out.flush();
                     break;
                     case "Simulation" :
+                    //case getSimulation() : retuns list of simulation for desired customer and loan type
                         String tmp = splitedQuery[3];
                         String type="";
+
+                        //initializing types ids (should be from a select on t_loan_type table)
                         switch (tmp){
                             case "AUTOMOBILE" :
                                 type = "1";
@@ -470,32 +476,33 @@ public class UserCommunicate implements Runnable {
                         String request2 = "SELECT rate FROM t_type_loan WHERE id_type_loan="+type;
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         if(response != null)  {
+                            //implement simulations list
                             while (response.next()){
                                 String[] sim = {response.getString("id_loan"), response.getString("entry"), response.getString("wording"),response.getString("amount"),response.getString("length_loan")};
                                 objectList.add(sim);
                             }
                             response.last();
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - " + response.getRow() + " line");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation GETCUSTOMERS - " + response.getRow() + " line");
                         } else  {
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation SPECIF_2 - error");
+                            //no results found
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get simulation GETCUSTOMERS - error");
                         }
                         response = Server.connectionPool[poolIndex].requestWithResult(request2);
                         if(response != null)  {
+                            //add the rate at the end of the list to avoid sending two different objects
                             while (response.next()){
                                 String[] sim = {response.getString("rate")};
                                 objectList.add(sim);
                             }
                             response.last();
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate SPECIF_2 - " + response.getRow() + " line");
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate GETCUSTOMERS - " + response.getRow() + " line");
                         } else  {
-                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate SPECIF_2 - error");
+                            //if the rate isn't found
+                            listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - get rate GETCUSTOMERS - error");
                         }
 
                         out.println(gsonSerial.serializeListArray(objectList));
                         out.flush();
-                    break;
-                    default:
-                        //Coding
                     break;
                 }
                 break;
@@ -520,9 +527,9 @@ public class UserCommunicate implements Runnable {
                                 + "AND t_client.id_client=" + object + ";";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
                         response.next();
-                        
+
                         listener.changeTextLog("Nom: " + response.getString("last_name"));
-                        SpecifRuben tmp = new SpecifRuben(response.getInt("id_client"), 
+                        SpecifRuben tmp = new SpecifRuben(response.getInt("id_client"),
                         response.getString("last_name") ,
                         response.getString("first_name"),
                         response.getString("mail"),
@@ -530,7 +537,7 @@ public class UserCommunicate implements Runnable {
                         response.getString("wording"),
                         response.getDouble("rate"),
                         response.getInt("id_loan"),
-                        response.getDouble("amount")        
+                        response.getDouble("amount")
                         );
 
                         //response.getInt("COUNTADRESS");
@@ -549,12 +556,12 @@ public class UserCommunicate implements Runnable {
                     // case : customers list
                     case "GetCustomers" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting customers");
-                        
+
                         String nom = object;
                         String sqlQuery4;
                         ResultSet rs4;
                         ArrayList<Customer> customersList = new ArrayList<>();
-                        
+
                         // get the loan types
                         sqlQuery4 = "SELECT id_client, last_name, first_name, mail "
                                 + "FROM t_client "
@@ -563,7 +570,7 @@ public class UserCommunicate implements Runnable {
                                 + "OR first_name||' '||last_name ilike '" + nom + "%' "
                                 + "OR last_name|| ' '||first_name ilike '" + nom + "%';";
                         rs4 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery4);
-                        
+
                         // fill an ArrayList with the insurances data taken from the database
                         while (rs4.next()) {
                             Customer c = new Customer();
@@ -573,86 +580,86 @@ public class UserCommunicate implements Runnable {
                             c.setMail(rs4.getString("mail"));
                             customersList.add(c);
                         }
-                        
+
                         // serialize and send the ArrayList to the client
                         out.println("SUCCESS/" + gsonSerial.serializeArrayList(customersList));
                         out.flush();
-                        
+
                         break;
-                        
+
                     // case : get loan types list
                     case "GetLoanTypes" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
-                        
+
                         String sqlQuery1;
                         ResultSet rs1;
                         ArrayList<LoanType> loanTypesList = new ArrayList<>();
-                        
+
                         // get the loan types
                         sqlQuery1 = "SELECT id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max "
                                 + "FROM t_type_loan;";
                         rs1 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery1);
-                        
+
                         // fill an ArrayList with the insurances data taken from the database
                         while (rs1.next()) {
                             loanTypesList.add(new LoanType(rs1.getInt("id_type_loan"), rs1.getString("wording"), rs1.getDouble("rate"), rs1.getInt("length_min"), rs1.getInt("length_max"), rs1.getInt("amount_min"), rs1.getInt("amount_max")));
                         }
-                        
+
                         // serialize and send the ArrayList to the client
                         out.println("SUCCESS/" + gsonSerial.serializeArrayList(loanTypesList));
                         out.flush();
-                        
+
                         break;
-                        
+
                     // case : get the details of an insurance
                     case "GetInsurances" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting insurances");
-                        
+
                         String loanType = object;
                         ArrayList<Insurance> insurancesList = new ArrayList<>();
                         String sqlQuery2;
                         ResultSet rs2;
-                        
+
                         // get the insurances for the given loan type
                         sqlQuery2 = "SELECT id_insurance, i.id_type_loan, i.rate, i.wording "
                                 + "FROM t_insurance i, t_type_loan t "
                                 + "WHERE i.id_type_loan = t.id_type_loan "
                                 + "AND i.id_type_loan = " + loanType + ";";
                         rs2 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery2);
-                        
+
                         // fill an ArrayList with the insurances data taken from the database
                         while (rs2.next()) {
                             insurancesList.add(new Insurance(rs2.getInt("id_insurance"), rs2.getInt("id_type_loan"), rs2.getDouble("rate"), rs2.getString("wording")));
                         }
-                        
+
                         // serialize and send the ArrayList to the client
                         out.println("SUCCESS/" + gsonSerial.serializeArrayList(insurancesList));
                         out.flush();
-                        
+
                         break;
-                        
+
                     // case : simulate a fixed rate loan
                     case "CalculateLoan" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting fixed rate loan simulation");
-                        
+
                         // get the loan simulation data from the client
                         FixedRateSimulation frs = gsonSerial.unserializeFixedRateSimulation(object);
-                        
+
                         //System.out.println("montant pret : " + frs.getAmount());
                         //System.out.println("duree pret : " + frs.getDuration());
                         //System.out.println("taux assurance : " + frs.getInsurance().getRate());
                         //System.out.println("taux intérêt : " + frs.getInterestRate());
-                        
+
                         // calculate loan monthly payment
-                        FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs); 
+                        FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs);
                         c.calculateMonthlyPayment();
-                        
+
                         // serialize and send the fixed rate loan simulation to the client
                         out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
                         out.flush();
-                        
+
                         break;
-                        
+
                     // case : malformed query
                     default:
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - bad query");
@@ -675,10 +682,10 @@ public class UserCommunicate implements Runnable {
                     case "toto":
                     	request = "SELECT login FROM t_client WHERE id_client = " + object + ";";
                         response = Server.connectionPool[poolIndex].requestWithResult(request);
-                        
+
                         response.next();
                         listener.changeTextLog("LINDA INFO - nom=" + response.getString("last_name"));
-                        
+
                         out.println(response.getString("last_name"));
                         out.flush();
                     	break;
