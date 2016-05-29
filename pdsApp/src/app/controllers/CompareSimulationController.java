@@ -51,7 +51,7 @@ public class CompareSimulationController {
 
   public ArrayList<String[]> getSimulations(Integer id, String type){
     System.out.println("Desired customer id : "+id);
-    System.out.println("Desired loan type : "+name);
+    System.out.println("Desired loan type : "+type);
     ArrayList<String[]> simulations = new ArrayList<String[]>();
     out.println("GETCUSTOMERS/Simulation/"+String.valueOf(id)+"/"+type);
     out.flush();
