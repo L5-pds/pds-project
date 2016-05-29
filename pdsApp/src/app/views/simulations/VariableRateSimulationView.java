@@ -64,8 +64,8 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private JLabel err = new JLabel();
 
   private JButton bouton1 = new JButton("Valider");
-  private JButton bouton2 = new JButton("Afficher les scénarios favorables");
-  private JButton bouton3 = new JButton("Afficher les scénarios défavorables");
+  private JButton bouton2 = new JButton("Afficher les scÃ©narios favorables");
+  private JButton bouton3 = new JButton("Afficher les scÃ©narios dÃ©favorables");
   private JPanel body1; // my use-case body
 
 
@@ -134,7 +134,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	    answerCap.setPreferredSize(new Dimension(30,40));
 
 
-	    labelTime= new JLabel("Durée :");
+	    labelTime= new JLabel("DurÃ©e :");
 	    labelTime.setFont(new java.awt.Font("Verdana", 0,30));
 	    labelTime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 	    answerTime.setPreferredSize(new Dimension(30,40));
@@ -222,14 +222,14 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	      public void actionPerformed(ActionEvent arg0) {
           try {
             if(Double.parseDouble(answerAmount.getText()) < minimumAmount){
-              err.setText("Le montant doit être supérieur à "+minimumAmount+"€");
+              err.setText("Le montant doit Ãªtre supÃ©rieur Ã  "+minimumAmount+"â‚¬");
               body1.add(err);
             }
             else
               resultsIHM1(getAnswerInitialRate());
           }
           catch (NumberFormatException e) {
-            err.setText("Le montant doit être de type numérique");
+            err.setText("Le montant doit Ãªtre de type numÃ©rique");
             body1.add(err);
           }
 
@@ -241,14 +241,14 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	    // Add of an event when clicking on the bouton2
 	    bouton2.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent arg0) {
-	        resultsIHM2("Scénarios Favorables");
+	        resultsIHM2("ScÃ©narios Favorables");
 
 	      }
 	    });
 	    // Add of an event when clicking on the bouton3
 	    bouton3.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent arg0) {
-	        resultsIHM2("Scénarios défavorables");
+	        resultsIHM2("ScÃ©narios dÃ©favorables");
 	      }
 	    });
 
@@ -274,11 +274,11 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 
 
 
-    labelAmount.setText("Montant du prêt:  " + getAnswerAmount()+ " euros");
-    labelTime.setText("Durée du prêt:   "+ answerTime.getSelectedItem()+ "ans");
+    labelAmount.setText("Montant du prÃªt:  " + getAnswerAmount()+ " euros");
+    labelTime.setText("DurÃ©e du prÃªt:   "+ answerTime.getSelectedItem()+ "ans");
     labelCap.setText("Le cap choisit est "+ answerCap.getSelectedItem());
-    labelInitialRate.setText("Taux d'intérêt actuel: " + "  " + interestRate + "%");
-    labelResult.setText("Le taux d'intérêt sera au minimum "+lowerBoundaryRound+"%  "+ "et au maximum "+upperBoundaryRound+ "%");
+    labelInitialRate.setText("Taux d'intÃ©rÃªt actuel: " + "  " + interestRate + "%");
+    labelResult.setText("Le taux d'intÃ©rÃªt sera au minimum "+lowerBoundaryRound+"%  "+ "et au maximum "+upperBoundaryRound+ "%");
 
 
     body1.setLayout(new GridLayout(7,1,20,20));
@@ -321,7 +321,7 @@ private void resultsIHM2(String title) {
 
 
     //Instantiation of the titles
-    String[] titles = {"Année", "Taux", "Mensualité", "Total Payé"};
+    String[] titles = {"AnnÃ©e", "Taux", "MensualitÃ©", "Total PayÃ©"};
     Object[][] data = null;
 
     //Instantiation of the table
@@ -342,7 +342,7 @@ private void resultsIHM2(String title) {
 
 
 
-    if(title=="Scénarios Favorables"){
+    if(title=="ScÃ©narios Favorables"){
 
 
     	//Scenario 1
@@ -358,7 +358,7 @@ private void resultsIHM2(String title) {
     	interest= this.labelString(this.getAnswerInitialRate());// update of the interest rate
 
     	 double interet1=totalToPay1 - (labelString(answerAmount.getText()));// The total amount interest rate to pay
-         model1.addRow(new Object[]{"Taux d'intéret",interet1});
+         model1.addRow(new Object[]{"Taux d'intÃ©rÃªt",interet1});
 
     	//Scenario 2
     	double totalToPay2= 0;
@@ -372,7 +372,7 @@ private void resultsIHM2(String title) {
     	interest= this.labelString(this.getAnswerInitialRate());
 
     	 double interet2=totalToPay2 - (labelString(answerAmount.getText()));
-         model2.addRow(new Object[]{"Taux d'intéret",interet2});
+         model2.addRow(new Object[]{"Taux d'intÃ©rÃªt",interet2});
 
     	//Scenario 3
     	double totalToPay31=0 ;
@@ -396,7 +396,7 @@ private void resultsIHM2(String title) {
     	model3.addRow(new Object[]{"Total",totalToPay32});
 
     double interet3=totalToPay32 - (labelString(answerAmount.getText()));
-    model3.addRow(new Object[]{"Taux d'intéret",interet3});
+    model3.addRow(new Object[]{"Taux d'intÃ©rÃªt",interet3});
     }
 
     else{
@@ -416,7 +416,7 @@ private void resultsIHM2(String title) {
       model1.addRow(new Object[]{"Montant total",totalToPay1});
 
       double interet1=totalToPay1 - (labelString(answerAmount.getText()));
-      model1.addRow(new Object[]{"Total des intérêts",interet1});
+      model1.addRow(new Object[]{"Total des intÃ©rÃªts",interet1});
 
 
 
@@ -442,7 +442,7 @@ private void resultsIHM2(String title) {
         }
        model2.addRow(new Object[]{"Montant total",totalToPay22});
        double interet2=totalToPay22 - (labelString(answerAmount.getText()));
-       model2.addRow(new Object[]{"Total des intérêts",interet2});
+       model2.addRow(new Object[]{"Total des intÃ©rÃªts",interet2});
 
 
 
@@ -474,20 +474,20 @@ private void resultsIHM2(String title) {
     model3.addRow(new Object[]{"Total",totalToPay32});
 
     double interet3=totalToPay32 - (labelString(answerAmount.getText()));
-    model3.addRow(new Object[]{"Taux d'intéret",interet3});
+    model3.addRow(new Object[]{"Taux d'intÃ©rÃªt",interet3});
 
   	}
 
     pan1.add(new JScrollPane(table1),BorderLayout.CENTER);
-    onglet.add("scénario1",pan2);
+    onglet.add("scï¿½nario1",pan2);
 
 
     pan2.add(new JScrollPane(table2),BorderLayout.CENTER);
-    onglet.add("scénario2",pan1);
+    onglet.add("scï¿½nario2",pan1);
 
 
     pan3.add(new JScrollPane(table3),BorderLayout.CENTER);
-    onglet.add("scénario3",pan3);
+    onglet.add("scï¿½nario3",pan3);
 
     fenetre.getContentPane().add(onglet);
     fenetre.setVisible(true);

@@ -24,16 +24,16 @@ import java.awt.*;
 	    };
 
 	    // Title of the columns
-	    String  title[] = {	"Type de prêt", 
-	    					"Très bon client",
+	    String  title[] = {	"Type de prÃªt", 
+	    					"TrÃ¨s bon client",
 	    					"Bon client",
-	    					"Maison-mère",
-	    					"Client risqué",
-	    					"Client très risqué"};
+	    					"Maison-mÃ¨re",
+	    					"Client risquÃ©",
+	    					"Client trÃ©s risquÃ©"};
 	    JTable board = new JTable(data, title)	;
 	    
 	   
-	    //Nous ajoutons notre tableau à notre contentPane dans un scroll
+	    //Nous ajoutons notre tableau Ã  notre contentPane dans un scroll
 	    //Sinon les titres des colonnes ne s'afficheront pas 
 	    this.getContentPane().add(new JScrollPane(board));
 

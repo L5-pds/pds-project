@@ -47,7 +47,7 @@ public class ControllerLinda {
     	try {
             out.println("SPECIF_6/toto/" + idCustomer);
             out.flush();
-            javax.swing.JOptionPane.showMessageDialog(null,"R�ponse: " + in.readLine());
+            javax.swing.JOptionPane.showMessageDialog(null,"Réponse: " + in.readLine());
         } catch (HeadlessException | IOException e) {
           javax.swing.JOptionPane.showMessageDialog(null,"Le serveur ne répond plus");
         }

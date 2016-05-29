@@ -8,7 +8,7 @@ public class HomeLoan extends JFrame{
 
 		this.setLocationRelativeTo(null);
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Gains et pertes pour les prêts immobilier");
+		this.setTitle("Gains et pertes pour les prÃªts immobilier");
 		this.setSize(600, 200);
 		this.add(lab);
 		
@@ -20,17 +20,17 @@ public class HomeLoan extends JFrame{
 
 		// Title of the columns
 		String  title[] = {	"", 
-				"Très bon client",
+				"TrÃ¨s bon client",
 				"Bon client",
-				"Maison-mère",
-				"Client risqué",
-				"Client très risqué"};
+				"Maison-mÃ¨re",
+				"Client risquÃ©",
+				"Client trÃ¨s risquÃ©"};
 		JTable board = new JTable(data, title) ;
 		
 		this.getContentPane().add(new JScrollPane(board));
 		
 	}   
-	//	this.getContentPane().add(new JLabel("Gains et pertes pour un prêt de 400 000 Euros sur 15 ans"));
+	//	this.getContentPane().add(new JLabel("Gains et pertes pour un prÃªt de 400 000 Euros sur 15 ans"));
 	JLabel lab = new JLabel() ;
 	
 

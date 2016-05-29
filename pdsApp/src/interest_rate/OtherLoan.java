@@ -9,7 +9,7 @@ public class OtherLoan extends JFrame {
 
 		this.setLocationRelativeTo(null);
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Gains et pertes pour les prêts divers");
+		this.setTitle("Gains et pertes pour les prÃªts divers");
 		this.setSize(600, 200);
 
 		// Data of the board : rate according to the grade and the type of loan
@@ -21,15 +21,15 @@ public class OtherLoan extends JFrame {
 		// Title of the columns
 		String  title[] = {	
 				"", 
-				"Très bon client",
+				"TrÃ¨s bon client",
 				"Bon client",
-				"Maison-mère",
-				"Client risqué",
-				"Client très risqué"};
+				"Maison-mÃ¨re",
+				"Client risquÃ©",
+				"Client trÃ¨s risquÃ©"};
 		JTable board = new JTable(data, title) ;
 
 
-		//Nous ajoutons notre tableau à notre contentPane dans un scroll
+		//Nous ajoutons notre tableau Ã  notre contentPane dans un scroll
 		//Sinon les titres des colonnes ne s'afficheront pas 
 		this.getContentPane().add(new JScrollPane(board));
 

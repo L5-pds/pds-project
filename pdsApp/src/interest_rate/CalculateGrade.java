@@ -36,13 +36,13 @@ public class CalculateGrade extends JFrame {
 		this.getContentPane().add(new JLabel("Salaire"));
 		this.getContentPane().add(salary);
 		
-		this.getContentPane().add(new JLabel("Type de prêt"));
+		this.getContentPane().add(new JLabel("Type de prÃªt"));
 		this.getContentPane().add(type);
 		
-		this.getContentPane().add(new JLabel("Montant du prêt"));
+		this.getContentPane().add(new JLabel("Montant du prÃªt"));
 		this.getContentPane().add(amount);
 		
-		this.getContentPane().add(new JLabel("Durée du prêt"));
+		this.getContentPane().add(new JLabel("DurÃ©e du prÃªt"));
 		this.getContentPane().add(duration);
 		
 		this.getContentPane().add(new JLabel("Fumeur"));
@@ -51,16 +51,16 @@ public class CalculateGrade extends JFrame {
 		this.getContentPane().add(new JLabel("Maladie"));
 		this.getContentPane().add(disease);
 		
-		this.getContentPane().add(new JLabel("Dépendance à l'alcool"));
+		this.getContentPane().add(new JLabel("DÃ©pendance Ã  l'alcool"));
 		this.getContentPane().add(alcohol);
 		
-		this.getContentPane().add(new JLabel("Obésité"));
+		this.getContentPane().add(new JLabel("ObÃ¨sitÃ©"));
 		this.getContentPane().add(corpulence);
 		
 		this.getContentPane().add(new JLabel("Risque au travail"));
 		this.getContentPane().add(job_risk);
 		
-		this.getContentPane().add(new JLabel("Prédisposition génétique"));
+		this.getContentPane().add(new JLabel("PrÃ©disposition gÃ©nÃ©tique"));
 		this.getContentPane().add(disease_risk);
 		
 		JButton buttonValidate = new JButton("Valider");

@@ -185,7 +185,7 @@ public class Rate_calculation {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 1-1") ;
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type du prÃªt 1-1") ;
 				}
 			}
 			else if ((loan_duration>=36) && (loan_duration <60)){
@@ -203,7 +203,7 @@ public class Rate_calculation {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 1-2"));
+					System.out.println(("Le montant n'est pas dÃ©fini pour ce type de prÃªt 1-2"));
 				}
 			}
 			else if ((loan_duration>=60) && (loan_duration <= 84) ){
@@ -220,11 +220,11 @@ public class Rate_calculation {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 1-3");
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type de prÃªt 1-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durï¿½e n'est pas dÃ©finie pour ce type de prÃªt");
 
 			System.out.println("grade after adding duration and amount parameters : " + grade) ;
 			break ;
@@ -247,7 +247,7 @@ public class Rate_calculation {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 2-1") ;
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type du prÃªt 2-1") ;
 				}
 			}
 			else if ((loan_duration>=180) && (loan_duration <240)){
@@ -265,7 +265,7 @@ public class Rate_calculation {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 2-2"));
+					System.out.println(("Le montant n'est pas dÃ©fini pour ce type de prÃªt 2-2"));
 				}
 			}
 			else if ((loan_duration>=240) && (loan_duration <= 360) ){
@@ -282,11 +282,11 @@ public class Rate_calculation {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 2-3");
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type de prÃªt 2-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durÃ©e n'est pas dÃ©fini pour ce type de prÃªt");
 
 			System.out.println("grade after adding duration and amount parameters : " + grade) ;
 			break ;
@@ -309,7 +309,7 @@ public class Rate_calculation {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 3-1") ;
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type de prÃªt 3-1") ;
 				}
 			}
 			else if ((loan_duration>=24) && (loan_duration <48)){
@@ -327,7 +327,7 @@ public class Rate_calculation {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 3-2"));
+					System.out.println(("Le montant n'est pas dÃ©fini pour ce type de prÃªt 3-2"));
 				}
 			}
 			else if ((loan_duration>=48) && (loan_duration <= 84)){
@@ -344,17 +344,17 @@ public class Rate_calculation {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 3-3");
+					System.out.println("Le montant n'est pas dÃ©fini pour ce type de prÃªt 3-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durÃ©e n'est pas dÃ©finie pour ce type de prÃªt");
 
 			System.out.println("grade after adding duration and amount parameters : " + grade) ;
 			break ;
 
 		default :
-			System.out.println("Erreur : vérifier que le client possède un prêt");
+			System.out.println("Erreur : vÃ©rifier que le client possÃ¨de un prÃªt");
 		}
 
 		// calculating the debt ratio
