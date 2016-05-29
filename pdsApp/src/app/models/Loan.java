@@ -2,44 +2,39 @@ package app.models;
 
 import java.util.Date;
 
-
 public class Loan {
-  
+
     int id_loan;
+
     String wording;
+
     double amount;
+
     int length_loan;
+
     String type_length_loan;
+
     String type_rate_loan;
+
     int id_type_loan;
+
     int id_client;
+
     int id_advisor;
+
     Date entry;
-    
-    
-    
-    public Loan(int id_loan, 
-            String wording,
-            double amount,
-            int length_loan,
-            String type_length_loan,
-            String type_rate_loan,
-            int id_type_loan,
-            int id_client,
-            int id_advisor,
-            Date entry){
-        
-        this.id_loan=id_loan;
-        this.wording=wording;
-        this.amount=amount;
-        this.length_loan=length_loan;
-        this.type_length_loan=type_length_loan;
-        this.type_rate_loan=type_rate_loan;
-        this.id_type_loan=id_type_loan;
-        this.id_client=id_client;
-        this.id_advisor=id_advisor;
-        this.entry=entry;
-   
+
+    public Loan(int id_loan, String wording, double amount, int length_loan, String type_length_loan, String type_rate_loan, int id_type_loan, int id_client, int id_advisor, Date entry) {
+        this.id_loan = id_loan;
+        this.wording = wording;
+        this.amount = amount;
+        this.length_loan = length_loan;
+        this.type_length_loan = type_length_loan;
+        this.type_rate_loan = type_rate_loan;
+        this.id_type_loan = id_type_loan;
+        this.id_client = id_client;
+        this.id_advisor = id_advisor;
+        this.entry = entry;
     }
 
     public int getId_loan() {
