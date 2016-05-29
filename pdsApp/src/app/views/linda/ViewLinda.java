@@ -49,7 +49,7 @@ public class ViewLinda extends JPanel implements ListenerLinda {
 
 
 		// will create a JTable with the different profils
-		JButton actionInterestRate = new JButton("Afficher les taux d'intérêts");
+		JButton actionInterestRate = new JButton("Afficher les taux d'intÃ©rÃªts");
 		actionInterestRate.setBounds(100,50,100,20);
 		container.add(actionInterestRate) ;
 

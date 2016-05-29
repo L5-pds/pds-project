@@ -27,7 +27,7 @@ public class GainLoss extends JFrame {
 
 
 
-		JButton carLoan = new JButton ("Prêt Automobile") ;
+		JButton carLoan = new JButton ("PrÃªt Automobile") ;
 		//carLoan.setBounds(20,100,100,40);
 		container.add(carLoan);
 
@@ -38,7 +38,7 @@ public class GainLoss extends JFrame {
 			}
 		});
 
-		JButton homeLoan = new JButton ("Prêt Immobilier") ;
+		JButton homeLoan = new JButton ("PrÃªt Immobilier") ;
 		//homeLoan.setBounds(20,200,100,40);
 		container.add(homeLoan);
 		
@@ -50,7 +50,7 @@ public class GainLoss extends JFrame {
 
 			}
 		});
-		JButton otherLoan = new JButton ("Prêt Divers") ;
+		JButton otherLoan = new JButton ("PrÃªt Divers") ;
 		//otherLoan.setBounds(20,300,100,40);
 		container.add(otherLoan);
 

@@ -296,7 +296,11 @@ public class CalcAm {
         Document document = new Document();
 
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStr + "-" + idpdf + ".pdf"));
+            
+            SimpleDateFormat simpleDateSpecifFormat = new SimpleDateFormat("dd-MM-yyyy_HHmmss");
+            String dataSpecifStr = simpleDateSpecifFormat.format(new Date());
+            
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dataSpecifStr + "-" + idpdf + ".pdf"));
             document.open();
             // Set color and police
 
