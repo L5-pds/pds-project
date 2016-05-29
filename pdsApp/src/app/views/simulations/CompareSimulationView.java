@@ -99,7 +99,20 @@ public class CompareSimulationView implements CompareSimulationListener{
     searchButton.setText("Chercher");
     searchButton.addActionListener(new ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        nextStep("name");
+        if(nameField.getText().indexOf("\'") != -1 || nameField.getText().indexOf("\"") != -1){
+          globalPanel.remove(selectTypeLabel);
+          globalPanel.remove(cbClient);
+          globalPanel.remove(selectClientLabel);
+          globalPanel.remove(cbType);
+          globalPanel.remove(validateButton);
+          globalPanel.remove(errLabel);
+          errLabel.setText("Nom invalide");
+          globalPanel.add(errLabel);
+          cont.revalidate();
+          cont.repaint();
+        }
+        else
+          nextStep("name");
       }
     });
     validateButton.setText("Valider");
@@ -223,11 +236,18 @@ public class CompareSimulationView implements CompareSimulationListener{
         if(data.length != 0){
           globalPanel.removeAll();
           globalPanel.add(simulationLabel);
+          //initialization of columns titles
           Object[] columnNames = {"Id", "Date", "Label", "Montant", "Durée", ""};
           tab = table(data, columnNames, true);
           JScrollPane scrollPane = new JScrollPane(tab);
+          //add list of simulations to the frame
           globalPanel.add(scrollPane);
-          globalPanel.add(compareButton);
+          //create independent panel for compare button
+          JPanel comparePane = new JPanel();
+          comparePane.setBackground(new Color(215,203,233,255));
+          comparePane.add(compareButton);
+          //add compare button to the frame
+          globalPanel.add(comparePane);
         }
         //If there are no results, we inform the user so
         else{
@@ -343,7 +363,7 @@ public class CompareSimulationView implements CompareSimulationListener{
       //System.out.println(data[i][7].toString());
       //System.out.println(data[i+1][7].toString());
       //System.out.println(Double.parseDouble(data[i+1][7].toString()));
-      
+
       if(Double.parseDouble(data[i][7].toString().replace(",", ".")) > Double.parseDouble(data[i+1][7].toString().replace(",", "."))){
         tmp = data[i];
         data[i] = data[i+1];
@@ -374,7 +394,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     //Change panel background
     tablePanel.setBackground(new Color(215,203,233,255));
     //create and add charts to the bottom panel
-    bottom.add(dualChart(data, "Niveau d'endettement", "Montant (€)", "Ratio (%)", "Salaire", "Mensualité", true));
+    bottom.add(dualChart(data, "Niveau d'endettement", "Montant (€)", "Ratio", "Salaire", "Mensualité", true));
     bottom.add(dualChart(data, "Durée du prêt", "Durée (année)", "", "Durée", "", false));
     bottom.setBackground(new Color(215,203,233,255));
 

@@ -46,7 +46,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private Container cont;
   private VariableRateSimulationController controller;
 
-  
+
   private JLabel labelResult;
   private JLabel labelAmount;
   private JLabel labelInitialRate;
@@ -61,17 +61,19 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
   private JComboBox answerTime;
   private JTextField answerInitialRate;
   private JComboBox answerCap;
+  private JLabel err = new JLabel();
 
   private JButton bouton1 = new JButton("Valider");
   private JButton bouton2 = new JButton("Afficher les scénarios favorables");
   private JButton bouton3 = new JButton("Afficher les scénarios défavorables");
   private JPanel body1; // my use-case body
- 
+
 
   //Interest rate max and min value
   private double lowerBoundary;
   private double upperBoundary;
   double stringToInt;
+  int minimumAmount = 50000;
 
 
   public VariableRateSimulationView(VariableRateSimulationController controller, JPanel body, Container cont){
@@ -79,16 +81,16 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
     this.body = body;
     this.cont = cont;
   }
-  
+
   public void setIHM() {
       body.removeAll();
       body.add(initComponent());
       cont.revalidate();
       cont.repaint();
   }
- 
+
   public JPanel initComponent(){
-	  
+
 	    // Instantiation of JComboBox for the cap
 	    String[] tab1 = {"","-1%  et +1%", "-2%  et +2%"};
 	    answerCap = new JComboBox(tab1);
@@ -102,52 +104,52 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	    answerTime.setPreferredSize(new Dimension (250,20));
 	    answerTime.setSelectedIndex(0);
 	    answerTime.setFont(new Font(tab2.toString(), Font.ITALIC, 20));
-	
+
 	    labelAmount= new JLabel("Montant");
 	    setAnswer_amount(new RoundJTextField(20));
 	    answerAmount.setColumns(20);
-	    
-	    
+
+
 	    labelAmount.setFont(new java.awt.Font("Verdana", 0,30));
 	    labelAmount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-	    
-	    answerAmount.setFont(new java.awt.Font("Verdana", 0,30)); 
+
+	    answerAmount.setFont(new java.awt.Font("Verdana", 0,30));
 	    answerAmount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
 
 	    labelInitialRate= new JLabel("Taux initial:");
 	    setAnswer_initial_rate(new RoundJTextField(20));
 	    answerInitialRate.setColumns(20);
-	    
-	    
-	    labelInitialRate.setFont(new java.awt.Font("Verdana", 0, 30)); 
+
+
+	    labelInitialRate.setFont(new java.awt.Font("Verdana", 0, 30));
 	    labelInitialRate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-	    
-	    answerInitialRate.setFont(new java.awt.Font("Verdana", 0,30)); 
+
+	    answerInitialRate.setFont(new java.awt.Font("Verdana", 0,30));
 	    answerInitialRate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
 	    labelCap= new JLabel("Cap :");
 	    labelCap.setFont(new java.awt.Font("Verdana", 0,30));
 	    labelCap.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 	    answerCap.setPreferredSize(new Dimension(30,40));
-	    
-	    
+
+
 	    labelTime= new JLabel("Durée :");
 	    labelTime.setFont(new java.awt.Font("Verdana", 0,30));
 	    labelTime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 	    answerTime.setPreferredSize(new Dimension(30,40));
-	    
+
 	    labelResult= new JLabel();
 	    labelResult.setFont(new java.awt.Font("Verdana", 0,0));
-	    
-	    
-	   
-	  
+
+
+
+
 
 	    body1= new JPanel();
 		body1.setBackground(new Color(215,203,233,255));
 		body1.setLayout(new BoxLayout(body1,BoxLayout.Y_AXIS));
-		
+
 		body1.add(labelAmount);
 		body1.add(answerAmount);
 		body1.add(labelTime);
@@ -157,8 +159,8 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 		body1.add(labelInitialRate);
 		body1.add(answerInitialRate);
 		body1.add(bouton1);
-		
-		
+
+
 		// Add actionListener on answer_cap
 	    answerCap.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent arg0) {
@@ -186,7 +188,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 
 	          }
 	        }
-	        
+
 	        else if (answerCap.getSelectedItem()=="-2%  et +2%"){
 
 		          switch(answerTime.getSelectedIndex())
@@ -218,8 +220,19 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 	    // Add of an event when clicking on the bouton1
 	    bouton1.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent arg0) {
-	    	  resultsIHM1(getAnswerInitialRate());
-	        
+          try {
+            if(Double.parseDouble(answerAmount.getText()) < minimumAmount){
+              err.setText("Le montant doit être supérieur à "+minimumAmount+"€");
+              body1.add(err);
+            }
+            else
+              resultsIHM1(getAnswerInitialRate());
+          }
+          catch (NumberFormatException e) {
+            err.setText("Le montant doit être de type numérique");
+            body1.add(err);
+          }
+
 	    	  cont.revalidate();
 	    	  cont.repaint();
 	      }
@@ -244,12 +257,12 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 		return body1;
 
   }
-  
+
   //Creation of the results view
   private JPanel resultsIHM1(String interestRate) {
     body1.removeAll();
- 
-    
+
+
     lowerBoundary=labelString(interestRate)-borne();
     upperBoundary=labelString(interestRate)+borne();
 
@@ -258,16 +271,16 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
     controller.initialization();
     double monthPayment1= controller.calculateMonthlyPayment(this.labelString(this.getAnswerInitialRate()));
     double totalToPay = monthPayment1*(this.labelString(this.getAnswerTime())*12);
-    
-    
- 
+
+
+
     labelAmount.setText("Montant du prêt:  " + getAnswerAmount()+ " euros");
     labelTime.setText("Durée du prêt:   "+ answerTime.getSelectedItem()+ "ans");
     labelCap.setText("Le cap choisit est "+ answerCap.getSelectedItem());
     labelInitialRate.setText("Taux d'intérêt actuel: " + "  " + interestRate + "%");
     labelResult.setText("Le taux d'intérêt sera au minimum "+lowerBoundaryRound+"%  "+ "et au maximum "+upperBoundaryRound+ "%");
-    
- 
+
+
     body1.setLayout(new GridLayout(7,1,20,20));
     body1.add(labelAmount);
     body1.add(labelTime);
@@ -282,7 +295,7 @@ public class VariableRateSimulationView extends JPanel implements VariableRateSi
 
 
 private void resultsIHM2(String title) {
-	
+
     double interest= this.labelString(this.getAnswerInitialRate());
     controller.initialization();
     double monthPayment2= controller.calculateMonthlyPayment(interest);
@@ -315,23 +328,23 @@ private void resultsIHM2(String title) {
     DefaultTableModel model1 = new DefaultTableModel(data,titles);
     JTable table1 = new JTable(model1);
     table1.setRowHeight(50);
-    
+
     DefaultTableModel model2 = new DefaultTableModel(data,titles);
     JTable table2 = new JTable(model2);
     table2.setRowHeight(50);
-    
+
     DefaultTableModel model3 = new DefaultTableModel(data,titles);
     JTable table3 = new JTable(model3);
     table3.setRowHeight(50);
-    
-    
-    
-  
-    
+
+
+
+
+
 
     if(title=="Scénarios Favorables"){
-    
-     
+
+
     	//Scenario 1
     	double totalToPay1= 0;
     	for(int i=1; i<=duree; i++){
@@ -343,10 +356,10 @@ private void resultsIHM2(String title) {
       }
     	model1.addRow(new Object[]{"Total",totalToPay1}); //Add of the total to pay in the table
     	interest= this.labelString(this.getAnswerInitialRate());// update of the interest rate
-    	
-    	 double interet1=totalToPay1 - (labelString(answerAmount.getText()));// The total amount interest rate to pay 
+
+    	 double interet1=totalToPay1 - (labelString(answerAmount.getText()));// The total amount interest rate to pay
          model1.addRow(new Object[]{"Taux d'intéret",interet1});
-    	
+
     	//Scenario 2
     	double totalToPay2= 0;
     	for(int i=1; i<=duree; i++){
@@ -357,10 +370,10 @@ private void resultsIHM2(String title) {
           }
     	model2.addRow(new Object[]{"Total",totalToPay2});
     	interest= this.labelString(this.getAnswerInitialRate());
-    	
+
     	 double interet2=totalToPay2 - (labelString(answerAmount.getText()));
          model2.addRow(new Object[]{"Taux d'intéret",interet2});
-    	
+
     	//Scenario 3
     	double totalToPay31=0 ;
     	for(int i=1; i<=(duree/2)+1; i++){
@@ -370,8 +383,8 @@ private void resultsIHM2(String title) {
             model3.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
             totalToPay31=totalToPay31+labelString(model2.getValueAt(i - 1,3).toString());
               }
-    	
-    	
+
+
     	double totalToPay32 = totalToPay31;
     	for(int i=(duree/2)+2; i<=duree; i++){
             interest=Math.floor(100*(interest-(1.0/duree)))/100;
@@ -381,14 +394,14 @@ private void resultsIHM2(String title) {
             totalToPay32=totalToPay32+labelString(model3.getValueAt(i - 1,3).toString());
               }
     	model3.addRow(new Object[]{"Total",totalToPay32});
-       
+
     double interet3=totalToPay32 - (labelString(answerAmount.getText()));
     model3.addRow(new Object[]{"Taux d'intéret",interet3});
     }
-    
+
     else{
-    	
-    	
+
+
       //Scenarios 1
       interest= this.labelString(this.getAnswerInitialRate());
       double totalToPay1= 0;
@@ -400,13 +413,13 @@ private void resultsIHM2(String title) {
         model1.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
         totalToPay1=totalToPay1+labelString(model1.getValueAt(i - 1,3).toString());
       }
-      model1.addRow(new Object[]{"Total",totalToPay1});
-      
+      model1.addRow(new Object[]{"Montant total",totalToPay1});
+
       double interet1=totalToPay1 - (labelString(answerAmount.getText()));
-      model1.addRow(new Object[]{"Taux d'intéret",interet1});
-      
-      
-     
+      model1.addRow(new Object[]{"Total des intérêts",interet1});
+
+
+
       //Scenarios 2
       interest= this.labelString(this.getAnswerInitialRate());
       double totalToPay21= 0;
@@ -416,9 +429,9 @@ private void resultsIHM2(String title) {
           model2.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
           totalToPay21=totalToPay21+labelString(model2.getValueAt(i - 1,3).toString());
         }
-      
-      
-     
+
+
+
       double totalToPay22=totalToPay21;
       for(int i=(duree/2)+2; i<=duree; i++){
           interest=Math.floor(100*(interest+(1.0/duree)))/100;
@@ -427,13 +440,13 @@ private void resultsIHM2(String title) {
           model2.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
           totalToPay22=totalToPay22+labelString(model2.getValueAt(i - 1,3).toString());
         }
-       model2.addRow(new Object[]{"Total",totalToPay22});
+       model2.addRow(new Object[]{"Montant total",totalToPay22});
        double interet2=totalToPay22 - (labelString(answerAmount.getText()));
-       model2.addRow(new Object[]{"Taux d'intéret",interet2});
-      
-      
-       
-       
+       model2.addRow(new Object[]{"Total des intérêts",interet2});
+
+
+
+
        //Scenarios 3
        interest= this.labelString(this.getAnswerInitialRate());
        double totalToPay31= 0;
@@ -446,9 +459,9 @@ private void resultsIHM2(String title) {
         model3.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
         totalToPay31=totalToPay31+labelString(model3.getValueAt(i - 1,3).toString());
         }
-  	   
-  	   
- 
+
+
+
   	   double totalToPay32= totalToPay31;
   	   for(int i=(duree/2)+2; i<=duree; i++){
         interest=Math.floor(100*(interest+(1.0/duree)))/100;
@@ -456,23 +469,23 @@ private void resultsIHM2(String title) {
         monthPayment=monthPayment2*12;
         model3.addRow(new Object[]{i,interest,monthPayment2,monthPayment});
         totalToPay32=totalToPay32+labelString(model3.getValueAt(i - 1,3).toString());
-        
+
       }
     model3.addRow(new Object[]{"Total",totalToPay32});
-    
+
     double interet3=totalToPay32 - (labelString(answerAmount.getText()));
     model3.addRow(new Object[]{"Taux d'intéret",interet3});
-    
+
   	}
 
     pan1.add(new JScrollPane(table1),BorderLayout.CENTER);
     onglet.add("scénario1",pan2);
-    
-    
+
+
     pan2.add(new JScrollPane(table2),BorderLayout.CENTER);
     onglet.add("scénario2",pan1);
-    
-    
+
+
     pan3.add(new JScrollPane(table3),BorderLayout.CENTER);
     onglet.add("scénario3",pan3);
 
@@ -527,11 +540,11 @@ private void resultsIHM2(String title) {
   public String getAnswerTime() {
     return answerTime.getSelectedItem().toString();
   }
-  
+
   public String getAnswerLastname() {
 	    return answerLastname.getText();
 	  }
-  
+
   public String getAnswerFistname() {
 	    return answerFirstname.getText();
 	  }
