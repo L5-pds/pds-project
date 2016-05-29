@@ -161,8 +161,12 @@ public class FixedRateSimulationControllerClient {
             // get the server answer and interpret it
             String answer = in.readLine();
             String[] splitAnswer = answer.split("/");
-            if (splitAnswer[0].equals("SUCCESS")) {
+            String result = splitAnswer[0];
+            if (result.equals("SUCCESS")) {
                 // simulation saved
+            }
+            else if (result.equals("FAILURE")) {
+                System.out.println("Echec de la sauvegarde du prêt");
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");

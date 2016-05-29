@@ -567,10 +567,10 @@ public class UserCommunicate implements Runnable {
                         // get the loan types
                         sqlQuery4 = "SELECT id_client, last_name, first_name, mail "
                                 + "FROM t_client "
-                                + "WHERE first_name ilike '" + nom + "%' "
-                                + "OR last_name ilike '" + nom + "%' "
-                                + "OR first_name||' '||last_name ilike '" + nom + "%' "
-                                + "OR last_name|| ' '||first_name ilike '" + nom + "%';";
+                                + "WHERE first_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR last_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR first_name||' '||last_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR last_name|| ' '||first_name ilike '" + nom.replaceAll("'","''") + "%';";
                         rs4 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery4);
 
                         // fill an ArrayList with the insurances data taken from the database
@@ -661,7 +661,63 @@ public class UserCommunicate implements Runnable {
                         out.flush();
 
                         break;
+                        
+                    // case : save loan simulation
+                    case "SaveLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - saving fixed rate loan simulation");
+                        
+                        String sqlQuery5, rep;
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs1 = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        // insert the loan simulation
+                        sqlQuery5 = "INSERT INTO t_loan_simulation(wording, amount, length_loan, type_length_loan, type_rate_loan, id_type_loan, id_client, id_advisor, entry) VALUES ("
+                                + "'" + frs1.getWording().replaceAll("'","''") + "',"
+                                + frs1.getAmount() + ","
+                                + frs1.getDuration() + ","
+                                + "'M',"
+                                + "'FIXE'," +
+                                + frs1.getLoanType().getId() + ","
+                                + frs1.getCustomer().getId() + ","
+                                + user.getId() + ","
+                                + "current_date"
+                                + ");";
+                        rep = Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery5);
+                        
+                        if (rep == "success") {
+                            // serialize and send the fixed rate loan simulation to the client
+                            out.println("SUCCESS/.");
+                        }
+                        else {
+                            out.println("FAILURE/.");
+                        }
+                        out.flush();
+                        
+                        break;
+                    
+                    // case : get the details of an insurance
+                    case "GetLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan simulation data");
 
+                        String loanId = object;
+                        String sqlQuery6;
+                        ResultSet rs5;
+                        FixedRateSimulation simulation;
+                        Customer c1;
+                        Insurance ins;
+                        LoanType type;
+
+                        // get the insurances for the given loan type
+                        sqlQuery6 = "";
+                        rs2 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery6);
+
+                        // serialize and send the ArrayList to the client
+                        //out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(simulation));
+                        out.flush();
+
+                        break;    
+                        
                     // case : malformed query
                     default:
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - bad query");
