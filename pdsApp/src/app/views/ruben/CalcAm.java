@@ -38,7 +38,7 @@ import javax.swing.JTable;
 
 public class CalcAm {
 //Begin declare variable
-    
+
     JPanel pane = new JPanel();
 
     JPanel paneLeft = new JPanel();
@@ -104,9 +104,9 @@ public class CalcAm {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy à HH:mm:ss");
 
     String dateStr = simpleDateFormat.format(new Date());
-    
+
 // END declare
-    
+
     public CalcAm(String data[][], int nombre_annee, double insuranceRate, double rate, double amount, double totalMonthlyPayement, double totalInterest, double totalinsurance) {
         this.number_month = nombre_annee;
         this.insuranceRate = insuranceRate;
@@ -124,9 +124,9 @@ public class CalcAm {
     }
 
     /**
-     *  
+     *
      */
-    
+
     public void amortissement_calcul(String data[][], double amount, double rate, double insuranceRate, int nombre_annee) {
         // Add data of the class Calcul to the table tableamort
         model = (DefaultTableModel) tableAmort.getModel();
@@ -136,9 +136,9 @@ public class CalcAm {
     }
 
     /**
-     * 
+     *
      */
-    
+
     private void initComponents() {
         // initialization of the  components.
         jScrollTabAmort = new JScrollPane();
@@ -161,7 +161,7 @@ public class CalcAm {
                     ViewRuben.btnGraphiques.doClick();
             }
         });
-        
+
         paneLeft.add(graphbutton);
         tableAmort.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {}, new String[] { "Mois N°", "Montant", "Mensualité Totale", "Intérets", "Mensualités", "Assurance", "Capital Restant" }));
         tableAmort.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -177,11 +177,11 @@ public class CalcAm {
         displayTotalLabel();
     }
 
-    
+
     /**
-     * 
+     *
      */
-    
+
     public void addPane() {
         // Add all panel to organize the windows
         pane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -203,10 +203,10 @@ public class CalcAm {
     }
 
     /**
-     * 
+     *
      */
     public void addPrintIcon() {
-    
+
         // Add the icon to print the table
         ImageIcon imgPrinter = new ImageIcon(WelcomeViewClient.class.getResource("/pictures/iconPrinter.png"));
         Image im = imgPrinter.getImage();
@@ -318,6 +318,7 @@ public class CalcAm {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStr + "-" + idpdf + ".pdf"));
             document.open();
             // To choose the size and the writing of the text in the PDF
+            // Set color and police
             com.itextpdf.text.Font fontText = FontFactory.getFont(FontFactory.COURIER_BOLD, 18, com.itextpdf.text.Font.UNDERLINE);
             // To choose the color of the title
             fontText.setColor(215, 203, 233);
