@@ -36,6 +36,7 @@ public class CompareSimulationController {
   public ArrayList<String[]> getCustomers(String name){
     //this returns all the customers whose name or email match the string "name"
     ArrayList<String[]> cutomers = new ArrayList<String[]>();
+    System.out.println("Desired name is : "+name);
     out.println("GETCUSTOMERS/Customer/"+name);
     out.flush();
 
@@ -49,6 +50,8 @@ public class CompareSimulationController {
   }
 
   public ArrayList<String[]> getSimulations(Integer id, String type){
+    System.out.println("Desired customer id : "+id);
+    System.out.println("Desired loan type : "+name);
     ArrayList<String[]> simulations = new ArrayList<String[]>();
     out.println("GETCUSTOMERS/Simulation/"+String.valueOf(id)+"/"+type);
     out.flush();

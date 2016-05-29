@@ -99,6 +99,7 @@ public class CompareSimulationView implements CompareSimulationListener{
     searchButton.setText("Chercher");
     searchButton.addActionListener(new ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("nameField value : "+nameField.getText());
         if(nameField.getText().indexOf("\'") != -1 || nameField.getText().indexOf("\"") != -1){
           globalPanel.remove(selectTypeLabel);
           globalPanel.remove(cbClient);
@@ -176,6 +177,7 @@ public class CompareSimulationView implements CompareSimulationListener{
         cbClient.removeAllItems();
         if(clients != null && clients.size() != 0){
           //only add items if the request has results
+          System.out.println("number of found customers : "+clients.size());
           for(int i=0; i< clients.size(); i++){
             String[] tmp = clients.get(i);
             //create an item object so that we can get back the id/wage by looking through the item description
@@ -189,6 +191,7 @@ public class CompareSimulationView implements CompareSimulationListener{
         }
         else{
           //If there are no results, we inform the user so
+          System.out.println("no customer found");
           globalPanel.remove(selectClientLabel);
           globalPanel.remove(cbClient);
           errLabel.setText("aucun client trouvé");
@@ -202,6 +205,7 @@ public class CompareSimulationView implements CompareSimulationListener{
           public void actionPerformed(ActionEvent arg0) {
             //Called when the user pick a user from the list
             //add loan types combobox
+            System.out.println("Customer was picked");
             globalPanel.add(selectTypeLabel);
             globalPanel.add(cbType);
             //add a button to validate (the user + loan type) choice
@@ -222,6 +226,7 @@ public class CompareSimulationView implements CompareSimulationListener{
         simulations = cci.getSimulations(selected.getId(), cbType.getSelectedItem().toString());
         //the Jtable have (number of simulation) rows and 6 columns declared bellow
         //the last row doesn't count, it only countains the rate
+        System.out.println("Number of found simulations : "+ (simulations.size()-1) );
         Object[][] data =  new Object[simulations.size() - 1][6];
         //save the rate from the last results row
         String[] tmp = simulations.get(simulations.size() -1);
