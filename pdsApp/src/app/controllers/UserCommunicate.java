@@ -505,6 +505,7 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                     break;
                 }
+                break;
            case "SPECIF_3": //Spécifique RUBEN
                 switch (typeObject) {
                     case "getAllLoanByCustomer":
@@ -551,6 +552,7 @@ public class UserCommunicate implements Runnable {
                         //Coding
                         break;
                 }
+                break;
             case "FIXEDRATE": // fixed rate loan simulation case
                 switch (typeObject) {
                     // case : customers list
