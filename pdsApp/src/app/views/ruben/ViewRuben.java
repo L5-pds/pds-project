@@ -90,7 +90,7 @@ public class ViewRuben implements ListenerRuben {
                         body.repaint();
                     }
                     catch(NumberFormatException e){
-                        JOptionPane.showMessageDialog(cont, "Inserer seulement des chiffres"+e, "Erreur", 1);
+                        JOptionPane.showMessageDialog(cont, "Saisie invalide", "Erreur", 1);
                         setIHM();
 
                     }
