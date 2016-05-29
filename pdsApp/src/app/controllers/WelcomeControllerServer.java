@@ -9,6 +9,8 @@ import java.net.*;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WelcomeControllerServer {
   private WelcomeListenerServer listener;
@@ -16,6 +18,7 @@ public class WelcomeControllerServer {
   private Socket socket = null;
   public Server server;
   public Thread connectionThread;
+  private Thread t;
 
   public WelcomeControllerServer (Server s) {
     this.server = s;
@@ -43,7 +46,7 @@ public class WelcomeControllerServer {
   }
 
   public void start() {
-    Thread t = new Thread(new Runnable() {
+    t = new Thread(new Runnable() {
       public void run() {
         try {
           while(true){
@@ -54,10 +57,11 @@ public class WelcomeControllerServer {
             connectionThread.start();
           }
         } catch (IOException e) {
-          listener.changeTextLog("SERVER - " + socket.getInetAddress() + " - gone");
+          listener.changeTextLog("SERVER - new client - gone");
         }
       }
     });
     t.start();
   }
+  
 }
