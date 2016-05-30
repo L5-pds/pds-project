@@ -726,7 +726,7 @@ public class UserCommunicate implements Runnable {
 
     userAuth=authentication(login, pwd);
     if(userAuth == false)   {
-        out.println("Error/Authentification incorrecte blabla blabla blabla blabla blabla");
+        out.println("Error/Authentification incorrecte");
         out.flush();
         listener.changeTextLog("CONNECT_WARNING - " + login + " - dismissed");
         return false;
