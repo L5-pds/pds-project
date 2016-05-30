@@ -146,7 +146,8 @@ public class FixedRateSimulationControllerClient {
         }
     }
     
-    public void saveLoanSimulation() {
+    public boolean saveLoanSimulation() {
+        boolean success = false;
         String query = "FIXEDRATE/SaveLoan/" + serializer.serializeFixedRateSimulation(model);
         
         try {
@@ -162,19 +163,58 @@ public class FixedRateSimulationControllerClient {
             String answer = in.readLine();
             String[] splitAnswer = answer.split("/");
             String result = splitAnswer[0];
-            if (result.equals("SUCCESS")) {
-                // simulation saved
-            }
-            else if (result.equals("FAILURE")) {
-                System.out.println("Echec de la sauvegarde du prêt");
-            }
-            else {
-                System.out.println("Erreur, réponse du serveur incorrecte");
+            switch (result) {
+                case "SUCCESS":
+                    success = true;
+                    break;
+                case "FAILURE":
+                    System.out.println("Echec de la sauvegarde du prêt");
+                    break;
+                default:
+                    System.out.println("Erreur, réponse du serveur incorrecte");
+                    break;
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
+        
+        return success;
+    }
+    
+    public ArrayList<FixedRateSimulation> getSimulations(int customerId, int loanTypeId) {
+        String query = "FIXEDRATE/GetSimulations/" + customerId + "/" + loanTypeId;
+        ArrayList<FixedRateSimulation> simulationsList = null;
+
+        try {
+            // streams opening
+            out = new PrintWriter(socket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            
+            // send the customer id to the server
+            out.println(query);
+            out.flush();
+            
+            // get the server answer and interpret it
+            String answer = in.readLine();
+            String[] splitAnswer = answer.split("/");
+            if (splitAnswer[0].equals("SUCCESS")) {
+                simulationsList = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
+            }
+            else {
+                System.out.println("Erreur, réponse du serveur incorrecte");
+            }
+            
+            System.out.println("simulations :");
+            for (FixedRateSimulation frs : simulationsList) {
+                System.out.println(frs.getId() + " " + frs.getInterestRate() + " "+ frs.getWording() + " " + frs.getInsurance().getId() + " " + frs.getInsurance().getWording());
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        
+        return simulationsList;
     }
     
     public void resetModel() {
@@ -273,5 +313,13 @@ public class FixedRateSimulationControllerClient {
     
     public String getLastName() {
         return model.getCustomer().getLastName();
+    }
+    
+    public int getCustomerId() {
+        return model.getCustomer().getId();
+    }
+    
+    public int getLoanTypeId() {
+        return model.getLoanType().getId();
     }
 }
