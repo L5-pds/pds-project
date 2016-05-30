@@ -422,6 +422,10 @@ public class ViewIndicatorAll implements ListenerIndicator {
                             typeLoan,
                             typeCustomer,
                             user.getAgency());
+                    
+                    body.revalidate();
+                    body.repaint();
+                    
                 } catch (ParseException ex) {
                     Logger.getLogger(ViewIndicatorAll.class.getName()).log(Level.SEVERE, null, ex);
                 }
