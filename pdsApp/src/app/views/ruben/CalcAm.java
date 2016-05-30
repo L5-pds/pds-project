@@ -315,7 +315,10 @@ public class CalcAm {
         // To genere PDF of the table and other information
         Document document = new Document();
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStr + "-" + idpdf + ".pdf"));
+            SimpleDateFormat simpleDateSpecifFormat = new SimpleDateFormat("dd-MM-yyyy_HHmmss");
+
+            String dateStrSpecif = simpleDateSpecifFormat.format(new Date());
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStrSpecif + "-" + idpdf + ".pdf"));
             document.open();
             // To choose the size and the writing of the text in the PDF
             // Set color and police
