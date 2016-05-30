@@ -132,7 +132,7 @@ public class WelcomeControllerClient {
   }
 
   public void goFixedRateSimulation() {
-      app.models.FixedRateSimulation m = new app.models.FixedRateSimulation();
+      app.models.FixedRateSimulation m = new FixedRateSimulation();
       FixedRateSimulationControllerClient c = new FixedRateSimulationControllerClient(m,socket);
       FixedRateSimulationView v = new FixedRateSimulationView(c,listener.getBody());
   }

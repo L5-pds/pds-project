@@ -86,4 +86,16 @@ public class FixedRateSimulation {
     public void setLoanWording(String w) {
         wording = w;
     }
+    
+    public void setId(int i) {
+        id = i;
+    }
+    
+    public void setWording(String w) {
+        wording = w;
+    }
+    
+    public int getId() {
+        return id;
+    }
 }

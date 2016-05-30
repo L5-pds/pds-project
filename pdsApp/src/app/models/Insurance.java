@@ -7,6 +7,10 @@ public class Insurance {
     private double rate;
     private String wording;
     
+    public Insurance() {
+        
+    }
+    
     public Insurance(int id, int ltid, double r, String w) {
         insuranceId = id;
         loanTypeId = ltid;
@@ -32,5 +36,17 @@ public class Insurance {
     
     public String getWording() {
         return wording;
+    }
+    
+    public int getId() {
+        return insuranceId;
+    }
+    
+    public void setWording(String w) {
+        wording = w;
+    }
+    
+    public void setId(int i) {
+        insuranceId = i;
     }
 }

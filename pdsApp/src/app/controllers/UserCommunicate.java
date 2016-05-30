@@ -554,32 +554,32 @@ public class UserCommunicate implements Runnable {
                 }
                 break;
             case "FIXEDRATE": // fixed rate loan simulation case
+                String sqlQuery;
+                ResultSet rs;
                 switch (typeObject) {
                     // case : customers list
                     case "GetCustomers" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting customers");
 
                         String nom = object;
-                        String sqlQuery4;
-                        ResultSet rs4;
                         ArrayList<Customer> customersList = new ArrayList<>();
 
                         // get the loan types
-                        sqlQuery4 = "SELECT id_client, last_name, first_name, mail "
+                        sqlQuery = "SELECT id_client, last_name, first_name, mail "
                                 + "FROM t_client "
-                                + "WHERE first_name ilike '" + nom + "%' "
-                                + "OR last_name ilike '" + nom + "%' "
-                                + "OR first_name||' '||last_name ilike '" + nom + "%' "
-                                + "OR last_name|| ' '||first_name ilike '" + nom + "%';";
-                        rs4 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery4);
+                                + "WHERE first_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR last_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR first_name||' '||last_name ilike '" + nom.replaceAll("'","''") + "%' "
+                                + "OR last_name|| ' '||first_name ilike '" + nom.replaceAll("'","''") + "%';";
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
 
                         // fill an ArrayList with the insurances data taken from the database
-                        while (rs4.next()) {
+                        while (rs.next()) {
                             Customer c = new Customer();
-                            c.setId(rs4.getInt("id_client"));
-                            c.setLastName(rs4.getString("last_name"));
-                            c.setFirstName(rs4.getString("first_name"));
-                            c.setMail(rs4.getString("mail"));
+                            c.setId(rs.getInt("id_client"));
+                            c.setLastName(rs.getString("last_name"));
+                            c.setFirstName(rs.getString("first_name"));
+                            c.setMail(rs.getString("mail"));
                             customersList.add(c);
                         }
 
@@ -593,18 +593,16 @@ public class UserCommunicate implements Runnable {
                     case "GetLoanTypes" :
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting loan types");
 
-                        String sqlQuery1;
-                        ResultSet rs1;
                         ArrayList<LoanType> loanTypesList = new ArrayList<>();
 
                         // get the loan types
-                        sqlQuery1 = "SELECT id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max "
+                        sqlQuery = "SELECT id_type_loan, wording, rate, length_min, length_max, amount_min, amount_max "
                                 + "FROM t_type_loan;";
-                        rs1 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery1);
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
 
                         // fill an ArrayList with the insurances data taken from the database
-                        while (rs1.next()) {
-                            loanTypesList.add(new LoanType(rs1.getInt("id_type_loan"), rs1.getString("wording"), rs1.getDouble("rate"), rs1.getInt("length_min"), rs1.getInt("length_max"), rs1.getInt("amount_min"), rs1.getInt("amount_max")));
+                        while (rs.next()) {
+                            loanTypesList.add(new LoanType(rs.getInt("id_type_loan"), rs.getString("wording"), rs.getDouble("rate"), rs.getInt("length_min"), rs.getInt("length_max"), rs.getInt("amount_min"), rs.getInt("amount_max")));
                         }
 
                         // serialize and send the ArrayList to the client
@@ -619,19 +617,17 @@ public class UserCommunicate implements Runnable {
 
                         String loanType = object;
                         ArrayList<Insurance> insurancesList = new ArrayList<>();
-                        String sqlQuery2;
-                        ResultSet rs2;
 
                         // get the insurances for the given loan type
-                        sqlQuery2 = "SELECT id_insurance, i.id_type_loan, i.rate, i.wording "
+                        sqlQuery = "SELECT id_insurance, i.id_type_loan, i.rate, i.wording "
                                 + "FROM t_insurance i, t_type_loan t "
                                 + "WHERE i.id_type_loan = t.id_type_loan "
                                 + "AND i.id_type_loan = " + loanType + ";";
-                        rs2 = Server.connectionPool[poolIndex].requestWithResult(sqlQuery2);
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
 
                         // fill an ArrayList with the insurances data taken from the database
-                        while (rs2.next()) {
-                            insurancesList.add(new Insurance(rs2.getInt("id_insurance"), rs2.getInt("id_type_loan"), rs2.getDouble("rate"), rs2.getString("wording")));
+                        while (rs.next()) {
+                            insurancesList.add(new Insurance(rs.getInt("id_insurance"), rs.getInt("id_type_loan"), rs.getDouble("rate"), rs.getString("wording")));
                         }
 
                         // serialize and send the ArrayList to the client
@@ -661,11 +657,99 @@ public class UserCommunicate implements Runnable {
                         out.flush();
 
                         break;
+                        
+                    // case : save loan simulation
+                    case "SaveLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - saving fixed rate loan simulation");
+                        
+                        String rep;
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs1 = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        // insert the loan simulation
+                        sqlQuery = "INSERT INTO t_loan_simulation(wording, amount, length_loan, type_length_loan, type_rate_loan, id_type_loan, id_client, id_advisor, entry, id_insurance, rate, monthly_payment) VALUES ("
+                                + "'" + frs1.getWording().replaceAll("'","''") + "',"
+                                + frs1.getAmount() + ","
+                                + frs1.getDuration() + ","
+                                + "'M',"
+                                + "'FIXE'," +
+                                + frs1.getLoanType().getId() + ","
+                                + frs1.getCustomer().getId() + ","
+                                + user.getId() + ","
+                                + "current_date,"
+                                + frs1.getInsurance().getId() + ","
+                                + frs1.getInsurance().getRate() + ","
+                                + frs1.getMonthlyPayment()
+                                + ");";
+                        rep = Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery);
+                        System.out.println("query");
+                        System.out.println(sqlQuery);
+                        
+                        if (rep == "success") {
+                            // serialize and send the fixed rate loan simulation to the client
+                            out.println("SUCCESS/.");
+                        }
+                        else {
+                            out.println("FAILURE/.");
+                        }
+                        out.flush();
+                        
+                        break;
+                    
+                    // case : get customer simulations list
+                    case "GetSimulations" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - requesting customer simulations");
 
+                        ArrayList<FixedRateSimulation> simulationsList = new ArrayList<>();
+                        FixedRateSimulation frs2;
+                        Insurance ins;
+
+                        // get the customer's loan
+                        sqlQuery = "select id_loan, s.wording as swording, amount, length_loan, entry, s.id_insurance as sid_insurance, monthly_payment, s.rate as srate, i.rate as irate, i.wording as iwording "
+                        + "from t_loan_simulation s, t_insurance i "
+                        + "where i.id_insurance = s.id_insurance "
+                        + "and id_client=" + object + ";";
+                        rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
+                        System.out.println("query :");
+                        System.out.println(sqlQuery);
+
+                        // fill an ArrayList with the insurances data taken from the database
+                        while (rs.next()) {
+                            frs2 = new FixedRateSimulation();
+                            frs2.setId(rs.getInt("id_loan"));
+                            System.out.println("id_loan : " + rs.getInt("id_loan"));
+                            frs2.setWording(rs.getString("swording"));
+                            System.out.println("s.wording : " + rs.getString("swording"));
+                            frs2.setAmount(rs.getInt("amount"));
+                            frs2.setDuration(rs.getInt("length_loan"));
+                            frs2.setInterestRate(rs.getDouble("srate"));
+                            frs2.setMonthlyPayment(rs.getDouble("monthly_payment"));
+                            
+                            ins = new Insurance();
+                            ins.setId(rs.getInt("sid_insurance"));
+                            ins.setRate(rs.getDouble("irate"));
+                            ins.setWording(rs.getString("iwording"));
+                            frs2.setInsurance(ins);
+                            
+                            simulationsList.add(frs2);
+                        }
+                        
+                        System.out.println("fr :");
+                        for (FixedRateSimulation fr : simulationsList) {
+                            System.out.println(fr.getId() + " " + fr.getInterestRate() + " "+ fr.getWording() + " " + fr.getInsurance().getId() + " " + fr.getInsurance().getWording());
+                        }
+
+                        // serialize and send the ArrayList to the client
+                        out.println("SUCCESS/" + gsonSerial.serializeArrayList(simulationsList));
+                        out.flush();
+                        
+                        break;
+                        
                     // case : malformed query
                     default:
                         listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - bad query");
-                        out.println("FAIL/.");
+                        out.println("FAILURE/.");
                         out.flush();
                         break;
                 }
