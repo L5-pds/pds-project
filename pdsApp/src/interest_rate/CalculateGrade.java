@@ -39,13 +39,13 @@ public class CalculateGrade extends JFrame {
 		this.getContentPane().add(new JLabel("Salaire"));
 		this.getContentPane().add(salary);
 
-		this.getContentPane().add(new JLabel("Type de prêt"));
+		this.getContentPane().add(new JLabel("Type de prÃªt"));
 		this.getContentPane().add(type);
 
-		this.getContentPane().add(new JLabel("Montant du prêt"));
+		this.getContentPane().add(new JLabel("Montant du prÃªt"));
 		this.getContentPane().add(amount);
 
-		this.getContentPane().add(new JLabel("Durée du prêt"));
+		this.getContentPane().add(new JLabel("DurÃ©e du prÃªt"));
 		this.getContentPane().add(duration);
 
 		this.getContentPane().add(new JLabel("Fumeur"));
@@ -54,16 +54,16 @@ public class CalculateGrade extends JFrame {
 		this.getContentPane().add(new JLabel("Maladie"));
 		this.getContentPane().add(disease);
 
-		this.getContentPane().add(new JLabel("Dépendance à l'alcool"));
+		this.getContentPane().add(new JLabel("DÃ©pendance Ã  l'alcool"));
 		this.getContentPane().add(alcohol);
 
-		this.getContentPane().add(new JLabel("Obésité"));
+		this.getContentPane().add(new JLabel("ObÃ¨sitÃ©"));
 		this.getContentPane().add(corpulence);
 
 		this.getContentPane().add(new JLabel("Risque au travail"));
 		this.getContentPane().add(job_risk);
 
-		this.getContentPane().add(new JLabel("Prédisposition génétique"));
+		this.getContentPane().add(new JLabel("PrÃ©disposition gÃ©nÃ©tique"));
 		this.getContentPane().add(disease_risk);
 
 		JButton buttonValidate = new JButton("Valider");
@@ -231,7 +231,7 @@ public class CalculateGrade extends JFrame {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 1-1") ;
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type du prï¿½t 1-1") ;
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=36) && (Integer.parseInt(duration.getText()) <60)){
@@ -249,7 +249,7 @@ public class CalculateGrade extends JFrame {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 1-2"));
+					System.out.println(("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 1-2"));
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=60) && (Integer.parseInt(duration.getText()) <= 84) ){
@@ -266,11 +266,11 @@ public class CalculateGrade extends JFrame {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 1-3");
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 1-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durï¿½e n'est pas dï¿½finie pour ce type de prï¿½t");
 
 			System.out.println("grade after adding Integer.parseInt(duration.getText()) and amount parameters : " + grade) ;
 			break ;
@@ -293,7 +293,7 @@ public class CalculateGrade extends JFrame {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 2-1") ;
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type du prï¿½t 2-1") ;
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=180) && (Integer.parseInt(duration.getText()) <240)){
@@ -311,7 +311,7 @@ public class CalculateGrade extends JFrame {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 2-2"));
+					System.out.println(("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 2-2"));
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=240) && (Integer.parseInt(duration.getText()) <= 360) ){
@@ -328,11 +328,11 @@ public class CalculateGrade extends JFrame {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 2-3");
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 2-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durï¿½e n'est pas dï¿½finie pour ce type de prï¿½t");
 
 			System.out.println("grade after adding Integer.parseInt(duration.getText()) and amount parameters : " + grade) ;
 			break ;
@@ -355,7 +355,7 @@ public class CalculateGrade extends JFrame {
 				}
 				else {
 
-					System.out.println("Le montant n'est pas défini pour ce type du prêt 3-1") ;
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type du prï¿½t 3-1") ;
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=24) && (Integer.parseInt(duration.getText()) <48)){
@@ -373,7 +373,7 @@ public class CalculateGrade extends JFrame {
 					grade = grade - 0.5 ;
 				}
 				else {
-					System.out.println(("Le montant n'est pas défini pour ce type de prêt 3-2"));
+					System.out.println(("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 3-2"));
 				}
 			}
 			else if ((Integer.parseInt(duration.getText())>=48) && (Integer.parseInt(duration.getText()) <= 84)){
@@ -390,17 +390,17 @@ public class CalculateGrade extends JFrame {
 					grade = grade +1 ;
 				}
 				else {
-					System.out.println("Le montant n'est pas défini pour ce type de prêt 3-3");
+					System.out.println("Le montant n'est pas dï¿½fini pour ce type de prï¿½t 3-3");
 				}
 
 			}
-			else System.out.println("La durée n'est pas définie pour ce type de prêt");
+			else System.out.println("La durï¿½e n'est pas dï¿½finie pour ce type de prï¿½t");
 
 			System.out.println("grade after adding Integer.parseInt(duration.getText()) and amount parameters : " + grade) ;
 			break ;
 
 		default :
-			System.out.println("Erreur : vérifier que le client possède un prêt");
+			System.out.println("Erreur : vï¿½rifier que le client possï¿½de un prï¿½t");
 		}
 
 		// calculating the debt ratio

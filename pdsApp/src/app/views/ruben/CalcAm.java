@@ -335,14 +335,17 @@ public class CalcAm {
         // To genere PDF of the table and other information
         Document document = new Document();
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStr + "-" + idpdf + ".pdf"));
+            SimpleDateFormat simpleDateSpecifFormat = new SimpleDateFormat("dd-MM-yyyy_HHmmss");
+
+            String dateStrSpecif = simpleDateSpecifFormat.format(new Date());
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(surname + "_" + name + "_" + dateStrSpecif + "-" + idpdf + ".pdf"));
             document.open();
             // To choose the size and the writing of the text in the PDF
             // Set color and police
             com.itextpdf.text.Font fontText = FontFactory.getFont(FontFactory.COURIER_BOLD, 18, com.itextpdf.text.Font.UNDERLINE);
             // To choose the color of the title
             fontText.setColor(215, 203, 233);
-            String information = "Voici un récapitulatif de la simulation faite par " + name + " " + surname + " à la date du " + dateStr + ". Le montant de l'emprunt est de " + df.format(totalMonthlyPayement) + " €  avec un taux d'interet prévu à " + rate + "% et un taux d'assurance prévu à " + insuranceRate + "%. Cette simulation est faite pour un prêt avec une durée de " + number_month + " mois.";
+            String information = "Voici un récapitulatif de la simulation faite pour " + ViewRuben.getFirstname() + " " + ViewRuben.getLastname() + " à la date du " + dateStr + ". Le montant de l'emprunt est de " + df.format(totalMonthlyPayement) + " €  avec un taux d'interet prévu à " + rate + "% et un taux d'assurance prévu à " + insuranceRate + "%. Cette simulation est faite pour un prêt avec une durée de " + number_month + " mois.";
             Paragraph recapParagraph = new Paragraph(information);
             recapParagraph.setAlignment(PdfContentByte.ALIGN_LEFT);
             Chunk title = new Chunk("Récapitulatif du prêt", fontText);
