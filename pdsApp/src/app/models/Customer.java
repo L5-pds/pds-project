@@ -91,8 +91,4 @@ public class Customer {
   public String toString() {
       return getFirstName() + " " + getLastName() + " ; " + mail;
   }
-  
-  public int getId() {
-      return id;
-  }
 }
