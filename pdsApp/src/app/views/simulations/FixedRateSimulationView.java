@@ -65,6 +65,8 @@ public class FixedRateSimulationView {
         // assign a controller to the view
         controller = c;
         
+        System.out.println("fefe");
+        
         // configure the GridBagConstraints
         gc = new GridBagConstraints();
         gc.weightx = 0;
