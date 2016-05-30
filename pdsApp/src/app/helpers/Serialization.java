@@ -149,4 +149,15 @@ public class Serialization {
     
     return customersList;
   }
+  
+  public ArrayList<FixedRateSimulation> unserializeFixedRateSimulationArrayList(String l) {
+    ArrayList<FixedRateSimulation> simulationsList = new ArrayList<>();
+    JsonParser parser = new JsonParser();
+    JsonArray array = parser.parse(l).getAsJsonArray();
+    for (int i=0 ; i<array.size() ; i++) {
+        simulationsList.add(gson.fromJson(array.get(i), FixedRateSimulation.class));
+    }
+    
+    return simulationsList;
+  }
 }
