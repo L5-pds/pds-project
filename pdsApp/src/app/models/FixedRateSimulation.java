@@ -90,4 +90,12 @@ public class FixedRateSimulation {
     public int getId() {
         return id;
     }
+    
+    public void setId(int i) {
+        id = i;
+    }
+    
+    public void setWording(String w) {
+        wording = w;
+    }
 }
