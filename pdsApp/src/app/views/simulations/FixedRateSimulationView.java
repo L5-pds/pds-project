@@ -39,8 +39,8 @@ public class FixedRateSimulationView {
     private JComboBox cbLoanType;
     private JComboBox cbInsurance;
     private JLabel lblTotalRate;
-    private JSpinner spAmount;
-    private JSpinner spDuration;
+    //private JSpinner spAmount;
+    //private JSpinner spDuration;
     private JTextField txtFieldRate;
     private JButton btnSimulate;
     private JButton btnCancel;
@@ -48,6 +48,9 @@ public class FixedRateSimulationView {
     private JButton btnSave;
     private JButton btnNewSimulation;
     private JTable tblSimulations;
+    private JTextField txtFieldAmount;
+    private JTextField txtFieldDuration;
+    private JButton btnBack;
     
     // GridBagConstraints to set the components locations
     private GridBagConstraints gc;
@@ -365,10 +368,15 @@ public class FixedRateSimulationView {
         cbInsurance.setEnabled(false);
         
         // initialisation of the new components
-        SpinnerNumberModel smAmount = new SpinnerNumberModel(controller.getMinAmount(), controller.getMinAmount(), controller.getMaxAmount(), 100);
-        spAmount = new JSpinner(smAmount);
-        SpinnerNumberModel smDuration = new SpinnerNumberModel(controller.getMinLength(), controller.getMinLength(), controller.getMaxLength(), 1);
-        spDuration = new JSpinner(smDuration);
+        //SpinnerNumberModel smAmount = new SpinnerNumberModel(controller.getMinAmount(), controller.getMinAmount(), controller.getMaxAmount(), 100);
+        //spAmount = new JSpinner(smAmount);
+        //SpinnerNumberModel smDuration = new SpinnerNumberModel(controller.getMinLength(), controller.getMinLength(), controller.getMaxLength(), 1);
+        //spDuration = new JSpinner(smDuration);
+        txtFieldAmount = new JTextField(10);
+        //txtFieldAmount.addActionListener(new ());
+        txtFieldDuration = new JTextField(10);
+        //txtFieldDuration.addActionListener(new ())
+        
         txtFieldRate = new JTextField(5);
         double baseRate = controller.getBaseRate();
         txtFieldRate.setText(Double.toString(baseRate));
@@ -427,19 +435,23 @@ public class FixedRateSimulationView {
         
         gc.gridx = 0;
         gc.gridy = 6;
-        panel.add(new JLabel("Montant :"), gc);
+        panel.add(new JLabel("Montant (" + controller.getMinAmount() + "€ - " + controller.getMaxAmount() + "€) :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 6;
-        panel.add(spAmount, gc);
+        //panel.add(spAmount, gc);
+        txtFieldAmount.setText(String.valueOf(controller.getMinAmount()));
+        panel.add(txtFieldAmount, gc);
         
         gc.gridx = 0;
         gc.gridy = 7;
-        panel.add(new JLabel("Durée :"), gc);
+        panel.add(new JLabel("Durée (" + controller.getMinLength() + " mois - " + controller.getMaxLength() + " mois) :"), gc);
         
         gc.gridx = 1;
         gc.gridy = 7;
-        panel.add(spDuration, gc);
+        //panel.add(spDuration, gc);
+        txtFieldDuration.setText(String.valueOf(controller.getMinLength()));
+        panel.add(txtFieldDuration, gc);
         
         gc.gridx = 0;
         gc.gridy = 8;
@@ -567,6 +579,12 @@ public class FixedRateSimulationView {
         gc.gridy = 11;
         panel.add(btnNewSimulation, gc);
         
+        btnBack = new JButton("Retour");
+        btnBack.addActionListener(new BtnBackListener());
+        gc.gridx = 2;
+        gc.gridy = 11;
+        panel.add(btnBack, gc);
+        
         // perform the operations needed after the removal and the addition of components
         panel.revalidate();
         panel.repaint();
@@ -661,15 +679,56 @@ public class FixedRateSimulationView {
     // listener for the btnSimulate JButton
     class BtnSimulateListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            int duration, amount;
-            controller.setInterestRate(Double.parseDouble(txtFieldRate.getText()));
-            duration = (Integer) spDuration.getValue();
-            controller.setDuration(duration);
-            amount = (Integer) spAmount.getValue();
-            controller.setAmount(amount);
+            String error = "Erreur :";
+            boolean ok = true;
             
-            controller.calculateLoan();
-            displayResult();
+            if(!txtFieldRate.getText().matches("^[0-9]+(\\.[0-9]{1,2})?$")) {
+                ok = false;
+                error += "\nTaux incorrect";
+            }
+            if(txtFieldAmount.getText().matches("\\d+")) {
+                if (Integer.parseInt(txtFieldAmount.getText()) < controller.getMinAmount()) {
+                    ok = false;
+                    error += "\nMontant trop petit";
+                }
+                else if (Integer.parseInt(txtFieldAmount.getText()) > controller.getMaxAmount()) {
+                    ok = false;
+                    error += "\nMontant trop élevé";
+                }
+            }
+            else {
+                ok = false;
+                error += "\nMontant incorrect";
+            }
+            if(txtFieldDuration.getText().matches("\\d+")) {
+                if (Integer.parseInt(txtFieldDuration.getText()) < controller.getMinLength()) {
+                    ok = false;
+                    error += "\nDurée trop courte";
+                }
+                else if (Integer.parseInt(txtFieldDuration.getText()) > controller.getMaxLength()) {
+                    ok = false;
+                    error += "\nDurée trop élevée";
+                }
+            }
+            else {
+                ok = false;
+                error += "\nDurée incorrecte";
+            }
+            
+            if (ok) {
+                int duration, amount;
+                controller.setInterestRate(Double.parseDouble(txtFieldRate.getText()));
+                duration = Integer.parseInt(txtFieldDuration.getText());
+                controller.setDuration(duration);
+                amount = Integer.parseInt(txtFieldAmount.getText());
+                controller.setAmount(amount);
+
+                controller.calculateLoan();
+                displayResult();
+            }
+            else {
+                JOptionPane.showMessageDialog(null,error);
+            }
         }
     }
     
@@ -693,4 +752,12 @@ public class FixedRateSimulationView {
             displayLoanTypes();
         }
     }
+    
+    // listener for btnBack JButton
+     class BtnBackListener implements ActionListener {
+         public void actionPerformed(ActionEvent e) {
+             controller.resetModel();
+             displayMenu();
+         }
+     }
 }
