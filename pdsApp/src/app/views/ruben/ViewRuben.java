@@ -22,6 +22,12 @@ public class ViewRuben implements ListenerRuben {
 
     Calcul ca;
 
+    public static String firstname;
+
+    public static String lastname;
+
+    public static int typeloan;
+
     public ViewRuben(ControllerRuben cci, JPanel body, Container cont) {
         this.cci = cci;
         this.body = body;
@@ -42,7 +48,7 @@ public class ViewRuben implements ListenerRuben {
         // Add a textfild for research an id of loan
         JTextField numClient = new JTextField(30);
         body.add(numClient);
-        
+
         // Add button of amortization table
        // String regex = "^[0-9]*$";
         //String data =numClient.getText();
@@ -50,14 +56,14 @@ public class ViewRuben implements ListenerRuben {
         //boolean match = numClient.matches("[a-zA-Z0-9]+");
         btnAmort = new JButton("Tableau d'amortissement");
         btnAmort.addActionListener(new ActionListener() {
-            
+
             /**
-             * 
+             *
              * requirement to put just integer because we need id loan
              */
-            
+
             public void actionPerformed(ActionEvent arg0) {
-                
+
                 //If the user put space
                 if(numClient.getText().equals(" ")){
                     JOptionPane.showMessageDialog(cont, "ERREUR, veuillez entrer des chiffres", "Erreur", 1);
@@ -68,12 +74,14 @@ public class ViewRuben implements ListenerRuben {
                     JOptionPane.showMessageDialog(cont, "ERREUR, veuillez entrer des chiffres, Vous n'avez rien saisi", "Erreur", 1);
                     setIHM();
                 }
-                
+
                 else{
                 // data recovery of database
                     try{
                         SpecifRuben allCustomer = cci.getInfo(Integer.parseInt(numClient.getText()));
-                        System.out.println(allCustomer.getLength_loan());
+                        firstname = allCustomer.getFirst_name();
+                        lastname=allCustomer.getLast_name();
+                        typeloan = allCustomer.getId_type_loan();
                         Calcul ca = new Calcul(allCustomer.getAmount(), allCustomer.getRate(), allCustomer.getLength_loan());
                         CalcAm c = new CalcAm(ca.data, ca.number_month, ca.insuranceRate, ca.rate, ca.amount, ca.totalMonthlyPayement, ca.totalInterest, ca.totalinsurance);
                         body.removeAll();
@@ -82,7 +90,7 @@ public class ViewRuben implements ListenerRuben {
                         body.repaint();
                     }
                     catch(NumberFormatException e){
-                        JOptionPane.showMessageDialog(cont, "Inserer seulement des chiffres"+e, "Erreur", 1);
+                        JOptionPane.showMessageDialog(cont, "Saisie invalide", "Erreur", 1);
                         setIHM();
 
                     }
@@ -111,4 +119,16 @@ public class ViewRuben implements ListenerRuben {
         btnGraphiques.setBounds(234, 48, 210, 29);
         body.add(btnGraphiques);
     }
+
+    public static String getFirstname() {
+        return firstname;
+    }
+    public static String getLastname() {
+            return lastname;
+    }
+
+    public static int getTypeloan() {
+        return typeloan;
+    }
+
 }
