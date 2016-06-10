@@ -20,10 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.table.DefaultTableModel;
 
 public class FixedRateSimulationView {
 
@@ -36,11 +35,9 @@ public class FixedRateSimulationView {
     private JTextField txtFieldCustomer;
     private JButton btnSearch;
     private JComboBox cbCustomer;
-    private JComboBox cbLoanType;
+    private JComboBox cbLoanType = null;
     private JComboBox cbInsurance;
     private JLabel lblTotalRate;
-    //private JSpinner spAmount;
-    //private JSpinner spDuration;
     private JTextField txtFieldRate;
     private JButton btnSimulate;
     private JButton btnCancel;
@@ -48,6 +45,8 @@ public class FixedRateSimulationView {
     private JButton btnSave;
     private JButton btnNewSimulation;
     private JTable tblSimulations;
+    private JButton btnNewSimulationModel;
+    private JButton btnEditSimulation;
     private JTextField txtFieldAmount;
     private JTextField txtFieldDuration;
     private JButton btnBack;
@@ -63,7 +62,6 @@ public class FixedRateSimulationView {
     public FixedRateSimulationView(FixedRateSimulationControllerClient c, JPanel p) {
         // set the panel and its layout
         panel = p;
-        panel.setLayout(new GridBagLayout());
         
         // assign a controller to the view
         controller = c;
@@ -79,6 +77,7 @@ public class FixedRateSimulationView {
         // prepare the JPanel to the addition of the components
         panel.setVisible(false);
         panel.removeAll();
+        panel.setLayout(new GridBagLayout());
         
         // initialisation of the components
         cbCustomer = new JComboBox();
@@ -100,6 +99,10 @@ public class FixedRateSimulationView {
         gc.gridx = 1;
         gc.gridy = 1;
         panel.add(btnSearch, gc);
+        
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
         
         // display the JPanel
         panel.setVisible(true);
@@ -161,6 +164,10 @@ public class FixedRateSimulationView {
             JOptionPane.showMessageDialog(null,"Aucun client trouvé");
         }
         
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
+        
         // display the JPanel
         panel.setVisible(true);
     }
@@ -191,31 +198,50 @@ public class FixedRateSimulationView {
         gc.gridy = 2;
         panel.add(btnSearchSimulation, gc);
         
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
+        
         // display the JPanel
         panel.setVisible(true);
     }
     
     public void displayCustomerSimulations() {
-        boolean found;
-
-        // prepare the JPanel to the addition of the components
+        // get the customer's simulations from the server
+        ArrayList<FixedRateSimulation> simulationsList = controller.getSimulations(controller.getCustomerId(), controller.getLoanTypeId());
+        
+        // check if some simulations were found for the chosen customer
+        boolean found = !simulationsList.isEmpty();
+        
         panel.setVisible(false);
+        
+        // if some simulations are found
         panel.removeAll();
 
         // initialisation of the components
-        tblSimulations = new JTable();
-        ArrayList<FixedRateSimulation> simulationsList = controller.getSimulations(controller.getCustomerId(), controller.getLoanTypeId());
-        for (FixedRateSimulation s : simulationsList) {
-            
-        }
-        
-        // check if customers were found
-        found = !simulationsList.isEmpty();
         
         if (found) {
-            cbCustomer.insertItemAt("", 0); // add blank first item in JComboBox
-            cbCustomer.setSelectedIndex(0); // select the JComboBox blank field
-            cbCustomer.addItemListener(new CbCustomerItemListener());
+            // model for the JTable
+            DefaultTableModel mdlSimulations = new DefaultTableModel() {
+                // prevent the modification of the DefaultTableModel cells
+                public boolean isCellEditable(int row, int column) {
+                   return false;
+                }
+            };
+            tblSimulations = new JTable(mdlSimulations); // initialise the JTable with the DefaultTableModel
+
+            // add attributes of a loan as columns of the DefaultTableModel
+            mdlSimulations.addColumn("ID");
+            mdlSimulations.addColumn("Montant");
+            mdlSimulations.addColumn("Durée");
+            mdlSimulations.addColumn("Taux");
+            mdlSimulations.addColumn("Mensualité");
+            mdlSimulations.addColumn("Montant dû");
+
+            // add simulations data to the DefaultTableModel
+            for (FixedRateSimulation s : simulationsList) {
+                mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),s.getMonthlyPayment(),s.getOwedAmount()});
+            }
         }
         
         // add components to the panel using the GridBagLayout and GridBagConstraints
@@ -224,7 +250,7 @@ public class FixedRateSimulationView {
         gc.gridx = 0;
         gc.gridy = 0;
         panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
-        
+
         gc.gridx = 0;
         gc.gridy = 1;
         panel.add(new JLabel("Type de prêt :"), gc);
@@ -233,23 +259,46 @@ public class FixedRateSimulationView {
         gc.gridy = 1;
         panel.add(cbLoanType, gc);
         
+        // if some simulations are found
         if (found) {
             gc.gridwidth = 2;
             gc.gridx = 0;
             gc.gridy = 2;
             panel.add(new JScrollPane(tblSimulations), gc);
             gc.gridwidth = 1;
+
+            btnNewSimulationModel = new JButton("Nouvelle simulation sur ce modèle");
+            //btnNewSimulationModel.addActionListener();
+            gc.gridx = 0;
+            gc.gridy = 3;
+            panel.add(btnNewSimulationModel, gc);
+            
+            btnEditSimulation = new JButton("Modifier cette simulation");
+            //btnEditSimulation.addActionListener();
+            gc.gridx = 1;
+            gc.gridy = 3;
+            panel.add(btnEditSimulation, gc);
+            
+            gc.gridx = 2;
+            gc.gridy = 3;
         }
         else {
-            JOptionPane.showMessageDialog(null,"Aucune simulation pour ce client");
+            gc.gridx = 1;
+            gc.gridy = 2;
         }
         
-        gc.gridx = 1;
-        gc.gridy = 3;
         panel.add(btnCancel, gc);
+
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
         
         // display the JPanel
         panel.setVisible(true);
+        
+        if (!found) {
+            JOptionPane.showMessageDialog(null,"Aucune simulation de type \"" + controller.getLoanTypeWording() + "\" pour ce client" );
+        }
     }
         
     public void displayLoanTypes() {
@@ -293,6 +342,10 @@ public class FixedRateSimulationView {
         gc.gridx = 1;
         gc.gridy = 2;
         panel.add(btnCancel, gc);
+        
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
         
         // display the JPanel
         panel.setVisible(true);
@@ -368,10 +421,6 @@ public class FixedRateSimulationView {
         cbInsurance.setEnabled(false);
         
         // initialisation of the new components
-        //SpinnerNumberModel smAmount = new SpinnerNumberModel(controller.getMinAmount(), controller.getMinAmount(), controller.getMaxAmount(), 100);
-        //spAmount = new JSpinner(smAmount);
-        //SpinnerNumberModel smDuration = new SpinnerNumberModel(controller.getMinLength(), controller.getMinLength(), controller.getMaxLength(), 1);
-        //spDuration = new JSpinner(smDuration);
         txtFieldAmount = new JTextField(10);
         //txtFieldAmount.addActionListener(new ());
         txtFieldDuration = new JTextField(10);
@@ -439,7 +488,6 @@ public class FixedRateSimulationView {
         
         gc.gridx = 1;
         gc.gridy = 6;
-        //panel.add(spAmount, gc);
         txtFieldAmount.setText(String.valueOf(controller.getMinAmount()));
         panel.add(txtFieldAmount, gc);
         
@@ -449,7 +497,6 @@ public class FixedRateSimulationView {
         
         gc.gridx = 1;
         gc.gridy = 7;
-        //panel.add(spDuration, gc);
         txtFieldDuration.setText(String.valueOf(controller.getMinLength()));
         panel.add(txtFieldDuration, gc);
         
@@ -622,6 +669,7 @@ public class FixedRateSimulationView {
                     LoanType lt = (LoanType) cbLoanType.getSelectedItem();
                     // case when the user wants to display a customer's loans
                     if (mode.equals("search")) {
+                        System.out.println("displayCustomerSimulations mode search pd!!!");
                         controller.setLoanType(lt);
                         displayCustomerSimulations();
                     }

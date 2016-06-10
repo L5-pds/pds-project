@@ -709,7 +709,8 @@ public class UserCommunicate implements Runnable {
                         sqlQuery = "select id_loan, s.wording as swording, amount, length_loan, entry, s.id_insurance as sid_insurance, monthly_payment, s.rate as srate, i.rate as irate, i.wording as iwording "
                         + "from t_loan_simulation s, t_insurance i "
                         + "where i.id_insurance = s.id_insurance "
-                        + "and id_client=" + object + ";";
+                        + "and id_client=" + object + " "
+                        + "and s.id_type_loan=" + splitedQuery[3] + ";";
                         rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
                         System.out.println("query :");
                         System.out.println(sqlQuery);
