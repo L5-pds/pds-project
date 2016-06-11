@@ -242,6 +242,8 @@ public class FixedRateSimulationView {
             for (FixedRateSimulation s : simulationsList) {
                 mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),s.getMonthlyPayment(),s.getOwedAmount()});
             }
+            
+            tblSimulations.removeColumn(tblSimulations.getColumn("ID"));
         }
         
         // add components to the panel using the GridBagLayout and GridBagConstraints
@@ -590,7 +592,7 @@ public class FixedRateSimulationView {
         
         gc.gridx = 1;
         gc.gridy = 6;
-        panel.add(new JLabel(df.format(controller.getInterestRate() + controller.getInsuranceRate()) + " %"), gc);
+        panel.add(new JLabel(df.format(controller.getTotalRate()) + " %"), gc);
         
         gc.gridx = 0;
         gc.gridy = 7;
@@ -606,7 +608,7 @@ public class FixedRateSimulationView {
         
         gc.gridx = 1;
         gc.gridy = 8;
-        panel.add(new JLabel(df.format(controller.getMonthlyPayment() * controller.getDuration()) + " €"), gc);
+        panel.add(new JLabel(df.format(controller.getOwedAmount()) + " €"), gc);
         
         gc.gridx = 0;
         gc.gridy = 9;

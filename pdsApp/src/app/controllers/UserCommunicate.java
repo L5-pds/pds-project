@@ -650,7 +650,7 @@ public class UserCommunicate implements Runnable {
 
                         // calculate loan monthly payment
                         FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs);
-                        c.calculateMonthlyPayment();
+                        c.calculateFixedRateLoan();
 
                         // serialize and send the fixed rate loan simulation to the client
                         out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
@@ -726,6 +726,8 @@ public class UserCommunicate implements Runnable {
                             frs2.setDuration(rs.getInt("length_loan"));
                             frs2.setInterestRate(rs.getDouble("srate"));
                             frs2.setMonthlyPayment(rs.getDouble("monthly_payment"));
+                            frs2.setOwedAmount(frs2.getDuration() * frs2.getMonthlyPayment());
+                            frs2.setTotalRate(frs2.getInterestRate() + frs2.getInsurance().getRate());
                             
                             ins = new Insurance();
                             ins.setId(rs.getInt("sid_insurance"));

@@ -322,4 +322,12 @@ public class FixedRateSimulationControllerClient {
     public int getLoanTypeId() {
         return model.getLoanType().getId();
     }
+    
+    public double getTotalRate() {
+        return model.getTotalRate();
+    }
+    
+    public double getOwedAmount() {
+        return model.getOwedAmount();
+    }
 }
