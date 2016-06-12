@@ -2,7 +2,6 @@ package app.views.simulations;
 
 import app.controllers.FixedRateSimulationControllerClient;
 import app.models.Customer;
-import app.models.FixedRateSimulation;
 import app.models.Insurance;
 import app.models.LoanType;
 import java.awt.GridBagConstraints;
@@ -248,13 +247,13 @@ public class FixedRateSimulationView {
             gc.gridwidth = 1;
 
             btnNewSimulationModel = new JButton("Nouvelle simulation sur ce modèle");
-            //btnNewSimulationModel.addActionListener();
+            btnNewSimulationModel.addActionListener(new BtnNewSimulationModelListener());
             gc.gridx = 0;
             gc.gridy = 3;
             panel.add(btnNewSimulationModel, gc);
             
             btnEditSimulation = new JButton("Modifier cette simulation");
-            //btnEditSimulation.addActionListener();
+            btnEditSimulation.addActionListener(new BtnEditSimulationListener());
             gc.gridx = 1;
             gc.gridy = 3;
             panel.add(btnEditSimulation, gc);
@@ -398,7 +397,7 @@ public class FixedRateSimulationView {
         panel.removeAll();
         
         // disable the modification of the insurance
-        cbInsurance.setEnabled(false);
+        //cbInsurance.setEnabled(false);
         
         // initialisation of the new components
         txtFieldAmount = new JTextField(10);
@@ -516,100 +515,104 @@ public class FixedRateSimulationView {
         
         gc.gridx = 0;
         gc.gridy = 0;
+        panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+        
+        gc.gridx = 0;
+        gc.gridy = 1;
         panel.add(new JLabel("Type de prêt : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 0;
+        gc.gridy = 1;
         panel.add(new JLabel(controller.getLoanTypeWording()), gc);
         
         gc.gridx = 0;
-        gc.gridy = 1;
+        gc.gridy = 2;
         panel.add(new JLabel("Assurance : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 2;
         panel.add(new JLabel(controller.getInsuranceWording()), gc);
         
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 3;
         panel.add(new JLabel("Montant : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 3;
         panel.add(new JLabel(controller.getAmount() + " €"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 4;
         panel.add(new JLabel("Durée : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 4;
         panel.add(new JLabel(controller.getDuration() + " mois"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 4;
+        gc.gridy = 5;
         panel.add(new JLabel("Taux d'intérêt : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 5;
         panel.add(new JLabel(controller.getInterestRate() + " %"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 5;
+        gc.gridy = 6;
         panel.add(new JLabel("Taux assurance : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 6;
         panel.add(new JLabel(controller.getInsuranceRate() + " %"), gc);
         
         DecimalFormat df = new DecimalFormat("#.##"); // to format amounts display
         
         gc.gridx = 0;
-        gc.gridy = 6;
+        gc.gridy = 7;
         panel.add(new JLabel("TEG : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 6;
+        gc.gridy = 7;
         panel.add(new JLabel(df.format(controller.getTotalRate()) + " %"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 7;
+        gc.gridy = 8;
         panel.add(new JLabel("Montant des mensualités : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 7;
+        gc.gridy = 8;
         panel.add(new JLabel(df.format(controller.getMonthlyPayment()) + " €"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 8;
+        gc.gridy = 9;
         panel.add(new JLabel("Montant total dû : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 8;
+        gc.gridy = 9;
         panel.add(new JLabel(df.format(controller.getOwedAmount()) + " €"), gc);
         
         gc.gridx = 0;
-        gc.gridy = 9;
+        gc.gridy = 10;
         panel.add(new JLabel("Libellé du prêt :"), gc);
         
         gc.gridwidth = 2;
         gc.gridx = 0;
-        gc.gridy = 10;
+        gc.gridy = 11;
         panel.add(txtFieldWording, gc);
         
         gc.gridwidth = 1;
         gc.gridx = 0;
-        gc.gridy = 11;
+        gc.gridy = 12;
         panel.add(btnSave, gc);
         
         gc.gridx = 1;
-        gc.gridy = 11;
+        gc.gridy = 12;
         panel.add(btnNewSimulation, gc);
         
         btnBack = new JButton("Retour");
         btnBack.addActionListener(new BtnBackListener());
         gc.gridx = 2;
-        gc.gridy = 11;
+        gc.gridy = 12;
         panel.add(btnBack, gc);
         
         // perform the operations needed after the removal and the addition of components
@@ -681,6 +684,7 @@ public class FixedRateSimulationView {
     // item listener for the cbInsurance JComboBox
     class cbInsuranceItemListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
+            cbInsurance.removeItem("");
             // perform action when an item from the JComboBox is selected
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 // get the insurance type and display the loan form
@@ -791,4 +795,19 @@ public class FixedRateSimulationView {
              displayMenu();
          }
      }
+     
+    // listener for the btnEditSimulation
+    class BtnEditSimulationListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            displayForm();
+        }
+         
+    }
+    // listener for the btnNewSimulationModel
+    class BtnNewSimulationModelListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            displayForm();
+        }
+         
+    }
 }
