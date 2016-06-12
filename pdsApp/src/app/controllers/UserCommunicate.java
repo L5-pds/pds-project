@@ -726,14 +726,15 @@ public class UserCommunicate implements Runnable {
                             frs2.setDuration(rs.getInt("length_loan"));
                             frs2.setInterestRate(rs.getDouble("srate"));
                             frs2.setMonthlyPayment(rs.getDouble("monthly_payment"));
-                            frs2.setOwedAmount(frs2.getDuration() * frs2.getMonthlyPayment());
-                            frs2.setTotalRate(frs2.getInterestRate() + frs2.getInsurance().getRate());
                             
                             ins = new Insurance();
                             ins.setId(rs.getInt("sid_insurance"));
                             ins.setRate(rs.getDouble("irate"));
                             ins.setWording(rs.getString("iwording"));
                             frs2.setInsurance(ins);
+                            
+                            frs2.setOwedAmount(frs2.getDuration() * frs2.getMonthlyPayment());
+                            frs2.setTotalRate(frs2.getInterestRate() + frs2.getInsurance().getRate());
                             
                             simulationsList.add(frs2);
                         }

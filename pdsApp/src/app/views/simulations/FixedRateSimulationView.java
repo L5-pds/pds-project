@@ -207,11 +207,11 @@ public class FixedRateSimulationView {
     }
     
     public void displayCustomerSimulations() {
-        // get the customer's simulations from the server
-        ArrayList<FixedRateSimulation> simulationsList = controller.getSimulations(controller.getCustomerId(), controller.getLoanTypeId());
+        // get the chosen customer's simulations
+        DefaultTableModel mdlSimulations = controller.getSimulations(controller.getCustomerId(), controller.getLoanTypeId());
         
         // check if some simulations were found for the chosen customer
-        boolean found = !simulationsList.isEmpty();
+        boolean found = (mdlSimulations.getColumnCount() != 0);
         
         panel.setVisible(false);
         
@@ -221,29 +221,7 @@ public class FixedRateSimulationView {
         // initialisation of the components
         
         if (found) {
-            // model for the JTable
-            DefaultTableModel mdlSimulations = new DefaultTableModel() {
-                // prevent the modification of the DefaultTableModel cells
-                public boolean isCellEditable(int row, int column) {
-                   return false;
-                }
-            };
-            tblSimulations = new JTable(mdlSimulations); // initialise the JTable with the DefaultTableModel
-
-            // add attributes of a loan as columns of the DefaultTableModel
-            mdlSimulations.addColumn("ID");
-            mdlSimulations.addColumn("Montant");
-            mdlSimulations.addColumn("Durée");
-            mdlSimulations.addColumn("Taux");
-            mdlSimulations.addColumn("Mensualité");
-            mdlSimulations.addColumn("Montant dû");
-
-            // add simulations data to the DefaultTableModel
-            for (FixedRateSimulation s : simulationsList) {
-                mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),s.getMonthlyPayment(),s.getOwedAmount()});
-            }
-            
-            tblSimulations.removeColumn(tblSimulations.getColumn("ID"));
+            tblSimulations = new JTable(mdlSimulations); // initialise the JTable with a DefaultTableModel given by the controller
         }
         
         // add components to the panel using the GridBagLayout and GridBagConstraints
@@ -671,7 +649,6 @@ public class FixedRateSimulationView {
                     LoanType lt = (LoanType) cbLoanType.getSelectedItem();
                     // case when the user wants to display a customer's loans
                     if (mode.equals("search")) {
-                        System.out.println("displayCustomerSimulations mode search pd!!!");
                         controller.setLoanType(lt);
                         displayCustomerSimulations();
                     }
@@ -679,6 +656,10 @@ public class FixedRateSimulationView {
                     else if (mode.equals("simulate")) {
                         controller.setLoanType(lt);
                         displayInsurances();
+                    }
+                    else {
+                        System.out.println("Sélection de type de prêt : mode \"" + mode + "\" invalide");
+                        System.exit(1);
                     }
                 }
             }
@@ -798,7 +779,7 @@ public class FixedRateSimulationView {
     // listener for btnNewSimulation JButton
     class BtnNewSimulationListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            controller.resetModel();
+            controller.resetModel(false);
             displayLoanTypes();
         }
     }
@@ -806,7 +787,7 @@ public class FixedRateSimulationView {
     // listener for btnBack JButton
      class BtnBackListener implements ActionListener {
          public void actionPerformed(ActionEvent e) {
-             controller.resetModel();
+             controller.resetModel(false);
              displayMenu();
          }
      }
