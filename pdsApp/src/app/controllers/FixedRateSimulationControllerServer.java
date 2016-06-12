@@ -10,7 +10,7 @@ public class FixedRateSimulationControllerServer {
         model = m;
     }
     
-    public void calculateMonthlyPayment() {
+    public void calculateFixedRateLoan() {
         // get the data needed to calculate the monthly payment value
         int amount = model.getAmount();
         int duration = model.getDuration();
@@ -24,5 +24,7 @@ public class FixedRateSimulationControllerServer {
         
         // update the model
         model.setMonthlyPayment(monthlyPayment);
+        model.setOwedAmount(monthlyPayment * duration);
+        model.setTotalRate(totalRate);
     }
 }

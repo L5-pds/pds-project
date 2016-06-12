@@ -23,9 +23,9 @@ public class FixedRateSimulation {
         insurance = ins;
     }
 	
-	public Customer getCustomer() {
-		return customer;
-	}
+    public Customer getCustomer() {
+            return customer;
+    }
     
     public Insurance getInsurance() {
         return insurance;
@@ -97,5 +97,13 @@ public class FixedRateSimulation {
     
     public void setWording(String w) {
         wording = w;
+    }
+    
+    public void setTotalRate(double r) {
+        totalRate = r;
+    }
+    
+    public void setOwedAmount(double a) {
+        owedAmount = a;
     }
 }

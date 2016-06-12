@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class FixedRateSimulationControllerClient {
     
@@ -182,8 +184,14 @@ public class FixedRateSimulationControllerClient {
         return success;
     }
     
-    public ArrayList<FixedRateSimulation> getSimulations(int customerId, int loanTypeId) {
+    public DefaultTableModel getSimulations(int customerId, int loanTypeId) {
         String query = "FIXEDRATE/GetSimulations/" + customerId + "/" + loanTypeId;
+        DefaultTableModel mdlSimulations = new DefaultTableModel() {
+            // prevent the modification of the DefaultTableModel cells
+            public boolean isCellEditable(int row, int column) {
+               return false;
+            }
+        };
         ArrayList<FixedRateSimulation> simulationsList = null;
 
         try {
@@ -197,6 +205,7 @@ public class FixedRateSimulationControllerClient {
             
             // get the server answer and interpret it
             String answer = in.readLine();
+            System.out.println("answer : " + answer);
             String[] splitAnswer = answer.split("/");
             if (splitAnswer[0].equals("SUCCESS")) {
                 simulationsList = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
@@ -214,13 +223,37 @@ public class FixedRateSimulationControllerClient {
             System.out.println("Erreur : " + e.getMessage());
         }
         
-        return simulationsList;
+        if (!simulationsList.isEmpty()) {
+            // add attributes of a loan as columns of the DefaultTableModel
+            mdlSimulations.addColumn("ID");
+            mdlSimulations.addColumn("Montant");
+            mdlSimulations.addColumn("Durée");
+            mdlSimulations.addColumn("Taux");
+            mdlSimulations.addColumn("Mensualité");
+            mdlSimulations.addColumn("Montant dû");
+            mdlSimulations.addColumn("Libellé");
+
+            DecimalFormat df = new DecimalFormat("#.##"); // to format amounts display
+            
+            // add simulations data to the DefaultTableModel
+            for (FixedRateSimulation s : simulationsList) {
+                mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
+            }
+        }
+        
+        return mdlSimulations;
     }
     
-    public void resetModel() {
+    public void selectSimulation(String mode) {
+        
+    }
+    
+    public void resetModel(boolean resetCustomer) {
         Customer c = model.getCustomer();
         model = new FixedRateSimulation();
-        model.setCustomer(c);
+        if (!resetCustomer) {
+            model.setCustomer(c);
+        }
     }
     
     public void setLoanType(LoanType lt) {
@@ -321,5 +354,13 @@ public class FixedRateSimulationControllerClient {
     
     public int getLoanTypeId() {
         return model.getLoanType().getId();
+    }
+    
+    public double getTotalRate() {
+        return model.getTotalRate();
+    }
+    
+    public double getOwedAmount() {
+        return model.getOwedAmount();
     }
 }

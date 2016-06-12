@@ -650,7 +650,7 @@ public class UserCommunicate implements Runnable {
 
                         // calculate loan monthly payment
                         FixedRateSimulationControllerServer c = new FixedRateSimulationControllerServer(frs);
-                        c.calculateMonthlyPayment();
+                        c.calculateFixedRateLoan();
 
                         // serialize and send the fixed rate loan simulation to the client
                         out.println("SUCCESS/" + gsonSerial.serializeFixedRateSimulation(frs));
@@ -709,7 +709,8 @@ public class UserCommunicate implements Runnable {
                         sqlQuery = "select id_loan, s.wording as swording, amount, length_loan, entry, s.id_insurance as sid_insurance, monthly_payment, s.rate as srate, i.rate as irate, i.wording as iwording "
                         + "from t_loan_simulation s, t_insurance i "
                         + "where i.id_insurance = s.id_insurance "
-                        + "and id_client=" + object + ";";
+                        + "and id_client=" + object + " "
+                        + "and s.id_type_loan=" + splitedQuery[3] + ";";
                         rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
                         System.out.println("query :");
                         System.out.println(sqlQuery);
@@ -731,6 +732,9 @@ public class UserCommunicate implements Runnable {
                             ins.setRate(rs.getDouble("irate"));
                             ins.setWording(rs.getString("iwording"));
                             frs2.setInsurance(ins);
+                            
+                            frs2.setOwedAmount(frs2.getDuration() * frs2.getMonthlyPayment());
+                            frs2.setTotalRate(frs2.getInterestRate() + frs2.getInsurance().getRate());
                             
                             simulationsList.add(frs2);
                         }
