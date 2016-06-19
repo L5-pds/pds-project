@@ -32,7 +32,11 @@ public class Insurance {
     
     public void setRate(double r) {
         rate = r;
-    } 
+    }
+    
+    public int getId() {
+        return insuranceId;
+    }
     
     public String getWording() {
         return wording;

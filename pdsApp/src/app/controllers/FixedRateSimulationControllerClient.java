@@ -16,7 +16,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class FixedRateSimulationControllerClient {
     
+    //public long startTime;
+    
     private FixedRateSimulation model;
+    private ArrayList<FixedRateSimulation> customerSimulations;
     
     private static Socket socket;
     private PrintWriter out;
@@ -192,7 +195,7 @@ public class FixedRateSimulationControllerClient {
                return false;
             }
         };
-        ArrayList<FixedRateSimulation> simulationsList = null;
+        customerSimulations = null;
 
         try {
             // streams opening
@@ -208,14 +211,14 @@ public class FixedRateSimulationControllerClient {
             System.out.println("answer : " + answer);
             String[] splitAnswer = answer.split("/");
             if (splitAnswer[0].equals("SUCCESS")) {
-                simulationsList = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
+                customerSimulations = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");
             }
             
             System.out.println("simulations :");
-            for (FixedRateSimulation frs : simulationsList) {
+            for (FixedRateSimulation frs : customerSimulations) {
                 System.out.println(frs.getId() + " " + frs.getInterestRate() + " "+ frs.getWording() + " " + frs.getInsurance().getInsuranceId() + " " + frs.getInsurance().getWording());
             }
             
@@ -223,8 +226,9 @@ public class FixedRateSimulationControllerClient {
             System.out.println("Erreur : " + e.getMessage());
         }
         
-        if (!simulationsList.isEmpty()) {
+        if (!customerSimulations.isEmpty()) {
             // add attributes of a loan as columns of the DefaultTableModel
+            mdlSimulations.addColumn("Num");
             mdlSimulations.addColumn("ID");
             mdlSimulations.addColumn("Montant");
             mdlSimulations.addColumn("Durée");
@@ -236,16 +240,25 @@ public class FixedRateSimulationControllerClient {
             DecimalFormat df = new DecimalFormat("#.##"); // to format amounts display
             
             // add simulations data to the DefaultTableModel
-            for (FixedRateSimulation s : simulationsList) {
-                mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
+            for (FixedRateSimulation s : customerSimulations) {
+                mdlSimulations.addRow(new Object[]{customerSimulations.indexOf(s),s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
             }
         }
         
         return mdlSimulations;
     }
     
-    public void selectSimulation(String mode) {
-        
+    public void selectSimulation(int index) {
+        Customer c;
+        System.out.println("nombre de simu : " + customerSimulations.size());
+        System.out.println("affichage des simu :");
+        for (FixedRateSimulation s : customerSimulations) {
+            System.out.println("1 simulation");
+        }
+        c = model.getCustomer();
+        model = customerSimulations.get(index);
+        model.setCustomer(c);
+        customerSimulations = null;
     }
     
     public void resetModel(boolean resetCustomer) {
@@ -338,6 +351,18 @@ public class FixedRateSimulationControllerClient {
     
     public void setLoanWording(String w) {
         model.setLoanWording(w);
+    }
+    
+    public String getLoanWording() {
+        return model.getWording();
+    }
+    
+    public Insurance getInsurance() {
+        return model.getInsurance();
+    }
+    
+    public int getInsuranceId() {
+        return model.getInsurance().getId();
     }
     
     public String getFirstName() {
