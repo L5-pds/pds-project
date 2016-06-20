@@ -679,9 +679,43 @@ public class UserCommunicate implements Runnable {
                                 + user.getId() + ","
                                 + "current_date,"
                                 + frs1.getInsurance().getInsuranceId() + ","
-                                + frs1.getInsurance().getRate() + ","
+                                + frs1.getInterestRate() + ","
                                 + frs1.getMonthlyPayment()
                                 + ");";
+                        rep = Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery);
+                        System.out.println("query");
+                        System.out.println(sqlQuery);
+                        
+                        if (rep == "success") {
+                            // serialize and send the fixed rate loan simulation to the client
+                            out.println("SUCCESS/.");
+                        }
+                        else {
+                            out.println("FAILURE/.");
+                        }
+                        out.flush();
+                        
+                        break;
+                        
+                    // case : update loan simulation
+                    case "UpdateLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - saving fixed rate loan simulation");
+                        
+                        String rep2;
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs7 = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        // insert the loan simulation
+                        sqlQuery = "update t_loan_simulation "
+                                + "set wording = '" + frs7.getWording() + "',"
+                                + "amount = " + frs7.getAmount() + ","
+                                + "length_loan = " + frs7.getDuration() + ","
+                                + "entry = current_date,"
+                                + "id_insurance = " + frs7.getInsurance().getId() + ","
+                                + "rate = " + frs7.getInterestRate() + ","
+                                + "monthly_payment = " + frs7.getMonthlyPayment() + " "
+                                + "where id_loan = " + frs7.getId() + ";";
                         rep = Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery);
                         System.out.println("query");
                         System.out.println(sqlQuery);
@@ -705,10 +739,11 @@ public class UserCommunicate implements Runnable {
                         FixedRateSimulation frs2;
                         Insurance ins;
 
-                        // get the customer's loan
-                        sqlQuery = "select id_loan, s.wording as swording, amount, length_loan, entry, s.id_insurance as sid_insurance, monthly_payment, s.rate as srate, i.rate as irate, i.wording as iwording "
-                        + "from t_loan_simulation s, t_insurance i "
+                        // get the customer's loans
+                        sqlQuery = "select id_loan, s.wording as swording, amount, length_loan, entry, s.id_insurance as sid_insurance, monthly_payment, s.rate as srate, i.rate as irate, i.wording as iwording, t.id_type_loan as tid_type_loan, t.rate as trate, t.wording as twording, length_min, length_max, amount_min, amount_max "
+                        + "from t_loan_simulation s, t_insurance i, t_type_loan t "
                         + "where i.id_insurance = s.id_insurance "
+                        + "and s.id_type_loan = t.id_type_loan "
                         + "and id_client=" + object + " "
                         + "and s.id_type_loan=" + splitedQuery[3] + ";";
                         rs = Server.connectionPool[poolIndex].requestWithResult(sqlQuery);
@@ -716,16 +751,26 @@ public class UserCommunicate implements Runnable {
                         System.out.println(sqlQuery);
 
                         // fill an ArrayList with the insurances data taken from the database
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        int columnsNumber = rsmd.getColumnCount();
                         while (rs.next()) {
+                            for (int i = 1; i <= columnsNumber; i++) {
+                                if (i > 1) System.out.print(",  ");
+                                String columnValue = rs.getString(i);
+                                System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                            }
+                            System.out.println("");
+                            
                             frs2 = new FixedRateSimulation();
                             frs2.setId(rs.getInt("id_loan"));
-                            System.out.println("id_loan : " + rs.getInt("id_loan"));
                             frs2.setWording(rs.getString("swording"));
-                            System.out.println("s.wording : " + rs.getString("swording"));
                             frs2.setAmount(rs.getInt("amount"));
                             frs2.setDuration(rs.getInt("length_loan"));
                             frs2.setInterestRate(rs.getDouble("srate"));
                             frs2.setMonthlyPayment(rs.getDouble("monthly_payment"));
+                            
+                            LoanType lt = new LoanType(rs.getInt("tid_type_loan"), rs.getString("twording"), rs.getDouble("trate"), rs.getInt("length_min"), rs.getInt("length_max"), rs.getInt("amount_min"), rs.getInt("amount_max"));
+                            frs2.setLoanType(lt);
                             
                             ins = new Insurance();
                             ins.setId(rs.getInt("sid_insurance"));
@@ -742,6 +787,7 @@ public class UserCommunicate implements Runnable {
                         System.out.println("fr :");
                         for (FixedRateSimulation fr : simulationsList) {
                             System.out.println(fr.getId() + " " + fr.getInterestRate() + " "+ fr.getWording() + " " + fr.getInsurance().getInsuranceId() + " " + fr.getInsurance().getWording());
+                            System.out.println("base rate : " + fr.getLoanType().getRate());
                         }
 
                         // serialize and send the ArrayList to the client

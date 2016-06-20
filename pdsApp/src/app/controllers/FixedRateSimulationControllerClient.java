@@ -12,11 +12,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FixedRateSimulationControllerClient {
     
+    //public long startTime;
+    
     private FixedRateSimulation model;
+    private ArrayList<FixedRateSimulation> customerSimulations;
     
     private static Socket socket;
     private PrintWriter out;
@@ -27,6 +31,19 @@ public class FixedRateSimulationControllerClient {
         model = m;
         socket = s;
         serializer = new Serialization();
+    }
+    
+    public void closeApplication(String msg) {
+        try {
+            JOptionPane.showMessageDialog(null, msg, "Erreure fatale", JOptionPane.ERROR_MESSAGE, null);
+            socket.close();
+        }
+        catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        finally {
+            System.exit(1);
+        }
     }
     
     public ArrayList<Customer> getCustomers(String name) {
@@ -49,11 +66,13 @@ public class FixedRateSimulationControllerClient {
                 customers = serializer.unserializeCustomersArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return customers;
@@ -79,11 +98,13 @@ public class FixedRateSimulationControllerClient {
                 loanTypes = serializer.unserializeLoanTypeArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return loanTypes;
@@ -109,11 +130,13 @@ public class FixedRateSimulationControllerClient {
                 insurances = serializer.unserializeInsuranceArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return insurances;
@@ -141,10 +164,12 @@ public class FixedRateSimulationControllerClient {
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
     }
     
@@ -174,11 +199,52 @@ public class FixedRateSimulationControllerClient {
                     break;
                 default:
                     System.out.println("Erreur, réponse du serveur incorrecte");
+                    closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
                     break;
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
+        }
+        
+        return success;
+    }
+    
+    public boolean updateLoanSimulation() {
+        System.out.println("id du pret à maj : " + model.getId());
+        boolean success = false;
+        String query = "FIXEDRATE/UpdateLoan/" + serializer.serializeFixedRateSimulation(model);
+        
+        try {
+            // streams opening
+            out = new PrintWriter(socket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            
+            // send the simulation data to the server and ask for the monthly payment
+            out.println(query);
+            out.flush();
+            
+            // get the server answer and interpret it
+            String answer = in.readLine();
+            String[] splitAnswer = answer.split("/");
+            String result = splitAnswer[0];
+            switch (result) {
+                case "SUCCESS":
+                    success = true;
+                    break;
+                case "FAILURE":
+                    System.out.println("Echec de la mise à jour du prêt");
+                    break;
+                default:
+                    System.out.println("Erreur, réponse du serveur incorrecte");
+                    closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
+                    break;
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return success;
@@ -192,7 +258,7 @@ public class FixedRateSimulationControllerClient {
                return false;
             }
         };
-        ArrayList<FixedRateSimulation> simulationsList = null;
+        customerSimulations = null;
 
         try {
             // streams opening
@@ -208,23 +274,26 @@ public class FixedRateSimulationControllerClient {
             System.out.println("answer : " + answer);
             String[] splitAnswer = answer.split("/");
             if (splitAnswer[0].equals("SUCCESS")) {
-                simulationsList = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
+                customerSimulations = serializer.unserializeFixedRateSimulationArrayList(splitAnswer[1]);
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
             System.out.println("simulations :");
-            for (FixedRateSimulation frs : simulationsList) {
+            for (FixedRateSimulation frs : customerSimulations) {
                 System.out.println(frs.getId() + " " + frs.getInterestRate() + " "+ frs.getWording() + " " + frs.getInsurance().getInsuranceId() + " " + frs.getInsurance().getWording());
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
-        if (!simulationsList.isEmpty()) {
+        if (!customerSimulations.isEmpty()) {
             // add attributes of a loan as columns of the DefaultTableModel
+            mdlSimulations.addColumn("Num");
             mdlSimulations.addColumn("ID");
             mdlSimulations.addColumn("Montant");
             mdlSimulations.addColumn("Durée");
@@ -236,16 +305,25 @@ public class FixedRateSimulationControllerClient {
             DecimalFormat df = new DecimalFormat("#.##"); // to format amounts display
             
             // add simulations data to the DefaultTableModel
-            for (FixedRateSimulation s : simulationsList) {
-                mdlSimulations.addRow(new Object[]{s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
+            for (FixedRateSimulation s : customerSimulations) {
+                mdlSimulations.addRow(new Object[]{customerSimulations.indexOf(s),s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
             }
         }
         
         return mdlSimulations;
     }
     
-    public void selectSimulation(String mode) {
-        
+    public void selectSimulation(int index) {
+        Customer c;
+        System.out.println("nombre de simu : " + customerSimulations.size());
+        System.out.println("affichage des simu :");
+        for (FixedRateSimulation s : customerSimulations) {
+            System.out.println("1 simulation");
+        }
+        c = model.getCustomer();
+        model = customerSimulations.get(index);
+        model.setCustomer(c);
+        customerSimulations = null;
     }
     
     public void resetModel(boolean resetCustomer) {
@@ -338,6 +416,18 @@ public class FixedRateSimulationControllerClient {
     
     public void setLoanWording(String w) {
         model.setLoanWording(w);
+    }
+    
+    public String getLoanWording() {
+        return model.getWording();
+    }
+    
+    public Insurance getInsurance() {
+        return model.getInsurance();
+    }
+    
+    public int getInsuranceId() {
+        return model.getInsurance().getId();
     }
     
     public String getFirstName() {
