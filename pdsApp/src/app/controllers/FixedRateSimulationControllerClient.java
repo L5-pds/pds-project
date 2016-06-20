@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FixedRateSimulationControllerClient {
@@ -30,6 +31,19 @@ public class FixedRateSimulationControllerClient {
         model = m;
         socket = s;
         serializer = new Serialization();
+    }
+    
+    public void closeApplication(String msg) {
+        try {
+            JOptionPane.showMessageDialog(null, msg, "Erreure fatale", JOptionPane.ERROR_MESSAGE, null);
+            socket.close();
+        }
+        catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        finally {
+            System.exit(1);
+        }
     }
     
     public ArrayList<Customer> getCustomers(String name) {
@@ -52,11 +66,13 @@ public class FixedRateSimulationControllerClient {
                 customers = serializer.unserializeCustomersArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return customers;
@@ -82,11 +98,13 @@ public class FixedRateSimulationControllerClient {
                 loanTypes = serializer.unserializeLoanTypeArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return loanTypes;
@@ -112,11 +130,13 @@ public class FixedRateSimulationControllerClient {
                 insurances = serializer.unserializeInsuranceArrayList(splitAnswer[1]);
             }
             else {
-                System.out.println("Erreur, rÃ©ponse du serveur incorrecte");
+                System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return insurances;
@@ -144,10 +164,12 @@ public class FixedRateSimulationControllerClient {
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
     }
     
@@ -177,11 +199,52 @@ public class FixedRateSimulationControllerClient {
                     break;
                 default:
                     System.out.println("Erreur, réponse du serveur incorrecte");
+                    closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
                     break;
             }
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
+        }
+        
+        return success;
+    }
+    
+    public boolean updateLoanSimulation() {
+        System.out.println("id du pret à maj : " + model.getId());
+        boolean success = false;
+        String query = "FIXEDRATE/UpdateLoan/" + serializer.serializeFixedRateSimulation(model);
+        
+        try {
+            // streams opening
+            out = new PrintWriter(socket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            
+            // send the simulation data to the server and ask for the monthly payment
+            out.println(query);
+            out.flush();
+            
+            // get the server answer and interpret it
+            String answer = in.readLine();
+            String[] splitAnswer = answer.split("/");
+            String result = splitAnswer[0];
+            switch (result) {
+                case "SUCCESS":
+                    success = true;
+                    break;
+                case "FAILURE":
+                    System.out.println("Echec de la mise à jour du prêt");
+                    break;
+                default:
+                    System.out.println("Erreur, réponse du serveur incorrecte");
+                    closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
+                    break;
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         return success;
@@ -215,6 +278,7 @@ public class FixedRateSimulationControllerClient {
             }
             else {
                 System.out.println("Erreur, réponse du serveur incorrecte");
+                closeApplication("Erreur, réponse du serveur incorrecte.\nL'application va se fermer");
             }
             
             System.out.println("simulations :");
@@ -224,6 +288,7 @@ public class FixedRateSimulationControllerClient {
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
+            closeApplication("Erreur socket : " + e.getMessage() + "\nL'application va se fermer");
         }
         
         if (!customerSimulations.isEmpty()) {

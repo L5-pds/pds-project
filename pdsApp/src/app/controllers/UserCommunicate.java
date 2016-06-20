@@ -696,6 +696,40 @@ public class UserCommunicate implements Runnable {
                         out.flush();
                         
                         break;
+                        
+                    // case : update loan simulation
+                    case "UpdateLoan" :
+                        listener.changeTextLog("COMMUNICATE - " + user.getLogin() + " - saving fixed rate loan simulation");
+                        
+                        String rep2;
+                        
+                        // get the loan simulation data from the client
+                        FixedRateSimulation frs7 = gsonSerial.unserializeFixedRateSimulation(object);
+                        
+                        // insert the loan simulation
+                        sqlQuery = "update t_loan_simulation "
+                                + "set wording = '" + frs7.getWording() + "',"
+                                + "amount = " + frs7.getAmount() + ","
+                                + "length_loan = " + frs7.getDuration() + ","
+                                + "entry = current_date,"
+                                + "id_insurance = " + frs7.getInsurance().getId() + ","
+                                + "rate = " + frs7.getInterestRate() + ","
+                                + "monthly_payment = " + frs7.getMonthlyPayment() + " "
+                                + "where id_loan = " + frs7.getId() + ";";
+                        rep = Server.connectionPool[poolIndex].requestWithoutResult(sqlQuery);
+                        System.out.println("query");
+                        System.out.println(sqlQuery);
+                        
+                        if (rep == "success") {
+                            // serialize and send the fixed rate loan simulation to the client
+                            out.println("SUCCESS/.");
+                        }
+                        else {
+                            out.println("FAILURE/.");
+                        }
+                        out.flush();
+                        
+                        break;
                     
                     // case : get customer simulations list
                     case "GetSimulations" :

@@ -745,11 +745,23 @@ public class FixedRateSimulationView {
     class BtnSaveListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             controller.setLoanWording(txtFieldWording.getText());
-            if (controller.saveLoanSimulation()) {
-                btnSave.setEnabled(false);
+            if (simulation_mode.equals("edit_simulation")) {
+                if (controller.updateLoanSimulation()) {
+                    JOptionPane.showMessageDialog(panel, "Le prêt a été mis à jour", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    btnSave.setEnabled(false);
+                }
+                else {
+                    JOptionPane.showMessageDialog(panel, "Echec de la mise à jour du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
             else {
-                JOptionPane.showMessageDialog(null,"Echec de la sauvegarde du prêt");
+                if (controller.saveLoanSimulation()) {
+                    JOptionPane.showMessageDialog(panel, "Le prêt a été sauvegardé", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    btnSave.setEnabled(false);
+                }
+                else {
+                    JOptionPane.showMessageDialog(panel, "Echec de la sauvegarde du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
