@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class FixedRateSimulationView {
 
     // JPanel that contains all the components
-    JPanel panel;
+    private JPanel panel;
     
     // components of the simulation frame
     private JButton btnCreateSimulation;
@@ -44,7 +44,7 @@ public class FixedRateSimulationView {
     private JTextField txtFieldWording;
     private JButton btnSave;
     private JTable tblSimulations;
-    DefaultTableModel mdlSimulations;
+    private DefaultTableModel mdlSimulations;
     private JButton btnNewSimulationModel;
     private JButton btnEditSimulation;
     private JTextField txtFieldAmount;
@@ -55,7 +55,7 @@ public class FixedRateSimulationView {
     private GridBagConstraints gc;
 
     // controller for the fixed rate credit simulation
-    FixedRateSimulationControllerClient controller;
+    private FixedRateSimulationControllerClient controller;
 
     private String mode; // defines if the user is searching a simulation or creating a simulation
     private String simulation_mode; // defines if the user wants to create a new simulation, update a simulation or create new a simulation based on another
