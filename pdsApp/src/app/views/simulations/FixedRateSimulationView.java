@@ -27,9 +27,11 @@ import javax.swing.table.DefaultTableModel;
 public class FixedRateSimulationView {
 
     // JPanel that contains all the components
-    JPanel panel;
+    private JPanel panel;
     
     // components of the simulation frame
+    private JButton btnProspect;
+    private JButton btnCustomer;
     private JButton btnCreateSimulation;
     private JButton btnSearchSimulation;
     private JTextField txtFieldCustomer;
@@ -44,28 +46,35 @@ public class FixedRateSimulationView {
     private JTextField txtFieldWording;
     private JButton btnSave;
     private JTable tblSimulations;
-    DefaultTableModel mdlSimulations;
-    private JButton btnNewSimulationModel;
+    private DefaultTableModel mdlSimulations;
     private JButton btnEditSimulation;
     private JTextField txtFieldAmount;
     private JTextField txtFieldDuration;
     private JButton btnBack;
+    private JButton btnUpdateSimulation;
+    private JButton btnSaveAsNewSimulation;
     
     // GridBagConstraints to set the components locations
     private GridBagConstraints gc;
 
     // controller for the fixed rate credit simulation
-    FixedRateSimulationControllerClient controller;
+    private FixedRateSimulationControllerClient controller;
 
-    private String mode; // defines if the user is searching a simulation or creating a simulation
-    private String simulation_mode; // defines if the user wants to create a new simulation, update a simulation or create new a simulation based on another
+    private String mode; // defines if the user is searching/editing a simulation or creating a simulation
     
     public FixedRateSimulationView(FixedRateSimulationControllerClient c, JPanel p) {
         // set the panel and its layout
         panel = p;
         
+        // prepare the JPanel to the addition of the components
+        panel.setVisible(false);
+        panel.removeAll();
+        
         // assign a controller to the view
         controller = c;
+        
+        // set the panel layout as a GridBagLayout
+        panel.setLayout(new GridBagLayout());
         
         // configure the GridBagConstraints
         gc = new GridBagConstraints();
@@ -74,11 +83,58 @@ public class FixedRateSimulationView {
         gc.insets = new Insets(10, 10, 10, 10);
         gc.anchor = GridBagConstraints.LINE_START;
         
-        // display the customer search interface
+        btnProspect = new JButton("Simulation pour un prospect");
+        btnProspect.addActionListener(new BtnProspectListener());
+        btnCustomer = new JButton("Rechercher un client");
+        btnCustomer.addActionListener(new BtnCustomerListener());
+        
+        gc.gridx = 0;
+        gc.gridy = 0;
+        panel.add(btnCustomer, gc);
+        
+        gc.gridx = 0;
+        gc.gridy = 1;
+        panel.add(btnProspect, gc);
+        
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
+        
+        // display the JPanel
+        panel.setVisible(true);
+    }
+    
+    public void displayStartPage() {
         // prepare the JPanel to the addition of the components
         panel.setVisible(false);
         panel.removeAll();
-        panel.setLayout(new GridBagLayout());
+        
+        btnProspect = new JButton("Simulation pour un prospect");
+        btnProspect.addActionListener(new BtnProspectListener());
+        btnCustomer = new JButton("Rechercher un client");
+        btnCustomer.addActionListener(new BtnCustomerListener());
+        
+        gc.gridx = 0;
+        gc.gridy = 0;
+        panel.add(btnCustomer, gc);
+        
+        gc.gridx = 0;
+        gc.gridy = 1;
+        panel.add(btnProspect, gc);
+        
+        // perform the operations needed after the removal and the addition of components
+        panel.revalidate();
+        panel.repaint();
+        
+        // display the JPanel
+        panel.setVisible(true);
+    }
+    
+    // display the customer search interface
+    public void displayCustomerSearch() {
+        // prepare the JPanel to the addition of the components
+        panel.setVisible(false);
+        panel.removeAll();
         
         // initialisation of the components
         cbCustomer = new JComboBox();
@@ -249,23 +305,17 @@ public class FixedRateSimulationView {
             panel.add(new JScrollPane(tblSimulations), gc);
             gc.gridwidth = 1;
 
-            btnNewSimulationModel = new JButton("Nouvelle simulation sur ce modèle");
-            btnNewSimulationModel.addActionListener(new BtnNewSimulationModelListener());
-            gc.gridx = 0;
-            gc.gridy = 3;
-            panel.add(btnNewSimulationModel, gc);
-            
             btnEditSimulation = new JButton("Modifier cette simulation");
             btnEditSimulation.addActionListener(new BtnEditSimulationListener());
-            gc.gridx = 1;
+            gc.gridx = 0;
             gc.gridy = 3;
             panel.add(btnEditSimulation, gc);
             
-            gc.gridx = 2;
+            gc.gridx = 1;
             gc.gridy = 3;
         }
         else {
-            gc.gridx = 1;
+            gc.gridx = 0;
             gc.gridy = 2;
         }
         
@@ -284,6 +334,9 @@ public class FixedRateSimulationView {
     }
         
     public void displayLoanTypes() {
+        // for the GBC gridy
+        int y = 0;
+        
         // prepare the JPanel to the addition of the components
         panel.setVisible(false);
         panel.removeAll();
@@ -309,20 +362,23 @@ public class FixedRateSimulationView {
         // add components to the panel using the GridBagLayout and GridBagConstraints
         //gc.anchor = GridBagConstraints.LINE_START;
         
-        gc.gridx = 0;
-        gc.gridy = 0;
-        panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+        if (!mode.equals("prospect")) {
+            gc.gridx = 0;
+            gc.gridy = y;
+            panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+            y++;
+        }
 
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 1;
         panel.add(new JLabel("Type de prêt :"), gc);
 
         gc.gridx = 1;
-        gc.gridy = 1;
         panel.add(cbLoanType, gc);
+        y++;
 
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = y;
         panel.add(btnCancel, gc);
         
         // perform the operations needed after the removal and the addition of components
@@ -335,6 +391,9 @@ public class FixedRateSimulationView {
     
     // display the fixed rate loan simulation form, adapted to the chosen loan type
     public void displayForm() {
+        // for the GBC gridy
+        int y = 0;
+        
         // hide the JPanel
         panel.setVisible(false);
 
@@ -358,12 +417,12 @@ public class FixedRateSimulationView {
         }
         
         // if it is a simulation from scratch
-        if (simulation_mode.equals("new_simulation_scratch")) {
+        if (mode.equals("simulate") || mode.equals("prospect")) {
             cbInsurance.insertItemAt("", 0); // add blank first item in JComboBox
             cbInsurance.setSelectedIndex(0); // select the JComboBox blank field
         }
         // if the simulation is based on another one, select the chosen insurance in the combobox
-        else {
+        else if (mode.equals("search/edit")) {
             ComboBoxModel cbInsuranceModel = cbInsurance.getModel();
             int size = cbInsuranceModel.getSize();
             int index = 0;
@@ -381,12 +440,15 @@ public class FixedRateSimulationView {
             System.out.println("index : " + index);
             cbInsurance.setSelectedItem(3);
         }
+        else {
+            controller.closeApplication("Affichage du formulaire de simulation : mode \"" + mode + "\" invalide");
+        }
         
         // add the action listeners to the components
         btnSimulate.addActionListener(new BtnSimulateListener());
 
         // case of a simulation modification or a new simulation based on another one : fill the fields with the old simulation values
-        if (simulation_mode.equals("new_simulation_model") || simulation_mode.equals("edit_simulation")) {
+        if (mode.equals("search/edit")) {
             txtFieldRate.setText(String.valueOf(controller.getInterestRate()));
             txtFieldAmount.setText(String.valueOf(controller.getAmount()));
             txtFieldDuration.setText(String.valueOf(controller.getDuration()));
@@ -395,73 +457,75 @@ public class FixedRateSimulationView {
         // add components to the panel using the GridBagLayout and GridBagConstraints
         //gc.anchor = GridBagConstraints.LINE_START;
         
-        gc.gridx = 0;
-        gc.gridy = 0;
-        panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+        if (!mode.equals("prospect")) {
+            gc.gridx = 0;
+            gc.gridy = y;
+            panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+            y++;
+        }
 
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 1;
         panel.add(new JLabel("Type de prêt :"), gc);
 
         gc.gridx = 1;
-        gc.gridy = 1;
         cbLoanType.setEnabled(false);
         panel.add(cbLoanType, gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 2;
         panel.add(new JLabel("Assurance :"), gc);
 
         gc.gridx = 1;
-        gc.gridy = 2;
         panel.add(cbInsurance, gc);
-        
+        y++;
+
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 3;
         panel.add(new JLabel("Taux d'intérêt base :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 3;
         panel.add(new JLabel(Double.toString(controller.getBaseRate())), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 4;
         panel.add(new JLabel("Taux d'intérêt :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 4;
         panel.add(txtFieldRate, gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 5;
         panel.add(new JLabel("TEG : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 5;
         panel.add(lblTotalRate, gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 6;
         panel.add(new JLabel("Montant (" + controller.getMinAmount() + "€ - " + controller.getMaxAmount() + "€) :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 6;
         panel.add(txtFieldAmount, gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 7;
         panel.add(new JLabel("Durée (" + controller.getMinLength() + " mois - " + controller.getMaxLength() + " mois) :"), gc);
         
         gc.gridx = 1;
-        gc.gridy = 7;
         panel.add(txtFieldDuration, gc);
-        
+        y++;
+
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 8;
         panel.add(btnSimulate, gc);
         
         gc.gridx = 1;
-        gc.gridy = 8;
         panel.add(btnCancel, gc);
         
         // perform the operations needed after the removal and the addition of components
@@ -474,6 +538,9 @@ public class FixedRateSimulationView {
     
     // display the simulation result
     public void displayResult() {
+        // for the GBC gridy
+        int y = 0;
+        
         // hide the JPanel
         panel.setVisible(false);
 
@@ -481,117 +548,144 @@ public class FixedRateSimulationView {
         panel.removeAll();
         
         // initialisation of new components
-        btnSave = new JButton("Sauvegarder");
-        btnSave.addActionListener(new BtnSaveListener());
+        if (mode.equals("simulate")) {
+            btnSave = new JButton("Sauvegarder");
+            btnSave.addActionListener(new BtnsSaveListener());
+        }
+        else if (mode.equals("search/edit")) {
+            btnUpdateSimulation = new JButton("Sauvegarder les modifications");
+            btnSaveAsNewSimulation = new JButton("Sauvegarder en tant que nouveau prêt");
+            btnSaveAsNewSimulation.addActionListener(new BtnsSaveListener());
+            btnUpdateSimulation.addActionListener(new BtnUpdateListener());
+        }
+        else if (!mode.equals("prospect")) {
+            controller.closeApplication("Affichage du résultat d'une simulation : mode \"" + mode + "\" invalide");
+        }
+        
         txtFieldWording = new JTextField(40);
-        if (simulation_mode.equals("edit_simulation")) {
+        if (mode.equals("search/edit")) {
             txtFieldWording.setText(controller.getLoanWording());
         }
         
         // add components to the panel using the GridBagLayout and GridBagConstraints
         //gc.anchor = GridBagConstraints.LINE_START;
         
-        gc.gridx = 0;
-        gc.gridy = 0;
-        panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+        if (!mode.equals("prospect")) {
+            gc.gridx = 0;
+            gc.gridy = y;
+            panel.add(new JLabel("Client : " + controller.getFirstName() + " " + controller.getLastName()), gc);
+            y++;
+        }
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 1;
         panel.add(new JLabel("Type de prêt : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 1;
         panel.add(new JLabel(controller.getLoanTypeWording()), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 2;
         panel.add(new JLabel("Assurance : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 2;
         panel.add(new JLabel(controller.getInsuranceWording()), gc);
-        
+        y++;
+
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 3;
         panel.add(new JLabel("Montant : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 3;
         panel.add(new JLabel(controller.getAmount() + " €"), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 4;
         panel.add(new JLabel("Durée : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 4;
         panel.add(new JLabel(controller.getDuration() + " mois"), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 5;
         panel.add(new JLabel("Taux d'intérêt : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 5;
         panel.add(new JLabel(controller.getInterestRate() + " %"), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 6;
         panel.add(new JLabel("Taux assurance : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 6;
         panel.add(new JLabel(controller.getInsuranceRate() + " %"), gc);
+        y++;
         
         DecimalFormat df = new DecimalFormat("#.##"); // to format amounts display
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 7;
         panel.add(new JLabel("TEG : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 7;
         panel.add(new JLabel(df.format(controller.getTotalRate()) + " %"), gc);
-        
+        y++;
+
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 8;
         panel.add(new JLabel("Montant des mensualités : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 8;
         panel.add(new JLabel(df.format(controller.getMonthlyPayment()) + " €"), gc);
+        y++;
         
+        gc.gridy = y;
         gc.gridx = 0;
-        gc.gridy = 9;
         panel.add(new JLabel("Montant total dû : "), gc);
         
         gc.gridx = 1;
-        gc.gridy = 9;
         panel.add(new JLabel(df.format(controller.getOwedAmount()) + " €"), gc);
+        y++;
+
+        if (!mode.equals("prospect")) {
+            gc.gridx = 0;
+            gc.gridy = y;
+            panel.add(new JLabel("Libellé du prêt :"), gc);
+            y++;
+
+            gc.gridwidth = 2;
+            gc.gridx = 0;
+            gc.gridy = y;
+            panel.add(txtFieldWording, gc);
+            gc.gridwidth = 1;
+            y++;
+            
+            gc.gridx = 0;
+            gc.gridy = 12;
+            if (mode.equals("simulate")) {
+                panel.add(btnSave, gc);
+                gc.gridx = 1;
+                gc.gridy = y;
+            }
+            else if (mode.equals("search/edit")) {
+                panel.add(btnSaveAsNewSimulation,gc);
+                gc.gridx = 1;
+                gc.gridy = y;
+                panel.add(btnUpdateSimulation,gc);
+                gc.gridx = 2;
+            }
+            else if(!mode.equals("prospect")) {
+                controller.closeApplication("Affichage du résultat d'une simulation : mode \"" + mode + "\" invalide");
+            }
+        }
         
-        gc.gridx = 0;
-        gc.gridy = 10;
-        panel.add(new JLabel("Libellé du prêt :"), gc);
-        
-        gc.gridwidth = 2;
-        gc.gridx = 0;
-        gc.gridy = 11;
-        panel.add(txtFieldWording, gc);
-        
-        gc.gridwidth = 1;
-        gc.gridx = 0;
-        gc.gridy = 12;
-        panel.add(btnSave, gc);
-        
-        gc.gridx = 1;
-        gc.gridy = 12;
-        //panel.add(btnNewSimulation, gc);
-        panel.add(btnCreateSimulation, gc);
-        
+        gc.gridy = y;
         btnBack = new JButton("Retour");
         btnBack.addActionListener(new BtnBackListener());
-        gc.gridx = 2;
-        gc.gridy = 12;
         panel.add(btnBack, gc);
         
         // perform the operations needed after the removal and the addition of components
@@ -610,10 +704,25 @@ public class FixedRateSimulationView {
     // inner listener classes
     // ######################
     
+    // action listener for the btnProspect JButton
+    class BtnProspectListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            mode = "prospect";
+            displayLoanTypes();
+        }
+    }
+    
+    // action listener for the btnCustomer JButton
+    class BtnCustomerListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            displayCustomerSearch();
+        }
+    }
+    
     // item listener for the btnSearchSimulation JButton
     class BtnSearchSimulationListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            mode = "search";
+            mode = "search/edit";
             displayLoanTypes();
         }
     }
@@ -622,7 +731,6 @@ public class FixedRateSimulationView {
     class BtnCreateSimulationListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             mode = "simulate";
-            simulation_mode = "new_simulation_scratch";
             controller.resetModel(false);
             displayLoanTypes();
         }
@@ -636,18 +744,17 @@ public class FixedRateSimulationView {
                 if (!cbLoanType.getSelectedItem().toString().isEmpty()) {
                     LoanType lt = (LoanType) cbLoanType.getSelectedItem();
                     // case when the user wants to display a customer's loans
-                    if (mode.equals("search")) {
+                    if (mode.equals("search/edit")) {
                         controller.setLoanType(lt);
                         displayCustomerSimulations();
                     }
                     // case when the user wants to simulate a loan
-                    else if (mode.equals("simulate")) {
+                    else if (mode.equals("simulate") || mode.equals("prospect")) {
                         controller.setLoanType(lt);
                         displayForm();
                     }
                     else {
-                        System.out.println("Sélection de type de prêt : mode \"" + mode + "\" invalide");
-                        System.exit(1);
+                        controller.closeApplication("Sélection de type de prêt : mode \"" + mode + "\" invalide");
                     }
                 }
             }
@@ -741,27 +848,30 @@ public class FixedRateSimulationView {
         }
     }
     
-    // listener for btnSave JButton
-    class BtnSaveListener implements ActionListener {
+    // listener for btnUpdateSimulation
+    class BtnUpdateListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             controller.setLoanWording(txtFieldWording.getText());
-            if (simulation_mode.equals("edit_simulation")) {
-                if (controller.updateLoanSimulation()) {
-                    JOptionPane.showMessageDialog(panel, "Le prêt a été mis à jour", "Succès", JOptionPane.INFORMATION_MESSAGE);
-                    btnSave.setEnabled(false);
-                }
-                else {
-                    JOptionPane.showMessageDialog(panel, "Echec de la mise à jour du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+            if (controller.updateLoanSimulation()) {
+                JOptionPane.showMessageDialog(panel, "Le prêt a été mis à jour", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                btnSave.setEnabled(false);
             }
             else {
-                if (controller.saveLoanSimulation()) {
-                    JOptionPane.showMessageDialog(panel, "Le prêt a été sauvegardé", "Succès", JOptionPane.INFORMATION_MESSAGE);
-                    btnSave.setEnabled(false);
-                }
-                else {
-                    JOptionPane.showMessageDialog(panel, "Echec de la sauvegarde du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                JOptionPane.showMessageDialog(panel, "Echec de la mise à jour du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    // listener for btnSave JButton
+    class BtnsSaveListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            controller.setLoanWording(txtFieldWording.getText());
+            if (controller.saveLoanSimulation()) {
+                JOptionPane.showMessageDialog(panel, "Le prêt a été sauvegardé", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                btnSave.setEnabled(false);
+            }
+            else {
+                JOptionPane.showMessageDialog(panel, "Echec de la sauvegarde du prêt", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -770,7 +880,7 @@ public class FixedRateSimulationView {
      class BtnBackListener implements ActionListener {
          public void actionPerformed(ActionEvent e) {
              controller.resetModel(false);
-             displayMenu();
+             displayStartPage();
          }
      }
      
@@ -778,25 +888,7 @@ public class FixedRateSimulationView {
     class BtnEditSimulationListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (checkJTableSelection()) {
-                simulation_mode = "edit_simulation";
                 controller.selectSimulation((Integer)mdlSimulations.getValueAt(tblSimulations.getSelectedRow(),0));
-                displayForm();
-            }
-            else {
-                JOptionPane.showMessageDialog(null,"Vous devez sélectionner une et une seule simulation");
-            }
-        }
-         
-    }
-    // listener for the btnNewSimulationModel
-    class BtnNewSimulationModelListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("début");
-            if (checkJTableSelection()) {
-                simulation_mode = "new_simulation_model";
-                System.out.println("Index du pret selectionné : " + (Integer)mdlSimulations.getValueAt(tblSimulations.getSelectedRow(),0) + ", ID : " + (Integer)mdlSimulations.getValueAt(tblSimulations.getSelectedRow(),1));
-                controller.selectSimulation((Integer)mdlSimulations.getValueAt(tblSimulations.getSelectedRow(),0));
-                //try {Thread.sleep(3000);} catch(Exception ex) {}
                 displayForm();
             }
             else {

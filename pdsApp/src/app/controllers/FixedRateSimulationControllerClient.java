@@ -35,7 +35,7 @@ public class FixedRateSimulationControllerClient {
     
     public void closeApplication(String msg) {
         try {
-            JOptionPane.showMessageDialog(null, msg, "Erreure fatale", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, msg + "\nL'application va se fermer", "Erreure fatale", JOptionPane.ERROR_MESSAGE, null);
             socket.close();
         }
         catch (IOException e) {
