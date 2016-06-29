@@ -297,7 +297,9 @@ public class FixedRateSimulationControllerClient {
             mdlSimulations.addColumn("ID");
             mdlSimulations.addColumn("Montant");
             mdlSimulations.addColumn("Durée");
-            mdlSimulations.addColumn("Taux");
+            mdlSimulations.addColumn("Assurance");
+            mdlSimulations.addColumn("Taux d'intérêt");
+            mdlSimulations.addColumn("TEG");
             mdlSimulations.addColumn("Mensualité");
             mdlSimulations.addColumn("Montant dû");
             mdlSimulations.addColumn("Libellé");
@@ -306,7 +308,7 @@ public class FixedRateSimulationControllerClient {
             
             // add simulations data to the DefaultTableModel
             for (FixedRateSimulation s : customerSimulations) {
-                mdlSimulations.addRow(new Object[]{customerSimulations.indexOf(s),s.getId(),s.getAmount(),s.getDuration(),s.getTotalRate(),df.format(s.getMonthlyPayment()),df.format(s.getOwedAmount()),s.getWording()});
+                mdlSimulations.addRow(new Object[]{customerSimulations.indexOf(s),s.getId(),s.getAmount() + " €",s.getDuration() + " mois",s.getInsurance().getWording() + " (" + s.getInsurance().getRate() + "%)",s.getInterestRate() + "%",s.getTotalRate() + "%",df.format(s.getMonthlyPayment()) + " €",df.format(s.getOwedAmount()) + " €",s.getWording()});
             }
         }
         
