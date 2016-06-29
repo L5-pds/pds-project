@@ -131,8 +131,8 @@ public class WelcomeViewClient extends JFrame implements WelcomeListenerClient {
 
     panelGlobal.setLayout(new GridLayout(7, 1, 0, 0));
     panelGlobal.add(labelLogin);
-    loginField.setText("AGENGOUL");
-    passField.setText("ing");
+    //loginField.setText("AGENGOUL");
+    //passField.setText("ing");
     panelGlobal.add(loginField);
     panelGlobal.add(labelPass);
     panelGlobal.add(passField);
